@@ -1,0 +1,170 @@
+---
+import Base from '../layouts/Base.astro';
+import { STORM_DOOR_URL } from '../consts';
+---
+<Base title="In the Wld — Jonathan Sexton" nav="overlay">
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" aria-label="Introduction">
+      <img class="hero__photo" src="/assets/hero.jpg" alt="A man in silhouette leaning in a doorway against warm window light, in a dim room after dark." width="1800" height="2700" />
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <h1>One foot in the holler, <em>one in tomorrow.</em></h1>
+        <p class="hero__sub">Jonathan Sexton is a writer and musician chasing one question across everything he makes: how we stay human while the world speeds up. This is the house it all lives in.</p>
+        <div class="hero__cta">
+          <a class="btn" href="#subscribe">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="ghost" href="#work">See the work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRAME -->
+    <section class="frame" aria-label="What In the Wld is">
+      <div class="wrap reveal">
+        <p class="kicker">A story house</p>
+        <h2>One sensibility, told in more than one language.</h2>
+        <p>The essays and the songs and the book in progress are all working the same question: what we keep, and how we keep it, while everything we can measure gets faster. Music is how I find the door. History is where I look for the rhyme. The rest is field notes from a foot in two worlds.</p>
+      </div>
+    </section>
+
+    <!-- THE WORK -->
+    <section class="work" id="work" aria-label="The work">
+      <div class="head reveal">
+        <p class="kicker">The work</p>
+        <h2>What you'll find here.</h2>
+      </div>
+      <div class="wrap">
+        <div class="feature">
+          <a class="item reveal" href={STORM_DOOR_URL} rel="noopener">
+            <div class="label">The Storm Door <span class="meta">the letter</span></div>
+            <p>A letter most Saturday mornings. Essays on staying human while the world speeds up, with music as the lens.</p>
+            <span class="go">Read and subscribe <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+          <a class="item reveal" href="/book">
+            <div class="label">The Sound of Something More <span class="meta">what I'm writing</span></div>
+            <p>A book in progress, under the mentorship of New York Times bestselling author Kathryn Aalto. The big work the house is built around.</p>
+            <span class="go">About the book <span class="arrow" aria-hidden="true">&rarr;</span></span>
+          </a>
+        </div>
+        <div class="minor">
+          <a class="row" href="/field">
+            <span class="row__name">The Field</span>
+            <span class="row__desc">Interactive pieces and the 11:11 essays. Start with the family tree of the music you already know.</span>
+            <span class="row__tag">Explore</span>
+          </a>
+          <div class="row" aria-disabled="true">
+            <span class="row__name">JS the Wld</span>
+            <span class="row__desc">The songs. Years of them, and more coming.</span>
+            <span class="row__tag">Soon</span>
+          </div>
+          <div class="row" aria-disabled="true">
+            <span class="row__name">The Infinite Well</span>
+            <span class="row__desc">Conversations and live gatherings.</span>
+            <span class="row__tag">After the book</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERSTITIAL -->
+    <section class="band" aria-label="">
+      <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1800" height="2700" />
+      <div class="scrim" aria-hidden="true"></div>
+      <blockquote>The last to remember the phone on the wall. The first to watch the screen take the room.</blockquote>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about" aria-label="About Jonathan Sexton">
+      <div class="wrap">
+        <div class="about__photo reveal">
+          <img src="/assets/portrait.jpg" alt="Jonathan Sexton holding a yellow rotary phone handset, against a pale blue wall." width="1040" height="1300" />
+        </div>
+        <div class="reveal">
+          <p class="kicker">Who is writing</p>
+          <h2>Jonathan Sexton</h2>
+          <p><span class="nm">A writer and musician</span> from East Tennessee, born fifty-five days after MTV launched, the last of the people who remember the phone ringing on the wall and the first of the ones who watched the screen take the room.</p>
+          <p>He played music for a living for a while, the kind of life that comes with a Bonnaroo stage, an MTV award, and one Guinness record. Then he taught school, built companies, worked in global technology, and studied artificial intelligence at MIT, years spent on the inside of the thing he now stands back to ask about.</p>
+          <p>He came home to Tennessee with his wife and three sons. In the Wld is where the work lives.</p>
+          <p><a class="ghost" style="color:var(--rust);border-color:var(--rust)" href="/about">More about Jonathan &rarr;</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBSCRIBE -->
+    <section class="sub" id="subscribe" aria-label="Subscribe">
+      <div class="wrap reveal">
+        <img class="break" src="/assets/section-break.svg" alt="" aria-hidden="true" />
+        <h2>Come sit on the porch a while.</h2>
+        <p>The Storm Door arrives most Saturday mornings. It's free. Step in, and I'll meet you up the valley come Saturday.</p>
+        <a class="btn" href={STORM_DOOR_URL} rel="noopener">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <p class="fine">Reading lives on Substack. In the Wld is the front door.</p>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  /* hero */
+  .hero{position:relative; min-height:100svh; display:grid; align-items:end; color:#f3efe7; background:var(--charcoal-deep); overflow:hidden}
+  .hero__photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 30%}
+  .hero__scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,18,16,0.5) 0%, rgba(20,18,16,0.05) 28%, rgba(20,18,16,0.12) 52%, rgba(20,18,16,0.9) 100%), radial-gradient(120% 90% at 72% 38%, rgba(0,0,0,0) 42%, rgba(20,18,16,0.5) 100%)}
+  .hero__inner{position:relative; padding:0 var(--pad) clamp(2.5rem,6vw,5rem); max-width:1200px; width:100%}
+  .hero h1{font-size:clamp(2.5rem,6vw,5rem); max-width:16ch; color:#f6f2ea; text-shadow:0 1px 30px rgba(0,0,0,0.35)}
+  .hero h1 em{font-style:italic; color:var(--bone)}
+  .hero__sub{margin:clamp(1.1rem,2.4vw,1.6rem) 0 clamp(1.6rem,3vw,2.2rem); max-width:52ch; font-size:clamp(1.02rem,0.5vw + 0.95rem,1.22rem); color:#e7e1d6; line-height:1.7}
+  .hero__cta{display:flex; gap:1rem; align-items:center; flex-wrap:wrap}
+
+  /* frame — the cool room (soft denim from the shoot) */
+  .frame{background:var(--denim)}
+  .frame .wrap{max-width:880px; text-align:center}
+  .frame .kicker{color:var(--rust-deep); margin-bottom:1.4rem}
+  .frame h2{font-size:clamp(1.7rem,3.4vw,2.7rem); max-width:22ch; margin:0 auto; line-height:1.16; color:#23303a}
+  .frame p{margin:clamp(1.4rem,3vw,2rem) auto 0; max-width:60ch; font-size:clamp(1.05rem,0.5vw+1rem,1.2rem); color:#33424b}
+
+  /* the work */
+  .work{background:var(--ground-2)}
+  .work .head{max-width:1180px; margin:0 auto; padding-inline:var(--pad)}
+  .work .kicker{color:var(--rust)}
+  .work h2{font-size:clamp(1.7rem,3.4vw,2.6rem); margin:0.8rem 0 0}
+  .feature{display:grid; gap:clamp(1rem,3vw,2rem); grid-template-columns:1fr; margin-top:clamp(2rem,5vw,3.5rem)}
+  @media(min-width:820px){.feature{grid-template-columns:1fr 1fr}}
+  .item{display:block; text-decoration:none; color:inherit; padding:clamp(1.5rem,3vw,2.4rem); background:var(--ground); border-radius:3px; transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s}
+  .item:hover{transform:translateY(-3px); box-shadow:0 18px 44px rgba(57,53,51,0.14)}
+  .item .label{font-family:var(--display); font-size:clamp(1.5rem,2.6vw,2.1rem); display:flex; align-items:baseline; gap:0.6rem}
+  .item .meta{font-family:var(--ui); font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--rust)}
+  .item p{margin:0.7rem 0 1.1rem; color:var(--ink-soft); max-width:42ch}
+  .item .go{font-family:var(--ui); font-size:0.85rem; letter-spacing:0.03em; color:var(--rust); display:inline-flex; align-items:center; gap:0.4rem}
+  .item .go .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  .item:hover .go .arrow{transform:translateX(4px)}
+  .minor{margin-top:clamp(1rem,2.5vw,1.5rem); border-top:1px solid #d4cfc3}
+  .row{display:flex; align-items:baseline; justify-content:space-between; gap:1.5rem; padding:1.3rem 0; border-bottom:1px solid #d4cfc3; text-decoration:none; color:inherit; flex-wrap:wrap}
+  a.row:hover .row__name{color:var(--rust)}
+  .row__name{font-family:var(--display); font-size:clamp(1.2rem,2vw,1.6rem); transition:color .3s}
+  .row__desc{color:var(--ink-soft); font-size:0.98rem; flex:1 1 320px}
+  .row__tag{font-family:var(--ui); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:#8a857c}
+
+  /* interstitial */
+  .band{position:relative; min-height:62svh; display:grid; place-items:center; color:#f3efe7; overflow:hidden; text-align:center}
+  .band img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 40%}
+  .band .scrim{position:absolute; inset:0; background:rgba(24,21,19,0.62)}
+  .band blockquote{position:relative; margin:0; padding:0 var(--pad); max-width:24ch; font-family:var(--display); font-style:italic; font-size:clamp(1.6rem,3.4vw,2.6rem); line-height:1.3; text-shadow:0 1px 24px rgba(0,0,0,0.4)}
+
+  /* about */
+  .about .wrap{display:grid; gap:clamp(2rem,5vw,4.5rem); align-items:center; grid-template-columns:1fr}
+  @media(min-width:860px){.about .wrap{grid-template-columns:0.82fr 1fr}}
+  .about__photo{border-radius:3px; overflow:hidden; background:var(--denim); box-shadow:0 24px 60px rgba(57,53,51,0.18)}
+  .about__photo img{width:100%; height:100%; object-fit:cover; aspect-ratio:4/5}
+  .about .kicker{color:var(--rust); margin-bottom:1rem}
+  .about h2{font-size:clamp(1.7rem,3.4vw,2.6rem); margin-bottom:1.2rem}
+  .about p{max-width:54ch; color:var(--ink-soft)}
+  .about p + p{margin-top:1.05rem}
+  .about .nm{font-variant:small-caps; letter-spacing:0.04em; color:var(--rust)}
+
+  /* subscribe */
+  .sub{background:var(--charcoal); color:#e7e1d6; text-align:center}
+  .sub .wrap{max-width:680px}
+  .sub .break{filter:none}
+  .sub h2{font-size:clamp(1.9rem,4.2vw,3rem); color:#f3efe7; margin-top:clamp(1.6rem,3vw,2.2rem)}
+  .sub p{margin:1.1rem auto clamp(1.8rem,4vw,2.4rem); max-width:46ch; color:#cdc6ba; font-size:clamp(1.05rem,0.5vw+1rem,1.18rem)}
+  .sub .fine{margin-top:1.2rem; font-size:0.85rem; color:#a59e92; font-style:italic}
+</style>

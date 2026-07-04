@@ -1,0 +1,89 @@
+/* In the Wld — shared tokens and base.
+   Palette and type per Core Documents/.agents/context/DESIGN.md.
+   Daylight is the reading skin; Lamplit is the masthead / hero / breaks. */
+
+:root {
+  --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#393533; --ink-soft:#4a443f;
+  --rust:#A53B1F; --rust-deep:#7E2F16; --ochre:#D38D42; --bone:#D2CDBB; --dusty:#91A5A8;
+  --denim:#ADC1D1; --denim-mid:#749FBA; --denim-deep:#386F99;
+  --charcoal:#393533; --charcoal-deep:#2c2926;
+  --display:"Bodoni Moda","Didot","Bodoni 72",serif;
+  --body:"Libre Baskerville",Georgia,"Times New Roman",serif;
+  --ui:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;
+  --pad:clamp(1.25rem,5vw,5.5rem);
+  --z-nav:50;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; background:var(--ground); color:var(--ink); font-family:var(--body);
+  font-size:clamp(1rem,0.5vw + 0.92rem,1.12rem); line-height:1.75;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3{font-family:var(--display); font-weight:500; line-height:1.05; letter-spacing:-0.01em; text-wrap:balance; margin:0;}
+p{text-wrap:pretty}
+a{color:inherit}
+img{display:block; max-width:100%}
+::selection{background:var(--rust); color:var(--ground)}
+:focus-visible{outline:2px solid var(--rust); outline-offset:3px; border-radius:2px}
+.kicker{font-family:var(--ui); font-size:0.76rem; letter-spacing:0.26em; text-transform:uppercase}
+
+/* nav — two skins. Overlay sits on the lamplit hero; solid rides inner pages. */
+.nav{z-index:var(--z-nav); display:flex; align-items:center; justify-content:space-between; padding:clamp(1rem,2.4vw,1.7rem) var(--pad);}
+.nav--overlay{position:absolute; inset:0 0 auto 0; color:#f3efe7;}
+.nav--solid{position:sticky; top:0; background:var(--charcoal-deep); color:#f3efe7; border-bottom:1px solid rgba(243,239,231,0.10);}
+.brand{display:flex; align-items:center; gap:0.6rem; text-decoration:none; color:inherit}
+.brand img{height:32px; width:auto}
+.brand span{font-family:var(--display); font-size:1.5rem; font-weight:500}
+.nav__links{display:flex; align-items:center; gap:1.6rem}
+.nav__links a.txt{font-family:var(--ui); font-size:0.82rem; letter-spacing:0.05em; text-transform:uppercase; text-decoration:none; color:rgba(243,239,231,0.82); transition:color .3s}
+.nav__links a.txt:hover{color:#fff}
+.nav__links a.txt{display:none}
+@media(min-width:760px){.nav__links a.txt{display:inline}}
+.pill{font-family:var(--ui); font-size:0.82rem; letter-spacing:0.04em; text-transform:uppercase; text-decoration:none; color:#f3efe7; padding:0.55rem 1rem; border:1px solid rgba(243,239,231,0.45); border-radius:999px; transition:background .4s cubic-bezier(.2,.8,.2,1), color .4s, border-color .4s}
+.pill:hover{background:#f3efe7; color:var(--charcoal); border-color:#f3efe7}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--ui); font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; cursor:pointer; padding:0.95rem 1.6rem; border-radius:999px; border:0; background:var(--rust); color:#f6f2ea; transition:transform .4s cubic-bezier(.2,.8,.2,1), background .4s, box-shadow .4s; box-shadow:0 8px 30px rgba(165,59,31,0.35)}
+.btn:hover{background:var(--rust-deep); transform:translateY(-2px); box-shadow:0 14px 38px rgba(165,59,31,0.45)}
+.btn .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.btn:hover .arrow{transform:translateX(4px)}
+.ghost{font-family:var(--ui); font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; color:#e7e1d6; border-bottom:1px solid rgba(231,225,214,0.4); padding-bottom:2px; transition:border-color .3s}
+.ghost:hover{border-color:var(--rust)}
+
+/* layout scaffolding */
+section{padding-block:clamp(4rem,9vw,8rem)}
+.wrap{max-width:1180px; margin:0 auto; padding-inline:var(--pad)}
+.break{display:block; width:clamp(120px,15vw,180px); height:auto; margin:0 auto; opacity:0.9}
+
+/* footer */
+footer{background:var(--charcoal-deep); color:#cdc6ba; padding-block:clamp(2.5rem,5vw,3.5rem)}
+footer .wrap{display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap}
+.fbrand{display:flex; align-items:center; gap:0.6rem; color:#cdc6ba; text-decoration:none}
+.fbrand img{height:34px}
+.fbrand span{font-family:var(--display); font-size:1.2rem}
+footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; color:#9a9388}
+
+/* inner reading pages — a slim lamplit head over a daylight reading column */
+.pagehead{background:var(--charcoal-deep); color:#f3efe7; padding:clamp(5.5rem,12vw,8.5rem) 0 clamp(2.5rem,6vw,4rem); text-align:center}
+.pagehead .kicker{color:var(--ochre); margin-bottom:1.1rem}
+.pagehead h1{font-size:clamp(2.1rem,5vw,3.4rem); max-width:20ch; margin:0 auto; color:#f6f2ea}
+.pagehead .standfirst{margin:clamp(1.1rem,2.4vw,1.5rem) auto 0; max-width:46ch; color:#cdc6ba; font-style:italic; font-size:clamp(1.05rem,0.5vw+1rem,1.2rem); line-height:1.6}
+.read{max-width:720px; margin:0 auto; padding:clamp(3rem,7vw,5.5rem) var(--pad)}
+.read .col{max-width:65ch}
+.read p{margin:0 0 1.15rem; color:var(--ink-soft)}
+.read p.lede{font-size:clamp(1.15rem,0.6vw+1.05rem,1.35rem); color:var(--ink); line-height:1.6}
+.read h2{font-size:clamp(1.5rem,3vw,2.1rem); margin:clamp(2.4rem,5vw,3.2rem) 0 1rem}
+.read .kicker{color:var(--rust); display:block; margin:clamp(2.4rem,5vw,3.2rem) 0 0.6rem}
+.read .kicker + h2{margin-top:0.3rem}
+.read a{color:var(--rust); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px}
+.read blockquote{margin:2rem 0; padding-left:1.2rem; border-left:2px solid var(--rust); font-family:var(--display); font-style:italic; font-size:clamp(1.3rem,2.6vw,1.7rem); line-height:1.3; color:var(--ink)}
+.note{margin-top:clamp(2.4rem,5vw,3.2rem); padding-top:1.4rem; border-top:1px solid #d4cfc3; font-size:0.95rem; color:#7d776d; font-style:italic}
+
+/* reveal on scroll */
+.reveal{opacity:1}
+.js .reveal{opacity:0; transform:translateY(22px)}
+.js .reveal.in{opacity:1; transform:none; transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1; transform:none}.js .reveal.in{transition:none}}

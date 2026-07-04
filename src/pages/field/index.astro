@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+<Base
+  title="The Field — In the Wld"
+  description="Interactive pieces and the 11:11 essays. Field notes from a foot in two worlds."
+  nav="solid"
+>
+  <div class="pagehead">
+    <p class="kicker">The Field</p>
+    <h1>Field notes from a foot in two worlds.</h1>
+    <p class="standfirst">Pieces you can walk around in, and the essays when they're ready.</p>
+  </div>
+
+  <section class="field-list">
+    <div class="wrap">
+      <a class="pod reveal" href="/field/first-family/">
+        <p class="pod__kicker">Interactive</p>
+        <h2 class="pod__title">The First Family of American Roots Music</h2>
+        <p class="pod__desc">Five generations, one hundred and fifty years. Trace the music you already know back up the river to a Lomax with a machine that listened.</p>
+        <span class="pod__go">Walk it back <span class="arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+
+      <div class="pod pod--soon" aria-disabled="true">
+        <p class="pod__kicker">11:11</p>
+        <h2 class="pod__title">The essays</h2>
+        <p class="pod__desc">Seven hundred and seventy-seven words, arriving when they're ready. The first one will land here and in the letter at the same time.</p>
+        <span class="pod__go pod__go--muted">When ready</span>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .field-list{padding-block:clamp(3rem,7vw,5.5rem)}
+  .field-list .wrap{max-width:900px; display:grid; gap:clamp(1.2rem,3vw,1.8rem)}
+  .pod{display:block; text-decoration:none; color:inherit; background:var(--ground-2); border:1px solid #ddd7cb; border-radius:4px; padding:clamp(1.8rem,4vw,2.8rem); transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, border-color .4s}
+  a.pod:hover{transform:translateY(-3px); box-shadow:0 18px 44px rgba(57,53,51,0.14); border-color:#cfc7b8}
+  .pod__kicker{font-family:var(--ui); font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--rust); margin:0 0 0.9rem}
+  .pod__title{font-size:clamp(1.5rem,3vw,2.2rem); max-width:24ch; margin:0}
+  .pod__desc{margin:0.9rem 0 1.3rem; color:var(--ink-soft); max-width:56ch}
+  .pod__go{font-family:var(--ui); font-size:0.85rem; letter-spacing:0.03em; color:var(--rust); display:inline-flex; align-items:center; gap:0.4rem}
+  .pod__go .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  a.pod:hover .pod__go .arrow{transform:translateX(4px)}
+  .pod--soon{opacity:0.72}
+  .pod__go--muted{color:#8a857c}
+</style>
