@@ -5,12 +5,14 @@
 :root {
   --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#393533; --ink-soft:#4a443f;
   --rust:#A53B1F; --rust-deep:#7E2F16; --ochre:#D38D42; --bone:#D2CDBB; --dusty:#91A5A8;
-  --burnt:#BC5A24; --burnt-deep:#973F17; --kraft:#C7A96F; --paper-cream:#E7DEC9;
+  /* the deck's warm accents are rust + ochre; no invented hues */
+  --burnt:#A53B1F; --burnt-deep:#7E2F16; --kraft:#C7A96F; --paper-cream:#E7DEC9;
   --denim:#ADC1D1; --denim-mid:#749FBA; --denim-deep:#386F99;
   --charcoal:#393533; --charcoal-deep:#2c2926;
   --tape:rgba(224,212,178,0.5);
+  --hand:"Reenie Beanie","Bradley Hand",cursive;
   /* warm paper grain, inline so it costs no request */
-  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --display:"Bodoni Moda","Didot","Bodoni 72",serif;
   --body:"Libre Baskerville",Georgia,"Times New Roman",serif;
   --ui:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;
@@ -89,51 +91,68 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 
 /* ---- brand motifs, drawn from the JS the WLD deck (moodboard + Direction 1 collage) ---- */
 
-/* warm paper grain: a tooth over flat color, never over photos */
+/* warm paper grain: a real tooth over flat color, never over photos */
 .grain{position:relative; isolation:isolate}
 .grain > *{position:relative; z-index:1}
 .grain::after{content:""; position:absolute; inset:0; z-index:0; background-image:var(--grain);
-  background-size:160px 160px; opacity:0.10; mix-blend-mode:multiply; pointer-events:none}
-.grain.grain--dark::after{mix-blend-mode:screen; opacity:0.05}
+  background-size:200px 200px; opacity:0.17; mix-blend-mode:multiply; pointer-events:none}
+.grain.grain--dark::after{mix-blend-mode:soft-light; opacity:0.22}
 
-/* corduroy ribbing (the burnt-orange cord in the moodboard) */
-.cord{background-color:var(--burnt);
+/* ruled ledger / notebook paper — the order-form ephemera on the collage board */
+.ruled{background-image:repeating-linear-gradient(180deg,
+  transparent 0 27px, rgba(57,53,51,0.09) 27px 28px)}
+.ruled--red::before{content:""; position:absolute; top:0; bottom:0;
+  left:clamp(1.4rem,7%,3.4rem); width:1.5px; background:rgba(165,59,31,0.4); z-index:1}
+
+/* corduroy ribbing (the rust cord in the moodboard) */
+.cord{background-color:var(--rust);
   background-image:repeating-linear-gradient(90deg,
-    rgba(0,0,0,0.16) 0 1px, rgba(0,0,0,0.05) 1px 2px,
-    rgba(255,255,255,0.06) 2px 3px, transparent 3px 7px)}
+    rgba(0,0,0,0.22) 0 1px, rgba(0,0,0,0.06) 1px 3px,
+    rgba(255,255,255,0.07) 3px 4px, transparent 4px 8px)}
 
-/* cut + paste: a taped photo sitting on a paper scrap, slightly askew */
+/* cut + paste: a taped photo on a torn paper scrap, slightly askew (the loved treatment) */
 .taped{position:relative; display:inline-block; padding:0.7rem; background:var(--paper-cream);
   box-shadow:0 18px 46px rgba(57,53,51,0.22); transform:rotate(-1.4deg)}
-.taped::before{content:""; position:absolute; inset:-10px -8px -14px 10px; z-index:-1;
-  background:var(--kraft); transform:rotate(2.6deg); box-shadow:0 10px 30px rgba(57,53,51,0.14)}
+.taped::before{content:""; position:absolute; inset:-12px -10px -16px 12px; z-index:-1;
+  background:var(--kraft); transform:rotate(2.6deg); filter:url(#torn)}
 .taped img{display:block; width:100%; height:auto}
 .taped .tape{position:absolute; width:104px; height:30px; background:var(--tape);
-  box-shadow:0 1px 2px rgba(57,53,51,0.12); backdrop-filter:saturate(0.9); z-index:2}
+  box-shadow:0 1px 2px rgba(57,53,51,0.12); z-index:2}
 .taped .tape::after{content:""; position:absolute; inset:0; background-image:var(--grain);
-  background-size:120px 120px; opacity:0.14; mix-blend-mode:multiply}
+  background-size:120px 120px; opacity:0.16; mix-blend-mode:multiply}
 .taped .tape--tl{top:-13px; left:16%; transform:rotate(-7deg)}
 .taped .tape--br{bottom:-12px; right:14%; transform:rotate(-6deg)}
 
+/* a taped note: ruled cream paper with handwriting, like a scrap of lyrics */
+.notecard{position:relative; display:inline-block; padding:1.15rem 1.4rem 1.3rem;
+  background:var(--paper-cream); font-family:var(--hand); color:var(--ink);
+  font-size:clamp(1.4rem,2.4vw,1.9rem); line-height:1.25;
+  background-image:repeating-linear-gradient(180deg, transparent 0 30px, rgba(57,53,51,0.10) 30px 31px);
+  box-shadow:0 14px 34px rgba(57,53,51,0.20); transform:rotate(1.5deg)}
+.notecard .tape{position:absolute; top:-12px; left:50%; margin-left:-52px; width:104px; height:28px;
+  background:var(--tape); transform:rotate(-3deg); z-index:2}
+
 /* torn-paper collage scraps, positioned by the section that uses them */
-.scrap{position:absolute; pointer-events:none; z-index:0;
-  box-shadow:0 8px 22px rgba(57,53,51,0.12);
-  clip-path:polygon(2% 4%, 98% 0, 100% 96%, 4% 100%)}
+.scrap{position:absolute; pointer-events:none; z-index:0; filter:url(#torn);
+  box-shadow:0 8px 22px rgba(57,53,51,0.10)}
 .scrap::after{content:""; position:absolute; inset:0; background-image:var(--grain);
-  background-size:140px 140px; opacity:0.16; mix-blend-mode:multiply}
+  background-size:140px 140px; opacity:0.2; mix-blend-mode:multiply}
 .scrap--kraft{background:var(--kraft)}
 .scrap--ochre{background:var(--ochre)}
-.scrap--burnt{background:var(--burnt)}
+.scrap--rust{background:var(--rust)}
 .scrap--denim{background:var(--denim-mid)}
 
-/* a scrawled numeral / word, low in the stack, like the red "1542" on the collage board */
-.scrawl{position:absolute; font-family:var(--display); font-style:italic; font-weight:400;
-  color:var(--burnt); opacity:0.16; pointer-events:none; z-index:0; line-height:0.8; letter-spacing:-0.03em}
+/* handwriting: scrawled margin notes and hand numerals (the "1542" energy) */
+.hand{font-family:var(--hand); font-weight:400}
+.annot{font-family:var(--hand); color:var(--rust); line-height:0.98;
+  font-size:clamp(1.5rem,3vw,2.4rem); display:inline-block}
+.numeral{font-family:var(--hand); color:var(--rust); line-height:0.7; letter-spacing:0.02em}
 
-/* hand-drawn underline that sits under a headline word */
+/* hand-inked underline / mark: roughened stroke, pen not highlighter */
 .mark{position:relative; white-space:nowrap}
-.mark svg{position:absolute; left:-2%; right:-2%; bottom:-0.28em; width:104%; height:0.42em; overflow:visible}
-.mark svg path{fill:none; stroke:var(--burnt); stroke-width:6; stroke-linecap:round}
+.mark svg{position:absolute; left:-3%; right:-3%; bottom:-0.24em; width:106%; height:0.4em; overflow:visible}
+.mark svg path{fill:none; stroke:var(--ochre); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; filter:url(#ink)}
+.mark svg path.mark__2{stroke-width:2; opacity:0.75}
 
 /* the bird stamp / seal (Peace-is-a-Practice badge language) */
 .seal{position:relative; width:clamp(128px,17vw,168px); aspect-ratio:1; margin:0 auto}

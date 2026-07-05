@@ -11,7 +11,7 @@ import { STORM_DOOR_URL } from '../consts';
       <img class="hero__photo" src="/assets/hero.jpg" alt="Jonathan Sexton leaning at a wood-paneled bar in warm lamplight, his reflection held in the mirror behind him." width="1333" height="2000" />
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__inner">
-        <h1>One foot in the holler, <em>one in <span class="mark">tomorrow<svg viewBox="0 0 200 12" aria-hidden="true" preserveAspectRatio="none"><path d="M3 8 C 40 3, 70 11, 100 6 S 165 3, 197 7" /></svg></span>.</em></h1>
+        <h1>One foot in the holler, <em>one in tomorrow.</em></h1>
         <p class="hero__sub">Jonathan Sexton is a writer and musician chasing one question across everything he makes: how we stay human while the world speeds up. This is the house it all lives in.</p>
         <div class="hero__cta">
           <a class="btn" href="#subscribe">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
@@ -22,6 +22,7 @@ import { STORM_DOOR_URL } from '../consts';
 
     <!-- FRAME -->
     <section class="frame grain" aria-label="What In the Wld is">
+      <span class="annot frame__annot" aria-hidden="true">one question,<br>more than one form</span>
       <div class="wrap reveal">
         <div class="frame__wave"><Wave /></div>
         <p class="kicker">A story house</p>
@@ -80,7 +81,7 @@ import { STORM_DOOR_URL } from '../consts';
     </section>
 
     <!-- ABOUT -->
-    <section class="about" id="about" aria-label="About Jonathan Sexton">
+    <section class="about grain" id="about" aria-label="About Jonathan Sexton">
       <div class="wrap">
         <div class="about__photo reveal">
           <figure class="taped">
@@ -88,6 +89,10 @@ import { STORM_DOOR_URL } from '../consts';
             <span class="tape tape--br" aria-hidden="true"></span>
             <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch in a wood-paneled room, a lamp glowing beside him." width="1000" height="1500" />
           </figure>
+          <span class="notecard about__note" aria-hidden="true">
+            <span class="tape"></span>
+            you already know —<br>stop pretending you don't
+          </span>
         </div>
         <div class="reveal">
           <p class="kicker">Who is writing</p>
@@ -102,7 +107,7 @@ import { STORM_DOOR_URL } from '../consts';
 
     <!-- SUBSCRIBE -->
     <section class="sub grain grain--dark" id="subscribe" aria-label="Subscribe">
-      <span class="scrawl sub__scrawl" aria-hidden="true">11:11</span>
+      <span class="numeral sub__scrawl" aria-hidden="true">11:11</span>
       <div class="wrap reveal">
         <div class="sub__seal"><Seal top="The Storm Door" bottom="Come Saturday" /></div>
         <h2>Come sit on the porch a while.</h2>
@@ -128,6 +133,8 @@ import { STORM_DOOR_URL } from '../consts';
   /* frame — the cool room (soft denim from the shoot) */
   .frame{background:var(--denim); position:relative; overflow:hidden}
   .frame__wave{width:clamp(150px,20vw,224px); margin:0 auto clamp(1.5rem,3.2vw,2.2rem); filter:drop-shadow(0 6px 14px rgba(35,48,58,0.18))}
+  .frame__annot{position:absolute; left:clamp(1rem,5%,4rem); bottom:9%; z-index:2; text-align:left; transform:rotate(-4deg); color:var(--rust-deep)}
+  @media(max-width:720px){.frame__annot{display:none}}
   .frame .wrap{max-width:880px; text-align:center}
   .frame .kicker{color:var(--rust-deep); margin-bottom:1.4rem}
   .frame h2{font-size:clamp(1.7rem,3.4vw,2.7rem); max-width:22ch; margin:0 auto; line-height:1.16; color:#23303a}
@@ -168,7 +175,9 @@ import { STORM_DOOR_URL } from '../consts';
   .about{overflow-x:clip}
   .about .wrap{display:grid; gap:clamp(2rem,5vw,4.5rem); align-items:center; grid-template-columns:1fr}
   @media(min-width:860px){.about .wrap{grid-template-columns:0.82fr 1fr}}
-  .about__photo{display:flex; justify-content:center; padding:1rem 0.5rem}
+  .about__photo{position:relative; display:flex; justify-content:center; padding:1rem 0.5rem 2.5rem}
+  .about__note{position:absolute; right:2%; bottom:0; width:min(210px,60%); font-size:clamp(1.15rem,1.5vw,1.45rem); transform:rotate(3.5deg); z-index:4}
+  @media(max-width:540px){.about__note{right:0; width:min(180px,66%)}}
   .about .kicker{color:var(--rust); margin-bottom:1rem}
   .about h2{font-size:clamp(1.7rem,3.4vw,2.6rem); margin-bottom:1.2rem}
   .about p{max-width:54ch; color:var(--ink-soft)}
@@ -179,7 +188,7 @@ import { STORM_DOOR_URL } from '../consts';
   .sub{background:var(--charcoal-deep); color:#e7e1d6; text-align:center; position:relative; overflow:hidden}
   .sub .wrap{max-width:680px}
   .sub__seal{color:var(--bone); margin-bottom:clamp(0.6rem,2vw,1rem)}
-  .sub__scrawl{font-size:clamp(9rem,26vw,20rem); top:50%; left:50%; transform:translate(-50%,-46%); color:var(--burnt); opacity:0.1}
+  .sub__scrawl{position:absolute; font-size:clamp(9rem,26vw,19rem); top:50%; left:50%; transform:translate(-50%,-48%) rotate(-6deg); color:var(--rust); opacity:0.16; pointer-events:none; z-index:0}
   .sub h2{font-size:clamp(1.9rem,4.2vw,3rem); color:#f3efe7; margin-top:clamp(1rem,2.4vw,1.6rem)}
   .sub p{margin:1.1rem auto clamp(1.8rem,4vw,2.4rem); max-width:46ch; color:#cdc6ba; font-size:clamp(1.05rem,0.5vw+1rem,1.18rem)}
   .sub .fine{margin-top:1.2rem; font-size:0.85rem; color:#a59e92; font-style:italic}
