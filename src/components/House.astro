@@ -35,6 +35,9 @@ const { class: cls = '', smoke = true } = Astro.props;
 <style>
   .house{display:block; width:100%; height:auto; color:var(--ink)}
   .house path{stroke:currentColor; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; fill:none; filter:url(#ink)}
-  .house path.lit{fill:var(--ochre); opacity:0.85; filter:none; stroke:none}
+  .house path.lit{fill:var(--ochre); opacity:0.9; stroke:none;
+    filter:drop-shadow(0 0 2.5px rgba(211,141,66,0.75)); animation:lampglow 4.5s ease-in-out infinite}
+  @keyframes lampglow{0%,100%{opacity:0.76} 50%{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.house path.lit{animation:none}}
   .house path.smoke{stroke-width:1.6; opacity:0.5}
 </style>

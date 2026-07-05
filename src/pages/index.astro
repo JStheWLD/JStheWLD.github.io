@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Wave from '../components/Wave.astro';
 import Seal from '../components/Seal.astro';
 import Oaks from '../components/Oaks.astro';
+import Bird from '../components/Bird.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="In the Wld — Jonathan Sexton" nav="overlay">
@@ -23,6 +24,8 @@ import { STORM_DOOR_URL } from '../consts';
 
     <!-- FRAME -->
     <section class="frame grain" aria-label="What In the Wld is">
+      <Bird class="frame__bird frame__bird--1" />
+      <Bird class="frame__bird frame__bird--2" />
       <div class="wrap reveal">
         <div class="frame__wave"><Wave /></div>
         <p class="kicker">A story house</p>
@@ -138,6 +141,11 @@ import { STORM_DOOR_URL } from '../consts';
   /* frame — the cool room (soft denim from the shoot) */
   .frame{background:var(--denim); position:relative; overflow:hidden}
   .frame__wave{width:clamp(150px,20vw,224px); margin:0 auto clamp(1.5rem,3.2vw,2.2rem); filter:drop-shadow(0 6px 14px rgba(35,48,58,0.18))}
+  .frame__bird{position:absolute; color:#33454f; opacity:0.55; z-index:1; pointer-events:none}
+  .frame__bird--1{width:clamp(52px,7vw,84px); top:12%; left:11%; transform:rotate(-6deg)}
+  .frame__bird--2{width:clamp(34px,4.5vw,52px); top:22%; right:15%; transform:rotate(4deg)}
+  @media(max-width:640px){.frame__bird--2{display:none}}
+
   /* grove — the hand-drawn tree line divider */
   .grove{background:var(--ground-2); padding:clamp(1.5rem,4vw,3rem) 0 0; line-height:0}
   .grove :global(.oaks){display:block; width:100%; max-width:1240px; margin:0 auto; color:#3a4a54}
