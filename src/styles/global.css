@@ -67,6 +67,7 @@ section{padding-block:clamp(4rem,9vw,8rem)}
 /* footer */
 footer{background:var(--charcoal-deep); color:#cdc6ba; padding-block:clamp(2.5rem,5vw,3.5rem); position:relative; overflow:hidden}
 footer .seam{position:absolute; top:0; left:0; right:0; height:6px}
+.fhouse{width:clamp(66px,8vw,88px); margin:0 auto clamp(1.4rem,3vw,2rem); color:var(--bone)}
 footer .wrap{display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap}
 .fbrand{display:flex; align-items:center; gap:0.6rem; color:#cdc6ba; text-decoration:none}
 .fbrand img{height:34px}

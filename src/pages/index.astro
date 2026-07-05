@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Wave from '../components/Wave.astro';
 import Seal from '../components/Seal.astro';
+import Oaks from '../components/Oaks.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="In the Wld — Jonathan Sexton" nav="overlay">
@@ -22,7 +23,6 @@ import { STORM_DOOR_URL } from '../consts';
 
     <!-- FRAME -->
     <section class="frame grain" aria-label="What In the Wld is">
-      <span class="annot frame__annot" aria-hidden="true">one question,<br>more than one form</span>
       <div class="wrap reveal">
         <div class="frame__wave"><Wave /></div>
         <p class="kicker">A story house</p>
@@ -80,6 +80,11 @@ import { STORM_DOOR_URL } from '../consts';
       <blockquote>The last to remember the phone on the wall. The first to watch the screen take the room.</blockquote>
     </section>
 
+    <!-- GROVE (hand-drawn southern tree line) -->
+    <section class="grove" aria-hidden="true">
+      <Oaks />
+    </section>
+
     <!-- ABOUT -->
     <section class="about grain" id="about" aria-label="About Jonathan Sexton">
       <div class="wrap">
@@ -133,8 +138,9 @@ import { STORM_DOOR_URL } from '../consts';
   /* frame — the cool room (soft denim from the shoot) */
   .frame{background:var(--denim); position:relative; overflow:hidden}
   .frame__wave{width:clamp(150px,20vw,224px); margin:0 auto clamp(1.5rem,3.2vw,2.2rem); filter:drop-shadow(0 6px 14px rgba(35,48,58,0.18))}
-  .frame__annot{position:absolute; left:clamp(1rem,5%,4rem); bottom:9%; z-index:2; text-align:left; transform:rotate(-4deg); color:var(--rust-deep)}
-  @media(max-width:720px){.frame__annot{display:none}}
+  /* grove — the hand-drawn tree line divider */
+  .grove{background:var(--ground-2); padding:clamp(1.5rem,4vw,3rem) 0 0; line-height:0}
+  .grove :global(.oaks){display:block; width:100%; max-width:1240px; margin:0 auto; color:#3a4a54}
   .frame .wrap{max-width:880px; text-align:center}
   .frame .kicker{color:var(--rust-deep); margin-bottom:1.4rem}
   .frame h2{font-size:clamp(1.7rem,3.4vw,2.7rem); max-width:22ch; margin:0 auto; line-height:1.16; color:#23303a}

@@ -1,0 +1,54 @@
+---
+// Southern live oaks with Spanish moss — hand-drawn line art.
+// Pen-and-ink style, roughened by the #ink filter (defined in Base.astro).
+// Strokes use currentColor so the illustration themes with its section.
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+
+// One stylized live oak, drawn around a local origin (base at 0,0, grows up).
+const round = (n: number) => Math.round(n * 100) / 100;
+const moss = (mx: number, my: number, len: number) =>
+  `M ${mx} ${my} q 3 ${round(len * 0.4)} -1 ${round(len * 0.7)} t 2 ${round(len * 0.6)}`;
+
+const treePaths = [
+  // trunk
+  'M0 0 C -3 -34 -6 -54 -1 -78 C 1 -90 4 -98 3 -112',
+  // spreading limbs
+  'M2 -96 C -20 -104 -54 -104 -86 -92 C -104 -85 -114 -74 -120 -66',
+  'M2 -100 C 22 -110 54 -112 88 -102 C 108 -96 118 -84 126 -74',
+  'M1 -108 C -12 -128 -30 -140 -50 -146',
+  'M2 -110 C 12 -132 30 -146 52 -150',
+  'M2 -112 C 0 -134 2 -150 4 -164',
+  // crown: loose scribbled foliage domes along the limbs
+  'M-118 -70 c -14 -10 -12 -30 6 -34 c 4 -16 30 -18 38 -6 c 18 -8 34 6 26 22 c 8 14 -10 28 -26 22 c -12 10 -34 6 -44 -8',
+  'M-60 -140 c -12 -14 -4 -34 14 -34 c 8 -14 32 -12 38 4 c 16 -2 24 18 10 28 c 2 16 -22 24 -34 12 c -14 6 -30 -10 -28 -22',
+  'M-8 -168 c -10 -12 0 -30 16 -28 c 10 -12 32 -6 34 10 c 14 2 16 22 2 28 c -2 16 -26 18 -36 6 c -12 2 -22 -12 -16 -24',
+  'M40 -150 c -12 -14 -2 -34 16 -32 c 10 -12 32 -6 34 12 c 16 4 14 26 -2 30 c -4 14 -28 14 -38 0 c -12 0 -18 -14 -10 -22',
+  'M96 -96 c -14 -10 -8 -32 10 -32 c 8 -14 32 -12 40 2 c 16 0 20 22 4 30 c 0 16 -26 20 -38 8 c -12 4 -26 -10 -22 -22',
+  // spanish moss
+  moss(-108, -66, 44), moss(-92, -58, 60), moss(-56, -132, 40), moss(-24, -150, 54),
+  moss(8, -158, 66), moss(44, -138, 48), moss(84, -104, 58), moss(110, -84, 40),
+];
+
+const instances = [
+  { x: 150, s: 1.0 },
+  { x: 470, s: 1.28 },
+  { x: 820, s: 0.9 },
+];
+---
+<svg class={`oaks ${cls}`} viewBox="0 0 1000 320" fill="none" role="img"
+  aria-label="A stand of southern live oaks draped in Spanish moss, drawn by hand" preserveAspectRatio="xMidYMax meet">
+  <g transform="translate(0 300)">
+    {instances.map((t) => (
+      <g transform={`translate(${t.x} 0) scale(${t.s})`}>
+        {treePaths.map((d) => <path d={d} />)}
+      </g>
+    ))}
+  </g>
+  <path d="M40 302 C 260 296, 520 306, 760 300 S 960 302, 968 300" />
+</svg>
+
+<style>
+  .oaks{display:block; width:100%; height:auto; color:var(--ink)}
+  .oaks path{stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; fill:none; filter:url(#ink)}
+</style>
