@@ -6,7 +6,7 @@ import Base from '../../layouts/Base.astro';
   description="Interactive pieces and the 11:11 essays. Field notes from a foot in two worlds."
   nav="solid"
 >
-  <div class="pagehead">
+  <div class="pagehead grain grain--dark">
     <p class="kicker">The Field</p>
     <h1>Field notes from a foot in two worlds.</h1>
     <p class="standfirst">Pieces you can walk around in, and the essays when they're ready.</p>
@@ -14,14 +14,16 @@ import Base from '../../layouts/Base.astro';
 
   <section class="field-list">
     <div class="wrap">
-      <a class="pod reveal" href="/field/first-family/">
+      <a class="pod grain reveal" href="/field/first-family/">
+        <span class="tape pod__tape" aria-hidden="true"></span>
         <p class="pod__kicker">Interactive</p>
         <h2 class="pod__title">The First Family of American Roots Music</h2>
         <p class="pod__desc">Five generations, one hundred and fifty years. Trace the music you already know back up the river to a Lomax with a machine that listened.</p>
         <span class="pod__go">Walk it back <span class="arrow" aria-hidden="true">&rarr;</span></span>
       </a>
 
-      <div class="pod pod--soon" aria-disabled="true">
+      <div class="pod grain pod--soon" aria-disabled="true">
+        <span class="numeral pod__num" aria-hidden="true">777</span>
         <p class="pod__kicker">11:11</p>
         <h2 class="pod__title">The essays</h2>
         <p class="pod__desc">Seven hundred and seventy-seven words, arriving when they're ready. The first one will land here and in the letter at the same time.</p>
@@ -44,4 +46,7 @@ import Base from '../../layouts/Base.astro';
   a.pod:hover .pod__go .arrow{transform:translateX(4px)}
   .pod--soon{opacity:0.72}
   .pod__go--muted{color:#8a857c}
+  .pod{overflow:hidden}
+  .pod__tape{position:absolute; top:-11px; left:9%; width:96px; height:26px; background:var(--tape); transform:rotate(-5deg); z-index:2}
+  .pod__num{position:absolute; right:4%; bottom:-1.6rem; font-size:clamp(6rem,12vw,9rem); color:var(--rust); opacity:0.12; z-index:0; pointer-events:none}
 </style>

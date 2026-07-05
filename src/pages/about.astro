@@ -7,15 +7,22 @@ import { STORM_DOOR_URL } from '../consts';
   description="Jonathan Sexton is a writer and musician from East Tennessee, born fifty-five days after MTV launched. He is writing The Sound of Something More."
   nav="solid"
 >
-  <div class="pagehead">
+  <div class="pagehead grain grain--dark">
     <p class="kicker">Who is writing</p>
     <h1>Jonathan Sexton</h1>
     <p class="standfirst">One foot in the holler, one in tomorrow.</p>
   </div>
 
-  <article class="read">
+  <article class="read grain">
     <div class="col reveal">
-      <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch in a wood-paneled room, a lamp glowing beside him." width="1000" height="1500" style="border-radius:3px; margin-bottom:2rem; box-shadow:0 24px 60px rgba(57,53,51,0.18)" />
+      <div class="portrait-wrap">
+        <figure class="taped">
+          <span class="tape tape--tl" aria-hidden="true"></span>
+          <span class="tape tape--br" aria-hidden="true"></span>
+          <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch in a wood-paneled room, a lamp glowing beside him." width="1000" height="1500" />
+        </figure>
+        <p class="annot portrait-note" aria-hidden="true">still the songwriter first</p>
+      </div>
 
       <p class="lede">When Jonathan Sexton looks in the mirror, he still sees the songwriter first. He was raised by parents whose first date was a Charlie Daniels Band concert, in the same East Tennessee mountains that gave us Dolly Parton, surrounded by the stories and songs that would shape how he sees the world. His father started filling his head with liner notes before he could read. Who played on what, who produced which records, who really wrote that song. All of it turned out to be his richest inheritance.</p>
 
@@ -30,3 +37,9 @@ import { STORM_DOOR_URL } from '../consts';
     </div>
   </article>
 </Base>
+
+<style>
+  .portrait-wrap{text-align:center; margin:0 auto 2.8rem; position:relative}
+  .portrait-wrap .taped{max-width:min(340px,82%)}
+  .portrait-note{margin-top:1.2rem; transform:rotate(-2.5deg); color:var(--rust)}
+</style>

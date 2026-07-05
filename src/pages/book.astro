@@ -7,15 +7,22 @@ import { STORM_DOOR_URL } from '../consts';
   description="The book Jonathan Sexton is writing under the mentorship of Kathryn Aalto. Songs belong on a shelf with dreams and prayers, the things we believe in but cannot prove."
   nav="solid"
 >
-  <div class="pagehead">
+  <div class="pagehead grain grain--dark">
     <p class="kicker">What I'm writing</p>
     <h1>The Sound of Something More</h1>
     <p class="standfirst">Songs belong on a shelf with dreams and prayers. The things we believe in but cannot measure or prove.</p>
   </div>
 
-  <article class="read">
+  <article class="read grain">
     <div class="col reveal">
       <p class="lede">We accept that a dream can change a life. We accept that a prayer can reach somewhere words can't. We have forgotten that a song does the same work, and that we always knew it did.</p>
+
+      <div class="booknote-wrap">
+        <span class="notecard booknote" aria-hidden="true">
+          <span class="tape"></span>
+          songs, dreams, prayers —<br>the immeasurable things
+        </span>
+      </div>
 
       <p>The Sound of Something More is a book about that forgetting, and about remembering in time. It uses music as the lens for how to stay human while the machines get faster. It reaches back into the archives, the Library of Congress, the Parchman recordings, the old ballad about the man who beat the steam drill, and it lands on the question the bridge generation is the last to be able to answer, having grown up analog and gone to work digital.</p>
 
@@ -35,3 +42,9 @@ import { STORM_DOOR_URL } from '../consts';
     </div>
   </article>
 </Base>
+
+<style>
+  .booknote-wrap{float:right; width:min(240px,44%); margin:0.4rem 0 1.2rem 1.8rem}
+  .booknote{width:100%; font-size:clamp(1.3rem,2vw,1.7rem)}
+  @media(max-width:560px){.booknote-wrap{float:none; width:min(240px,72%); margin:1.4rem auto 1.8rem}}
+</style>
