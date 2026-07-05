@@ -36,12 +36,18 @@ const {
   <Footer />
   <script>
     document.documentElement.classList.add('js');
+    const reveals = document.querySelectorAll('.reveal');
+    const showAll = () => reveals.forEach((el) => el.classList.add('in'));
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
         if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       }
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    reveals.forEach((el) => io.observe(el));
+    // Failsafe: content must never stay hidden if IO doesn't fire
+    // (hidden tab, headless render, no scroll). Reveal everything after a beat.
+    setTimeout(showAll, 1400);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) showAll(); });
   </script>
 </body>
 </html>

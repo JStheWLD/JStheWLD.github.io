@@ -1,0 +1,22 @@
+---
+// Nested-arch "wave" from the moodboard's 70s color-block packaging.
+// Concentric arcs, warm to cool. Decorative only.
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+const bands = [
+  { r: 92, c: 'var(--burnt)' },
+  { r: 76, c: 'var(--ochre)' },
+  { r: 60, c: 'var(--paper-cream)' },
+  { r: 44, c: 'var(--rust)' },
+  { r: 28, c: 'var(--denim-mid)' },
+];
+---
+<svg class={`wave ${cls}`} viewBox="0 0 200 108" role="img" aria-label="A stack of nested arches in the brand colors" fill="none">
+  {bands.map((b) => (
+    <path d={`M ${100 - b.r} 100 a ${b.r} ${b.r} 0 0 1 ${b.r * 2} 0`} stroke={b.c} stroke-width="13" stroke-linecap="butt" />
+  ))}
+</svg>
+
+<style>
+  .wave{display:block; width:100%; height:auto}
+</style>

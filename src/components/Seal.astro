@@ -1,0 +1,28 @@
+---
+// Circular bird stamp, in the "Peace is a Practice / Practice More" badge language.
+// Text runs the ring; the Truth Bird sits in the middle.
+interface Props {
+  top?: string;
+  bottom?: string;
+  bird?: 'white' | 'primary';
+  class?: string;
+}
+const {
+  top = 'The Storm Door',
+  bottom = 'Most Saturday Mornings',
+  bird = 'white',
+  class: cls = '',
+} = Astro.props;
+const src = bird === 'white' ? '/assets/bird-white.png' : '/assets/bird-primary.png';
+---
+<div class={`seal ${cls}`}>
+  <svg class="seal__ring" viewBox="0 0 100 100" aria-hidden="true">
+    <defs>
+      <path id="seal-top" d="M 50 50 m -39 0 a 39 39 0 1 1 78 0" />
+      <path id="seal-bot" d="M 50 50 m -39 0 a 39 39 0 0 0 78 0" />
+    </defs>
+    <text><textPath href="#seal-top" startOffset="50%" text-anchor="middle">{top}</textPath></text>
+    <text><textPath href="#seal-bot" startOffset="50%" text-anchor="middle">✦ {bottom} ✦</textPath></text>
+  </svg>
+  <div class="seal__bird"><img src={src} alt="" width="120" height="120" /></div>
+</div>

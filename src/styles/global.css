@@ -5,8 +5,12 @@
 :root {
   --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#393533; --ink-soft:#4a443f;
   --rust:#A53B1F; --rust-deep:#7E2F16; --ochre:#D38D42; --bone:#D2CDBB; --dusty:#91A5A8;
+  --burnt:#BC5A24; --burnt-deep:#973F17; --kraft:#C7A96F; --paper-cream:#E7DEC9;
   --denim:#ADC1D1; --denim-mid:#749FBA; --denim-deep:#386F99;
   --charcoal:#393533; --charcoal-deep:#2c2926;
+  --tape:rgba(224,212,178,0.5);
+  /* warm paper grain, inline so it costs no request */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --display:"Bodoni Moda","Didot","Bodoni 72",serif;
   --body:"Libre Baskerville",Georgia,"Times New Roman",serif;
   --ui:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;
@@ -26,7 +30,7 @@ h1,h2,h3{font-family:var(--display); font-weight:500; line-height:1.05; letter-s
 p{text-wrap:pretty}
 a{color:inherit}
 img{display:block; max-width:100%}
-::selection{background:var(--rust); color:var(--ground)}
+::selection{background:var(--burnt); color:var(--ground)}
 :focus-visible{outline:2px solid var(--rust); outline-offset:3px; border-radius:2px}
 .kicker{font-family:var(--ui); font-size:0.76rem; letter-spacing:0.26em; text-transform:uppercase}
 
@@ -46,8 +50,8 @@ img{display:block; max-width:100%}
 .pill:hover{background:#f3efe7; color:var(--charcoal); border-color:#f3efe7}
 
 /* buttons */
-.btn{display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--ui); font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; cursor:pointer; padding:0.95rem 1.6rem; border-radius:999px; border:0; background:var(--rust); color:#f6f2ea; transition:transform .4s cubic-bezier(.2,.8,.2,1), background .4s, box-shadow .4s; box-shadow:0 8px 30px rgba(165,59,31,0.35)}
-.btn:hover{background:var(--rust-deep); transform:translateY(-2px); box-shadow:0 14px 38px rgba(165,59,31,0.45)}
+.btn{display:inline-flex; align-items:center; gap:0.55rem; font-family:var(--ui); font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; cursor:pointer; padding:0.95rem 1.6rem; border-radius:999px; border:0; background:var(--burnt); color:#fdf7ee; transition:transform .4s cubic-bezier(.2,.8,.2,1), background .4s, box-shadow .4s; box-shadow:0 8px 30px rgba(188,90,36,0.35)}
+.btn:hover{background:var(--burnt-deep); transform:translateY(-2px); box-shadow:0 14px 38px rgba(188,90,36,0.45)}
 .btn .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
 .btn:hover .arrow{transform:translateX(4px)}
 .ghost{font-family:var(--ui); font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; color:#e7e1d6; border-bottom:1px solid rgba(231,225,214,0.4); padding-bottom:2px; transition:border-color .3s}
@@ -59,7 +63,8 @@ section{padding-block:clamp(4rem,9vw,8rem)}
 .break{display:block; width:clamp(120px,15vw,180px); height:auto; margin:0 auto; opacity:0.9}
 
 /* footer */
-footer{background:var(--charcoal-deep); color:#cdc6ba; padding-block:clamp(2.5rem,5vw,3.5rem)}
+footer{background:var(--charcoal-deep); color:#cdc6ba; padding-block:clamp(2.5rem,5vw,3.5rem); position:relative; overflow:hidden}
+footer .seam{position:absolute; top:0; left:0; right:0; height:6px}
 footer .wrap{display:flex; align-items:center; justify-content:space-between; gap:1.5rem; flex-wrap:wrap}
 .fbrand{display:flex; align-items:center; gap:0.6rem; color:#cdc6ba; text-decoration:none}
 .fbrand img{height:34px}
@@ -81,6 +86,63 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .read a{color:var(--rust); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px}
 .read blockquote{margin:2rem 0; padding-left:1.2rem; border-left:2px solid var(--rust); font-family:var(--display); font-style:italic; font-size:clamp(1.3rem,2.6vw,1.7rem); line-height:1.3; color:var(--ink)}
 .note{margin-top:clamp(2.4rem,5vw,3.2rem); padding-top:1.4rem; border-top:1px solid #d4cfc3; font-size:0.95rem; color:#7d776d; font-style:italic}
+
+/* ---- brand motifs, drawn from the JS the WLD deck (moodboard + Direction 1 collage) ---- */
+
+/* warm paper grain: a tooth over flat color, never over photos */
+.grain{position:relative; isolation:isolate}
+.grain > *{position:relative; z-index:1}
+.grain::after{content:""; position:absolute; inset:0; z-index:0; background-image:var(--grain);
+  background-size:160px 160px; opacity:0.10; mix-blend-mode:multiply; pointer-events:none}
+.grain.grain--dark::after{mix-blend-mode:screen; opacity:0.05}
+
+/* corduroy ribbing (the burnt-orange cord in the moodboard) */
+.cord{background-color:var(--burnt);
+  background-image:repeating-linear-gradient(90deg,
+    rgba(0,0,0,0.16) 0 1px, rgba(0,0,0,0.05) 1px 2px,
+    rgba(255,255,255,0.06) 2px 3px, transparent 3px 7px)}
+
+/* cut + paste: a taped photo sitting on a paper scrap, slightly askew */
+.taped{position:relative; display:inline-block; padding:0.7rem; background:var(--paper-cream);
+  box-shadow:0 18px 46px rgba(57,53,51,0.22); transform:rotate(-1.4deg)}
+.taped::before{content:""; position:absolute; inset:-10px -8px -14px 10px; z-index:-1;
+  background:var(--kraft); transform:rotate(2.6deg); box-shadow:0 10px 30px rgba(57,53,51,0.14)}
+.taped img{display:block; width:100%; height:auto}
+.taped .tape{position:absolute; width:104px; height:30px; background:var(--tape);
+  box-shadow:0 1px 2px rgba(57,53,51,0.12); backdrop-filter:saturate(0.9); z-index:2}
+.taped .tape::after{content:""; position:absolute; inset:0; background-image:var(--grain);
+  background-size:120px 120px; opacity:0.14; mix-blend-mode:multiply}
+.taped .tape--tl{top:-13px; left:16%; transform:rotate(-7deg)}
+.taped .tape--br{bottom:-12px; right:14%; transform:rotate(-6deg)}
+
+/* torn-paper collage scraps, positioned by the section that uses them */
+.scrap{position:absolute; pointer-events:none; z-index:0;
+  box-shadow:0 8px 22px rgba(57,53,51,0.12);
+  clip-path:polygon(2% 4%, 98% 0, 100% 96%, 4% 100%)}
+.scrap::after{content:""; position:absolute; inset:0; background-image:var(--grain);
+  background-size:140px 140px; opacity:0.16; mix-blend-mode:multiply}
+.scrap--kraft{background:var(--kraft)}
+.scrap--ochre{background:var(--ochre)}
+.scrap--burnt{background:var(--burnt)}
+.scrap--denim{background:var(--denim-mid)}
+
+/* a scrawled numeral / word, low in the stack, like the red "1542" on the collage board */
+.scrawl{position:absolute; font-family:var(--display); font-style:italic; font-weight:400;
+  color:var(--burnt); opacity:0.16; pointer-events:none; z-index:0; line-height:0.8; letter-spacing:-0.03em}
+
+/* hand-drawn underline that sits under a headline word */
+.mark{position:relative; white-space:nowrap}
+.mark svg{position:absolute; left:-2%; right:-2%; bottom:-0.28em; width:104%; height:0.42em; overflow:visible}
+.mark svg path{fill:none; stroke:var(--burnt); stroke-width:6; stroke-linecap:round}
+
+/* the bird stamp / seal (Peace-is-a-Practice badge language) */
+.seal{position:relative; width:clamp(128px,17vw,168px); aspect-ratio:1; margin:0 auto}
+.seal__ring{position:absolute; inset:0; animation:seal-spin 46s linear infinite}
+.seal__ring text{font-family:var(--ui); font-size:8.1px; letter-spacing:0.24em; text-transform:uppercase; fill:currentColor}
+.seal__bird{position:absolute; inset:29%; display:grid; place-items:center}
+.seal__bird img{width:100%; height:auto; opacity:0.95}
+@keyframes seal-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.seal__ring{animation:none}}
 
 /* reveal on scroll */
 .reveal{opacity:1}
