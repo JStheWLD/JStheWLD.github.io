@@ -6,24 +6,23 @@ import Oaks from '../components/Oaks.astro';
 import Bird from '../components/Bird.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
-<Base title="In the Wld — Jonathan Sexton" nav="overlay">
+<Base title="JS the Wld — Jonathan Sexton" nav="overlay">
   <main id="top">
     <!-- HERO -->
     <section class="hero" aria-label="Introduction">
       <img class="hero__photo" src="/assets/hero.jpg" alt="Jonathan Sexton leaning at a wood-paneled bar in warm lamplight, his reflection held in the mirror behind him." width="1333" height="2000" />
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__inner">
-        <h1>One foot in the holler, <em>one in tomorrow.</em></h1>
-        <p class="hero__sub">Jonathan Sexton is a writer and musician chasing one question across everything he makes: how we stay human while the world speeds up. This is the house it all lives in.</p>
+        <h1>How we used to do it, <em>and how we might again.</em></h1>
+        <p class="hero__sub">JS the Wld is the name Jonathan Sexton writes and sings under. One fellow from East Tennessee, by way of Nashville, with songs, a letter most Saturdays, and a book he's been at for years. Pull up a chair.</p>
         <div class="hero__cta">
-          <a class="btn" href="#subscribe">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
-          <a class="ghost" href="#work">See the work</a>
+          <a class="btn" href={STORM_DOOR_URL} rel="noopener">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
     </section>
 
     <!-- FRAME -->
-    <section class="frame grain" aria-label="What In the Wld is">
+    <section class="frame grain" aria-label="What this is">
       <span class="frame__bird frame__bird--1" aria-hidden="true"><Bird /></span>
       <span class="frame__bird frame__bird--2" aria-hidden="true"><Bird /></span>
       <div class="wrap reveal">
@@ -107,7 +106,7 @@ import { STORM_DOOR_URL } from '../consts';
           <h2>Jonathan Sexton</h2>
           <p><span class="nm">A writer and musician</span> from East Tennessee, born fifty-five days after MTV launched, the last of the people who remember the phone ringing on the wall and the first of the ones who watched the screen take the room.</p>
           <p>He played music for a living for a while, the kind of life that comes with a Bonnaroo stage, an MTV award, and one Guinness record. Then he taught school, built companies, worked in global technology, and studied artificial intelligence at MIT, years spent on the inside of the thing he now stands back to ask about.</p>
-          <p>He came home to Tennessee with his wife and three sons. In the Wld is where the work lives.</p>
+          <p>He came home to Tennessee with his wife and three sons. This is where the work lives.</p>
           <p><a class="ghost" style="color:var(--rust);border-color:var(--rust)" href="/about">More about Jonathan &rarr;</a></p>
         </div>
       </div>
@@ -121,7 +120,7 @@ import { STORM_DOOR_URL } from '../consts';
         <h2>Come sit on the porch a while.</h2>
         <p>The Storm Door arrives most Saturday mornings. It's free. Step in, and I'll meet you up the valley come Saturday.</p>
         <a class="btn" href={STORM_DOOR_URL} rel="noopener">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
-        <p class="fine">Reading lives on Substack. In the Wld is the front door.</p>
+        <p class="fine">The letter lives on Substack. This is just the porch.</p>
       </div>
     </section>
   </main>
