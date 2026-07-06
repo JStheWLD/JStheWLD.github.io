@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add('js')</script>
+<title>The First Family of American Roots Music</title>
+<meta name="description" content="Five generations, one hundred and fifty years. Trace the music you already know back up the river to a Lomax with a machine that listened.">
+<link rel="icon" href="/assets/storm-door/favicon-512.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The First Family of American Roots Music">
+<meta property="og:description" content="Trace the music you already know back up the river to a Lomax with a machine that listened.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#393533; --ink-soft:#4a443f;
+    --rust:#A53B1F; --rust-deep:#7E2F16; --ochre:#D38D42; --bone:#D2CDBB; --dusty:#91A5A8;
+    --charcoal:#393533; --charcoal-deep:#2c2926; --char-line:#564d44; --river:#6d94ac;
+    --display:"Bodoni Moda","Didot",Georgia,serif;
+    --body:"Libre Baskerville",Georgia,serif;
+    --ui:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --maxw:44rem;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--body); font-size:1.12rem; line-height:1.75; letter-spacing:.006em; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+  h1,h2,h3,.display{font-family:var(--display); font-weight:500; line-height:1.08; letter-spacing:.01em; text-wrap:balance}
+  p{margin:0 0 1.1em; text-wrap:pretty}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 1.4rem}
+  .band{padding:clamp(4rem,11vh,8rem) 0}
+  .js .reveal{opacity:0; transform:translateY(22px); transition:opacity .9s ease, transform .9s ease}
+  .reveal.in{opacity:1; transform:none}
+  @media (prefers-reduced-motion:reduce){ .js .reveal{opacity:1; transform:none; transition:none} html{scroll-behavior:auto} }
+
+  .hero{background:radial-gradient(120% 90% at 50% -10%, #4a443f 0%, var(--charcoal) 45%, var(--charcoal-deep) 100%); color:#f3efe6; text-align:center; padding:clamp(5rem,16vh,10rem) 1.4rem clamp(4rem,10vh,7rem)}
+  .hero .eyebrow{font-family:var(--ui); text-transform:uppercase; letter-spacing:.34em; font-size:.72rem; color:var(--ochre); margin-bottom:1.6rem}
+  .hero h1{font-size:clamp(2.4rem,7vw,4.6rem); margin:0 0 1.2rem; color:#f6f2e9}
+  .hero h1 .thin{display:block; font-size:.42em; letter-spacing:.2em; text-transform:uppercase; font-weight:400; color:var(--bone); margin-top:1rem; font-family:var(--ui)}
+  .hero p.lede{max-width:34rem; margin:1.6rem auto 0; color:#ded7c8; font-size:1.15rem}
+  .hero .refrain{margin-top:2.4rem; font-family:var(--display); font-size:1.3rem; font-style:italic; color:#f3efe6}
+  .hero .refrain span{color:var(--ochre); font-style:normal}
+  .scrollcue{margin-top:3rem; font-family:var(--ui); font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--bone); opacity:.7}
+
+  .kicker{font-family:var(--ui); text-transform:uppercase; letter-spacing:.28em; font-size:.7rem; color:var(--rust); margin-bottom:.9rem}
+  h2.beat{font-size:clamp(1.9rem,4.5vw,2.9rem); margin:0 0 1.3rem}
+  h2.beat .num{display:block; font-family:var(--ui); font-size:.7rem; letter-spacing:.28em; color:var(--dusty); text-transform:uppercase; margin-bottom:.6rem; font-weight:600}
+  .beat-body{font-size:1.14rem}
+  .pull{font-family:var(--display); font-style:italic; font-size:1.6rem; line-height:1.42; color:var(--rust-deep); margin:1.9rem 0; max-width:36rem; text-wrap:balance}
+  .divider{width:100%; height:1px; background:linear-gradient(90deg,transparent,var(--bone),transparent)}
+  .collectors .band:nth-child(even){background:var(--ground-2)}
+
+  /* ============ ACT III — THE RIVER OF BEGATS ============ */
+  .river{background:linear-gradient(180deg,#2f2a26 0%, var(--charcoal-deep) 60%, #241f1c 100%); color:#efeadf; padding:clamp(3rem,7vh,5rem) 0 0}
+  .river .head{max-width:52rem; margin:0 auto; padding:0 1.4rem 1.2rem; text-align:center}
+  .river .kicker{color:var(--ochre)}
+  .river h2{color:#f4efe5; font-size:clamp(2.1rem,5.5vw,3.3rem); margin:0 0 .8rem}
+  .river .head p{color:#cfc7b8; max-width:40rem; margin:0 auto}
+  .river .hint{color:var(--ochre); font-family:var(--ui); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; display:block; margin-top:1rem}
+  .legend2{display:flex; justify-content:center; gap:1.6rem; margin-top:1rem; font-family:var(--ui); font-size:.68rem; letter-spacing:.04em; color:#b3aa9c}
+  .legend2 span{display:inline-flex; align-items:center; gap:.45rem}
+  .river-stage{position:relative; width:100%; max-width:1180px; margin:0 auto; padding:0 .5rem}
+  .panhint{display:none; text-align:center; font-family:var(--ui); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ochre); padding:.1rem 1.4rem .8rem}
+  #riversvg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+  #riversvg path{fill:none; stroke:var(--river); stroke-opacity:.42; stroke-width:1.6; vector-effect:non-scaling-stroke; transition:stroke-opacity .25s, stroke .25s}
+  #riversvg path.soft{stroke:var(--dusty); stroke-dasharray:5 5; stroke-opacity:.28; stroke-width:1}
+  #riversvg path.lit{stroke:var(--ochre); stroke-opacity:1; stroke-width:2.6}
+  #riversvg path.soft.lit{stroke:var(--ochre); stroke-opacity:.85; stroke-width:1.6}
+  #riversvg path.dim{stroke-opacity:.07}
+  #riversvg path.up-lit{stroke:var(--ochre); stroke-opacity:1; stroke-width:2.4}
+  #riversvg path.down-lit{stroke:var(--rust); stroke-opacity:1; stroke-width:2.4}
+  #riversvg path.soft.up-lit{stroke:var(--ochre); stroke-opacity:.9; stroke-width:1.6}
+  #riversvg path.soft.down-lit{stroke:var(--rust); stroke-opacity:.9; stroke-width:1.6}
+  .rnode{position:absolute; transform:translate(-50%,-50%); cursor:pointer; text-align:center; transition:opacity .25s, transform .2s}
+  .rnode .dot{margin:0 auto; border-radius:999px}
+  .rnode .lbl{font-family:var(--display); color:#f1ece2; line-height:1.12; margin-top:.3rem; white-space:nowrap}
+  .rnode .sub{font-family:var(--ui); font-size:.63rem; letter-spacing:.02em; color:#bcb3a4; margin-top:.14rem; white-space:nowrap}
+  .rnode.dim{opacity:.2}
+  .rnode.lit .lbl{color:#fff}
+  .rnode.up-lit .dot{background:var(--ochre)!important; border-color:var(--ochre)!important}
+  .rnode.down-lit .dot{background:var(--rust)!important; border-color:var(--rust)!important}
+  .rnode.up-lit.confluence,.rnode.up-lit.delta{box-shadow:0 0 0 2px var(--ochre)}
+  .rnode.down-lit.confluence,.rnode.down-lit.delta{box-shadow:0 0 0 2px var(--rust)}
+  .rnode:hover{transform:translate(-50%,-50%) scale(1.05); z-index:6}
+  .rnode.source{padding:.7rem 1.4rem; background:radial-gradient(120% 140% at 50% 0%, #6a5f54, #4a423b); border:1px solid var(--ochre); border-radius:14px; z-index:5}
+  .rnode.source .lbl{font-size:1.5rem; white-space:normal; margin-top:0}
+  .rnode.source .sub{color:var(--bone); white-space:normal; margin-top:.3rem; letter-spacing:.14em; text-transform:uppercase}
+  .rnode.spring .dot{width:14px; height:14px; background:var(--ochre); box-shadow:0 0 0 5px rgba(211,141,66,.16)}
+  .rnode.spring .lbl{font-size:1.04rem; font-style:italic}
+  .rnode.node .dot{width:8px; height:8px; background:#d7c9b3}
+  .rnode.node.soft .dot{width:9px; height:9px; background:transparent; border:1.6px solid var(--dusty)}
+  .rnode.node .lbl{font-size:.9rem}
+  .rnode.node.soft .lbl{color:#cbc2b4}
+  .rnode.confluence{padding:.45rem 1rem; background:linear-gradient(120deg, rgba(126,47,22,.85), rgba(165,59,31,.7)); border:1px solid var(--rust); border-radius:10px; z-index:4}
+  .rnode.confluence .lbl{font-size:.96rem; letter-spacing:.05em; text-transform:uppercase; font-style:normal}
+  .rnode.confluence .sub{color:#f0dccb}
+  .rnode.delta{padding:.8rem 1.6rem; background:linear-gradient(120deg, var(--ochre), var(--rust)); border-radius:12px; z-index:5}
+  .rnode.delta .lbl{font-size:1.4rem; color:#2c2926; white-space:normal}
+  .rnode.delta .sub{color:#3a2a1e; font-weight:600; white-space:normal; margin-top:.2rem}
+
+  .modal-bg{position:fixed; inset:0; background:rgba(20,17,15,.74); backdrop-filter:blur(3px); display:none; align-items:flex-start; justify-content:center; padding:5vh 1.2rem; z-index:50; overflow-y:auto}
+  .modal-bg.open{display:flex}
+  .modal-shell{position:relative; width:100%; max-width:40rem}
+  .modal{background:var(--ground); color:var(--ink); width:100%; border-radius:14px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.5); animation:pop .35s ease}
+  @keyframes pop{from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none}}
+  @media (prefers-reduced-motion:reduce){ .modal{animation:none} }
+  .modal .m-art{background:var(--charcoal-deep); color:var(--bone); font-family:var(--ui); font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; min-height:92px; display:flex; align-items:center; justify-content:center; border-bottom:3px solid var(--ochre); text-align:center; padding:0 1rem}
+.m-art:has(img){padding:0}
+  .modal .m-inner{padding:1.4rem 1.7rem 1.9rem}
+  .modal .trace{font-family:var(--ui); font-size:.62rem; letter-spacing:.05em; color:var(--rust); line-height:1.7; text-transform:uppercase}
+  .modal .trace b{color:var(--dusty); font-weight:400}
+  .modal .strength{font-family:var(--ui); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; margin-top:.5rem; display:inline-block; padding:.15rem .5rem; border-radius:4px}
+  .modal .strength.fact{background:var(--ground-2); color:var(--rust-deep); border:1px solid var(--bone)}
+  .modal .strength.inference{background:transparent; color:var(--ink-soft); border:1px dashed var(--dusty)}
+.strength.degree{background:var(--charcoal-deep); color:var(--bone); border:1px solid var(--charcoal-deep); margin-left:.4rem}
+.strength.degree b{color:var(--ochre); font-weight:700; font-size:1.08em}
+.strength.honor{background:rgba(211,141,66,.14); color:var(--rust-deep); border:1px solid var(--ochre); margin-left:.4rem}
+.tally .statrow{display:grid; grid-template-columns:repeat(2,1fr); gap:2.1rem 1.4rem; margin:2.1rem 0 2.4rem}
+@media(min-width:600px){ .tally .statrow{grid-template-columns:repeat(4,1fr)} }
+.tally .stat{min-width:0}
+.tally .famstrip{border-top:1px solid var(--char-line); margin:.4rem 0 2.2rem; padding-top:1.5rem}
+.tally .fameyebrow{font-family:var(--ui); text-transform:uppercase; letter-spacing:.16em; font-size:.62rem; color:var(--ochre); margin-bottom:.95rem}
+.tally .famrow{display:flex; flex-wrap:wrap; gap:.7rem 1.9rem; font-family:var(--ui); font-size:.92rem; color:#d7cfc0}
+.tally .famrow b{font-family:var(--display); font-weight:600; color:var(--bone); font-size:1.2rem; margin-right:.18rem}
+.tally .statnum{display:block; font-family:var(--display); font-weight:600; font-size:clamp(3rem,7vw,4.6rem); line-height:.95; color:var(--ochre)}
+.tally .statlab{display:block; margin-top:.55rem; font-family:var(--ui); font-size:.82rem; line-height:1.35; letter-spacing:.01em; color:#d7cfc0; max-width:24ch}
+.m-audio{margin:.1rem 0 .2rem}
+.m-audio audio{width:100%; height:36px}
+.m-audio .alab{display:block; font-family:var(--ui); text-transform:uppercase; letter-spacing:.14em; font-size:.58rem; color:var(--rust-deep,#7c2d12); margin:0 0 .4rem}
+  .modal h3{font-size:1.7rem; font-style:italic; margin:.4rem 0 1rem; color:var(--ink)}
+  .modal .m-deep{font-size:1.02rem; line-height:1.65}
+  .modal .m-quote{font-family:var(--display); font-style:italic; color:var(--rust-deep); font-size:1.16rem; line-height:1.45; margin-top:1.2rem}
+  .modal .x{position:absolute; top:1rem; right:1.1rem; z-index:3; background:rgba(0,0,0,.55); color:#fff; border:none; width:2rem; height:2rem; border-radius:50%; cursor:pointer; font-size:1rem; line-height:1; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 6px rgba(0,0,0,.35)}
+.modal .x:hover{background:rgba(0,0,0,.8)}
+  .modal .m-art img{width:100%; height:200px; object-fit:cover; object-position:center 22%; display:block; filter:sepia(.12) contrast(1.02)}
+  .modal .m-credit{font-family:var(--ui); font-size:.6rem; letter-spacing:.02em; color:#8b8175; text-align:right; padding:.35rem 1.1rem 0}
+  .modal .m-credit:empty{display:none}
+  .modal .m-foot{display:flex; gap:1rem; align-items:center; margin-top:1.5rem; padding-top:1.05rem; border-top:1px solid var(--bone)}
+  .modal .m-src{font-family:var(--ui); font-size:.72rem; letter-spacing:.03em; color:var(--rust-deep); text-decoration:none}
+  .modal .m-src:hover{text-decoration:underline}
+  .modal .m-share{margin-left:auto; font-family:var(--ui); font-size:.72rem; letter-spacing:.03em; background:none; border:1px solid var(--bone); color:var(--ink-soft); border-radius:999px; padding:.32rem .85rem; cursor:pointer; transition:border-color .2s, color .2s}
+  .modal .m-share:hover{border-color:var(--rust); color:var(--rust-deep)}
+  .modal .m-share:focus-visible{outline:2px solid var(--rust); outline-offset:2px}
+.m-src:focus-visible{outline:2px solid var(--rust); outline-offset:2px; border-radius:3px}
+@media (pointer:coarse){ .modal .x{width:2.75rem; height:2.75rem} .m-share{padding:.7rem 1.15rem} .m-src{display:inline-block; padding:.7rem 0} }
+
+  .reckon .pull{color:var(--rust-deep)}
+  .now{background:radial-gradient(120% 90% at 50% 120%, #4a443f 0%, var(--charcoal) 55%, var(--charcoal-deep) 100%); color:#efeadf; text-align:center}
+  .now h2{color:#f4efe5}
+  .now .beat-body{color:#d7cfc0; max-width:38rem; margin:0 auto}
+  .now .prophecy{font-family:var(--display); font-style:italic; font-size:1.5rem; color:var(--ochre); margin:1.8rem auto; max-width:34rem; line-height:1.4}
+  .cta{margin-top:2.6rem}
+  .cta a{display:inline-block; background:var(--rust); color:#fff; font-family:var(--ui); font-weight:600; letter-spacing:.04em; text-decoration:none; padding:.95rem 2.1rem; border-radius:999px; transition:background .2s, transform .2s}
+  .cta a:hover{background:var(--rust-deep); transform:translateY(-2px)}
+  .cta a:focus-visible{outline:2px solid var(--ochre); outline-offset:3px}
+  .modal .x:focus-visible{outline:2px solid #fff; outline-offset:2px}
+  .cta .sub{display:block; margin-top:1rem; font-family:var(--ui); font-size:.78rem; color:var(--bone)}
+  footer{background:var(--charcoal-deep); color:var(--bone); text-align:center; padding:2.4rem 1.4rem; font-family:var(--ui); font-size:.74rem}
+  footer .draftflag{color:var(--ochre); display:block; margin-bottom:.6rem}
+  @media (max-width:760px){
+    .river-scroll{overflow:auto; max-height:82vh; -webkit-overflow-scrolling:touch; border-block:1px solid var(--char-line)}
+    .river-stage{min-width:860px}
+    .panhint{display:block}
+    .rnode .lbl{font-size:.8rem} .rnode.source .lbl{font-size:1.1rem} .rnode.delta .lbl{font-size:1rem} .rnode .sub{font-size:.6rem}
+  }
+  @media (prefers-color-scheme:dark){ body{background:#211e1b; color:#e7e1d6} .collectors .band:nth-child(even){background:#26221f} .modal{background:var(--ground); color:var(--ink)} }
+  :root[data-theme="dark"] body{background:#211e1b; color:#e7e1d6}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>The First Family<br>of American Roots Music<span class="thin">Five generations · one hundred and fifty years</span></h1>
+  <p class="lede">One family that kept walking into the places a sound was about to disappear from, a cattle trail at night, a prison yard, a cotton field, a front porch, and caught the voice before it was gone.</p>
+  <p class="refrain">You already know the songs. <span>You never knew the name.</span></p>
+  <div class="scrollcue">↓ scroll</div>
+</header>
+
+<section class="band" style="text-align:center"><div class="wrap reveal">
+  <div class="kicker" style="text-align:center">Where does a song come from?</div>
+  <p class="beat-body">Nobody writes down the first one. It sits in the air of a place, passed hand to hand and mouth to mouth, older than anyone alive to sing it, and it lives in the body wherever the body goes. A song like that can't be owned and it can't be kept, and for most of human history it couldn't be saved either. It could only be caught, by somebody standing there on the day it was still being sung, with a machine that listened.</p>
+  <p class="pull" style="display:inline-block; text-align:left">The Lomaxes made that their family trade.</p>
+</div></section>
+
+<div class="divider"></div>
+
+<div class="collectors">
+  <section class="band"><div class="wrap reveal">
+    <h2 class="beat"><span class="num">Generation One</span>John A. Lomax</h2>
+    <div class="beat-body">
+    <p>John Avery Lomax was born in 1867 beside a branch of the old Chisholm Trail, close enough to hear the cowboys singing the cattle quiet in the dark. He carried those songs to the University of Texas in a roll of pencil manuscript tied with cotton string, and a professor looked them over and called them cheap, unworthy of a serious man. So that night, out behind the dormitory, he burned every scrap.</p>
+    <p>It took him ten years and a spell at Harvard to learn the professor was wrong. When he finally went back out for the songs, he carried an Edison cylinder machine, and this time he wasn't after his own. He was after everybody's. In the summer of 1933 he drove through the gate at Angola and set that machine down in front of a man named Huddie Ledbetter.</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap reveal">
+    <h2 class="beat"><span class="num">Generation Two</span>Alan Lomax</h2>
+    <div class="beat-body">
+    <p>Alan Lomax was fifteen the first time he went out collecting with his father, and he never really came back in. Where the old man had gathered the songs of one country, the son set out to gather the songs of the whole world. He recorded work gangs at Parchman Farm and fishermen in the Caribbean, shepherds in Italy and miners in Scotland, tens of thousands of performances by people whose names had never been written down anywhere.</p>
+    <p>He had a word for what he was fighting. He called it the cultural grey-out, the slow flattening of the world's many musics into a few loud ones sold everywhere. Against it he set a principle he named cultural equity, the plain and radical idea that every people's song had a right to survive.</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap reveal">
+    <h2 class="beat"><span class="num">Generation Two</span>John A. Lomax Jr.</h2>
+    <div class="beat-body">
+    <p>The son who drove is easy to overlook. When John Lomax hit bottom in the early thirties, broke and grieving and past sixty, it was his oldest boy, John Junior, who loaded him into a car and pointed it back toward the work. He is the reason there was a comeback to have.</p>
+    <p>He made his own life in Houston, where in 1951 he helped start a folklore society that was really just a room where people could sing. He managed the bluesman Lightnin' Hopkins. And that plain room, over the years, gave a first stage to Townes Van Zandt, Guy Clark, Lucinda Williams, Nanci Griffith, and a young Steve Earle. A family that recorded the last century of American song also quietly raised some of the people who would write the next one.</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap reveal">
+    <h2 class="beat"><span class="num">Generation Two</span>Bess Lomax Hawes</h2>
+    <div class="beat-body">
+    <p>Bess was the youngest, and she carried the songs into the halls of government. In her twenties she sang in the Almanac Singers alongside Pete Seeger and Woody Guthrie, and in 1949 she co-wrote a little tune about a man trapped forever on the Boston subway. The Kingston Trio turned it into a hit ten years later, and "Charlie on the M.T.A." is still sung by people who have no idea a Lomax wrote it.</p>
+    <p>Later she ran the folk arts division of the National Endowment for the Arts for fifteen years, and built the program that honors the country's traditional artists while they are still alive to feel it. In 1993 the President hung the National Medal of Arts around her neck, the second the family had earned, her brother Alan having gotten there first.</p>
+    </div>
+  </div></section>
+
+  <section class="band"><div class="wrap reveal">
+    <h2 class="beat"><span class="num">Generation Three</span>John Lomax III</h2>
+    <div class="beat-body">
+    <p>The grandson took the family trade to Nashville. John Lomax the Third did for country singers what his grandfather had done for cowboys and his uncle had done for prisoners, catching more than a hundred of them talking for the Country Music Foundation, George Strait and Dwight Yoakam and Lyle Lovett among them, some before the world knew their names.</p>
+    <p>But he did more than catch them. He managed Townes Van Zandt when almost nobody was listening, got Steve Earle his first record deal, stood backstage at Gram Parsons' last Houston shows with a camera, and brought a young Australian named Kasey Chambers across the ocean to America. In December of 2025, at eighty-one, he became the first Lomax ever to stand on the Grand Ole Opry stage and sing the old songs himself. The line did not stop. A hundred and fifty years in, somebody in the family is still holding the machine.</p>
+    </div>
+  </div></section>
+</div>
+
+<!-- ============ ACT III — THE RIVER OF BEGATS ============ -->
+<section class="river" id="river">
+  <div class="head reveal">
+    <div class="kicker">Act Three · the begats</div>
+    <h2>This begat that begat that</h2>
+    <p>Follow the water down. Every name at the mouth of the river, the Beatles, the Rolling Stones, Nirvana, Beyoncé, Kendrick Lamar, rises from a spring a Lomax tapped. Where two streams run together, that is the measure of it. Ask the whole way down: what would be silent now, if they hadn't gone out with a machine that listened?
+    <span class="hint">Hover a name: gold runs upstream to the source, rust runs downstream to what it became · click to go deeper</span></p>
+    <div class="legend2">
+      <span><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#6d94ac" stroke-width="2"/></svg> documented</span>
+      <span><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="#91A5A8" stroke-width="2" stroke-dasharray="5 4"/></svg> a reasonable line downstream</span>
+    </div>
+  </div>
+  <div class="panhint">drag sideways to explore the river →</div>
+  <div class="river-scroll">
+    <div class="river-stage" id="stage" role="img" aria-label="An interactive river of musical influence: every artist you know traced back up to a Lomax field recording.">
+      <svg id="riversvg" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE TALLY ============ -->
+<section class="band tally" style="background:var(--charcoal-deep); color:#efeadf"><div class="wrap reveal">
+  <div class="kicker" style="color:var(--ochre)">The measure of it</div>
+  <h2 class="beat" style="color:#f4efe5">Count the water</h2>
+  <p class="beat-body" style="color:#d7cfc0; max-width:60ch">Follow every stream back to its spring, and the honors stack up behind the names. A share of what one family's field recordings turned into.</p>
+  <div class="statrow">
+    <div class="stat"><span class="statnum" id="st-grammy">66</span><span class="statlab">Grammy winners downstream</span></div>
+    <div class="stat"><span class="statnum" id="st-rockhall">44</span><span class="statlab">in the Rock &amp; Roll Hall of Fame</span></div>
+    <div class="stat"><span class="statnum" id="st-registry">24</span><span class="statlab">recordings the Library of Congress keeps forever</span></div>
+    <div class="stat"><span class="statnum" id="st-depth">4</span><span class="statlab">steps, at most, back to a Lomax recording</span></div>
+  </div>
+  <div class="famstrip">
+    <div class="fameyebrow">and the family that made it</div>
+    <div class="famrow">
+      <span><b>5</b> generations</span>
+      <span><b>150</b> years</span>
+      <span><b>10,000+</b> Library of Congress field recordings</span>
+      <span><b>92</b> Rounder CDs</span>
+      <span><b>51</b> books</span>
+      <span><b>2</b> National Medals of Arts</span>
+    </div>
+  </div>
+  <p class="pull" style="color:var(--ochre)">One family, a wax cylinder and a reel of tape, and most of a century of American song runs back to the day they stood in a field and pressed record.</p>
+</div></section>
+
+<!-- ============ ACT IV ============ -->
+<section class="band reckon" style="background:var(--charcoal-deep); color:#efeadf"><div class="wrap reveal">
+  <div class="kicker" style="color:var(--ochre)">Act Four · the reckoning</div>
+  <h2 class="beat" style="color:#f4efe5">Who gets paid for a voice</h2>
+  <div class="beat-body" style="color:#d7cfc0">
+  <p>In 1959 Alan Lomax recorded a Mississippi prisoner named James Carter leading a work gang through a song called "Po' Lazarus" while they chopped logs. Forty-three years later that recording opened the soundtrack to <em>O Brother, Where Art Thou?</em>, a record that sold eight million copies and won Album of the Year. Lomax's daughter tracked Carter down to a house in Chicago and put a twenty-thousand-dollar check in his hand. He had forgotten he ever sang it.</p>
+  <p>Not everyone got found. On a David Guetta record with over a billion views, and on a Beyoncé record about American freedom, the voice underneath belongs to a man known to the archive only as a prisoner number. The catch keeps paying out. The question of who it pays has never once been simple.</p>
+  <p class="pull" style="color:var(--ochre)">A song cannot be searched and taken at the gate. It turns out it cannot always be credited at the door either.</p>
+  </div>
+</div></section>
+
+<section class="band now"><div class="wrap reveal">
+  <div class="kicker" style="color:var(--ochre)">Act Four · and now</div>
+  <h2 class="beat">The immeasurable, at a new hinge</h2>
+  <div class="beat-body">
+  <p>Late in his life, dreaming up a database that could hold every song he had ever gathered, Alan Lomax wrote that it might one day become rich enough, with the help of artificial intelligence, to discover things no person had thought to ask. He wrote that in the early nineteen-nineties, about the machines we are only now learning to live beside.</p>
+  <p>For a hundred and fifty years the Lomaxes ran toward the vanishing, carrying a machine that could catch a voice before the world it came from was gone. We are standing at another one of those hinges now, a moment when a great deal of what makes us human is being measured, copied, and sold.</p>
+  </div>
+  <p class="prophecy">The songs are still on the shelf, up there with the dreams and the prayers, the things you can't quite hold and can't quite let go of. Somebody still has to keep them.</p>
+  <div class="cta">
+    <a href="#" data-substack>Come stand at the door →</a>
+    <span class="sub">The Storm Door · staying human as the tech comes on. Free.</span>
+  </div>
+</div></section>
+
+<footer>
+  <span class="draftflag">◆ Working prototype · the river of begats, 150+ nodes audited &amp; sourced · every node linked to its source · solid = documented, dashed = a reasonable line · deploy still to come</span>
+  Hover any name to trace it to the source. Where streams meet, the impact shows.
+</footer>
+
+<div class="modal-bg" id="modalbg"><div class="modal-shell"><div class="modal">
+  <button class="x" id="modalx" aria-label="close">✕</button>
+  <div class="m-art" id="modalart"></div>
+  <div class="m-credit" id="modalcredit"></div>
+  <div class="m-inner">
+    <div class="trace" id="modaltrace"></div>
+    <div id="modalstrength"></div>
+    <h3 id="modalhead"></h3>
+    <div class="m-deep" id="modaldeep"></div>
+    <div class="m-audio" id="modalaudio" hidden></div>
+    <div id="modalquote"></div>
+    <div class="m-foot">
+      <a class="m-src" id="modalsrc" target="_blank" rel="noopener" hidden>source ↗</a>
+      <a class="m-src m-yt" id="modalyt" target="_blank" rel="noopener" hidden>hear it ▶</a>
+      <button class="m-share" id="modalshare" type="button">copy link ⧉</button>
+    </div>
+  </div>
+</div></div></div>
+
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const SVGNS='http://www.w3.org/2000/svg';
+
+/* ===== nodes. x = % across, year = depth, parents = who begat it, soft = a reasonable line (inference) ===== */
+const N=[
+ {id:'src',kind:'source',x:50,year:1908,label:'The Lomaxes',sub:'the headwaters · 1867–now',parents:[],img:'img/src.jpg',imgcredit:'John A. Lomax · public domain',link:'https://en.wikipedia.org/wiki/John_Lomax',deep:'John A., Alan, John Jr., Bess, Ruby, John III, and Nova. For a hundred and fifty years one family walked toward the vanishing with a machine that listened. Every stream below rises here.'},
+
+ /* springs */
+ {id:'cowboy',kind:'spring',x:6,year:1910,label:'Cowboy Songs',sub:'John A. · 1910',parents:['src'],img:'img/cowboy.jpg',imgcredit:'Cowboy Songs, 1910 · public domain',link:'https://www.loc.gov/item/23026571/',deep:'The songs a fencing-in West was about to forget. John Lomax mailed circulars to a thousand newspapers and the cowboy songs came back in a thousand hands.',audio:'audio/cowboy.mp3',audiocredit:'‘The Texas Ranger,’ John & Ruby Lomax, 1939 · Library of Congress, public domain'},
+ {id:'leadbelly',kind:'spring',x:22,year:1933,label:'Lead Belly',sub:'John A. & Alan · Angola 1933',parents:['src'],img:'img/leadbelly.jpg',imgcredit:'Lead Belly (W. Gottlieb) · public domain',link:'https://en.wikipedia.org/wiki/Lead_Belly',deep:'A songster the state had filed under a number. John and Alan Lomax caught his twelve-string in a cell block, and the voice went north with them.',hon:'RN'},
+ {id:'sonhouse',kind:'spring',x:35,year:1941,label:'Son House',sub:'Alan & John Work · 1941',parents:['src'],img:'img/sonhouse.jpg',imgcredit:'Son House · public domain',link:'https://en.wikipedia.org/wiki/Son_House',deep:'The Delta preacher who lit up the men who lit up the world.'},
+ {id:'rising',kind:'spring',x:42,year:1937,label:'House of the Rising Sun',sub:'Alan · 1937',parents:['src'],img:'img/rising.jpg',imgcredit:'Kentucky coal country, 1930s (FSA) · public domain',link:'https://en.wikipedia.org/wiki/The_House_of_the_Rising_Sun',deep:'A Kentucky coal-town girl named Georgia Turner sang an old ballad about a house in New Orleans. Alan caught it, one of his first solo recordings.'},
+ {id:'woody',kind:'spring',x:50,year:1940,label:'Woody Guthrie',sub:'Alan · LOC 1940',parents:['src'],img:'img/woody.jpg',imgcredit:'Woody Guthrie, 1943 · public domain',link:'https://en.wikipedia.org/wiki/Woody_Guthrie',deep:'The first recordings Woody Guthrie ever made, caught by Alan Lomax at the Library of Congress in 1940, the spring the whole singer-songwriter river runs from.',hon:'GRN'},
+ {id:'muddy',kind:'spring',x:63,year:1941,label:'Muddy Waters',sub:'Alan · Stovall 1941',parents:['src'],img:'img/muddy.jpg',imgcredit:'Muddy Waters, 1976 · CC BY-SA 4.0, Wikimedia',link:'https://en.wikipedia.org/wiki/Muddy_Waters',deep:'A sharecropper who had never heard his own voice. Alan played the record back on a cabin porch, and the man believed he had it in him.',hon:'GRN'},
+ {id:'jelly',kind:'spring',x:72,year:1938,label:'Jelly Roll Morton',sub:'Alan · LOC 1938',parents:['src'],img:'img/jelly.jpg',imgcredit:'Jelly Roll Morton, c.1927 · public domain',link:'https://en.wikipedia.org/wiki/Jelly_Roll_Morton',deep:'Nine hours of a jazz founder telling his own story into Alan Lomax’s machine at the Library of Congress, 1938.',hon:'GN'},
+ {id:'parchman',kind:'spring',x:82,year:1948,label:'The Parchman gangs',sub:'Alan · 1947–59',parents:['src'],img:'img/parchman.jpg',imgcredit:'Parchman convict labor, 1911 · public domain',link:'https://www.culturalequity.org/field-work/parchman-farm-1947-and-1948',deep:'Work songs sung by men known to the record only by number, the axe strokes still inside them. "Rosie," "Stewball," "Po’ Lazarus."',audio:'audio/parchman.mp3',audiocredit:'‘We Don’t Have No Payday Here,’ a Lomax work-song recording, 1939 · Library of Congress, public domain'},
+ {id:'seaislands',kind:'spring',x:95,year:1959,label:'The Georgia Sea Islands',sub:'Alan · 1959',parents:['src'],img:'img/seaislands.jpg',imgcredit:'Bessie Jones, St. Simons · public domain (NARA)',link:'https://en.wikipedia.org/wiki/Bessie_Jones_(American_singer)',deep:'The Gullah ring-shout tradition, the oldest continuously practiced African-American music, caught on St. Simons Island in 1959.'},
+ {id:'mta',kind:'spring',x:99,year:1949,label:'“M.T.A.”',sub:'Bess · 1949',parents:['src'],img:'img/mta.jpg',imgcredit:'Bess Lomax Hawes, 1960s · public domain',link:'https://en.wikipedia.org/wiki/Bess_Lomax_Hawes',deep:'Bess Lomax Hawes wrote a little song about a man stuck forever on the Boston subway, then spent her life building the program that keeps traditional artists alive.'},
+ {id:'houston',kind:'spring',x:10,year:1951,label:'The Houston Room',sub:'John Jr. · 1951',parents:['src'],img:'img/houston.jpg',imgcredit:'John A. Lomax Jr. · public domain',link:'https://en.wikipedia.org/wiki/John_Lomax_Jr.',deep:'John Lomax Jr. built a room in Houston where the songs could be sung, and gave a first stage to the writers who came next.'},
+ {id:'johnIII',kind:'spring',x:18,year:1974,label:'John Lomax III',sub:'Gen 3 · Nashville',parents:['src'],link:'https://en.wikipedia.org/wiki/John_Lomax_III',deep:'The grandson carried the family ear to Nashville, catching the country stars talking and carrying their careers.'},
+
+ /* cowboy */
+ {id:'homerange',kind:'node',x:5,year:1939,label:'“Home on the Range”',sub:'into the White House',parents:['cowboy'],deep:'By 1939 "Home on the Range" was a favorite of Franklin Roosevelt, sung inside the White House.',link:'https://en.wikipedia.org/wiki/Home_on_the_Range'},
+ {id:'autry',kind:'node',soft:true,x:7,year:1952,label:'The singing-cowboy era',sub:'the western songbook',parents:['homerange'],link:'https://en.wikipedia.org/wiki/Singing_cowboy',deep:'Gene Autry rode into the pictures with a guitar and a hat, and the songs he sang built the whole idea of the singing cowboy. Those trail tunes, “Home on the Range” chief among them, came down from the western songbook John Lomax first printed in 1910.'},
+ {id:'pioneers',kind:'node',soft:true,x:5,year:1945,label:'Sons of the Pioneers',sub:'the cowboy canon on record',parents:['cowboy'],link:'https://en.wikipedia.org/wiki/Sons_of_the_Pioneers',deep:'The Sons of the Pioneers cut the cowboy canon onto record and taught the country what the range was supposed to sound like. The songs they carried ran back through the same tradition John Lomax bound up in Cowboy Songs in 1910.'},
+ {id:'cashlaredo',kind:'node',x:3,year:1965,label:'Johnny Cash',sub:'“Streets of Laredo”',parents:['cowboy'],link:'https://en.wikipedia.org/wiki/Streets_of_Laredo_(song)',hon:'GRN',deep:'Johnny Cash sang “Streets of Laredo,” a dying cowboy’s last words laid out plain over three chords. He was singing a ballad John Lomax had already set down in Cowboy Songs back in 1910.'},
+ {id:'martyrobbins',kind:'node',soft:true,x:9,year:1959,label:'Marty Robbins',sub:'Gunfighter Ballads',parents:['cowboy'],link:'https://en.wikipedia.org/wiki/Gunfighter_Ballads_and_Trail_Songs',hon:'G',img:'img/martyrobbins.jpg',imgcredit:'Marty Robbins · public domain',deep:'Marty Robbins built a whole record, Gunfighter Ballads, around gunmen and border towns and men who died in the dust. He was working the same western vein John Lomax first mined for Cowboy Songs in 1910.'},
+ {id:'bingcrosby',kind:'node',x:7,year:1933,label:'Bing Crosby',sub:'“Home on the Range,” 1933',parents:['cowboy'],link:'https://en.wikipedia.org/wiki/Bing_Crosby',hon:'GN',img:'img/bingcrosby.jpg',imgcredit:'Bing Crosby · public domain',deep:'Bing Crosby put “Home on the Range” on record in 1933, and the country hummed along with the biggest voice it had. The song reached him down the line from the western songbook John Lomax printed in 1910.'},
+
+ /* lead belly */
+ {id:'odetta',kind:'node',x:9,year:1957,label:'Odetta',sub:'the Lead Belly songbook',parents:['leadbelly'],link:'https://en.wikipedia.org/wiki/Odetta',img:'img/odetta.jpg',imgcredit:'Odetta · Jack de Nijs for Anefo / Anefo · CC0',deep:'Odetta built her early sets straight out of the Lead Belly songbook, work songs and hollers a Black woman turned into concert-hall thunder. Those songs came to her through the prison recordings John and Alan Lomax made of Lead Belly.'},
+ {id:'belafonte',kind:'node',x:14,year:1958,label:'Harry Belafonte',sub:'“Cotton Fields”',parents:['leadbelly'],link:'https://en.wikipedia.org/wiki/Cotton_Fields',hon:'G',deep:'Harry Belafonte cut “Cotton Fields” in 1958, having learned it by way of Odetta. It was Lead Belly’s song, one the Lomaxes had caught first on their prison rounds.'},
+ {id:'johnnycash',kind:'node',x:11,year:1962,label:'Johnny Cash',sub:'“Cotton Fields”',parents:['leadbelly'],link:'https://en.wikipedia.org/wiki/Cotton_Fields',hon:'GRN',deep:'Johnny Cash recorded “Cotton Fields” in 1962, a field holler dressed up in a country arrangement. The song was Lead Belly’s, and Lead Belly was the Lomaxes’ catch out of Angola.'},
+ {id:'weavers',kind:'node',x:17,year:1950,label:'The Weavers',sub:'“Goodnight Irene,” #1',parents:['leadbelly'],deep:'Months after Lead Belly died poor in 1949, the Weavers took his "Goodnight Irene" to number one for thirteen weeks, the best-selling record of 1950.',link:'https://en.wikipedia.org/wiki/Goodnight,_Irene'},
+ {id:'ccr',kind:'node',x:13,year:1969,label:'Creedence',sub:'“Cotton Fields”',parents:['leadbelly'],link:'https://en.wikipedia.org/wiki/Willy_and_the_Poor_Boys',hon:'RN',img:'img/ccr.jpg',imgcredit:'Creedence · public domain',deep:'Creedence turned “Cotton Fields” into swamp rock on Willy and the Poor Boys in 1969, John Fogerty singing about a sack he never dragged. Underneath it was Lead Belly’s song, the one the Lomaxes first recorded in a Louisiana cell.'},
+ {id:'brookbenton',kind:'node',soft:true,x:15,year:1961,label:'Brook Benton',sub:'“Boll Weevil,” #2',parents:['leadbelly'],link:'https://en.wikipedia.org/wiki/Boll_Weevil_(song)',img:'img/brookbenton.jpg',imgcredit:'Brook Benton · public domain',deep:'Brook Benton took “Boll Weevil” to number two in 1961, a jumping blues about a bug that wouldn’t die. His version worked an old song out of the same tradition Lead Belly carried for the Lomaxes.'},
+ {id:'donegan',kind:'node',x:27,year:1955,label:'Lonnie Donegan',sub:'“Rock Island Line”',parents:['leadbelly'],deep:'Donegan’s skiffle cover of Lead Belly’s "Rock Island Line" lit a craze every guitar-mad British teenager came up inside.',link:'https://en.wikipedia.org/wiki/Rock_Island_Line_(song)'},
+ {id:'zeppelin',kind:'node',soft:true,x:20,year:1970,label:'Led Zeppelin',sub:'“Gallows Pole” (via Gerlach)',parents:['leadbelly'],deep:'Zeppelin’s "Gallows Pole" descends from Lead Belly’s "Gallis Pole," by way of Fred Gerlach’s 1962 record. A real line, but a bent one.',link:'https://en.wikipedia.org/wiki/Gallows_Pole',hon:'GR',img:'img/zeppelin.jpg',imgcredit:'Led Zeppelin · public domain'},
+ {id:'nirvana',kind:'node',x:24,year:1994,label:'Nirvana',sub:'Unplugged, 1994',parents:['leadbelly'],img:'img/nirvana.jpg',imgcredit:'Nirvana, c.1992 · CC BY-SA 2.0, Wikimedia',link:'https://en.wikipedia.org/wiki/Nirvana_(band)',deep:'Nirvana closed their Unplugged set with Lead Belly’s "Where Did You Sleep Last Night," Kurt Cobain naming him his favorite performer on live television.',quote:'“It changed my life right then and there.” · Bob Dylan, on a Lead Belly record, Nobel Lecture, 2017',hon:'GRN'},
+ {id:'beatles',kind:'node',x:31,year:1962,label:'The Beatles',sub:'out of skiffle',parents:['donegan'],deep:'John Lennon’s first band was a skiffle group playing Donegan’s Lead Belly covers. No Lead Belly, the story goes, no Beatles.',link:'https://en.wikipedia.org/wiki/Skiffle',hon:'GRN',img:'img/beatles.jpg',imgcredit:'The Beatles · public domain'},
+ {id:'ballads',kind:'confluence',x:32,year:1934,label:'American Ballads & Folk Songs',sub:'the 1934 book',parents:['src'],deep:'The 1934 anthology John and Alan Lomax built from a decade in the fields and the prisons. It did not so much hand these songs down as name them, putting the work songs, the outlaw ballads, and the prison hollers on the national shelf and calling them American. The songs reached the future by many roads. This is the book that said they mattered.',link:'https://archive.org/details/americanballadsf0000john_o4e7'},
+ {id:'lloydprice',kind:'node',soft:true,x:29,year:1959,label:'Lloyd Price, “Stagger Lee”',sub:'#1 · the book named it',parents:['ballads'],deep:'“Stagolee,” the murder ballad the Lomaxes canonized in 1934, became Lloyd Price’s number-one record in 1959, by way of the Louisiana R&B tradition more than the page. The book named it. The street carried it.',link:'https://en.wikipedia.org/wiki/Stagger_Lee',hon:'R'},
+ {id:'johnhenry',kind:'node',soft:true,x:35,year:1945,label:'“John Henry”',sub:'the steel-driving man',parents:['ballads'],link:'https://en.wikipedia.org/wiki/John_Henry_(folklore)',audio:'audio/johnhenry.mp3',audiocredit:'A steel-driving ‘John Henry,’ Lomax field recording, 1939 · Library of Congress, public domain',deep:'John A. Lomax set “John Henry” down in the 1934 book, and Lead Belly and Woody Guthrie both cut it for the family’s machine. It became about the most-recorded work song the country has, a steel-driving man who beat the steam drill and died with the hammer in his hand, sung down every year since. A hundred years down the river, the family’s own fifth generation is named John Henry Lomax.',img:'img/johnhenry.jpg',imgcredit:'“John Henry” · Roy La Grone · CC BY-SA 4.0'},
+
+ /* son house */
+ {id:'jackwhite',kind:'node',x:35,year:2001,label:'The White Stripes',sub:'Jack White’s hero',parents:['sonhouse'],deep:'Jack White calls Son House’s "Grinnin’ in Your Face" his favorite song ever. The White Stripes covered "Death Letter" and dedicated their debut to him.',link:'https://en.wikipedia.org/wiki/The_White_Stripes',hon:'G',img:'img/jackwhite.jpg',imgcredit:'The White Stripes · CC BY-SA 2.0, Wikimedia'},
+
+ /* rising sun */
+ {id:'ninasimone',kind:'node',soft:true,x:38,year:1962,label:'Nina Simone',sub:'the ballad, her way',parents:['rising'],link:'https://en.wikipedia.org/wiki/Nina_Simone',hon:'GR',img:'img/ninasimone.jpg',imgcredit:'Nina Simone · Gerrit de Bruin · CC BY 4.0',deep:'Nina Simone took “House of the Rising Sun” and made it her own, slow and haunted, years before the pop world caught the tune. The ballad she was singing runs back to the strain Alan Lomax recorded off Georgia Turner in Kentucky in 1937.'},
+ {id:'animals',kind:'node',x:44,year:1964,label:'The Animals',sub:'#1, one take',parents:['dylan'],deep:'In 1964 the Animals cut "House of the Rising Sun" in a single take and watched it hit number one on both sides of the ocean.',link:'https://en.wikipedia.org/wiki/The_Animals',hon:'R',img:'img/animals.jpg',imgcredit:'The Animals · Richard William Laws · CC BY-SA 3.0'},
+ {id:'frijid',kind:'node',soft:true,x:47,year:1970,label:'Frijid Pink',sub:'the psychedelic #7',parents:['animals'],link:'https://en.wikipedia.org/wiki/Frijid_Pink',img:'img/frijid.jpg',imgcredit:'Frijid Pink · public domain',deep:'Frijid Pink cranked “House of the Rising Sun” into a fuzzed-out number seven in 1970, borrowing the Animals’ arrangement whole. That arrangement, and the tune under it, traces back to the ballad Alan Lomax caught from Georgia Turner in 1937.'},
+ {id:'dolly',kind:'node',soft:true,x:40,year:1980,label:'Dolly Parton',sub:'the ballad, country',parents:['rising'],link:'https://en.wikipedia.org/wiki/Dolly_Parton',hon:'GRN',img:'img/dolly.jpg',imgcredit:'Dolly Parton · Kristopher Harris · CC BY 2.0',deep:'Dolly Parton cut “House of the Rising Sun” in 1980, a woman singing a woman’s ruin in her own high mountain voice. The ballad had come a long way from the version Alan Lomax recorded off Georgia Turner in 1937.'},
+
+ /* woody / dylan */
+ {id:'dylan',kind:'node',x:48,year:1962,label:'Bob Dylan',sub:'Woody’s heir',parents:['woody','rising'],img:'img/dylan.jpg',imgcredit:'Bob Dylan, 2019 · CC BY 2.0, Wikimedia',link:'https://en.wikipedia.org/wiki/Bob_Dylan',deep:'Dylan came to New York in 1961 to find the dying Woody Guthrie, and wrote his first real song to him. He also carried "House of the Rising Sun" into his debut. Two Lomax springs meet in one man.',hon:'GRN'},
+ {id:'springsteen',kind:'node',x:52,year:2006,label:'Bruce Springsteen',sub:'the Seeger Sessions',parents:['woody','dylan'],deep:'Springsteen’s "Seeger Sessions" gathers up the folk canon Pete Seeger absorbed while Alan Lomax employed him at the Library of Congress in 1939. Inducting Dylan, he said Bob "freed your mind."',link:'https://en.wikipedia.org/wiki/We_Shall_Overcome:_The_Seeger_Sessions',hon:'GRN',img:'img/springsteen.jpg',imgcredit:'Bruce Springsteen · Bryan Berlin · CC BY-SA 4.0'},
+ {id:'neilyoung',kind:'node',soft:true,x:45,year:1972,label:'Neil Young',sub:'idolized Dylan',parents:['dylan'],link:'https://en.wikipedia.org/wiki/Neil_Young',hon:'GR',img:'img/neilyoung.jpg',imgcredit:'Neil Young · Billyshiverstick · CC0',deep:'Neil Young came up worshipping Bob Dylan, patterning his whole restless drift on the man. That worship runs backward through Dylan to Woody Guthrie, whose voice Alan Lomax first cut for the Library of Congress in 1940.'},
+ {id:'jonimitchell',kind:'node',soft:true,x:49,year:1971,label:'Joni Mitchell',sub:'the confessional turn',parents:['dylan'],link:'https://en.wikipedia.org/wiki/Joni_Mitchell',hon:'GRN',img:'img/jonimitchell.jpg',imgcredit:'Joni Mitchell · Library of Congress Life · CC0',deep:'Joni Mitchell took the confessional turn, even as she waved off the notion that Dylan led her there. She still worked the folk idiom he carried, and that idiom was stitched from songs the Lomaxes preserved.'},
+ {id:'cohen',kind:'node',soft:true,x:56,year:1988,label:'Leonard Cohen',sub:'a peer: “a medal on Everest”',parents:['dylan'],link:'https://en.wikipedia.org/wiki/Leonard_Cohen',hon:'GR',img:'img/cohen.jpg',imgcredit:'Leonard Cohen · Gorupdebesanez · CC BY-SA 3.0',deep:'Leonard Cohen wasn’t Dylan’s pupil but his peer, and when the Nobel came he said giving Dylan the prize was like pinning a medal on Everest. The two of them worked the same folk seam, the one the Lomaxes had already dug open.'},
+ {id:'pattismith',kind:'node',x:53,year:1975,label:'Patti Smith',sub:'froze singing his song at the Nobel',parents:['dylan'],link:'https://en.wikipedia.org/wiki/Patti_Smith',hon:'RN',img:'img/pattismith.jpg',imgcredit:'Patti Smith · Harald Krichel · CC BY-SA 4.0',deep:'When Dylan won the Nobel and stayed home, Patti Smith stood in for him and froze mid-verse singing “A Hard Rain’s A-Gonna Fall.” She was carrying a song by a man whose whole art grew up out of the folk stock the Lomaxes rescued.'},
+ {id:'everyone',kind:'confluence',x:50,year:2001,label:'…and nearly every songwriter since',sub:'the influence you can’t measure',parents:['dylan'],deep:'You cannot count Dylan’s children. Springsteen, Joni Mitchell, Neil Young, Leonard Cohen, and then everyone they taught, and everyone after them. The Lomaxes caught Woody; Woody made Dylan; Dylan made most of the songs you know. Some rivers are too wide to measure. That was always the point.',link:'https://en.wikipedia.org/wiki/Bob_Dylan'},
+
+ /* muddy */
+ {id:'chicago',kind:'node',x:63,year:1948,label:'Chicago, plugged in',sub:'“Rollin’ Stone,” 1950',parents:['muddy'],deep:'Muddy moved north and went electric. His 1950 single "Rollin’ Stone" would name a magazine and a band.',link:'https://en.wikipedia.org/wiki/Rollin%27_Stone_(Muddy_Waters_song)',hon:'GRN'},
+ {id:'buddyguy',kind:'node',x:66,year:1965,label:'Buddy Guy',sub:'the son who kept the flame',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Buddy_Guy',hon:'GR',img:'img/buddyguy.jpg',imgcredit:'Buddy Guy · Tom Beetz · CC BY 2.0',deep:'A Louisiana boy who came north to Chicago and found Muddy Waters waiting to school him at Chess. He kept the flame lit for sixty years, still running the same current Alan Lomax caught on a Stovall porch in 1941.'},
+ {id:'stones',kind:'node',x:56,year:1962,label:'The Rolling Stones',sub:'named off his song',parents:['chicago'],img:'img/stones.jpg',imgcredit:'The Rolling Stones, 2015 · CC BY-SA 3.0, Wikimedia',link:'https://en.wikipedia.org/wiki/The_Rolling_Stones',deep:'Brian Jones named the band off "Rollin’ Stone." Muddy said it took English boys to convince his own country a Black man’s music was not a crime.',quote:'“The first guitarist I was aware of was Muddy Waters… it scared me to death.” · Jimi Hendrix',hon:'GR'},
+ {id:'bluesbreakers',kind:'node',soft:true,x:70,year:1966,label:'Mayall’s Bluesbreakers',sub:'the British blues boom',parents:['muddy'],link:'https://en.wikipedia.org/wiki/John_Mayall_%26_the_Bluesbreakers',hon:'R',img:'img/bluesbreakers.jpg',imgcredit:'Mayall’s Bluesbreakers · public domain',deep:'John Mayall ran a schoolhouse for British blues, and every guitar player who mattered passed through it chasing Chicago records. The route back to Alan’s field machine at Stovall is the tradition itself, not a handed-down line, but the water runs the same.'},
+ {id:'hendrix',kind:'node',x:74,year:1967,label:'Hendrix · Clapton',sub:'“scared me to death” · “the father I never had”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Jimi_Hendrix',hon:'GRN',img:'img/hendrix.jpg',imgcredit:'Hendrix · Clapton · public domain',deep:'When Hendrix first heard Muddy Waters he said it scared him to death, and it was Clapton who called the man the father he never had. Two of the loudest guitars of the century bowed to the same voice Alan Lomax first caught on a cabin porch in 1941.'},
+ {id:'zztop',kind:'node',soft:true,x:78,year:1974,label:'ZZ Top',sub:'“his energy still fuels it”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/ZZ_Top',hon:'R',img:'img/zztop.jpg',imgcredit:'ZZ Top · Birgit Fostervold from Arendal, Norge · CC BY-SA 2.0',deep:'Billy Gibbons keeps saying Muddy’s energy still fuels the whole thing, and ZZ Top’s Texas boogie runs on it. That’s a debt owed to a tradition more than a straight line, but the charge began with the record Alan played back at Stovall.'},
+ {id:'bonnie',kind:'node',soft:true,x:60,year:1972,label:'Bonnie Raitt',sub:'opened for him, learned from him',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Bonnie_Raitt',hon:'GR',img:'img/bonnie.jpg',imgcredit:'Bonnie Raitt · CC BY-SA 2.0, Wikimedia',deep:'Bonnie Raitt opened for Muddy Waters as a young woman and learned her slide standing right next to him. She learned it the old way, by watching, and that watching reaches back to the voice Alan Lomax first caught in the Delta.'},
+ {id:'johnnywinter',kind:'node',x:76,year:1977,label:'Johnny Winter',sub:'produced his comeback',parents:['muddy'],deep:'Johnny Winter produced Muddy’s late-seventies comeback albums, three of them Grammy winners, handing the old man his own crown back.',link:'https://en.wikipedia.org/wiki/Johnny_Winter',img:'img/johnnywinter.jpg',imgcredit:'Johnny Winter · Masahiro Sumori · CC BY-SA 3.0'},
+
+ /* jelly */
+ {id:'jellydown',kind:'node',x:72,year:2006,label:'Mister Jelly Roll',sub:'the jazz canon, 2 Grammys',parents:['jelly'],link:'https://en.wikipedia.org/wiki/The_Complete_Library_of_Congress_Recordings',hon:'GN',deep:'Mister Jelly Roll gathered the piano man’s Library of Congress sessions into a box that won two Grammys in 2006. Every note of it came from the days in 1938 when Alan Lomax sat Jelly Roll Morton down at a microphone.'},
+
+ /* parchman + samples */
+ {id:'obrother',kind:'node',x:76,year:2000,label:'O Brother',sub:'“Po’ Lazarus”',parents:['parchman'],link:'https://en.wikipedia.org/wiki/James_Carter_and_the_Prisoners',deep:'James Carter’s 1959 Parchman recording of "Po’ Lazarus" opened the O Brother soundtrack, eight million copies and Album of the Year, and relit the whole old-time revival.',hon:'G'},
+ {id:'insidelooking',kind:'node',x:88,year:1966,label:'The Animals, “Inside Looking Out”',sub:'built on “Rosie”',parents:['parchman'],deep:'The Animals turned the Parchman work song "Rosie" into "Inside Looking Out" (1966), crediting the Lomaxes as writers, a prison chant made into a rock single.',link:'https://en.wikipedia.org/wiki/Inside-Looking_Out',hon:'R'},
+ {id:'grandfunk',kind:'node',x:92,year:1969,label:'Grand Funk Railroad',sub:'“Inside Looking Out”',parents:['insidelooking'],deep:'Grand Funk Railroad’s long, heavy "Inside Looking Out" (1969) carried a Parchman prison work song, by way of the Animals, into American arena rock.',link:'https://en.wikipedia.org/wiki/Grand_Funk_Railroad',img:'img/grandfunk.jpg',imgcredit:'Grand Funk Railroad · public domain'},
+ {id:'gospel59',kind:'spring',x:91,year:1959,label:'The 1959 church tapes',sub:'Alan · Donaldson & Townsel',parents:['src'],deep:'Two Southern church recordings Alan Lomax made in 1959, a baptizing scene and a sermon fragment. Half a century on, Kanye West’s producer Hit-Boy dug them out of the archive, and they became the family’s deepest hip-hop vein.',link:'https://archive.org/details/sounds_south'},
+ {id:'kanye',kind:'node',x:87,year:2011,label:'Jay-Z & Kanye',sub:'“N****s in Paris”',parents:['gospel59'],deep:'"N****s in Paris" chops Rev. W.A. Donaldson’s 1959 baptizing-scene congregation into one of the biggest hip-hop records of its year.',link:'https://www.whosampled.com/sample/109674/',hon:'GR'},
+ {id:'travisscott',kind:'node',x:92,year:2013,label:'Travis Scott',sub:'“Uptown”',parents:['gospel59'],link:'https://www.whosampled.com/sample/233007/',img:'img/travisscott.jpg',imgcredit:'Travis Scott · Bobak Ha’Eri · CC BY 3.0',deep:'Travis Scott built “Uptown” in 2014 on a loop of Black voices testifying down at the river. That sound is Reverend Donaldson’s “Baptizing Scene,” which Alan Lomax recorded in a Southern church in 1959.'},
+ {id:'charli',kind:'node',x:97,year:2014,label:'Charli XCX',sub:'“Break the Rules”',parents:['gospel59'],link:'https://www.whosampled.com/sample/307214/',hon:'G',img:'img/charli.jpg',imgcredit:'Charli XCX · Elena Ternovaja · CC BY-SA 3.0',deep:'Charli XCX’s “Break the Rules” rides that same congregation buried in its beat. Those are the voices from Reverend Donaldson’s “Baptizing Scene,” caught by Alan Lomax on his 1959 church tapes.'},
+ {id:'danielcaesar',kind:'node',x:88,year:2017,label:'Daniel Caesar',sub:'“Show No Regret”',parents:['gospel59'],link:'https://www.whosampled.com/sample/397251/',hon:'G',img:'img/danielcaesar.jpg',imgcredit:'Daniel Caesar · Raph_PH · CC BY 2.0',deep:'Daniel Caesar folded the same church into “Show No Regret,” a hymn hiding under the hook. The sample is Reverend Donaldson’s “Baptizing Scene,” one more descendant of Alan Lomax’s 1959 recordings.'},
+ {id:'raekwon',kind:'node',x:85,year:2012,label:'Raekwon · Pusha T',sub:'“The Morning” · Townsel’s sermon',parents:['gospel59'],link:'https://www.whosampled.com/sample/170499/',deep:'Raekwon and Pusha T open “The Morning” over a preacher’s cadence lifted whole from the pulpit. That’s Reverend Townsel’s sermon, another voice Alan Lomax carried out of a 1959 Southern church.'},
+ {id:'beyonce',kind:'node',x:92,year:2018,label:'Beyoncé, “Freedom”',sub:'“Stewball”',parents:['parchman'],img:'img/beyonce.jpg',imgcredit:'Beyoncé, 2023 · CC BY 2.0, Wikimedia',link:'https://en.wikipedia.org/wiki/Beyoncé',deep:'A prisoner’s "Stewball" surfaced under Beyoncé’s "Freedom" in 2016, the voice still carrying testimony out of a place built to erase it.',hon:'G'},
+ {id:'jid',kind:'node',x:95,year:2022,label:'JID, “WRK”',sub:'“Early in the Mornin’,” Parchman',parents:['parchman'],deep:'JID put a Parchman work song Lomax caught, "Early in the Mornin’," under a 2022 track literally called "WRK." The oldest labor, the newest rap.',link:'https://www.whosampled.com/sample/1284893/'},
+ {id:'2chainz',kind:'node',x:89,year:2020,label:'2 Chainz',sub:'“Wait for You to Die”',parents:['parchman'],link:'https://www.whosampled.com/sample/792539/',hon:'G',img:'img/2chainz.jpg',imgcredit:'2 Chainz · Erin Cazes · CC BY 2.0',deep:'2 Chainz laid “Wait for You to Die” over the groan of men swinging axes before dawn. That’s “Early in the Mornin’,” a work song Alan Lomax recorded inside the Parchman penitentiary in Mississippi.'},
+ {id:'guetta',kind:'node',x:98,year:2013,label:'Guetta · Nicki Minaj',sub:'“Rosie” → “Hey Mama”',parents:['parchman'],deep:'The Parchman work song "Rosie" is the hook of David Guetta and Nicki Minaj’s "Hey Mama," a record streamed past a billion times.',link:'https://www.whosampled.com/sample/321080/',hon:'G'},
+
+ /* O Brother cast */
+ {id:'emmylou',kind:'node',x:55,year:1999,label:'Emmylou Harris',sub:'the siren trio',parents:['obrother'],link:'https://en.wikipedia.org/wiki/Emmylou_Harris',hon:'G',img:'img/emmylou.jpg',imgcredit:'Emmylou Harris · Penguinstorm at en.wikipedia · CC BY-SA 3.0',deep:'Emmylou Harris was one of the three sirens whose voices lured the men down to the water in O Brother. That soundtrack carried Alan Lomax’s Parchman recording of “Po’ Lazarus” to eight-times platinum, and she rode the same current.'},
+ {id:'ralphstanley',kind:'node',x:62,year:2003,label:'Ralph Stanley',sub:'“O Death,” a Grammy at 73',parents:['obrother'],link:'https://en.wikipedia.org/wiki/Ralph_Stanley',hon:'G',img:'img/ralphstanley.jpg',imgcredit:'Ralph Stanley · Reed George · CC BY-SA 2.0',deep:'Ralph Stanley sang “O Death” bare and a cappella in O Brother and won a Grammy for it at seventy-three. He sang it on the same record that carried Alan Lomax’s Parchman recording of “Po’ Lazarus” back into the world.'},
+ {id:'krauss',kind:'node',x:73,year:2000,label:'Alison Krauss',sub:'the record’s spine',parents:['obrother'],link:'https://en.wikipedia.org/wiki/Alison_Krauss',hon:'G',img:'img/krauss.jpg',imgcredit:'Alison Krauss · Raph_PH · CC BY 2.0',deep:'Alison Krauss was the spine of the O Brother soundtrack, her voice the thread that held the whole thing together. That album carried Alan Lomax’s 1959 Parchman recording of “Po’ Lazarus” into a brand-new century of listeners.'},
+ {id:'gwelch',kind:'node',x:80,year:2002,label:'Gillian Welch',sub:'old-time, reborn',parents:['obrother'],deep:'Gillian Welch carries the Doc Watson old-time line into the present. Honest note: that aesthetic descends as much from Harry Smith’s 1952 Anthology as from Lomax, but O Brother, her doorway to the world, opens on a real Lomax recording.',link:'https://en.wikipedia.org/wiki/Gillian_Welch',hon:'G',img:'img/gwelch.jpg',imgcredit:'Gillian Welch · public domain'},
+ {id:'tyminski',kind:'node',x:66,year:2005,label:'Dan Tyminski',sub:'Clooney’s singing voice',parents:['obrother'],link:'https://en.wikipedia.org/wiki/Dan_Tyminski',hon:'G',img:'img/tyminski.jpg',imgcredit:'Dan Tyminski · K8 fan Chris Williams · CC BY 3.0',deep:'Dan Tyminski was the real voice coming out of George Clooney’s mouth on “Man of Constant Sorrow.” The song rode the O Brother record that also carried Alan Lomax’s Parchman cut of “Po’ Lazarus.”'},
+
+ /* americana wave */
+ {id:'americana',kind:'confluence',x:70,year:2010,label:'The Americana Revival',sub:'the wave O Brother made',parents:['obrother'],deep:'The genre O Brother relit now has its own Grammy category, its own Nashville festival, and arena headliners, a whole movement running from a 1959 prison tape.',link:'https://en.wikipedia.org/wiki/Americana_(music)'},
+ {id:'mumford',kind:'node',x:68,year:2012,label:'Mumford & Sons',sub:'found folk via O Brother',parents:['americana'],deep:'Mumford & Sons’ banjo player Winston Marshall took up the instrument and old-time music after O Brother, Where Art Thou, one clear thread running from a 1959 prison tape to a stadium band.',link:'https://en.wikipedia.org/wiki/Mumford_%26_Sons',hon:'G',img:'img/mumford.jpg',imgcredit:'Mumford & Sons · Stefan Schäfer, Lich · CC BY-SA 4.0'},
+ {id:'avetts',kind:'node',soft:true,x:76,year:2008,label:'The Avett Brothers',sub:'the wave',parents:['americana'],link:'https://www.qobuz.com/us-en/magazine/story/2025/06/25/when-mountain-music-went-mainstream-o-brother-where-art-thou-at-25/',img:'img/avetts.jpg',imgcredit:'The Avett Brothers · Trbo · CC BY-SA 4.0',deep:'Critics who traced the O Brother wave named the Avett Brothers outright as one of the acts whose early sound drew a clear line back to the soundtrack. The tie is a downstream current more than a Lomax handshake, banjos and close harmony carried along by the revival the film set loose, but it’s documented and it holds.'},
+ {id:'lumineers',kind:'node',soft:true,x:80,year:2012,label:'The Lumineers',sub:'the wave',parents:['americana'],link:'https://www.qobuz.com/us-en/magazine/story/2025/06/25/when-mountain-music-went-mainstream-o-brother-where-art-thou-at-25/',img:'img/lumineers.jpg',imgcredit:'The Lumineers · DiegoVigueras · CC BY-SA 4.0',deep:'The Lumineers rode the same folk-revival swell O Brother uncorked, and the critics tracing that wave list them beside Mumford and the Avetts as bands whose stomp-and-holler sound ran back to the soundtrack. It’s a downstream current, not a direct Lomax line, but the current’s documented and it’s real.'},
+ {id:'nickelcreek',kind:'node',x:74,year:2002,label:'Nickel Creek',sub:'Krauss-produced',parents:['americana'],link:'https://en.wikipedia.org/wiki/Nickel_Creek',hon:'G',img:'img/nickelcreek.jpg',imgcredit:'Nickel Creek · Acopley · CC BY-SA 3.0',deep:'Nickel Creek broke out with a 2000 debut that Alison Krauss produced, riding the roots wave O Brother kicked up. That wave started back in the archive, with the old songs the Lomaxes spent a century pulling out of the ground.'},
+ {id:'sturgill',kind:'node',soft:true,x:60,year:2012,label:'Sturgill Simpson',sub:'the wave',parents:['americana'],link:'https://en.wikipedia.org/wiki/Sturgill_Simpson',hon:'G',img:'img/sturgill.jpg',imgcredit:'Sturgill Simpson · Atlantic Records · CC BY-SA 4.0',deep:'Sturgill Simpson came up a neo-traditionalist, and in 2020 he cut two full bluegrass records, Cuttin’ Grass Vol. 1 and Vol. 2, reworking his own songs in the old high-lonesome style. The line runs through bluegrass and the old-time tradition the Lomaxes preserved rather than through O Brother itself, but it’s one he reached for on purpose.'},
+ {id:'stapleton',kind:'node',soft:true,x:64,year:2017,label:'Chris Stapleton',sub:'the wave',parents:['americana'],link:'https://en.wikipedia.org/wiki/Chris_Stapleton',hon:'G',img:'img/stapleton.jpg',imgcredit:'Chris Stapleton · Steve Kwak - Maryland GovPics · CC BY 2.0',deep:'Before the arena soul and the big hats, Chris Stapleton spent years fronting the SteelDrivers, a Grammy-nominated bluegrass band trading in murder ballads and Appalachian string-band songs. The tie is bluegrass tradition rather than O Brother directly, but it’s a documented apprenticeship in the very music the Lomaxes carried out of the hills.'},
+ {id:'billystrings',kind:'node',soft:true,x:72,year:2021,label:'Billy Strings',sub:'arena bluegrass',parents:['americana'],link:'https://www.rollingstone.com/music/music-country/o-brother-where-art-thou-concert-opry-billy-strings-1235523478/',hon:'G',img:'img/billystrings.jpg',imgcredit:'Billy Strings · Christopher Morley · CC BY-SA 4.0',deep:'Billy Strings plays the same high-lonesome bluegrass O Brother hauled back into the daylight, and in 2026 he stood on the Opry stage for the soundtrack’s 25th-anniversary tribute alongside Alison Krauss and Del McCoury. That’s no guess about lineage, it’s the tradition passing hands in plain sight.'},
+
+ /* sea islands / old-time */
+ {id:'moby',kind:'node',x:96,year:1999,label:'Moby, Play',sub:'three Lomax field tapes',parents:['seaislands'],deep:'Moby’s Play, one of the best-selling electronica records ever, is built on three Lomax field recordings: Vera Hall’s "Trouble So Hard" (which became "Natural Blues"), Bessie Jones’s "Sometimes" ("Honey"), and Boy Blue’s "Joe Lee’s Rock" ("Find My Baby"). Of the three, only Bessie Jones was of the Sea Islands, Hall was Alabama and Boy Blue Arkansas.',link:'https://en.wikipedia.org/wiki/Play_(Moby_album)'},
+ {id:'nlcr',kind:'node',soft:true,x:90,year:1958,label:'New Lost City Ramblers',sub:'the LOC archive & the old 78s',parents:['src'],link:'https://en.wikipedia.org/wiki/The_New_Lost_City_Ramblers',img:'img/nlcr.jpg',imgcredit:'New Lost City Ramblers · public domain',deep:'The New Lost City Ramblers went to the Library of Congress archive and the old 78s to learn the music honest, note for note. What they studied there was in no small part the Lomaxes’ catch, the field recordings that filled those shelves.'},
+ {id:'giddens',kind:'node',soft:true,x:89,year:2021,label:'Rhiannon Giddens',sub:'reclaiming the Black banjo',parents:['nlcr'],deep:'Rhiannon Giddens reclaims the Black roots of the string band and the banjo, working the same archives the Lomaxes fed, by way of the old-time revival and her mentor, the fiddler Joe Thompson.',link:'https://en.wikipedia.org/wiki/Rhiannon_Giddens',hon:'G',img:'img/giddens.jpg',imgcredit:'Rhiannon Giddens · Bruce Baker · CC BY 2.0'},
+
+ /* confluences + folk */
+ {id:'britrock',kind:'confluence',x:42,year:1965,label:'The British Invasion',sub:'two streams meet',parents:['beatles','stones'],deep:'Here the water runs together. Lead Belly’s skiffle and Muddy’s blues pour into the British Invasion, which washes back over America and teaches it its own music again.',link:'https://en.wikipedia.org/wiki/British_Invasion'},
+ {id:'folk',kind:'confluence',x:54,year:1960,label:'The Folk Revival',sub:'several springs meet',parents:['weavers','kingston','dylan','ballads'],deep:'The Weavers, the Kingston Trio, a young Dylan. The folk boom rises exactly where several Lomax springs run together.',link:'https://en.wikipedia.org/wiki/American_folk_music_revival'},
+ {id:'ppm',kind:'node',soft:true,x:58,year:1963,label:'Peter, Paul & Mary',sub:'the March on Washington',parents:['folk'],link:'https://en.wikipedia.org/wiki/Peter,_Paul_and_Mary',hon:'G',img:'img/ppm.jpg',imgcredit:'Peter, Paul & Mary · public domain',deep:'Peter, Paul and Mary sang the March on Washington in 1963, handing the movement its harmonies. Their whole book came out of the folk revival, which drew its water from the well the Lomaxes filled.'},
+ {id:'baez',kind:'node',soft:true,x:61,year:1963,label:'Joan Baez',sub:'the revival’s voice',parents:['folk'],link:'https://en.wikipedia.org/wiki/Joan_Baez',hon:'GR',img:'img/baez.jpg',imgcredit:'Joan Baez · Jtgphoto · CC BY-SA 4.0',deep:'Joan Baez was the clear soprano the folk revival hung its songs on. Those songs were old before she ever found them, carried down from the archives John and Alan Lomax built.'},
+ {id:'kendrick',kind:'node',soft:true,x:50,year:2013,label:'Kendrick, “Alright”',sub:'the new protest song',parents:['folk'],deep:'Chanted at protests a half-century after "We Shall Overcome," and called its heir.',link:'https://en.wikipedia.org/wiki/Alright_(Kendrick_Lamar_song)',hon:'G'},
+
+ /* bess / houston / john III branch */
+ {id:'kingston',kind:'node',x:97,year:1959,label:'The Kingston Trio',sub:'“M.T.A.” a hit',parents:['mta'],link:'https://en.wikipedia.org/wiki/M.T.A._(song)',hon:'GN',img:'img/kingston.jpg',imgcredit:'The Kingston Trio · Unknown authorUnknown author · CC BY-SA 3.0',deep:'The Kingston Trio rode “M.T.A.” onto the charts in 1959, the tale of poor Charlie stuck circling the Boston subway forever. The song was written a decade earlier by Bess Lomax Hawes, Alan’s sister, keeping the family in the hit business.'},
+ {id:'heritage',kind:'node',x:99,year:1985,label:'NEA Heritage Fellowships',sub:'keeping tradition alive',parents:['mta'],link:'https://en.wikipedia.org/wiki/National_Heritage_Fellowship',deep:'The NEA National Heritage Fellowships honor the quiet masters, the basket-weavers and fiddlers and shouters who keep the old ways breathing. Bess Lomax Hawes built the program in 1982, turning the family’s collecting instinct into a way to keep tradition alive.'},
+ {id:'lightnin',kind:'node',x:8,year:1960,label:'Lightnin’ Hopkins',sub:'managed by John Jr.',parents:['houston'],link:'https://en.wikipedia.org/wiki/Lightnin%27_Hopkins',hon:'G',img:'img/lightnin.jpg',imgcredit:'Lightnin’ Hopkins · 33stradale · CC BY-SA 3.0',deep:'Lightnin’ Hopkins played the Houston room John Lomax Jr. ran, and the folklorist’s son managed him for the better part of a decade. That’s how a Third Ward bluesman came up through the Lomax line without ever leaving Texas.'},
+ {id:'townes',kind:'node',x:14,year:1972,label:'Townes · Guy Clark',sub:'raised in the room, managed by III',parents:['houston','johnIII'],deep:'The Houston room John Jr. built gave a first stage to Townes Van Zandt and Guy Clark; John III later managed Townes. The family both raised and carried the songwriter’s tradition that became Americana.',link:'https://en.wikipedia.org/wiki/Townes_Van_Zandt',hon:'G'},
+ {id:'steveearle',kind:'node',x:23,year:1984,label:'Steve Earle',sub:'managed by Lomax III',parents:['johnIII'],deep:'John Lomax III managed Steve Earle in the early eighties and shopped the demo that got him signed, the start of one of the hardest, truest careers in American song.',link:'https://en.wikipedia.org/wiki/Steve_Earle',hon:'G',img:'img/steveearle.jpg',imgcredit:'Steve Earle · User:Carstor · CC BY 4.0'},
+ {id:'kasey',kind:'node',x:26,year:1999,label:'Kasey Chambers',sub:'brought to America',parents:['johnIII'],link:'https://en.wikipedia.org/wiki/Kasey_Chambers',img:'img/kasey.jpg',imgcredit:'Kasey Chambers · Eva Rinaldi · CC BY-SA 2.0',deep:'Kasey Chambers came out of the Australian outback, and John Lomax III managed her and brought her to America between 1996 and 2001. Three generations down, a Lomax was still doing the family work of carrying a voice to a bigger room.'},
+
+ /* delta */
+ /* the global catch — Alan abroad, 1950s */
+ {id:'global',kind:'spring',x:37,year:1952,label:'The Global Catch',sub:'Alan abroad · 1950s',parents:['src'],img:'img/global.jpg',imgcredit:'Alan Lomax · public domain',link:'https://en.wikipedia.org/wiki/Alan_Lomax',deep:'Alan Lomax spent the McCarthy years collecting across Spain, Italy, and Britain, turning a political exile into a hunt for the whole world’s song.'},
+ {id:'milesdavis',kind:'node',x:41,year:1960,label:'Miles Davis',sub:'“Sketches of Spain”',parents:['global'],deep:'A Columbia producer handed Gil Evans a copy of Alan Lomax’s Spanish field recordings, and Miles Davis and Evans built "Sketches of Spain" (1960) on them. "The Pan Piper" and "Saeta" are reworked Lomax tapes.',link:'https://en.wikipedia.org/wiki/Sketches_of_Spain',hon:'GRN',img:'img/milesdavis.jpg',imgcredit:'Miles Davis · public domain'},
+ {id:'shirleycollins',kind:'node',x:33,year:1959,label:'Shirley Collins',sub:'the two-way keystone',parents:['global'],deep:'Alan’s partner in London, who came with him on the 1959 Southern trip that fed O Brother, then went home to become a pillar of the British folk revival.',link:'https://en.wikipedia.org/wiki/Shirley_Collins',img:'img/shirleycollins.jpg',imgcredit:'Shirley Collins · Tony 1212 · CC BY 4.0'},
+ {id:'britfolk',kind:'confluence',soft:true,x:28,year:1969,label:'The British Folk Revival',sub:'the soil Alan tilled',parents:['global'],deep:'Fairport Convention, Steeleye Span, Pentangle grew in the folk-club world Lomax helped seed in 1950s London. No direct line, but the same water.',link:'https://en.wikipedia.org/wiki/British_folk_revival'},
+
+ /* woody downstream */
+ {id:'ramblinjack',kind:'node',x:57,year:1955,label:'Ramblin’ Jack Elliott',sub:'“sounds more like me” · Woody',parents:['woody'],link:'https://en.wikipedia.org/wiki/Ramblin%27_Jack_Elliott',hon:'G',img:'img/ramblinjack.jpg',imgcredit:'Ramblin’ Jack Elliott · K8 fan · CC BY-SA 3.0',deep:'Ramblin’ Jack Elliott shadowed Woody Guthrie so close that Woody said the kid sounded more like him than he did himself. He learned it straight from the source Alan Lomax recorded for the Library of Congress in 1940.'},
+ {id:'braggwilco',kind:'node',x:55,year:1998,label:'Billy Bragg & Wilco',sub:'“Mermaid Avenue”',parents:['woody'],deep:'Billy Bragg and Wilco set a thousand of Woody Guthrie’s unrecorded lyrics to new music, a whole late album from a man Alan Lomax first put on tape in 1940.',link:'https://en.wikipedia.org/wiki/Mermaid_Avenue',hon:'G'},
+ {id:'strummer',kind:'node',soft:true,x:59,year:1977,label:'Joe Strummer / The Clash',sub:'went by “Woody”',parents:['woody'],link:'https://en.wikipedia.org/wiki/Joe_Strummer',hon:'R',img:'img/strummer.jpg',imgcredit:'Joe Strummer / The Clash · John Coffey · CC BY 2.0',deep:'Before the Clash, Joe Strummer went by “Woody,” named for Guthrie and the machine that killed fascists. The debt is real but loose, a nod down the line to the Guthrie that Alan Lomax first put on record.'},
+
+ /* muddy blues-rock tree */
+ {id:'korner',kind:'confluence',x:59,year:1962,label:'Blues Incorporated',sub:'the British blues headwater',parents:['muddy'],deep:'When Muddy toured Britain electric in 1958, Alexis Korner and Cyril Davies plugged in too. Their London club and band, Blues Incorporated, is where Jagger, Brian Jones, Charlie Watts, and Jack Bruce all cut their teeth. One tour, and the blues came home changed.',link:'https://en.wikipedia.org/wiki/Blues_Incorporated'},
+ {id:'cream',kind:'node',x:67,year:1966,label:'Cream',sub:'“Rollin’ and Tumblin’”',parents:['chicago'],link:'https://en.wikipedia.org/wiki/Cream_(band)',hon:'GR',img:'img/cream.jpg',imgcredit:'Cream · public domain',deep:'Cream cut “Rollin’ and Tumblin’” on their first record in 1966, a Delta tune Muddy had carried up to Chess and plugged into the wall. Clapton, Bruce, and Baker were playing electric what Alan Lomax first heard acoustic on a Mississippi porch.'},
+ {id:'allmans',kind:'node',x:72,year:1971,label:'The Allman Brothers',sub:'“Trouble No More”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/The_Allman_Brothers_Band',hon:'GR',img:'img/allmans.jpg',imgcredit:'The Allman Brothers · public domain',deep:'The Allman Brothers put “Trouble No More” on their 1969 debut, a straight Muddy Waters cover with the Georgia heat turned up. They were carrying the Chicago blues back south, toward the Delta where Alan Lomax first caught Muddy’s voice.'},
+ {id:'garyclark',kind:'node',x:75,year:2012,label:'Gary Clark Jr.',sub:'at the White House',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Gary_Clark_Jr.',hon:'G',img:'img/garyclark.jpg',imgcredit:'Gary Clark Jr. · Alize Tran · CC BY 2.0',deep:'Gary Clark Jr. stood in the White House in 2012 and played “Catfish Blues,” the old Delta line Muddy made his own. A Texas kid at the president’s house was still running the current Alan Lomax caught on a Stovall porch in 1941.'},
+
+ /* son house / robert johnson */
+ {id:'robertjohnson',kind:'node',x:31,year:1936,label:'Robert Johnson',sub:'House shaped the young man',parents:['sonhouse'],link:'https://en.wikipedia.org/wiki/Robert_Johnson',hon:'GRN',deep:'Son House taught the young Robert Johnson around the Robinsonville jukes, and the boy went off and came back playing like the devil had lent a hand. The Rock Hall counts him a founding father, and the man who shaped him was the same Son House Alan Lomax recorded in 1941.'},
+
+ /* folk revival more */
+ {id:'philochs',kind:'node',x:62,year:1965,label:'Phil Ochs',sub:'“I Ain’t Marching Anymore”',parents:['folk'],link:'https://en.wikipedia.org/wiki/I_Ain%27t_Marching_Anymore',img:'img/philochs.jpg',imgcredit:'Phil Ochs · Chip.berlet · CC BY-SA 3.0',deep:'Phil Ochs turned the folk form into a protest scalpel with “I Ain’t Marching Anymore” in 1965. The form itself came up out of the revival, singing the old songs the Lomaxes had preserved.'},
+
+ /* sea islands / jelly */
+ {id:'paymemoney',kind:'node',soft:true,x:92,year:2006,label:'Springsteen, “Pay Me My Money Down”',sub:'a Sea Islands song, via Seeger',parents:['seaislands'],deep:'Springsteen made "Pay Me My Money Down," a Georgia Sea Islands stevedore song, a centerpiece of his 2006 Seeger Sessions. It was first written down by Lydia Parrish; the Lomaxes recorded the same island tradition.',link:'https://en.wikipedia.org/wiki/Pay_Me_My_Money_Down',hon:'GRN'},
+ {id:'mcintosh',kind:'node',soft:true,x:98,year:1993,label:'McIntosh County Shouters',sub:'the ring shout lives',parents:['seaislands'],link:'https://en.wikipedia.org/wiki/McIntosh_County_Shouters',deep:'The McIntosh County Shouters keep the ring shout alive, one of the oldest African American traditions still breathing on this soil, and the NEA named them Heritage Fellows in 1993. Their shout belongs to the same Georgia Sea Islands ground where Alan Lomax recorded Bessie Jones in 1959.'},
+ {id:'jellyjam',kind:'node',soft:true,x:69,year:1992,label:'“Jelly’s Last Jam”',sub:'Broadway, 3 Tonys',parents:['jelly'],link:'https://en.wikipedia.org/wiki/Jelly%27s_Last_Jam',deep:'Jelly’s Last Jam danced Morton’s whole life across a Broadway stage and took home three Tonys in 1992. It carried the life story Alan Lomax had helped set down in his 1938 recordings.'},
+
+ /* the muddy blues-rock tree */
+ {id:'littlewalter',kind:'node',x:64,year:1952,label:'Little Walter',sub:'the harmonica, electrified',parents:['muddy'],deep:'Muddy’s harmonica man, who turned the amplified harp into a lead instrument and, in 2008, became the only artist in the Rock and Roll Hall of Fame inducted for the harmonica alone.',link:'https://en.wikipedia.org/wiki/Little_Walter',hon:'R'},
+ {id:'yardbirds',kind:'node',x:54,year:1964,label:'The Yardbirds',sub:'→ Clapton, Beck, Page',parents:['chicago'],deep:'The Yardbirds ran on Chess blues and passed three of rock’s greatest guitarists through one band, Eric Clapton, then Jeff Beck, then Jimmy Page, each carrying Muddy’s Chicago downstream.',link:'https://en.wikipedia.org/wiki/The_Yardbirds',hon:'R'},
+ {id:'butterfield',kind:'node',x:69,year:1965,label:'Paul Butterfield',sub:'the Chicago revival',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Paul_Butterfield',hon:'R',img:'img/butterfield.jpg',imgcredit:'Paul Butterfield · Rtsanderson · CC BY-SA 3.0',deep:'Paul Butterfield brought the Chicago revival to a new crowd of kids and cut “Fathers and Sons” with Muddy himself in 1969. The title said it plain, that the fathers were the men Alan Lomax first caught on Delta porches and the sons stood plugged in behind them.'},
+ {id:'doors',kind:'node',soft:true,x:50,year:1967,label:'The Doors',sub:'“Close to You” (a deep cut)',parents:['muddy'],link:'https://en.wikipedia.org/wiki/The_Doors',hon:'GRN',img:'img/doors.jpg',imgcredit:'The Doors · public domain',deep:'The Doors slipped “Close to You” onto a record, a Willie Dixon tune Muddy had made a Chicago standard. It’s a deep cut and a loose thread, but it still ties back through Muddy to the voice Alan Lomax caught in 1941.'},
+ {id:'rollingstonemag',kind:'node',x:58,year:1967,label:'Rolling Stone magazine',sub:'named off the same song',parents:['chicago'],deep:'Jann Wenner named the magazine after the proverb, Muddy’s song, and the Dylan record all at once. The Rolling Stones took the band name; the press took it too.',link:'https://en.wikipedia.org/wiki/Rolling_Stone'},
+ {id:'jeffbeck',kind:'node',x:78,year:1968,label:'Jeff Beck',sub:'“You Shook Me,” 1968',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Jeff_Beck',hon:'GR',img:'img/jeffbeck.jpg',imgcredit:'Jeff Beck · Chris Hakkens · CC BY-SA 2.0',deep:'Jeff Beck put “You Shook Me” on “Truth” in 1968 and turned a Muddy Waters number into heavy weather. He was bending an amplified version of the same blues Alan Lomax first caught acoustic on a Stovall porch.'},
+ {id:'steppenwolf',kind:'node',x:52,year:1968,label:'Steppenwolf',sub:'“Hoochie Coochie Man”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Steppenwolf_(band)',img:'img/steppenwolf.jpg',imgcredit:'Steppenwolf · public domain',deep:'Steppenwolf cut “Hoochie Coochie Man” on their 1968 debut, the Willie Dixon strut Muddy had made his signature. Even a hard-rock band chasing the highway was singing a song rooted in the Delta where Alan Lomax found Muddy’s voice.'},
+ {id:'cannedheat',kind:'node',x:37,year:1967,label:'Canned Heat',sub:'Alan Wilson re-taught Son House',parents:['sonhouse'],deep:'Canned Heat’s Alan Wilson knew Son House’s music so deeply that when House was rediscovered in 1964, Wilson was brought in to teach the old man how to play his own songs again.',link:'https://en.wikipedia.org/wiki/Canned_Heat',img:'img/cannedheat.jpg',imgcredit:'Canned Heat · public domain'},
+ {id:'fleetwoodmac',kind:'node',soft:true,x:66,year:1969,label:'Fleetwood Mac',sub:'Peter Green’s blues, cut at Chess',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Fleetwood_Mac',hon:'GR',img:'img/fleetwoodmac.jpg',imgcredit:'Fleetwood Mac · public domain',deep:'Peter Green’s Fleetwood Mac went to Chess in 1969 to cut “Blues Jam in Chicago” on the very floor where Muddy recorded. The connection is the room and the reverence more than a direct line, but that room held the sound Alan Lomax first caught in the Delta.'},
+ {id:'foghat',kind:'node',x:81,year:1972,label:'Foghat',sub:'“I Just Want to Make Love to You”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Foghat',img:'img/foghat.jpg',imgcredit:'Foghat · public domain',deep:'Foghat turned “I Just Want to Make Love to You” into a 1972 rocker, another Willie Dixon song Muddy had carried into Chess. Loud as they played it, they were still working the seam Alan Lomax opened on a Stovall porch.'},
+ {id:'theband',kind:'node',x:57,year:1976,label:'The Band',sub:'backed him at The Last Waltz',parents:['muddy'],deep:'At The Last Waltz in 1976, The Band became Muddy Waters’ backing group for a roof-raising "Mannish Boy," a torch passed on film.',link:'https://en.wikipedia.org/wiki/The_Band',hon:'GRN',img:'img/theband.jpg',imgcredit:'The Band · public domain'},
+ {id:'thorogood',kind:'node',soft:true,x:83,year:1982,label:'George Thorogood',sub:'“Bad to the Bone” off “Mannish Boy”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/George_Thorogood',img:'img/thorogood.jpg',imgcredit:'George Thorogood · Piedmontstyle · CC BY 3.0',deep:'George Thorogood built “Bad to the Bone” on the bones of Muddy’s “Mannish Boy,” that same strutting riff. He never claimed a direct handoff, but the swagger he borrowed traces straight back to the Delta voice Alan Lomax caught.'},
+ {id:'govtmule',kind:'node',soft:true,x:74,year:2000,label:'Gov’t Mule',sub:'Muddy, live and often',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Gov%27t_Mule',img:'img/govtmule.jpg',imgcredit:'Gov’t Mule · Nancy J. Powell · CC BY-SA 2.0',deep:'Gov’t Mule keeps Muddy in the live set, playing his tunes often and loud. There’s no documented handoff, just a band paying nightly respects to the sound Alan Lomax first caught on a cabin porch.'},
+ {id:'tedeschitrucks',kind:'node',soft:true,x:71,year:2015,label:'Tedeschi Trucks Band',sub:'“Got My Mojo Working”',parents:['muddy'],link:'https://en.wikipedia.org/wiki/Tedeschi_Trucks_Band',hon:'G',img:'img/tedeschitrucks.jpg',imgcredit:'Tedeschi Trucks Band · TimBray · CC BY-SA 4.0',deep:'The Tedeschi Trucks Band pulls out “Got My Mojo Working” on stage, Muddy’s own showstopper. It’s homage more than lineage, but the mojo they’re working is the one Alan Lomax caught in the Delta in 1941.'},
+
+ {id:'primalscream',kind:'node',x:93,year:1991,label:'Primal Scream',sub:'“Whoa Buck” on Screamadelica',parents:['parchman'],deep:'Screamadelica, the record that fused rock and rave, folded a Parchman work song Alan Lomax caught, "Whoa Buck," into its ecstatic "Inner Flight."',link:'https://www.whosampled.com/sample/356278/',img:'img/primalscream.jpg',imgcredit:'Primal Scream · Phil Guest · CC BY-SA 2.0'},
+
+ {id:'delta',kind:'delta',x:50,year:2028,label:'Everything you already know',sub:'the mouth of the river · now',
+   parents:['britrock','folk','americana','nirvana','jackwhite','springsteen','kendrick','jellydown','kanye','beyonce','guetta','moby','giddens','billystrings','zachbryan','stapleton','heritage','grandfunk','johnnywinter','steveearle','kasey','everyone','garyclark','braggwilco','paymemoney','milesdavis','tedeschitrucks','govtmule','jid','2chainz','travisscott','kanye'],
+   deep:'Trace any of it back up and the line reaches a porch, a cell block, a cotton field, a coal town, and a Lomax with a machine. This is what would be silent without them.',link:'https://www.culturalequity.org/'},
+{id:'cashdylan',kind:'node',x:45,year:1970,label:'Bob Dylan & Johnny Cash',sub:'“Girl from the North Country” · 1969',parents:['dylan'],deep:'In February of 1969 Dylan and Johnny Cash sat down in a Nashville studio and traded verses on “Girl from the North Country,” two rough voices circling one woman neither would name. The duet opened Nashville Skyline and married the folk kid to the man in black, both of them carrying the Guthrie inheritance Dylan first hauled east.',link:'https://en.wikipedia.org/wiki/Girl_from_the_North_Country',hon:'GRN'},
+{id:'byrds',kind:'node',x:46,year:1965,label:'The Byrds',sub:'“Mr. Tambourine Man,” #1 · 1965',parents:['dylan'],deep:'The Byrds ran “Mr. Tambourine Man” through a twelve-string jangle and took it to number one in 1965, and folk rock was born in that chime. Every Rickenbacker ring that followed, the Mamas and the Papas, Simon and Garfunkel, Tom Petty, traces back to a Dylan song they dared to plug in.',link:'https://en.wikipedia.org/wiki/Mr._Tambourine_Man',hon:'R'},
+{id:'watchtower',kind:'node',x:47,year:1968,label:'Jimi Hendrix',sub:'“All Along the Watchtower” · 1968',parents:['dylan'],deep:'Hendrix cut “All Along the Watchtower” in 1968 with a storm of guitar Dylan never imagined, and Dylan said hearing it overwhelmed him. Ever since, he has played the song Hendrix’s way, so even the man who wrote it bows to what it became once it left his hands.',link:'https://en.wikipedia.org/wiki/All_Along_the_Watchtower',hon:'GRN',img:'img/watchtower.jpg',imgcredit:'Jimi Hendrix · public domain'},
+{id:'steviewonder',kind:'node',x:44,year:1967,label:'Stevie Wonder',sub:'“Blowin’ in the Wind” · 1966',parents:['dylan'],deep:'In 1966 Stevie Wonder turned “Blowin’ in the Wind” into soul and rode it into the top ten and to number one on the R&B chart. The folk kid’s plea for justice finally reached, and was sung back by, the very people it had been asking after.',link:'https://en.wikipedia.org/wiki/Blowin%27_in_the_Wind',hon:'GRN',img:'img/steviewonder.jpg',imgcredit:'Stevie Wonder · Raph_PH · CC BY 2.0'},
+{id:'gnr',kind:'node',x:48,year:1991,label:'Guns N’ Roses',sub:'“Knockin’ on Heaven’s Door” · 1991',parents:['dylan'],deep:'Guns N’ Roses cracked “Knockin’ on Heaven’s Door” wide open with Axl’s wail and Slash’s slow-burning solo and carried it up the charts across the world. A quiet Dylan lament for a dying deputy became a stadium anthem, still his song underneath all that noise.',link:'https://en.wikipedia.org/wiki/Knockin%27_on_Heaven%27s_Door',hon:'R',img:'img/gnr.jpg',imgcredit:'Guns N’ Roses · AxeAdam20 · CC0'},
+{id:'adele',kind:'node',x:49,year:2008,label:'Adele',sub:'“Make You Feel My Love” · 2008',parents:['dylan'],deep:'Adele put nothing but a piano behind “Make You Feel My Love” on her 2008 debut, and half the country swore she had written it herself. She had not, Dylan had in 1997, and a whole new generation learned his tenderness without ever seeing his name on the song.',link:'https://en.wikipedia.org/wiki/Make_You_Feel_My_Love',hon:'G',img:'img/adele.jpg',imgcredit:'Adele · Marc E. · CC BY 2.0'},
+{id:'samcooke',kind:'node',x:43,year:1964,label:'Sam Cooke',sub:'“A Change Is Gonna Come” · 1964',parents:['dylan'],deep:'Sam Cooke heard “Blowin’ in the Wind” in 1963 and was struck, and a little ashamed, that a white kid had written the freedom song he himself had not. Out of that sting came “A Change Is Gonna Come,” the soul anthem of the movement, shaken loose by a Dylan record.',link:'https://en.wikipedia.org/wiki/A_Change_Is_Gonna_Come',hon:'RN',img:'img/samcooke.jpg',imgcredit:'Sam Cooke · public domain'},
+{id:'turtles',kind:'node',x:51,year:1965,label:'The Turtles',sub:'“It Ain’t Me Babe” · 1965',parents:['dylan'],deep:'The Turtles made “It Ain’t Me Babe” their very first single in 1965, all Byrds-borrowed shimmer and jangle, and it carried them onto the radio. A Dylan kiss-off became a folk-rock standard in Los Angeles, one more of his songs handed off to the charts.',link:'https://en.wikipedia.org/wiki/It_Ain%27t_Me_Babe',img:'img/turtles.jpg',imgcredit:'The Turtles · public domain'},
+{id:'mightyquinn',kind:'node',x:51,year:1968,label:'Manfred Mann',sub:'“Mighty Quinn” · 1968',parents:['dylan'],deep:'Dylan cut “Quinn the Eskimo” in a Woodstock basement in 1967 and left it in a drawer, and then Manfred Mann took it to number one across the world as “Mighty Quinn.” Even the songs Dylan threw away turned into somebody else’s hit.',link:'https://en.wikipedia.org/wiki/The_Mighty_Quinn_(Quinn_the_Eskimo)',img:'img/mightyquinn.jpg',imgcredit:'Manfred Mann · Eric Koch for Anefo · CC0'},
+{id:'thisland',kind:'node',x:53,year:1942,label:'“This Land Is Your Land”',sub:'Woody · written 1940',parents:['woody'],deep:'Woody Guthrie wrote “This Land Is Your Land” in a cheap New York hotel room in February of 1940, an answer thrown back at “God Bless America.” It became the country’s other anthem, sung in schoolrooms coast to coast, the plainspoken Guthrie voice Alan Lomax had just caught on a Library of Congress disc.',link:'https://en.wikipedia.org/wiki/This_Land_Is_Your_Land',hon:'GRN',img:'img/thisland.jpg',imgcredit:'“This Land Is Your Land” · public domain'},
+{id:'seeger',kind:'node',x:46,year:1943,label:'Pete Seeger',sub:'Almanac Singers, with Woody · 1941',parents:['woody'],deep:'In 1941 a twenty-one-year-old Pete Seeger fell in beside Woody Guthrie in the Almanac Singers, banjo against guitar, and learned the trade at his elbow. Out of that room came the Weavers, the whole folk revival, and a long line of protest song that runs straight back to Woody.',link:'https://en.wikipedia.org/wiki/Pete_Seeger',hon:'GRN',img:'img/seeger.jpg',imgcredit:'Pete Seeger · public domain'},
+{id:'murphey',kind:'node',x:8,year:1990,label:'Michael Martin Murphey',sub:'Cowboy Songs, 1990',parents:['cowboy'],deep:'In 1990 Murphey walked away from the cosmic-cowboy pop of his younger days and cut a whole record of campfire songs, and he named it Cowboy Songs after the book that saved them. “Home on the Range” and “I Ride an Old Paint” rode up the country chart again, the same tunes John Lomax chased down with a wax cylinder eighty years before.',link:'https://en.wikipedia.org/wiki/Cowboy_Songs_(Michael_Martin_Murphey_album)',img:'img/murphey.jpg',imgcredit:'Michael Martin Murphey · Republic Country Club · CC BY 2.0'},
+{id:'riders',kind:'node',x:4,year:1977,label:'Riders in the Sky',sub:'the trail songs, live',parents:['cowboy'],soft:true,deep:'Since 1977 these four have kept the old trail songs alive on the stage and won two Grammys doing it, singing “Home on the Range” and “Cool Water” straight-faced and grinning both at once. The songbook they work from is the one Lomax bound between covers in 1910, the reason a cowboy tune ever got remembered at all.',link:'https://en.wikipedia.org/wiki/Riders_in_the_Sky_(band)',hon:'G'},
+{id:'royrogers',kind:'node',x:11,year:1946,label:'Roy Rogers',sub:'King of the Cowboys',parents:['homerange'],soft:true,deep:'The King of the Cowboys cut “Home on the Range” with the Sons of the Pioneers and again with Dale Evans, carrying the range ballad off the plains and onto Saturday-morning screens. Millions of kids learned the tune from Roy, never knowing it first reached print because a Texas folklorist wrote it down for his 1910 book.',link:'https://en.wikipedia.org/wiki/Roy_Rogers',img:'img/royrogers.jpg',imgcredit:'Roy Rogers · Harry Warnecke / Robert F. Cranston · CC0'},
+{id:'johndenver',kind:'node',x:5,year:1984,label:'John Denver',sub:'Home on the Range, 1983',parents:['homerange'],soft:true,deep:'John Denver sang “Home on the Range” with Rowlf the Dog on a 1983 Rocky Mountain special, sweet and unironic the way he sang most everything. It is the anthem gone all the way domestic, a parlor song for the whole family, still traveling on the current Lomax set loose when he printed it.',link:'https://en.wikipedia.org/wiki/Rocky_Mountain_Holiday',img:'img/johndenver.jpg',imgcredit:'John Denver · public domain'},
+{id:'sinatra',kind:'node',x:25,year:1951,label:'Frank Sinatra',sub:'Goodnight Irene, #5',parents:['leadbelly'],deep:'A month behind the Weavers, Sinatra cut his own “Goodnight Irene” and rode it to number five, one of four versions in the Top Ten that same summer. The waltz belonged to a man the Lomaxes found in a Louisiana prison, and here it was crooned by the biggest voice in America.',link:'https://en.wikipedia.org/wiki/Goodnight,_Irene',hon:'G',img:'img/sinatra.jpg',imgcredit:'Frank Sinatra · public domain'},
+{id:'beachboys',kind:'node',x:27,year:1970,label:'The Beach Boys',sub:'Cottonfields, UK #5',parents:['leadbelly'],deep:'Al Jardine loved Lead Belly’s twelve-string so much he talked the band into “Cottonfields,” and their 1970 single climbed to number five in Britain and topped the charts in Australia. The surf boys were singing a Depression field song, the one Huddie Ledbetter first cut for the Lomaxes’ microphone.',link:'https://en.wikipedia.org/wiki/Cotton_Fields',hon:'GRN',img:'img/beachboys.jpg',imgcredit:'The Beach Boys · public domain'},
+{id:'ramjam',kind:'node',x:16,year:1977,label:'Ram Jam',sub:'Black Betty, 1977',parents:['leadbelly'],deep:'Ram Jam plugged in and turned “Black Betty” into a 1977 arena stomp, bam-ba-lam, built off the fifty-nine seconds Lead Belly recorded in 1939. The bones of it go back further still, to the Lomaxes setting up in a Texas prison yard in 1933 and writing the work song into their 1934 book.',link:'https://en.wikipedia.org/wiki/Black_Betty'},
+{id:'johnnyrivers',kind:'node',x:18,year:1965,label:'Johnny Rivers',sub:'Midnight Special, #20',parents:['leadbelly'],deep:'Johnny Rivers took “Midnight Special” to number twenty in 1965, and the tune later lit up the NBC show that borrowed its name. That prison train first threw its light on record when Lead Belly cut it for John and Alan Lomax down at Angola in 1934.',link:'https://en.wikipedia.org/wiki/Midnight_Special_(song)',img:'img/johnnyrivers.jpg',imgcredit:'Johnny Rivers · public domain'},
+{id:'rediscovery64',kind:'node',x:33,year:1964,label:'The 1964 rediscovery',sub:'Dick Waterman finds Son House',parents:['sonhouse'],deep:'For twenty-odd years Son House was a name on a shellac disc and little else, till a young man named Dick Waterman went down into Mississippi in 1964 and knocked on the right door. What he found was the same voice Alan caught on tape in 1941, still burning, ready to teach a whole revival how the Delta really sounded.',link:'https://en.wikipedia.org/wiki/Dick_Waterman'},
+{id:'rjrockhall',kind:'node',x:30,year:1986,label:'The Rock Hall reaches back',sub:'Robert Johnson, 1986',parents:['robertjohnson'],deep:'The boy Son House watched fumble a guitar grew into the man the Rock and Roll Hall of Fame reached back and inducted in 1986, long after he was gone. They named him a foundation, and the foundation runs straight back through Son House to the voice Alan caught in 1941.',link:'https://rockhall.com/inductees/robert-johnson/'},
+{id:'stepitdown',kind:'node',x:93,year:1972,label:'Step It Down',sub:'Bess Lomax Hawes & Bessie Jones, 1972',parents:['seaislands'],deep:'In 1972 Bessie Jones sat with Alan’s own sister Bess and set the hand-claps and ring games of the Sea Islands down on the page, a book called Step It Down. It is the same singing Alan taped in 1959, saved twice over now, once on the reel and once in ink so a child could learn the steps.',link:'https://en.wikipedia.org/wiki/Bessie_Jones_(American_singer)',img:'img/stepitdown.jpg',imgcredit:'Step It Down · public domain'},
+{id:'sweethoney',kind:'node',x:97,year:1975,label:'Sweet Honey in the Rock',sub:'Bessie Jones, a role model',parents:['seaislands'],deep:'When Bernice Johnson Reagon built Sweet Honey in the Rock out of Black women’s voices, she named Bessie Jones among the women who taught her what the old singing was for. That thread runs back to the Sea Islands reels Alan cut in 1959, where Jones was, in his words, on fire to teach America.',link:'https://en.wikipedia.org/wiki/Bernice_Johnson_Reagon',img:'img/sweethoney.jpg',imgcredit:'Sweet Honey in the Rock · public domain'},
+{id:'globaljukebox',kind:'node',x:35,year:1990,label:'The Global Jukebox',sub:'Alan’s last twenty years',parents:['global'],deep:'Alan spent his last twenty years trying to lay every song he ever gathered side by side, a machine he called the Global Jukebox. It was the whole overseas catch and more, five thousand hours of sound, an old man’s try at showing the world it had always been singing the same handful of human things.',link:'https://en.wikipedia.org/wiki/Alan_Lomax',img:'img/globaljukebox.jpg',imgcredit:'The Global Jukebox · public domain'},
+{id:'fairport',kind:'node',x:30,year:1972,label:'Fairport Convention',sub:'England plugs in the ballads',parents:['britfolk'],soft:true,deep:'Fairport Convention wired the old ballads to an electric current and gave England a folk-rock of its own. They worked the same ground Alan turned in his London years, the tradition he had argued was worth plugging back into modern life.',link:'https://en.wikipedia.org/wiki/Fairport_Convention',img:'img/fairport.jpg',imgcredit:'Fairport Convention · Daniel Walton · CC BY-SA 4.0'},
+{id:'jellybook',kind:'node',x:74,year:1950,label:'Mister Jelly Roll (the book)',sub:'the first jazz oral history · 1950',parents:['jelly'],deep:'In 1950 Alan took the piano man’s own talking and made a book of it, Mister Jelly Roll, near the first time a life got told into a microphone and then bound between covers. Every jazz history that came after leans on that 1938 catch, on the days Jelly Roll sat at the Library of Congress and simply talked.',link:'https://en.wikipedia.org/wiki/Mister_Jelly_Roll'},
+{id:'jh_seeger',kind:'node',x:41,year:1956,label:'Pete Seeger',sub:'‘John Henry’ · banjo',parents:['johnhenry'],soft:true,deep:'Pete Seeger banged “John Henry” out on the five-string and folded it into his American Favorite Ballads, teaching a whole generation the tune by ear. He was passing along a song the Lomaxes had gathered and blessed, hand to hand down the line.',link:'https://musicbrainz.org/recording/42fe2cd0-5086-48d3-937c-74a67e8311c0',img:'img/jh_seeger.jpg',imgcredit:'Pete Seeger · public domain'},
+{id:'jh_belafonte',kind:'node',x:30,year:1959,label:'Harry Belafonte',sub:'‘John Henry’ · Carnegie Hall 1959',parents:['johnhenry'],soft:true,deep:'Harry Belafonte sang “John Henry” at Carnegie Hall in 1959 and made a folk hero swing for a sold-out house. The song reached him the way it reached everybody, down the channel the Lomaxes cut when they printed it and put it on record.',link:'https://en.wikipedia.org/wiki/Belafonte_at_Carnegie_Hall',img:'img/jh_belafonte.jpg',imgcredit:'Harry Belafonte · public domain'},
+{id:'jh_cash',kind:'node',x:34,year:1962,label:'Johnny Cash',sub:'‘John Henry’s Hammer’ · 1962',parents:['johnhenry'],soft:true,deep:'Johnny Cash gave most of a record side to “The Legend of John Henry’s Hammer,” eight minutes of a man out-driving a steam drill and dying to prove it. He was singing a ballad John Lomax had already set down in the 1934 book, the same catch working its way into a country star’s throat.',link:'https://en.wikipedia.org/wiki/Blood,_Sweat_and_Tears_(Johnny_Cash_album)',img:'img/jh_cash.jpg',imgcredit:'Johnny Cash · public domain'},
+{id:'jh_welch',kind:'node',x:40,year:2001,label:'Gillian Welch',sub:'‘Elvis Presley Blues’ · the John Henry melody',parents:['johnhenry'],soft:true,deep:'Gillian Welch built “Elvis Presley Blues” on the John Henry melody and laid the King down beside the steel-driving man, both of them beating the odds and paying for it. She reached past Elvis to the folk hero the Lomaxes had already set in the book.',link:'https://www.songfacts.com/facts/gillian-welch/elvis-presley-blues',img:'img/jh_welch.jpg',imgcredit:'Gillian Welch · public domain'},
+{id:'jh_dbt',kind:'node',x:31,year:2004,label:'Drive-By Truckers',sub:'‘The Day John Henry Died’ · 2004',parents:['johnhenry'],soft:true,deep:'Drive-By Truckers wrote “The Day John Henry Died” in 2004 and set the old contest against the machine down in the modern South. They weren’t covering the ballad so much as answering it, reaching back to the hero the Lomaxes carried into print.',link:'https://en.wikipedia.org/wiki/The_Dirty_South_(album)',img:'img/jh_dbt.jpg',imgcredit:'Drive-By Truckers · Lazerproofsandals · CC BY-SA 3.0'},
+{id:'clement',kind:'node',x:29,year:1977,label:'Cowboy Jack Clement',sub:'Sun Records · hired Lomax III',parents:['johnIII'],deep:'Cowboy Jack Clement ran the board at Sun in its wild years, cutting Jerry Lee Lewis and Johnny Cash for Sam Phillips and rolling tape the night of the Million Dollar Quartet. Years on in Nashville he took John Lomax III on as a publicist, tying the old ballad family straight to the room where rock and roll got made.',link:'https://en.wikipedia.org/wiki/Jack_Clement',img:'img/clement.jpg',imgcredit:'Cowboy Jack Clement · public domain'},
+{id:'sloopjohnb',kind:'spring',x:58,year:1935,label:'Sloop John B',sub:'Alan · Cat Island 1935',parents:['src'],deep:'The song was old before Alan ever found it, sung by Bahamian sponge fishers off Cat Island who’d been mourning the wrecked John B for generations. In July of 1935 he set his machine in front of the Cleveland Simmons Group and caught it whole, and that recording is the thread every later version hangs from.',link:'https://en.wikipedia.org/wiki/Sloop_John_B'},
+{id:'weavers_johnb',kind:'node',x:52,year:1949,label:'The Weavers',sub:'‘(Wreck of the) John B’ · 1950',parents:['sloopjohnb'],soft:true,deep:'Lee Hays reworked Sandburg’s verses and the Weavers waxed it in 1950, one of the first times the John B sailed onto a record. The line runs back to the songbook, not to Alan’s machine, but it’s the same Bahamian song he’d hauled up on Cat Island.',link:'https://en.wikipedia.org/wiki/Sloop_John_B'},
+{id:'kingston_johnb',kind:'node',x:62,year:1956,label:'The Kingston Trio',sub:'‘Wreck of the John B’ · 1958',parents:['sloopjohnb'],soft:true,deep:'The Kingston Trio pulled it from Sandburg’s songbook and cut it for their first record in 1958, calling it the wreck of the John B. They didn’t take it off Alan’s tape, but they were fishing the same old water he’d already mapped.',link:'https://en.wikipedia.org/wiki/Sloop_John_B'},
+{id:'bb_sloop',kind:'node',x:54,year:1966,label:'The Beach Boys',sub:'‘Sloop John B’ · 1966',parents:['sloopjohnb'],soft:true,deep:'Al Jardine carried the tune into the band, learned off the Kingston Trio, and Brian Wilson dressed it in stacked California harmonies for Pet Sounds. It climbed to number three, a Bahamian work song in a surf shirt, still tied by blood to the water Alan recorded.',link:'https://www.songfacts.com/facts/the-beach-boys/sloop-john-b'},
+{id:'lucinda',kind:'node',x:13,year:1977,label:'Lucinda Williams',sub:'Houston Folklore Society',parents:['houston'],deep:'Before the Grammys and the road records, Lucinda Williams found a room in Houston where John Jr. had built a home for folk songs. The society gave her a stage to play and people to play for, one more singer the Lomax habit of gathering voices set loose.',link:'https://en.wikipedia.org/wiki/John_Lomax_Jr.'},
+{id:'ktoslin',kind:'node',x:7,year:1983,label:'K.T. Oslin',sub:'the Houston room',parents:['houston'],deep:'K.T. Oslin turned up in the ranks of John Jr.’s Houston Folklore Society long before Nashville and the number ones. It was a place to sing and be heard, the family instinct for making room for a voice doing its quiet work again.',link:'https://en.wikipedia.org/wiki/John_Lomax_Jr.'}
+];
+
+function mapY(y){
+  const bp=[[1908,60],[1935,560],[1950,920],[1962,1280],[1975,1640],[2000,2200],[2015,2660],[2028,3060]];
+  for(let i=0;i<bp.length-1;i++){if(y<=bp[i+1][0]){const[a,pa]=bp[i],[b,pb]=bp[i+1];return pa+(pb-pa)*(y-a)/(b-a);}}
+  return bp[bp.length-1][1];
+}
+const stage=document.getElementById('stage');
+const svg=document.getElementById('riversvg');
+const byId={}; N.forEach(n=>byId[n.id]=n);
+const els={};
+
+/* place nodes */
+N.forEach(n=>{
+  const d=document.createElement('div');
+  d.className='rnode '+n.kind+(n.soft?' soft':''); d.dataset.id=n.id;
+  d.style.left=n.x+'%'; d.style.top=mapY(n.year)+'px';
+  const dot=(n.kind==='spring'||n.kind==='node')?'<div class="dot"></div>':'';
+  d.innerHTML=dot+`<div class="lbl">${n.label}</div>`+(n.sub?`<div class="sub">${n.sub}</div>`:'');
+  d.addEventListener('mouseenter',()=>trace(n.id));
+  d.addEventListener('mouseleave',clearTrace);
+  d.addEventListener('click',()=>{trace(n.id); openModal(n);});
+  stage.appendChild(d); els[n.id]=d;
+});
+
+/* auto-space: nudge vertically-overlapping labels apart, then draw connectors from final positions */
+function layout(){
+  let maxBottom=0;
+  try{
+    const sRect=stage.getBoundingClientRect();
+    const items=N.map(n=>{els[n.id].style.top=mapY(n.year)+'px'; return n;})
+      .map(n=>{const r=els[n.id].getBoundingClientRect(); return {n,cx:r.left-sRect.left+r.width/2,w:r.width,h:r.height,cy:mapY(n.year)};});
+    items.sort((a,b)=>a.cy-b.cy);
+    const placed=[]; const GAP=9;
+    for(const it of items){
+      let cy=it.cy, moved=true, guard=0;
+      while(moved && guard++<200){ moved=false;
+        for(const p of placed){
+          if(Math.abs(it.cx-p.cx) < (it.w+p.w)/2 + 8){
+            if(cy - it.h/2 < p.cy + p.h/2 + GAP && cy + it.h/2 > p.cy - p.h/2){ cy=p.cy + p.h/2 + it.h/2 + GAP; moved=true; }
+          }
+        }
+      }
+      it.cy=cy; it.n._cy=cy; els[it.n.id].style.top=cy+'px'; placed.push(it);
+      maxBottom=Math.max(maxBottom,cy+it.h/2);
+    }
+  }catch(e){ N.forEach(n=>n._cy=mapY(n.year)); maxBottom=3120; }
+  const H=Math.max(maxBottom+80,3120);
+  stage.style.height=H+'px'; svg.setAttribute('viewBox','0 0 100 '+H);
+  drawConnectors();
+}
+function drawConnectors(){
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  N.forEach(n=>{(n.parents||[]).forEach(p=>{
+    const a=byId[p]; if(!a) return;
+    const x1=a.x,y1=(a._cy!=null?a._cy:mapY(a.year)),x2=n.x,y2=(n._cy!=null?n._cy:mapY(n.year)); const dy=(y2-y1)*0.4;
+    const path=document.createElementNS(SVGNS,'path');
+    path.setAttribute('d',`M ${x1} ${y1} C ${x1} ${y1+dy}, ${x2} ${y2-dy}, ${x2} ${y2}`);
+    if(n.soft) path.classList.add('soft');
+    path.dataset.child=n.id; path.dataset.parent=p; svg.appendChild(path);
+  });});
+}
+layout();
+(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(layout);
+let rt; window.addEventListener('resize',()=>{clearTimeout(rt); rt=setTimeout(layout,220);});
+
+/* ancestry */
+const childrenMap={}; N.forEach(n=>(n.parents||[]).forEach(p=>{(childrenMap[p]=childrenMap[p]||[]).push(n.id);}));
+function lineage(id){const up=new Set(),down=new Set(),upL=new Set(),downL=new Set();
+  const wu=(c)=>{(byId[c].parents||[]).forEach(p=>{const k=p+'>'+c; if(!upL.has(k)){upL.add(k);up.add(p);wu(p);}});};
+  const wd=(c)=>{(childrenMap[c]||[]).forEach(ch=>{const k=c+'>'+ch; if(!downL.has(k)){downL.add(k);down.add(ch);wd(ch);}});};
+  wu(id); wd(id); return{up,down,upL,downL};}
+function trace(id){const{up,down,upL,downL}=lineage(id);
+  document.querySelectorAll('.rnode').forEach(el=>{const i=el.dataset.id,isU=up.has(i),isD=down.has(i),on=i===id||isU||isD;
+    el.classList.toggle('lit',on); el.classList.toggle('up-lit',isU); el.classList.toggle('down-lit',isD); el.classList.toggle('dim',!on);});
+  svg.querySelectorAll('path').forEach(p=>{const k=p.dataset.parent+'>'+p.dataset.child,u=upL.has(k),d=downL.has(k);
+    p.classList.toggle('up-lit',u); p.classList.toggle('down-lit',d); p.classList.toggle('dim',!(u||d));});}
+function clearTrace(){document.querySelectorAll('.rnode').forEach(el=>el.classList.remove('lit','up-lit','down-lit','dim'));svg.querySelectorAll('path').forEach(p=>p.classList.remove('up-lit','down-lit','dim'));}
+stage.addEventListener('mouseleave',clearTrace);
+
+function chain(id){const out=[];let cur=id;const seen=new Set();while(cur&&!seen.has(cur)){seen.add(cur);out.unshift(byId[cur].label);cur=(byId[cur].parents&&byId[cur].parents[0]);}return out;}
+/* shortest number of steps up to the headwaters (The Lomaxes) — the "degrees to Lomax" count */
+const _deg={};
+function degToSource(id){
+  if(id in _deg) return _deg[id];
+  if(id==='src') return _deg[id]=0;
+  const ps=(byId[id]&&byId[id].parents)||[];
+  if(!ps.length) return _deg[id]=null;
+  _deg[id]=null; /* cycle guard */
+  let best=Infinity;
+  ps.forEach(p=>{const d=degToSource(p); if(d!=null&&d+1<best)best=d+1;});
+  return _deg[id]=(best===Infinity?null:best);
+}
+
+const mbg=document.getElementById('modalbg');
+function openModal(n){
+  const c=chain(n.id);
+  document.getElementById('modaltrace').innerHTML= c.length>1 ? ('Traces to the source: '+c.map((s,i)=>i===0?`<b>${s}</b>`:s).join(' &rsaquo; ')) : 'The headwaters';
+  const strengthHtml = (n.kind==='node'||n.kind==='confluence') ? (n.soft?'<span class="strength inference">a reasonable line downstream</span>':'<span class="strength fact">documented</span>') : '';
+  const deg=degToSource(n.id);
+  const degHtml = (deg&&deg>0) ? `<span class="strength degree"><b>${deg}</b> ${deg===1?'step':'steps'} from the Lomaxes</span>` : '';
+  const honMap={G:'Grammy',R:'Rock Hall',N:'Nat’l Registry'};
+  const honHtml = n.hon ? [...n.hon].map(c=>`<span class="strength honor">◆ ${honMap[c]}</span>`).join('') : '';
+  document.getElementById('modalstrength').innerHTML = strengthHtml + degHtml + honHtml;
+  document.getElementById('modalhead').textContent=n.label;
+  const art=document.getElementById('modalart');
+  if(n.img){art.innerHTML=`<img src="${n.img}" alt="${n.label}, archival image" loading="lazy">`;} else {art.textContent=`${n.label} · ${n.sub||''} · archival image to come`;}
+  document.getElementById('modalcredit').textContent = n.img ? (n.imgcredit||'') : '';
+  document.getElementById('modaldeep').innerHTML= n.deep?`<p>${n.deep}</p>`:'<p>Part of the current. Its deeper story is in the dataset, waiting to be poured in.</p>';
+  const au=document.getElementById('modalaudio');
+  if(n.audio){au.hidden=false; au.innerHTML=`<span class="alab">Hear the source${n.audiocredit?' · '+n.audiocredit:''}</span><audio controls preload="none" src="${n.audio}"></audio>`;} else {au.hidden=true; au.innerHTML='';}
+  document.getElementById('modalquote').innerHTML= n.quote?`<div class="m-quote">${n.quote}</div>`:'';
+  const src=document.getElementById('modalsrc');
+  if(n.link){src.href=n.link; src.hidden=false;} else {src.hidden=true;}
+  const yt=document.getElementById('modalyt');
+  if(n.kind==='source'||n.kind==='delta'){yt.hidden=true;} else {
+    const q=(n.label+' '+(n.sub||'')).replace(/[“”‘’"']/g,'').replace(/·.*$/,'').replace(/\s+/g,' ').trim();
+    yt.href='https://www.youtube.com/results?search_query='+encodeURIComponent(q); yt.hidden=false;
+  }
+  try{history.replaceState(null,'','#'+n.id);}catch(e){}
+  mbg.classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeModal(){mbg.classList.remove('open'); document.body.style.overflow=''; try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}
+document.getElementById('modalx').addEventListener('click',closeModal);
+document.getElementById('modalshare').addEventListener('click',()=>{const b=document.getElementById('modalshare'); if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>{b.textContent='link copied ✓'; setTimeout(()=>{b.textContent='copy link ⧉';},1600);});}});
+mbg.addEventListener('click',e=>{if(e.target===mbg)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+(function(){const id=(location.hash||'').replace('#',''); if(id&&byId[id]&&byId[id].kind!=='source'){setTimeout(()=>{trace(id); openModal(byId[id]);},500);}})();
+</script>
+</body>
+</html>
