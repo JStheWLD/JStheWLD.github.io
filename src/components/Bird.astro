@@ -1,26 +1,35 @@
 ---
 // A bird in flight — pen-and-ink line art, in the spirit of the moodboard hawk
-// and the Truth Bird. Roughened by the #ink filter, themed via currentColor.
+// and the Truth Bird. Roughening filter lives inside this SVG and is applied via
+// the SVG `filter` attribute (Safari/iOS-safe, unlike CSS `filter:url()`).
 interface Props { class?: string; }
 const { class: cls = '' } = Astro.props;
 ---
 <svg class={`bird ${cls}`} viewBox="0 0 200 96" fill="none" role="img"
   aria-label="A bird in flight, drawn by hand" preserveAspectRatio="xMidYMid meet">
-  <!-- head + body -->
-  <path d="M100 40 C 95 33 95 25 100 22 C 105 25 105 33 100 40" />
-  <path d="M100 38 L100 58" />
-  <!-- left wing: leading edge sweeps up and out, trailing edge returns -->
-  <path d="M99 44 C 76 26 42 22 12 30 C 40 40 68 46 98 47" />
-  <!-- right wing -->
-  <path d="M101 44 C 124 26 158 22 188 30 C 160 40 132 46 102 47" />
-  <!-- wingtip feathers -->
-  <path d="M12 30 l 9 4 M24 28 l 9 4 M36 27 l 8 4" />
-  <path d="M188 30 l -9 4 M176 28 l -9 4 M164 27 l -8 4" />
-  <!-- tail -->
-  <path d="M95 56 L100 66 L105 56" />
+  <defs>
+    <filter id="ink-bird" x="-10%" y="-20%" width="120%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="9" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <g class="ink" filter="url(#ink-bird)">
+    <!-- head + body -->
+    <path d="M100 40 C 95 33 95 25 100 22 C 105 25 105 33 100 40" />
+    <path d="M100 38 L100 58" />
+    <!-- left wing: leading edge sweeps up and out, trailing edge returns -->
+    <path d="M99 44 C 76 26 42 22 12 30 C 40 40 68 46 98 47" />
+    <!-- right wing -->
+    <path d="M101 44 C 124 26 158 22 188 30 C 160 40 132 46 102 47" />
+    <!-- wingtip feathers -->
+    <path d="M12 30 l 9 4 M24 28 l 9 4 M36 27 l 8 4" />
+    <path d="M188 30 l -9 4 M176 28 l -9 4 M164 27 l -8 4" />
+    <!-- tail -->
+    <path d="M95 56 L100 66 L105 56" />
+  </g>
 </svg>
 
 <style>
   .bird{display:block; width:100%; height:auto; color:var(--ink)}
-  .bird path{stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none; filter:url(#ink)}
+  .bird path{stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; fill:none}
 </style>

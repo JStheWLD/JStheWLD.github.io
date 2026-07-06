@@ -11,6 +11,8 @@
   --charcoal:#393533; --charcoal-deep:#2c2926;
   --tape:rgba(224,212,178,0.5);
   --hand:"Reenie Beanie","Bradley Hand",cursive;
+  /* torn-paper edge, done with clip-path so it renders on every browser (no SVG filter ref) */
+  --torn-clip:polygon(1% 4%, 9% 1%, 19% 5%, 29% 2%, 40% 6%, 51% 2%, 62% 5%, 73% 1%, 84% 5%, 93% 2%, 99% 6%, 98% 17%, 100% 29%, 98% 41%, 100% 53%, 98% 64%, 100% 76%, 98% 88%, 99% 96%, 90% 99%, 79% 96%, 68% 100%, 56% 96%, 45% 100%, 33% 96%, 22% 100%, 11% 98%, 2% 99%, 1% 88%, 3% 76%, 0% 64%, 2% 53%, 0% 41%, 2% 29%, 0% 17%);
   /* warm paper grain, inline so it costs no request */
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   --display:"Bodoni Moda","Didot","Bodoni 72",serif;
@@ -115,7 +117,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .taped{position:relative; display:inline-block; padding:0.7rem; background:var(--paper-cream);
   box-shadow:0 18px 46px rgba(57,53,51,0.22); transform:rotate(-1.4deg)}
 .taped::before{content:""; position:absolute; inset:-12px -10px -16px 12px; z-index:-1;
-  background:var(--kraft); transform:rotate(2.6deg); filter:url(#torn)}
+  background:var(--kraft); transform:rotate(2.6deg); clip-path:var(--torn-clip)}
 .taped img{display:block; width:100%; height:auto}
 .taped .tape{position:absolute; width:104px; height:30px; background:var(--tape);
   box-shadow:0 1px 2px rgba(57,53,51,0.12); z-index:2}
@@ -134,7 +136,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
   background:var(--tape); transform:rotate(-3deg); z-index:2}
 
 /* torn-paper collage scraps, positioned by the section that uses them */
-.scrap{position:absolute; pointer-events:none; z-index:0; filter:url(#torn);
+.scrap{position:absolute; pointer-events:none; z-index:0; clip-path:var(--torn-clip);
   box-shadow:0 8px 22px rgba(57,53,51,0.10)}
 .scrap::after{content:""; position:absolute; inset:0; background-image:var(--grain);
   background-size:140px 140px; opacity:0.2; mix-blend-mode:multiply}
@@ -152,7 +154,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 /* hand-inked underline / mark: roughened stroke, pen not highlighter */
 .mark{position:relative; white-space:nowrap}
 .mark svg{position:absolute; left:-3%; right:-3%; bottom:-0.24em; width:106%; height:0.4em; overflow:visible}
-.mark svg path{fill:none; stroke:var(--ochre); stroke-width:3; stroke-linecap:round; stroke-linejoin:round; filter:url(#ink)}
+.mark svg path{fill:none; stroke:var(--ochre); stroke-width:3; stroke-linecap:round; stroke-linejoin:round}
 .mark svg path.mark__2{stroke-width:2; opacity:0.75}
 
 /* the bird stamp / seal (Peace-is-a-Practice badge language) */

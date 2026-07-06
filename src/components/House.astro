@@ -1,43 +1,54 @@
 ---
 // The story house — a narrow folk house drawn by hand, in the pen-and-ink
-// spirit of the floating-house reference. Roughened by the #ink filter.
+// spirit of the floating-house reference. Roughening filter is defined inside
+// this SVG and applied via the SVG `filter` attribute (Safari/iOS-safe;
+// CSS `filter:url()` cross-references silently fail on WebKit).
 interface Props { class?: string; smoke?: boolean; }
 const { class: cls = '', smoke = true } = Astro.props;
 ---
 <svg class={`house ${cls}`} viewBox="0 0 200 300" fill="none" role="img"
   aria-label="A narrow folk house drawn by hand, a lamp lit in the window" preserveAspectRatio="xMidYMax meet">
-  <!-- chimney + smoke -->
-  <path d="M132 92 L132 66 L146 66 L146 104" />
-  {smoke && <path class="smoke" d="M139 62 c 8 -6 -6 -14 2 -22 c 7 -6 -4 -14 3 -22 c 5 -5 0 -10 2 -15" />}
-  <!-- roof -->
-  <path d="M40 116 L100 60 L160 116" />
-  <path d="M48 114 L100 70 L152 114" />
-  <!-- gable + attic window -->
-  <path d="M92 104 a8 8 0 1 1 16 0 a8 8 0 1 1 -16 0" />
-  <!-- body -->
-  <path d="M52 116 L52 262 L148 262 L148 116" />
-  <!-- clapboard lines -->
-  <path d="M53 140 L147 140" /><path d="M53 164 L147 164" />
-  <path d="M53 188 L147 188" /><path d="M53 212 L147 212" />
-  <path d="M53 236 L147 236" />
-  <!-- lit window (the lamp in the window) -->
+  <defs>
+    <filter id="ink-house" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.026" numOctaves="2" seed="4" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  <!-- lit window (the lamp), drawn first and NOT roughened; the frame strokes overlay it -->
   <path class="lit" d="M66 150 L94 150 L94 196 L66 196 Z" />
-  <path d="M66 150 L94 150 L94 196 L66 196 Z" />
-  <path d="M80 150 L80 196" /><path d="M66 173 L94 173" />
-  <!-- door -->
-  <path d="M110 210 L110 262 L138 262 L138 210 Z" />
-  <path d="M124 210 L124 262" />
-  <!-- ground mound -->
-  <path d="M20 266 C 60 258, 140 258, 182 266" />
-  <path d="M8 274 C 70 268, 150 270, 192 274" />
+  <g class="ink" filter="url(#ink-house)">
+    <!-- chimney + smoke -->
+    <path d="M132 92 L132 66 L146 66 L146 104" />
+    {smoke && <path class="smoke" d="M139 62 c 8 -6 -6 -14 2 -22 c 7 -6 -4 -14 3 -22 c 5 -5 0 -10 2 -15" />}
+    <!-- roof -->
+    <path d="M40 116 L100 60 L160 116" />
+    <path d="M48 114 L100 70 L152 114" />
+    <!-- gable + attic window -->
+    <path d="M92 104 a8 8 0 1 1 16 0 a8 8 0 1 1 -16 0" />
+    <!-- body -->
+    <path d="M52 116 L52 262 L148 262 L148 116" />
+    <!-- clapboard lines -->
+    <path d="M53 140 L147 140" /><path d="M53 164 L147 164" />
+    <path d="M53 188 L147 188" /><path d="M53 212 L147 212" />
+    <path d="M53 236 L147 236" />
+    <!-- window frame -->
+    <path d="M66 150 L94 150 L94 196 L66 196 Z" />
+    <path d="M80 150 L80 196" /><path d="M66 173 L94 173" />
+    <!-- door -->
+    <path d="M110 210 L110 262 L138 262 L138 210 Z" />
+    <path d="M124 210 L124 262" />
+    <!-- ground mound -->
+    <path d="M20 266 C 60 258, 140 258, 182 266" />
+    <path d="M8 274 C 70 268, 150 270, 192 274" />
+  </g>
 </svg>
 
 <style>
   .house{display:block; width:100%; height:auto; color:var(--ink)}
-  .house path{stroke:currentColor; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; fill:none; filter:url(#ink)}
-  .house path.lit{fill:var(--ochre); opacity:0.9; stroke:none;
+  .house .ink path{stroke:currentColor; stroke-width:2.1; stroke-linecap:round; stroke-linejoin:round; fill:none}
+  .house .smoke{stroke-width:1.6; opacity:0.5}
+  .house .lit{fill:var(--ochre); opacity:0.9; stroke:none;
     filter:drop-shadow(0 0 2.5px rgba(211,141,66,0.75)); animation:lampglow 4.5s ease-in-out infinite}
   @keyframes lampglow{0%,100%{opacity:0.76} 50%{opacity:1}}
-  @media (prefers-reduced-motion:reduce){.house path.lit{animation:none}}
-  .house path.smoke{stroke-width:1.6; opacity:0.5}
+  @media (prefers-reduced-motion:reduce){.house .lit{animation:none}}
 </style>

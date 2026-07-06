@@ -31,19 +31,6 @@ const {
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Libre+Baskerville:ital@0;1&family=Reenie+Beanie&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- ink / torn-paper roughening filters, referenced by hand-drawn marks and collage scraps -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <filter id="ink" x="-20%" y="-40%" width="140%" height="180%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="2" seed="7" result="n" />
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="5.5" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-      <filter id="torn" x="-8%" y="-8%" width="116%" height="116%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.014 0.02" numOctaves="4" seed="3" result="n" />
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="16" />
-      </filter>
-    </defs>
-  </svg>
   {nav !== 'none' && <Nav variant={nav === 'overlay' ? 'overlay' : 'solid'} />}
   <slot />
   <Footer />
