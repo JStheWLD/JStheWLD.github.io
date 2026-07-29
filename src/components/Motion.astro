@@ -25,7 +25,10 @@
 
   if (!reduce) {
     const lenis = new Lenis({
-      duration: 1.05,
+      // Lenis's stock weight (1.2). 13322566869.com — the scroll feel Jonathan
+      // pointed at — ships the library's defaults; the easing below is already
+      // Lenis's default expo-out curve, so this matches it.
+      duration: 1.2,
       // ease-out expo — fast to settle, no bounce
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
