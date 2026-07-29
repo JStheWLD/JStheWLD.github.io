@@ -1,0 +1,89 @@
+---
+// THE SPINE — a route traced down the back of the whole page.
+// Reads like a transit map: a hairline track, a filled line showing how far
+// you've come, and a station for each act. The station you're in lights up and
+// names itself. It is the page's "keep going" instruction.
+interface Props { stops: string[]; }
+const { stops } = Astro.props;
+---
+<nav class="spine" aria-label="Page sections" data-spine>
+  <span class="spine__track" aria-hidden="true"></span>
+  <span class="spine__fill" aria-hidden="true" data-fill></span>
+  <ol class="spine__stops">
+    {stops.map((s, i) => (
+      <li class="stop" data-stop={i} style={`--p:${i / (stops.length - 1)}`}>
+        <a href={`#${s.toLowerCase().replace(/\s+/g, '-')}`}>
+          <span class="stop__dot" aria-hidden="true"></span>
+          <span class="stop__name">{s}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  const spine = document.querySelector('[data-spine]');
+  if (spine) {
+    const fill = spine.querySelector('[data-fill]');
+    const stops = [...spine.querySelectorAll('.stop')];
+    // the acts the stations correspond to, in page order
+    const acts = [...document.querySelectorAll('[data-hud]')].filter((a) => a.dataset.hud);
+    let tick = false;
+
+    const draw = () => {
+      tick = false;
+      const doc = document.body.scrollHeight - window.innerHeight;
+      const p = Math.min(1, Math.max(0, window.scrollY / (doc || 1)));
+      if (fill) fill.style.transform = `scaleY(${p})`;
+
+      // which act owns the middle of the screen
+      const mid = window.scrollY + window.innerHeight * 0.5;
+      let cur = -1;
+      acts.forEach((a, i) => { if (a.offsetTop <= mid) cur = i; });
+      stops.forEach((s, i) => {
+        s.classList.toggle('is-on', i === cur);
+        s.classList.toggle('is-past', i < cur);
+      });
+    };
+
+    addEventListener('scroll', () => {
+      if (!tick) { tick = true; requestAnimationFrame(draw); }
+    }, { passive: true });
+    addEventListener('resize', draw, { passive: true });
+    draw();
+  }
+</script>
+
+<style>
+  .spine{position:fixed; left:clamp(14px,2.4vw,30px); top:50%; translate:0 -50%;
+    z-index:85; height:min(52vh,440px); display:flex; align-items:stretch;
+    /* the line reads on both paper and night grounds */
+    mix-blend-mode:difference; pointer-events:none}
+  .spine__track, .spine__fill{position:absolute; left:5px; top:0; bottom:0; width:1px}
+  .spine__track{background:repeating-linear-gradient(180deg,
+    rgba(190,190,190,.55) 0 5px, transparent 5px 11px)}
+  .spine__fill{background:#BEBEBE; transform-origin:top; transform:scaleY(0);
+    transition:transform 180ms linear}
+
+  .spine__stops{list-style:none; margin:0; padding:0; position:relative; width:100%}
+  .stop{position:absolute; left:0; top:calc(var(--p) * 100%); translate:0 -50%;
+    pointer-events:auto}
+  .stop a{display:flex; align-items:center; gap:10px; text-decoration:none}
+  .stop__dot{width:11px; height:11px; flex:none; border-radius:50%;
+    border:1px solid rgba(190,190,190,.75); background:transparent;
+    transition:background 500ms cubic-bezier(.2,.8,.2,1), transform 500ms cubic-bezier(.2,.8,.2,1)}
+  .stop.is-past .stop__dot{background:rgba(190,190,190,.6)}
+  .stop.is-on .stop__dot{background:#BEBEBE; transform:scale(1.5)}
+
+  .stop__name{font-family:"Courier Prime",ui-monospace,monospace; font-size:10px;
+    letter-spacing:.2em; text-transform:uppercase; color:#BEBEBE; white-space:nowrap;
+    opacity:0; translate:-8px 0;
+    transition:opacity 500ms ease, translate 500ms cubic-bezier(.2,.8,.2,1)}
+  .stop.is-on .stop__name, .stop a:hover .stop__name{opacity:1; translate:0 0}
+
+  @media(max-width:760px){ .spine{display:none} }
+  @media (prefers-reduced-motion:reduce){
+    .spine__fill{transition:none}
+    .stop__dot, .stop__name{transition:none}
+  }
+</style>

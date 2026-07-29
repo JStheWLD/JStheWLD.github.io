@@ -63,22 +63,22 @@ const { variant = 'hero' } = Astro.props;
       ctx.lineCap = 'round';
       const reach = Math.min(w, h) * 0.5;
       // ease the pointer state so the reaction is fluid, never twitchy
-      pxr += (tpx - pxr) * 0.06; pyr += (tpy - pyr) * 0.06; pull += (tpull - pull) * 0.05;
+      pxr += (tpx - pxr) * 0.13; pyr += (tpy - pyr) * 0.13; pull += (tpull - pull) * 0.10;
 
       for (const s of streams) {
         const a0 = s.a + t * s.rot;
         let pts = [];
         for (let z = Z_FAR; z > Z_NEAR; z -= STEP) {
           // the stream drifts as it travels — this is the meander
-          const zz = z + scrollZ + t * s.speed * 60 * (1 + pull * 0.9);
+          const zz = z + scrollZ + t * s.speed * 60 * (1 + pull * 1.6);
           const ang = a0 + zz * s.twist;
           const rad = s.rad * (1 + Math.sin(zz * s.mFreq + s.phase) * s.mAmp);
           const k = FOCAL / z;
           // strands lean toward the cursor, and lean harder the nearer they are
           const lean = pull * (1 - z / Z_FAR);
           pts.push([
-            cx + Math.cos(ang) * rad * reach * k + pxr * lean * 90,
-            cy + Math.sin(ang) * rad * reach * k + pyr * lean * 90,
+            cx + Math.cos(ang) * rad * reach * k + pxr * lean * 210,
+            cy + Math.sin(ang) * rad * reach * k + pyr * lean * 210,
             z]);
         }
         // draw far→near so nearer segments overlay
@@ -97,9 +97,10 @@ const { variant = 'hero' } = Astro.props;
         const ba = a0 + bzz * s.twist;
         const brad = s.rad * (1 + Math.sin(bzz * s.mFreq + s.phase) * s.mAmp);
         const bk = FOCAL / bz;
-        const bx = cx + Math.cos(ba) * brad * reach * bk;
-        const by = cy + Math.sin(ba) * brad * reach * bk;
         const bd = 1 - bz / Z_FAR;
+        const bLean = pull * bd;
+        const bx = cx + Math.cos(ba) * brad * reach * bk + pxr * bLean * 210;
+        const by = cy + Math.sin(ba) * brad * reach * bk + pyr * bLean * 210;
         ctx.fillStyle = `rgba(${s.hue},${(Math.pow(bd, 1.4) * 0.9).toFixed(3)})`;
         ctx.beginPath(); ctx.arc(bx, by, Math.max(0.6, bd * 3.4), 0, 6.2832); ctx.fill();
       }
@@ -139,6 +140,11 @@ const { variant = 'hero' } = Astro.props;
       };
       addEventListener('pointermove', track, { passive: true });
       addEventListener('pointerleave', () => { tpull = 0; }, { passive: true });
+      // touch: a finger dragging over the canvas pulls the strands with it
+      const touch = (e) => { if (e.touches && e.touches[0]) track(e.touches[0]); };
+      addEventListener('touchstart', touch, { passive: true });
+      addEventListener('touchmove', touch, { passive: true });
+      addEventListener('touchend', () => { tpull = 0; }, { passive: true });
     }
     addEventListener('resize', () => { size(); if (reduce) draw(0); }, { passive: true });
   });

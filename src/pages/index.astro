@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Texture from '../components/Texture.astro';
 import Well from '../components/Well.astro';
+import Spine from '../components/Spine.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true}>
@@ -12,6 +13,7 @@ import { STORM_DOOR_URL } from '../consts';
   <a class="hud hud--tr" href={STORM_DOOR_URL} rel="noopener"><span>The Storm Door</span></a>
   <div class="hud hud--bl" aria-hidden="true"><span data-hud>Words / Music / Code</span></div>
   <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
+  <Spine stops={["Words", "Code", "Music", "Jonathan", "The Storm Door"]} />
 
   <main id="top">
     <!-- ══ 01 HERO — the ground falls away ══ -->
@@ -34,9 +36,9 @@ import { STORM_DOOR_URL } from '../consts';
     <!-- ══ 02 WORDS — paper, blown out bright ══ -->
     <section class="act act--paper" id="words" data-hud="Words" aria-label="Words">
       <Texture tone="light" />
-      <h2 class="act__word" aria-hidden="true"><span>WORDS</span></h2>
+      <h2 class="act__word act__word--l" aria-hidden="true"><span>WORDS</span></h2>
       <div class="stage" data-stage>
-        <figure class="grow grow--a">
+        <figure class="slide slide--l slide--far">
           <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
         </figure>
         <div class="tell">
@@ -61,11 +63,11 @@ import { STORM_DOOR_URL } from '../consts';
     </section>
 
     <!-- ══ 03 CODE / ART — electric, the future pole ══ -->
-    <section class="act act--wire" data-hud="Code" aria-label="Code">
+    <section class="act act--wire" id="code" data-hud="Code" aria-label="Code">
       <Well variant="bed" />
       <div class="wire" aria-hidden="true"><span></span><span></span><span></span></div>
       <Texture tone="dark" />
-      <h2 class="act__word act__word--lit" aria-hidden="true"><span>CODE</span></h2>
+      <h2 class="act__word act__word--lit act__word--r" aria-hidden="true"><span>CODE</span></h2>
       <div class="stage" data-stage>
         <figure class="grow grow--f">
           <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
@@ -85,10 +87,10 @@ import { STORM_DOOR_URL } from '../consts';
     </section>
 
     <!-- ══ 04 MUSIC — warm dark ══ -->
-    <section class="act act--dusk" data-hud="Music" aria-label="Music">
+    <section class="act act--dusk" id="music" data-hud="Music" aria-label="Music">
       <Well variant="bed" />
       <Texture tone="dark" />
-      <h2 class="act__word" aria-hidden="true"><span>SONGS</span></h2>
+      <h2 class="act__word act__word--l" aria-hidden="true"><span>MUSIC</span></h2>
       <div class="stage" data-stage>
         <figure class="grow grow--c">
           <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" loading="lazy" />
@@ -113,9 +115,9 @@ import { STORM_DOOR_URL } from '../consts';
 
 
     <!-- ══ 05 JONATHAN ══ -->
-    <section class="act act--paper" id="about" data-hud="Jonathan" aria-label="Jonathan Sexton">
+    <section class="act act--paper" id="jonathan" data-hud="Jonathan" aria-label="Jonathan Sexton">
       <Texture tone="light" />
-      <h2 class="act__word" aria-hidden="true"><span>SOUTH</span></h2>
+      <h2 class="act__word act__word--r" aria-hidden="true"><span>SOUTH</span></h2>
       <div class="stage" data-stage>
         <figure class="grow grow--d">
           <img src="/assets/hero.jpg" alt="Jonathan Sexton at a wood-paneled bar in warm lamplight." width="1333" height="2000" loading="lazy" />
@@ -131,7 +133,7 @@ import { STORM_DOOR_URL } from '../consts';
     </section>
 
     <!-- ══ 06 CLOSE ══ -->
-    <section class="end" id="subscribe" data-hud="The Storm Door" aria-label="Subscribe">
+    <section class="end" id="the-storm-door" data-hud="The Storm Door" aria-label="Subscribe">
       <Well variant="bed" />
       <Texture tone="dark" />
       <div class="end__body" data-stage>
@@ -160,7 +162,7 @@ import { STORM_DOOR_URL } from '../consts';
     }
 
     // things grow in
-    const risers = document.querySelectorAll('[data-stage] > *, .shout, .slide');
+    const risers = document.querySelectorAll('[data-stage] > *, .shout, .slide, .act__word');
     if (reduce) risers.forEach((el) => el.classList.add('in'));
     else {
       const io = new IntersectionObserver((es) => {
@@ -332,6 +334,15 @@ import { STORM_DOOR_URL } from '../consts';
   /* the lightform capture is wide, not a 4:5 portrait */
   .grow--f{--tilt:0deg}
   .grow--f img{aspect-ratio:auto}
+  :global(.js) .grow--f{transform:translateZ(-780px) scale(.3); transition-duration:1000ms,1600ms}
+
+  /* act words arrive from the sides — the section builds itself */
+  :global(.js) .act__word span{display:block; will-change:transform,opacity; opacity:0;
+    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1)}
+  :global(.js) .act__word--l span{transform:translate3d(-26%,0,0)}
+  :global(.js) .act__word--r span{transform:translate3d(26%,0,0)}
+  :global(.js) .act__word.in span{opacity:.13; transform:none}
+  :global(.js) .act--wire .act__word.in span{opacity:1}
 
   /* the music strip — portraits arrive from opposite sides */
   .strip{position:relative; z-index:2; display:grid; grid-template-columns:repeat(2,1fr);
@@ -344,7 +355,9 @@ import { STORM_DOOR_URL } from '../consts';
     transition:opacity 820ms ease, transform 1200ms cubic-bezier(.16,.84,.24,1)}
   :global(.js) .slide--l{transform:translate3d(-90px,0,0) rotate(-4deg)}
   :global(.js) .slide--r{transform:translate3d(90px,0,0) rotate(4deg)}
-  :global(.js) .slide--late{transition-delay:180ms}
+    :global(.js) .slide--late{transition-delay:180ms}
+  :global(.js) .slide--far{transition-duration:1000ms, 1500ms}
+  :global(.js) .slide--far.slide--l{transform:translate3d(-160px,0,0) rotate(-5deg) scale(.92)}
   :global(.js) .slide.in{opacity:1; transform:none}
 
   /* a full-bleed shout — it comes out at you */
@@ -387,7 +400,7 @@ import { STORM_DOOR_URL } from '../consts';
   /* ══════ reduced motion ══════ */
   @media (prefers-reduced-motion:reduce){
     :global(.js) .hero__mark, :global(.js) .rv, :global(.js) .mk,
-    :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide{
+    :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide, :global(.js) .act__word span{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
     .cue span, .wire span{animation:none}
   }
