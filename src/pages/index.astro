@@ -196,24 +196,83 @@ import { STORM_DOOR_URL } from '../consts';
         return { y: 28, opacity: 0 }; // .tell and anything else in a stage
       };
 
-      risers.forEach((el) => {
+      // ── Per-act signatures ──────────────────────────────────────────────
+      // Each act gets its own window and scrub weight so the page reads as a
+      // composed sequence rather than the same reveal five times. Heavier scrub
+      // = more lag behind the wheel = a slower, weightier arrival.
+      const SIGNATURES = [
+        ['act--paper', { start: 'top 90%', end: 'top 46%', scrub: 0.9 }], // lateral, unhurried
+        ['act--wire', { start: 'top 84%', end: 'top 34%', scrub: 0.4 }], // electric, snappy
+        ['act--dusk', { start: 'top 88%', end: 'top 42%', scrub: 0.7 }], // warm, mid-weight
+        ['end', { start: 'top 92%', end: 'top 56%', scrub: 1.1 }], // settles
+      ];
+      const signatureFor = (el) => {
+        for (const [cls, sig] of SIGNATURES) if (el.closest('.' + cls)) return sig;
+        return { start: 'top 88%', end: 'top 42%', scrub: 0.6 };
+      };
+
+      // The music strip is choreographed as one run across the row, not four
+      // independent arrivals, so the portraits cascade instead of popping together.
+      const strip = document.querySelector('.strip');
+      const stripSlides = strip ? [...strip.querySelectorAll('.slide')] : [];
+      if (stripSlides.length) {
+        gsap.fromTo(
+          stripSlides,
+          { x: (i) => (i % 2 ? 90 : -90), rotation: (i) => (i % 2 ? 4 : -4), opacity: 0 },
+          {
+            x: 0, rotation: 0, opacity: 1, ease: 'none',
+            stagger: { each: 0.18, from: 'start' },
+            scrollTrigger: { trigger: strip, start: 'top 92%', end: 'top 40%', scrub: 0.7 },
+          }
+        );
+      }
+
+      const generic = risers.filter((el) => !stripSlides.includes(el));
+
+      generic.forEach((el) => {
         // act words animate their inner span so the clipping wrapper stays put
         const node = el.classList.contains('act__word') ? el.querySelector('span') || el : el;
         const end = el.classList.contains('act__word')
           ? { xPercent: 0, opacity: el.closest('.act--wire') ? 1 : 0.13 }
           : { x: 0, y: 0, z: 0, xPercent: 0, rotation: 0, scale: 1, opacity: 1 };
+        const sig = signatureFor(el);
 
         gsap.fromTo(node, startFor(el), {
           ...end,
           ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 88%',
-            end: 'top 42%',
-            scrub: 0.6,
-          },
+          scrollTrigger: { trigger: el, start: sig.start, end: sig.end, scrub: sig.scrub },
         });
       });
+
+      // ── One pinned act ──────────────────────────────────────────────────
+      // Code's giant word holds while its content passes it — the device both
+      // reference sites lean on. Exactly one act is pinned on purpose: pinning
+      // several makes the page feel like it is fighting the reader.
+      const codeWord = document.querySelector('.act--wire .act__word');
+      const codeAct = document.querySelector('.act--wire');
+      if (codeWord && codeAct && window.matchMedia('(min-width: 900px)').matches) {
+        ScrollTrigger.create({
+          trigger: codeAct,
+          start: 'top top',
+          end: 'bottom 78%',
+          pin: codeWord,
+          pinSpacing: false, // the word holds over its own act; no extra page height
+          anticipatePin: 1,
+        });
+        // A pinned word at full strength would sit on top of the lightform. Fade
+        // it to a watermark as the content arrives — the held word stays present
+        // without competing with what it is introducing.
+        gsap.fromTo(
+          codeWord.querySelector('span') || codeWord,
+          { opacity: 1 },
+          {
+            opacity: 0.18, ease: 'none',
+            scrollTrigger: {
+              trigger: codeAct, start: 'top top', end: 'top -35%', scrub: 0.5,
+            },
+          }
+        );
+      }
 
       ScrollTrigger.refresh();
     };
@@ -439,6 +498,8 @@ import { STORM_DOOR_URL } from '../consts';
 
   /* ══════ reduced motion ══════ */
   @media (prefers-reduced-motion:reduce){
+    /* no pin, no scrub — everything sits composed and static */
+    .act__word, .act__word span{position:static !important; opacity:inherit}
     :global(.js) .hero__mark, :global(.js) .rv, :global(.js) .mk,
     :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide, :global(.js) .act__word span{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
