@@ -161,15 +161,75 @@ import { STORM_DOOR_URL } from '../consts';
       document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
     }
 
-    // things grow in
-    const risers = document.querySelectorAll('[data-stage] > *, .shout, .slide, .act__word');
-    if (reduce) risers.forEach((el) => el.classList.add('in'));
+    // ── Scroll-linked arrivals ──────────────────────────────────────────────
+    // Every element carries `.in` as its END state. Under reduced motion (or if
+    // the motion stack never boots) we simply add it and stop — the page is
+    // fully composed with no tween ever registered. Otherwise ScrollTrigger
+    // scrubs each element from its start transform to that end state, so motion
+    // tracks the wheel in both directions instead of firing once and forgetting.
+    const risers = [...document.querySelectorAll('[data-stage] > *, .shout, .slide, .act__word')];
+
+    const composeStatically = () => risers.forEach((el) => el.classList.add('in'));
+
+    const wireScrubbed = ({ gsap, ScrollTrigger }) => {
+      // `.in` is applied up front so the element's *final* layout is what CSS
+      // describes; GSAP then owns the transform/opacity between start and end.
+      composeStatically();
+
+      // Start transforms mirror the CSS intent, expressed as GSAP values so one
+      // system owns the property. The CSS transition rules are gone (see <style>).
+      const startFor = (el) => {
+        if (el.classList.contains('slide')) {
+          const far = el.classList.contains('slide--far');
+          const dx = (el.classList.contains('slide--l') ? -1 : 1) * (far ? 160 : 90);
+          return { x: dx, rotation: (dx < 0 ? -1 : 1) * (far ? 5 : 4), scale: far ? 0.92 : 1, opacity: 0 };
+        }
+        if (el.classList.contains('grow')) {
+          const deep = el.classList.contains('grow--f');
+          return { z: deep ? -780 : -520, scale: deep ? 0.3 : 0.42, opacity: 0 };
+        }
+        if (el.classList.contains('shout')) return { z: -420, opacity: 0 };
+        if (el.classList.contains('act__word')) {
+          const dir = el.classList.contains('act__word--r') ? 1 : -1;
+          return { xPercent: 26 * dir, opacity: 0 };
+        }
+        return { y: 28, opacity: 0 }; // .tell and anything else in a stage
+      };
+
+      risers.forEach((el) => {
+        // act words animate their inner span so the clipping wrapper stays put
+        const node = el.classList.contains('act__word') ? el.querySelector('span') || el : el;
+        const end = el.classList.contains('act__word')
+          ? { xPercent: 0, opacity: el.closest('.act--wire') ? 1 : 0.13 }
+          : { x: 0, y: 0, z: 0, xPercent: 0, rotation: 0, scale: 1, opacity: 1 };
+
+        gsap.fromTo(node, startFor(el), {
+          ...end,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            end: 'top 42%',
+            scrub: 0.6,
+          },
+        });
+      });
+
+      ScrollTrigger.refresh();
+    };
+
+    if (reduce) composeStatically();
+    else if (window.__motion && !window.__motion.reduce) wireScrubbed(window.__motion);
     else {
-      const io = new IntersectionObserver((es) => {
-        for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-      risers.forEach((el) => io.observe(el));
-      setTimeout(() => risers.forEach((el) => el.classList.add('in')), 3000);
+      // Motion stack still booting — attach when it signals, but never leave the
+      // page blank if it fails to arrive at all.
+      let wired = false;
+      addEventListener('motion:ready', (e) => {
+        if (wired) return;
+        wired = true;
+        e.detail && !e.detail.reduce ? wireScrubbed(e.detail) : composeStatically();
+      }, { once: true });
+      setTimeout(() => { if (!wired) { wired = true; composeStatically(); } }, 2500);
     }
 
     // scroll: HUD readout, percent, texture parallax, hero deck recede
@@ -301,9 +361,6 @@ import { STORM_DOOR_URL } from '../consts';
      natural size — uncropped and enormous. */
   .grow img, .stage > .slide img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
     box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
-  :global(.js) .grow{opacity:0; transform:translateZ(-520px) scale(.42);
-    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1); will-change:transform}
-  :global(.js) .grow.in{opacity:1; transform:translateZ(0) scale(1) rotate(var(--tilt,0deg))}
   .grow--a{--tilt:-1.6deg} .grow--b{--tilt:1.8deg}
   .grow--c{--tilt:1.4deg} .grow--d{--tilt:-1.9deg} .grow--e{--tilt:0deg}
 
@@ -314,9 +371,6 @@ import { STORM_DOOR_URL } from '../consts';
   .slab span{font-family:var(--grot); font-weight:900; font-size:clamp(1.2rem,3.2vw,2.3rem);
     letter-spacing:-.02em; line-height:1.02; color:#F2EFE6; text-align:center}
 
-  :global(.js) .tell{opacity:0; transform:translateY(28px);
-    transition:opacity 900ms ease 120ms, transform 900ms cubic-bezier(.2,.8,.2,1) 120ms}
-  :global(.js) .tell.in{opacity:1; transform:none}
   .tell{max-width:52ch}
   .tell--mid{margin-inline:auto; text-align:center}
   .tag{font-family:var(--tw); font-size:.74rem; letter-spacing:.24em; text-transform:uppercase;
@@ -337,14 +391,8 @@ import { STORM_DOOR_URL } from '../consts';
   /* the lightform capture is wide, not a 4:5 portrait */
   .grow--f{--tilt:0deg}
   .grow--f img{aspect-ratio:auto}
-  :global(.js) .grow--f{transform:translateZ(-780px) scale(.3); transition-duration:1000ms,1600ms}
 
   /* act words arrive from the sides — the section builds itself */
-  :global(.js) .act__word span{display:block; will-change:transform,opacity; opacity:0;
-    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .act__word--l span{transform:translate3d(-26%,0,0)}
-  :global(.js) .act__word--r span{transform:translate3d(26%,0,0)}
-  :global(.js) .act__word.in span{opacity:.13; transform:none}
   :global(.js) .act--wire .act__word.in span{opacity:1}
 
   /* the music strip — portraits arrive from opposite sides */
@@ -354,22 +402,11 @@ import { STORM_DOOR_URL } from '../consts';
   @media(min-width:760px){.strip{grid-template-columns:repeat(4,1fr)}}
   .strip img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
     filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
-  :global(.js) .slide{opacity:0; will-change:transform,opacity;
-    transition:opacity 820ms ease, transform 1200ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .slide--l{transform:translate3d(-90px,0,0) rotate(-4deg)}
-  :global(.js) .slide--r{transform:translate3d(90px,0,0) rotate(4deg)}
-    :global(.js) .slide--late{transition-delay:180ms}
-  :global(.js) .slide--far{transition-duration:1000ms, 1500ms}
-  :global(.js) .slide--far.slide--l{transform:translate3d(-160px,0,0) rotate(-5deg) scale(.92)}
-  :global(.js) .slide.in{opacity:1; transform:none}
 
   /* a full-bleed shout — it comes out at you */
   .shout{position:relative; z-index:2; margin:clamp(2rem,6vw,4rem) auto 0; max-width:1180px;
     font-family:var(--grot); font-weight:800; font-size:clamp(1.5rem,5vw,3.6rem);
     letter-spacing:-.035em; line-height:1.06; text-wrap:balance}
-  :global(.js) .shout{opacity:0; transform:perspective(900px) translateZ(-420px);
-    transition:opacity 900ms ease, transform 1300ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .shout.in{opacity:1; transform:perspective(900px) translateZ(0)}
 
   /* ══════ 04 wire — live current running through ══════ */
   .wire{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
