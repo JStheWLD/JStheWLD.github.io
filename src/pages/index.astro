@@ -69,7 +69,7 @@ import { STORM_DOOR_URL } from '../consts';
       <Texture tone="dark" />
       <h2 class="act__word act__word--lit act__word--r" aria-hidden="true"><span>CODE</span></h2>
       <div class="stage" data-stage>
-        <figure class="grow grow--f">
+        <figure class="grow grow--f is-wide">
           <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
         </figure>
         <div class="tell">
@@ -137,7 +137,7 @@ import { STORM_DOOR_URL } from '../consts';
       <Well variant="bed" />
       <Texture tone="dark" />
       <div class="end__body" data-stage>
-        <figure class="grow grow--e end__art">
+        <figure class="grow grow--e end__art is-wide">
           <img src="/assets/storm-door/cover-banner-storm-lower-jswld-topright-1600x600.png" alt="The Storm Door" width="1600" height="600" loading="lazy" />
         </figure>
         <p class="tag tag--lit">Most Saturdays</p>
@@ -418,7 +418,15 @@ import { STORM_DOOR_URL } from '../consts';
   /* Any figure image sitting directly in a stage gets the same frame, however it
      arrives (grow or slide). Without the .slide arm the portrait fell back to its
      natural size — uncropped and enormous. */
-  .grow img, .stage > .slide img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
+  /* INVARIANT: image sizing keys on a figure's structural position, never on
+     its animation class. .grow / .slide carry motion only — swapping one for
+     the other must not change dimensions. Keying sizing to .grow is what made
+     the Words portrait render at natural size when it became a .slide. */
+  /* :where() keeps this at zero specificity for the container part, so a
+     per-figure exception can always override it. Without it, Astro's scoping
+     attributes push this rule above `figure.is-wide img` and the exception
+     silently loses — which is how the wide lightform got cropped to 4:5. */
+  :where(.stage, .end__body) figure img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
     box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
   .grow--a{--tilt:-1.6deg} .grow--b{--tilt:1.8deg}
   .grow--c{--tilt:1.4deg} .grow--d{--tilt:-1.9deg} .grow--e{--tilt:0deg}
@@ -449,7 +457,8 @@ import { STORM_DOOR_URL } from '../consts';
   .lnk--lit{border-color:var(--lit)} .lnk--lit:hover{color:var(--lit)}
   /* the lightform capture is wide, not a 4:5 portrait */
   .grow--f{--tilt:0deg}
-  .grow--f img{aspect-ratio:auto}
+  /* deliberate exceptions: wide artworks, not portraits */
+  figure.is-wide img{aspect-ratio:auto; object-fit:contain}
 
   /* act words arrive from the sides — the section builds itself */
   :global(.js) .act--wire .act__word.in span{opacity:1}
@@ -459,7 +468,7 @@ import { STORM_DOOR_URL } from '../consts';
     gap:clamp(.8rem,2vw,1.4rem); max-width:1180px; margin:clamp(2.5rem,6vw,4rem) auto 0;
     perspective:1200px}
   @media(min-width:760px){.strip{grid-template-columns:repeat(4,1fr)}}
-  .strip img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
+  :where(.strip) figure img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
     filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
 
   /* a full-bleed shout — it comes out at you */
@@ -482,7 +491,7 @@ import { STORM_DOOR_URL } from '../consts';
     padding:clamp(5rem,12vw,9rem) 5vw clamp(2.5rem,5vw,3.5rem); text-align:center}
   .end__body{position:relative; z-index:2; max-width:760px; margin:0 auto; perspective:1100px}
   .end__art{max-width:420px; margin:0 auto clamp(2rem,4vw,3rem)}
-  .end__art img{aspect-ratio:auto; box-shadow:0 30px 70px -24px rgba(0,0,0,.75)}
+  .end__art img{box-shadow:0 30px 70px -24px rgba(0,0,0,.75)}
   .end__word{font-family:var(--grot); font-weight:900; font-size:clamp(2.1rem,9vw,6.4rem);
     letter-spacing:-.05em; line-height:.92; margin:0 0 1.4rem; color:#F2EFE6}
   .end__copy{font-family:var(--tw); font-size:clamp(.86rem,1.5vw,1rem); line-height:1.9;
