@@ -244,6 +244,39 @@ import { STORM_DOOR_URL } from '../consts';
         });
       });
 
+      // ── Signature motions ───────────────────────────────────────────────
+      // Each keys off what the thing *is*, rather than being another entrance.
+
+      // 1. UNMASK. Photographs wipe open from their own frame instead of fading,
+      //    so the plate reads as a shutter rather than a container.
+      document.querySelectorAll('.stage figure img, .strip figure img').forEach((img) => {
+        gsap.fromTo(img,
+          { clipPath: 'inset(0% 0% 100% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
+            scrollTrigger: { trigger: img.closest('figure'), start: 'top 86%', end: 'top 50%', scrub: 0.5 } });
+      });
+
+      // 2. COUNTER-DRIFT. Copy rises slightly slower than its own section, so the
+      //    two planes separate as you pass — depth from parallax, not shadow.
+      document.querySelectorAll('.tell').forEach((tell) => {
+        gsap.fromTo(tell, { yPercent: 6 }, { yPercent: -6, ease: 'none',
+          scrollTrigger: { trigger: tell.closest('.stage') || tell, start: 'top bottom', end: 'bottom top', scrub: 1.2 } });
+      });
+
+      // 3. TRACKING OPEN. The act words widen their letterspacing as they arrive,
+      //    so the type breathes instead of just sliding in.
+      document.querySelectorAll('.act__word span').forEach((sp) => {
+        gsap.fromTo(sp, { letterSpacing: '-0.09em' }, { letterSpacing: '-0.035em', ease: 'none',
+          scrollTrigger: { trigger: sp.closest('.act__word'), start: 'top 92%', end: 'top 45%', scrub: 0.8 } });
+      });
+
+      // 4. The seal turns with the page — a real readout of progress, not decor.
+      const seal = document.querySelector('.seal img');
+      if (seal) {
+        gsap.to(seal, { rotation: 360, ease: 'none',
+          scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1.4 } });
+      }
+
       // ── One pinned act ──────────────────────────────────────────────────
       // Code's giant word holds while its content passes it — the device both
       // reference sites lean on. Exactly one act is pinned on purpose: pinning
@@ -429,7 +462,7 @@ import { STORM_DOOR_URL } from '../consts';
   /* SIZE BUDGET. Sizing to column width alone let a 4:5 portrait render taller
      than two screens on a short viewport. Width is now capped by a share of
      viewport HEIGHT, so an image can never dominate the screen it sits on. */
-  main{--fig-h:min(58svh, 560px)}
+  main{--fig-h:min(70svh, 672px)}   /* +20% over the first pass */
   :where(.stage) figure{max-width:calc(var(--fig-h) * 0.8); margin-inline:auto}
   /* wide artwork needs the same height budget — capping width alone let the
      lightform stand taller than the viewport it sits in */
@@ -451,6 +484,11 @@ import { STORM_DOOR_URL } from '../consts';
   :where(.stage, .strip, .end__body) figure::after{bottom:4px; right:4px; border-left:0; border-top:0}
   /* the electric act gets lit register marks */
   .act--wire figure::before, .act--wire figure::after{border-color:var(--lit); opacity:.75}
+  /* the paper acts get a warm mat instead of a neutral one — bone board, kraft
+     hairline, rust ticks. Same plate, Southern side of the page. */
+  .act--paper figure{background:var(--bone); box-shadow:inset 0 0 0 1px rgba(199,169,111,.55),
+    0 26px 56px -26px rgba(51,48,58,.42)}
+  .act--paper figure::before, .act--paper figure::after{border-color:var(--rust); opacity:.7}
 
   :where(.stage, .end__body) figure img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
     box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
