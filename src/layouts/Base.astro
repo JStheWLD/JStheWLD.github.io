@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Motion from '../components/Motion.astro';
 
 interface Props {
   title: string;
@@ -9,12 +10,16 @@ interface Props {
   nav?: 'overlay' | 'solid' | 'none';
   /** bare = no site footer; the page supplies its own ending. */
   bare?: boolean;
+  /** motion = load the scroll-linked motion stack (GSAP + Lenis). Opt-in so
+   *  reading pages don't pay for a bundle they never use. */
+  motion?: boolean;
 }
 const {
   title,
   description = "JS the Wld is Jonathan Sexton, a writer and musician from East Tennessee. Songs, a letter most Saturdays called The Storm Door, and a book, The Sound of Something More.",
   nav = 'solid',
   bare = false,
+  motion = false,
 } = Astro.props;
 ---
 <!doctype html>
@@ -34,6 +39,7 @@ const {
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Libre+Baskerville:ital@0;1&family=Reenie+Beanie&display=swap" rel="stylesheet" />
 </head>
 <body>
+  {motion && <Motion />}
   {nav !== 'none' && <Nav variant={nav === 'overlay' ? 'overlay' : 'solid'} />}
   <slot />
   {!bare && <Footer />}
