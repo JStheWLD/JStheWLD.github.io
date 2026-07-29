@@ -426,6 +426,32 @@ import { STORM_DOOR_URL } from '../consts';
      per-figure exception can always override it. Without it, Astro's scoping
      attributes push this rule above `figure.is-wide img` and the exception
      silently loses — which is how the wide lightform got cropped to 4:5. */
+  /* SIZE BUDGET. Sizing to column width alone let a 4:5 portrait render taller
+     than two screens on a short viewport. Width is now capped by a share of
+     viewport HEIGHT, so an image can never dominate the screen it sits on. */
+  main{--fig-h:min(58svh, 560px)}
+  :where(.stage) figure{max-width:calc(var(--fig-h) * 0.8); margin-inline:auto}
+  /* wide artwork needs the same height budget — capping width alone let the
+     lightform stand taller than the viewport it sits in */
+  :where(.stage) figure.is-wide{max-width:min(100%, calc(var(--fig-h) * 1.6))}
+  :where(.strip) figure{max-width:calc(var(--fig-h) * 0.62)}
+
+  /* THE PLATE — a frame in the page's own register: hairline mat plus corner
+     ticks, the same glass-HUD vocabulary as the corner consoles. Reads on both
+     paper and night grounds because it is built from alpha, not a fixed colour. */
+  :where(.stage, .strip, .end__body) figure{position:relative;
+    padding:clamp(7px,0.9vw,13px);
+    background:color-mix(in srgb, currentColor 6%, transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent)}
+  :where(.stage, .strip, .end__body) figure::before,
+  :where(.stage, .strip, .end__body) figure::after{content:""; position:absolute;
+    width:11px; height:11px; pointer-events:none;
+    border:1px solid color-mix(in srgb, currentColor 52%, transparent)}
+  :where(.stage, .strip, .end__body) figure::before{top:4px; left:4px; border-right:0; border-bottom:0}
+  :where(.stage, .strip, .end__body) figure::after{bottom:4px; right:4px; border-left:0; border-top:0}
+  /* the electric act gets lit register marks */
+  .act--wire figure::before, .act--wire figure::after{border-color:var(--lit); opacity:.75}
+
   :where(.stage, .end__body) figure img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
     box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
   .grow--a{--tilt:-1.6deg} .grow--b{--tilt:1.8deg}
