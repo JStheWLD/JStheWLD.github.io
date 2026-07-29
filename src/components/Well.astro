@@ -1,0 +1,161 @@
+---
+// THE WELL — a generative corridor of flowing streams.
+// Perspective-projected tributaries spiral out of a vanishing point and rush
+// past the viewer. Nothing is a loop: positions are computed per frame from
+// time + scroll, so it never repeats exactly. Canvas 2D, no library.
+// variant="bed" runs the same streams quietly behind a dark section.
+interface Props { variant?: 'hero' | 'bed'; }
+const { variant = 'hero' } = Astro.props;
+---
+<div class={`well well--${variant}`} data-variant={variant} aria-hidden="true">
+  <canvas class="well__c" data-well></canvas>
+  {variant === 'hero' && <div class="well__fog"></div>}
+  <div class="well__vig"></div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-well]').forEach((cv) => {
+  {
+    const host = cv.closest('[data-variant]');
+    const BED = host && host.dataset.variant === 'bed';
+    const ctx = cv.getContext('2d', { alpha: true });
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── the streams. Each is a tributary: an angle, a radius, a twist, a hue.
+    const CORE = '64,196,232';   // electric cyan — the future pole
+    const WARM = '217,154,66';   // amber — the South
+    const RUST = '168,64,29';
+    const N = 26;
+    const streams = Array.from({ length: N }, (_, i) => {
+      const r = (n) => Math.sin(i * 12.9898 + n * 78.233) * 43758.5453 % 1; // deterministic
+      const f = (n) => Math.abs(r(n));
+      const roll = f(1);
+      return {
+        a: (i / N) * Math.PI * 2 + f(2) * 0.4,      // base angle
+        rad: 0.24 + f(3) * 0.85,                    // distance from the axis
+        twist: (f(4) - 0.5) * 0.0016,               // spiral per unit depth
+        rot: (f(5) - 0.5) * 0.00013,                // slow rotation of the whole stream
+        mAmp: 0.06 + f(6) * 0.16,                   // meander amplitude
+        mFreq: 0.0007 + f(7) * 0.0016,              // meander frequency
+        hue: roll > 0.82 ? RUST : roll > 0.6 ? WARM : CORE,
+        w: 0.6 + f(8) * 1.5,                        // weight
+        speed: 0.06 + f(9) * 0.1,                   // flow speed
+        phase: f(10) * 4000,
+      };
+    });
+
+    const Z_NEAR = 60, Z_FAR = 2600, STEP = 55, FOCAL = 460;
+    let w = 0, h = 0, cx = 0, cy = 0, dpr = 1, raf = 0, running = false;
+    let scrollZ = 0;
+    // pointer influence — eases toward the cursor, decays back to centre
+    let pxr = 0, pyr = 0, tpx = 0, tpy = 0, pull = 0, tpull = 0;
+
+    const size = () => {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = w / 2; cy = h * 0.46;
+    };
+
+    const draw = (t) => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineCap = 'round';
+      const reach = Math.min(w, h) * 0.5;
+      // ease the pointer state so the reaction is fluid, never twitchy
+      pxr += (tpx - pxr) * 0.06; pyr += (tpy - pyr) * 0.06; pull += (tpull - pull) * 0.05;
+
+      for (const s of streams) {
+        const a0 = s.a + t * s.rot;
+        let pts = [];
+        for (let z = Z_FAR; z > Z_NEAR; z -= STEP) {
+          // the stream drifts as it travels — this is the meander
+          const zz = z + scrollZ + t * s.speed * 60 * (1 + pull * 0.9);
+          const ang = a0 + zz * s.twist;
+          const rad = s.rad * (1 + Math.sin(zz * s.mFreq + s.phase) * s.mAmp);
+          const k = FOCAL / z;
+          // strands lean toward the cursor, and lean harder the nearer they are
+          const lean = pull * (1 - z / Z_FAR);
+          pts.push([
+            cx + Math.cos(ang) * rad * reach * k + pxr * lean * 90,
+            cy + Math.sin(ang) * rad * reach * k + pyr * lean * 90,
+            z]);
+        }
+        // draw far→near so nearer segments overlay
+        for (let i = 0; i < pts.length - 1; i++) {
+          const [x1, y1, z1] = pts[i], [x2, y2] = pts[i + 1];
+          const d = 1 - z1 / Z_FAR;               // 0 far → 1 near
+          const alpha = Math.pow(d, 1.7) * (BED ? 0.4 : 0.85);
+          if (alpha < 0.008) continue;
+          ctx.strokeStyle = `rgba(${s.hue},${alpha.toFixed(3)})`;
+          ctx.lineWidth = s.w * (0.25 + d * 2.6);
+          ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+        }
+        // a travelling light on each stream
+        const bz = Z_NEAR + ((t * s.speed * 220 + s.phase) % (Z_FAR - Z_NEAR));
+        const bzz = bz + scrollZ;
+        const ba = a0 + bzz * s.twist;
+        const brad = s.rad * (1 + Math.sin(bzz * s.mFreq + s.phase) * s.mAmp);
+        const bk = FOCAL / bz;
+        const bx = cx + Math.cos(ba) * brad * reach * bk;
+        const by = cy + Math.sin(ba) * brad * reach * bk;
+        const bd = 1 - bz / Z_FAR;
+        ctx.fillStyle = `rgba(${s.hue},${(Math.pow(bd, 1.4) * 0.9).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(bx, by, Math.max(0.6, bd * 3.4), 0, 6.2832); ctx.fill();
+      }
+    };
+
+    const frame = (ms) => { draw(ms * 0.001); raf = requestAnimationFrame(frame); };
+
+    const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(frame); } };
+    const stop = () => { running = false; cancelAnimationFrame(raf); };
+
+    size();
+    if (reduce) draw(0);
+    else {
+      start();
+      // don't burn frames when the hero is off screen
+      new IntersectionObserver((es) => { es[0].isIntersecting ? start() : stop(); },
+        { threshold: 0 }).observe(cv);
+      document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+      // scroll dollies the camera down the corridor
+      let tick = false;
+      addEventListener('scroll', () => {
+        if (tick) return; tick = true;
+        requestAnimationFrame(() => { tick = false; scrollZ = -Math.min(1400, window.scrollY * 1.5); });
+      }, { passive: true });
+    }
+      // hover: the strands answer the cursor
+      const track = (e) => {
+        const r = cv.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        const inside = e.clientX >= r.left && e.clientX <= r.right
+          && e.clientY >= r.top && e.clientY <= r.bottom;
+        if (inside) {
+          tpx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+          tpy = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        }
+        tpull = inside ? 1 : 0;
+      };
+      addEventListener('pointermove', track, { passive: true });
+      addEventListener('pointerleave', () => { tpull = 0; }, { passive: true });
+    }
+    addEventListener('resize', () => { size(); if (reduce) draw(0); }, { passive: true });
+  });
+</script>
+
+<style>
+  .well{position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+  .well--bed{opacity:.55}
+  .well--bed .well__vig{background:radial-gradient(120% 85% at 50% 50%, transparent 12%, rgba(0,0,0,.55) 78%)}
+  .well__c{position:absolute; inset:0; width:100%; height:100%; display:block}
+  .well__fog{position:absolute; left:50%; top:46%; width:58vmin; height:58vmin;
+    translate:-50% -50%; border-radius:50%;
+    background:radial-gradient(circle, rgba(64,196,232,.28) 0%, rgba(64,196,232,.09) 40%, transparent 70%);
+    filter:blur(38px); animation:fogPulse 13s ease-in-out infinite}
+  @keyframes fogPulse{0%,100%{opacity:.65; transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:1; transform:translate(-50%,-50%) scale(1.15)}}
+  .well__vig{position:absolute; inset:0;
+    background:radial-gradient(108% 78% at 50% 46%, transparent 24%, rgba(4,6,11,.62) 70%, #04060B 100%)}
+  @media (prefers-reduced-motion:reduce){ .well__fog{animation:none} }
+</style>

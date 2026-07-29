@@ -3,8 +3,14 @@
    Daylight is the reading skin; Lamplit is the masthead / hero / breaks. */
 
 :root {
-  --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#393533; --ink-soft:#4a443f;
-  --rust:#A53B1F; --rust-deep:#7E2F16; --ochre:#D38D42; --bone:#D2CDBB; --dusty:#91A5A8;
+  /* Billy Bob genome — the ancestor swatches (family palette).
+     First Family "day" ground; charcoal/rust/amber/bone/chambray per the brand guide. */
+  --charcoal-genome:#33303A; --rust-genome:#A8401D; --amber:#D99A42;
+  --bone-genome:#E4DECC; --chambray:#9DB4BC; --cyan:#40C4E8;
+  --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#33303A; --ink-soft:#4a4551;
+  --rust:#A8401D; --rust-deep:#7E2F16; --ochre:#D99A42; --bone:#E4DECC; --dusty:#9DB4BC;
+  /* motion genome: the shared 80% */
+  --breath:13s; --ease:cubic-bezier(.2,.8,.2,1); --drift:1.4;
   /* the deck's warm accents are rust + ochre; no invented hues */
   --burnt:#A53B1F; --burnt-deep:#7E2F16; --kraft:#C7A96F; --paper-cream:#E7DEC9;
   --denim:#ADC1D1; --denim-mid:#749FBA; --denim-deep:#386F99;
@@ -103,7 +109,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 
 /* ruled ledger / notebook paper — the order-form ephemera on the collage board */
 .ruled{background-image:repeating-linear-gradient(180deg,
-  transparent 0 27px, rgba(57,53,51,0.09) 27px 28px)}
+  transparent 0 27px, rgba(51,48,58,0.09) 27px 28px)}
 .ruled--red::before{content:""; position:absolute; top:0; bottom:0;
   left:clamp(1.4rem,7%,3.4rem); width:1.5px; background:rgba(165,59,31,0.4); z-index:1}
 
@@ -115,12 +121,12 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 
 /* cut + paste: a taped photo on a torn paper scrap, slightly askew (the loved treatment) */
 .taped{position:relative; display:inline-block; padding:0.7rem; background:var(--paper-cream);
-  box-shadow:0 18px 46px rgba(57,53,51,0.22); transform:rotate(-1.4deg)}
+  box-shadow:0 18px 46px rgba(51,48,58,0.22); transform:rotate(-1.4deg)}
 .taped::before{content:""; position:absolute; inset:-12px -10px -16px 12px; z-index:-1;
   background:var(--kraft); transform:rotate(2.6deg); clip-path:var(--torn-clip)}
 .taped img{display:block; width:100%; height:auto}
 .taped .tape{position:absolute; width:104px; height:30px; background:var(--tape);
-  box-shadow:0 1px 2px rgba(57,53,51,0.12); z-index:2}
+  box-shadow:0 1px 2px rgba(51,48,58,0.12); z-index:2}
 .taped .tape::after{content:""; position:absolute; inset:0; background-image:var(--grain);
   background-size:120px 120px; opacity:0.16; mix-blend-mode:multiply}
 .taped .tape--tl{top:-13px; left:16%; transform:rotate(-7deg)}
@@ -130,14 +136,14 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .notecard{position:relative; display:inline-block; padding:1.15rem 1.4rem 1.3rem;
   background:var(--paper-cream); font-family:var(--hand); color:var(--ink);
   font-size:clamp(1.4rem,2.4vw,1.9rem); line-height:1.25;
-  background-image:repeating-linear-gradient(180deg, transparent 0 30px, rgba(57,53,51,0.10) 30px 31px);
-  box-shadow:0 14px 34px rgba(57,53,51,0.20); transform:rotate(1.5deg)}
+  background-image:repeating-linear-gradient(180deg, transparent 0 30px, rgba(51,48,58,0.10) 30px 31px);
+  box-shadow:0 14px 34px rgba(51,48,58,0.20); transform:rotate(1.5deg)}
 .notecard .tape{position:absolute; top:-12px; left:50%; margin-left:-52px; width:104px; height:28px;
   background:var(--tape); transform:rotate(-3deg); z-index:2}
 
 /* torn-paper collage scraps, positioned by the section that uses them */
 .scrap{position:absolute; pointer-events:none; z-index:0; clip-path:var(--torn-clip);
-  box-shadow:0 8px 22px rgba(57,53,51,0.10)}
+  box-shadow:0 8px 22px rgba(51,48,58,0.10)}
 .scrap::after{content:""; position:absolute; inset:0; background-image:var(--grain);
   background-size:140px 140px; opacity:0.2; mix-blend-mode:multiply}
 .scrap--kraft{background:var(--kraft)}
@@ -165,6 +171,13 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .seal__bird img{width:100%; height:auto; opacity:0.95}
 @keyframes seal-spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.seal__ring{animation:none}}
+
+/* story pair — a sticky visual beside scrolling text; stacks on mobile */
+.pair{display:grid; gap:clamp(2rem,5vw,4rem); grid-template-columns:1fr; align-items:start}
+@media(min-width:860px){.pair{grid-template-columns:0.9fr 1fr}}
+.pair__visual{position:relative}
+@media(min-width:860px){.pair__visual{position:sticky; top:clamp(5rem,10vw,7rem)}}
+.pair__text{max-width:56ch; align-self:center}
 
 /* reveal on scroll */
 .reveal{opacity:1}

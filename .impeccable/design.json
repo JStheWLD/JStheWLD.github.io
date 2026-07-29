@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "title": "Design System: JS the Wld",
+  "extensions": {
+    "colorMeta": {
+      "rust": { "role": "primary", "displayName": "Genome Rust", "canonical": "oklch(44% 0.15 36)", "tonalRamp": ["#2E1409", "#4A200E", "#7E2F16", "#A8401D", "#C15734", "#D68A6C", "#E8BCAB", "#F6E4DD"] },
+      "amber": { "role": "secondary", "displayName": "Opry Amber", "canonical": "oklch(71% 0.12 66)", "tonalRamp": ["#3D2A10", "#5E4118", "#8A611F", "#B37A2E", "#D99A42", "#E3AC72", "#F0CDA6", "#F9E8D6"] },
+      "chambray": { "role": "secondary", "displayName": "Faded Chambray", "canonical": "oklch(74% 0.03 230)", "tonalRamp": ["#1D2A2F", "#2C4149", "#436069", "#5E818C", "#9DB4BC", "#BDCDD3", "#D9E3E7", "#EFF4F6"] },
+      "denim": { "role": "secondary", "displayName": "The Cool Room Denim", "canonical": "oklch(70% 0.05 235)", "tonalRamp": ["#182B36", "#20465A", "#2C5F79", "#386F99", "#749FBA", "#ADC1D1", "#CFDCE5", "#EAF0F4"] },
+      "ground": { "role": "neutral", "displayName": "Daylight Ground", "canonical": "oklch(93% 0.01 80)", "tonalRamp": ["#2B2925", "#514C43", "#8B8477", "#B9B2A2", "#D9D3C5", "#E6E2D9", "#EDEAE3", "#F6F4EF"] },
+      "ink": { "role": "neutral", "displayName": "Genome Charcoal", "canonical": "oklch(30% 0.02 300)", "tonalRamp": ["#16151A", "#252230", "#33303A", "#4A4551", "#6B6577", "#928CA0", "#BEB8C8", "#E7E3ED"] },
+      "cyan": { "role": "tertiary", "displayName": "Light-Form Cyan", "canonical": "oklch(76% 0.13 218)", "tonalRamp": ["#062733", "#0A4457", "#0F6A86", "#1B93B8", "#40C4E8", "#7BD8F0", "#B3E9F7", "#DEF6FC"] },
+      "kraft": { "role": "neutral", "displayName": "Kraft Paper", "canonical": "oklch(72% 0.06 80)", "tonalRamp": ["#382C16", "#5A4826", "#8A6E3B", "#AE8D52", "#C7A96F", "#D9C395", "#EBDFC3", "#F7F1E4"] },
+      "paper-cream": { "role": "neutral", "displayName": "Notecard Cream", "canonical": "oklch(90% 0.03 80)", "tonalRamp": ["#3C3323", "#5E4F37", "#8F7A54", "#B9A377", "#D4C3A0", "#E7DEC9", "#F1EBDD", "#F9F5EC"] },
+      "bone": { "role": "neutral", "displayName": "Truth Bird Bone", "canonical": "oklch(85% 0.015 90)", "tonalRamp": ["#33302A", "#565046", "#847B69", "#A79E8A", "#C2BAA6", "#D2CDBB", "#E2DECF", "#F0EDE3"] }
+    },
+    "typographyMeta": {
+      "monument": { "displayName": "Bodoni Moda Monument", "purpose": "Hero wordmark, pinned chapter words (Words/Code/Music/Jonathan), closing CTA slab. Type at architectural scale on a bare ground — the only place type behaves as image rather than heading. A BAND not one step: longer strings step down (hero 17vw, chapter 21vw, long-word 13vw, close 12vw) so the line never wraps or collides. One per viewport, nothing competing." },
+      "hud-label": { "displayName": "HUD Micro-Cap", "purpose": "Glass-HUD corner consoles only — the Storm Door link and the scroll-tracked beat readout. Tracked micro-caps from the shared genome chrome. Never reading content." },
+      "display": { "displayName": "Bodoni Moda Display", "purpose": "Inner-page hero H1, section H2s, card/item titles, blockquotes. Balanced with text-wrap: balance." },
+      "body": { "displayName": "Libre Baskerville Body", "purpose": "Reading copy on Daylight sections. 65–75ch measure, 1.75 line-height." },
+      "label": { "displayName": "UI Sans Label", "purpose": "Kickers, nav links, button/meta labels only. Never full sentences." },
+      "hand": { "displayName": "Reenie Beanie Handwriting", "purpose": "Notecard scrap and hand-numerals only — a deliberate handwritten-object moment, never body copy." }
+    },
+    "shadows": [
+      { "name": "photo-lift", "value": "0 18px 46px rgba(57,53,51,0.22)", "purpose": "Taped photographs — physically pinned to the page." },
+      { "name": "card-hover", "value": "0 18px 44px rgba(57,53,51,0.14)", "purpose": "Work-grid item cards, hover only, paired with translateY(-3px)." },
+      { "name": "button-glow", "value": "0 8px 30px rgba(188,90,36,0.35)", "purpose": "Primary button at rest; deepens to 0 14px 38px rgba(188,90,36,0.45) on hover." },
+      { "name": "notecard", "value": "0 14px 34px rgba(57,53,51,0.20)", "purpose": "Handwritten scrap, paired with a 1.5deg rotation." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.2,0.8,0.2,1)", "purpose": "Default easing for hover lifts, arrow slides, pill fills." },
+      { "name": "reveal-duration", "value": "0.9s", "purpose": "Scroll-reveal fade+rise for .reveal sections, via IntersectionObserver at 12% threshold." },
+      { "name": "seal-spin", "value": "46s linear infinite", "purpose": "The subscribe-section seal badge's slow rotation; paused under prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "nav-links", "value": "760px" },
+      { "name": "feature-grid", "value": "820px" },
+      { "name": "about-grid", "value": "860px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one CTA color in the system. Pill-shaped, rust, warm glow shadow.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Read The Storm Door <span class=\"ds-btn-arrow\">&rarr;</span></a>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:0.55rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; cursor:pointer; padding:0.95rem 1.6rem; border-radius:999px; border:0; background:#A53B1F; color:#FDF7EE; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), background 0.4s, box-shadow 0.4s; box-shadow: 0 8px 30px rgba(188,90,36,0.35); } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { background:#7E2F16; transform: translateY(-2px); box-shadow: 0 14px 38px rgba(188,90,36,0.45); } .ds-btn-arrow { transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1); } .ds-btn-primary:hover .ds-btn-arrow { transform: translateX(4px); }"
+    },
+    {
+      "name": "Ghost Link",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Low-emphasis internal link, underlined, rust on hover.",
+      "html": "<a class=\"ds-ghost\" href=\"#\">More about Jonathan &rarr;</a>",
+      "css": ".ds-ghost { font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; color:#E7E1D6; border-bottom:1px solid rgba(231,225,214,0.4); padding-bottom:2px; transition: border-color 0.3s; } .ds-ghost:hover, .ds-ghost:focus-visible { border-color:#A53B1F; }"
+    },
+    {
+      "name": "Nav Pill",
+      "kind": "nav",
+      "refersTo": "nav-pill",
+      "description": "Outlined pill CTA riding the Lamplit nav, inverts to solid cream on hover.",
+      "html": "<a class=\"ds-nav-pill\" href=\"#\">The Storm Door</a>",
+      "css": ".ds-nav-pill { font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.82rem; letter-spacing:0.04em; text-transform:uppercase; text-decoration:none; color:#F3EFE7; padding:0.55rem 1rem; border:1px solid rgba(243,239,231,0.45); border-radius:999px; transition: background 0.4s cubic-bezier(0.2,0.8,0.2,1), color 0.4s, border-color 0.4s; } .ds-nav-pill:hover, .ds-nav-pill:focus-visible { background:#F3EFE7; color:#393533; border-color:#F3EFE7; }"
+    },
+    {
+      "name": "Work Item Card",
+      "kind": "card",
+      "refersTo": "card-item",
+      "description": "Flat paper block, 3px radius, lifts on hover only — not a rounded digital card.",
+      "html": "<a class=\"ds-item\" href=\"#\"><div class=\"ds-item-label\">The Storm Door <span class=\"ds-item-meta\">the letter</span></div><p class=\"ds-item-body\">A letter most Saturday mornings.</p><span class=\"ds-item-go\">Read and subscribe &rarr;</span></a>",
+      "css": ".ds-item { display:block; text-decoration:none; color:#393533; padding:2.4rem; background:#EDEAE3; border-radius:3px; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s; } .ds-item:hover, .ds-item:focus-visible { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(57,53,51,0.14); } .ds-item-label { font-family: 'Bodoni Moda', serif; font-size:2.1rem; font-weight:500; } .ds-item-meta { font-family: ui-sans-serif, sans-serif; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:#A53B1F; margin-left:0.6rem; } .ds-item-body { margin:0.7rem 0 1.1rem; color:#4A443F; max-width:42ch; } .ds-item-go { font-family: ui-sans-serif, sans-serif; font-size:0.85rem; color:#A53B1F; }"
+    },
+    {
+      "name": "Taped Photo",
+      "kind": "custom",
+      "refersTo": "taped-photo",
+      "description": "The core physical-object motif — photo on cream paper, torn-kraft backing, tape pinning it down, rotated -1.4deg.",
+      "html": "<figure class=\"ds-taped\"><span class=\"ds-tape ds-tape-tl\"></span><span class=\"ds-tape ds-tape-br\"></span><img src=\"\" alt=\"\" /></figure>",
+      "css": ".ds-taped { position:relative; display:inline-block; padding:0.7rem; background:#E7DEC9; box-shadow: 0 18px 46px rgba(57,53,51,0.22); transform: rotate(-1.4deg); } .ds-taped img { display:block; width:260px; height:auto; } .ds-tape { position:absolute; width:104px; height:30px; background:rgba(224,212,178,0.5); box-shadow: 0 1px 2px rgba(57,53,51,0.12); z-index:2; } .ds-tape-tl { top:-13px; left:16%; transform: rotate(-7deg); } .ds-tape-br { bottom:-12px; right:14%; transform: rotate(-6deg); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Porch Letter",
+    "overview": "The whole site is built as if it's the porch before the letter arrives — the room you sit in before the Storm Door lands in your inbox Saturday morning. Nothing here is engineered to convert; it's laid out like objects a person actually kept: a taped photograph, a torn scrap of notepaper, a hand-inked underline, a ledger line. The two skins never blend — Daylight (warm eggshell, #EDEAE3) is the reading room, unhurried and paper-toothed; Lamplit (#2C2926 charcoal, filmic photography) is the threshold — hero, interstitials, the subscribe close. Crossing between them is deliberate, like walking from the porch into the house at dusk. This system explicitly rejects: generic AI-slop SaaS marketing (cream/gradient body backgrounds, identical card grids, gradient text, glassmorphism-as-decoration), anything cold or corporate-feeling, and — as standing project doctrine — any crypto/blockchain/decentralization-as-technology visual language, even incidentally.",
+    "keyCharacteristics": [
+      "Two skins in tension (Daylight reading / Lamplit threshold), never merged into one flat tone",
+      "Depth read as physical objects (tape, torn paper, grain) rather than digital drop-shadows",
+      "Serif-on-serif display/body pairing, one sans-serif reserved for labels only",
+      "Every texture handmade-coded: nothing that reads as a flat vector standing in for the real thing"
+    ],
+    "rules": [
+      { "name": "The One-Accent Rule", "body": "Rust is the only color allowed to mean action or attention. Ochre and denim are atmosphere, never competing CTAs.", "section": "colors" },
+      { "name": "The No-Flat-Shadow Rule", "body": "Depth never comes from a generic box-shadow alone — every elevated element is a physical object whose shadow reads as paper lifting off a surface, warm-tinted, never neutral gray or cool black.", "section": "colors" },
+      { "name": "The Two-Serif Rule", "body": "Only Bodoni Moda and Libre Baskerville carry reading content. The sans-serif label font never appears above label size and never carries a full sentence.", "section": "typography" },
+      { "name": "The Object, Not the Layer Rule", "body": "A shadow only appears where a physical object metaphor justifies it. Flat sections and body text never carry a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep rust as the only color that means action — buttons, active states, the one CTA per section.",
+      "Do justify every shadow with a physical object; nothing gets a shadow just because it's a container.",
+      "Do keep Daylight and Lamplit fully separate — no gradient blending one into the other within a single section.",
+      "Do use the torn-clip / grain / taped-photo vocabulary for anything that needs to feel kept, not built."
+    ],
+    "donts": [
+      "Don't use a cream/gradient body background as a generic warm default — Ground (#EDEAE3) is a named, specific surface.",
+      "Don't build identical repeating card grids with icon + heading + text.",
+      "Don't use gradient text, glassmorphism-as-decoration, or generic SaaS-marketing scaffolding.",
+      "Don't introduce crypto/blockchain/decentralization-as-technology visual language.",
+      "Don't let the sans-serif label font carry a full sentence or appear above 0.92rem.",
+      "Don't mix cool denim into more than the one dedicated cool-room section."
+    ]
+  }
+}

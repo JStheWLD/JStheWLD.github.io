@@ -1,207 +1,394 @@
 ---
 import Base from '../layouts/Base.astro';
-import Wave from '../components/Wave.astro';
-import Seal from '../components/Seal.astro';
-import Oaks from '../components/Oaks.astro';
-import Bird from '../components/Bird.astro';
+import Texture from '../components/Texture.astro';
+import Well from '../components/Well.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
-<Base title="JS the Wld — Jonathan Sexton" nav="overlay">
+<Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true}>
+  <!-- ── HUD chrome: seal + corner consoles ── -->
+  <a class="seal" href="/" aria-label="JS the WLD, home">
+    <img src="/assets/bird-white.png" alt="" width="18" height="18" />
+  </a>
+  <a class="hud hud--tr" href={STORM_DOOR_URL} rel="noopener"><span>The Storm Door</span></a>
+  <div class="hud hud--bl" aria-hidden="true"><span data-hud>Words / Music / Code</span></div>
+  <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
+
   <main id="top">
-    <!-- HERO -->
-    <section class="hero" aria-label="Introduction">
-      <img class="hero__photo" src="/assets/hero.jpg" alt="Jonathan Sexton leaning at a wood-paneled bar in warm lamplight, his reflection held in the mirror behind him." width="1333" height="2000" />
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <div class="hero__inner">
-        <h1>How we used to do it, <em>and how we might again.</em></h1>
-        <p class="hero__sub">JS the Wld is the name Jonathan Sexton writes and sings under. One fellow from East Tennessee, by way of Nashville, with songs, a letter most Saturdays, and a book he's been at for years. Pull up a chair.</p>
-        <div class="hero__cta">
-          <a class="btn" href={STORM_DOOR_URL} rel="noopener">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    <!-- ══ 01 HERO — the ground falls away ══ -->
+    <section class="hero" aria-label="JS the WLD">
+      <Well />
+      <Texture tone="dark" />
+
+      <div class="hero__body">
+        <img class="hero__mark" src="/assets/jswld-wordmark.png"
+          alt="JS the WLD" width="969" height="1200" fetchpriority="high" />
+
+        <p class="hero__name"><span class="rv">I'm Jonathan Sexton aka JS the WLD.</span></p>
+
+        <p class="hero__line"><span class="rv rv--2">I make stories with Words, Music, and Code.</span></p>
+      </div>
+
+      <a class="cue" href="#words" aria-label="Start"><span aria-hidden="true"></span></a>
+    </section>
+
+    <!-- ══ 02 WORDS — paper, blown out bright ══ -->
+    <section class="act act--paper" id="words" data-hud="Words" aria-label="Words">
+      <Texture tone="light" />
+      <h2 class="act__word" aria-hidden="true"><span>WORDS</span></h2>
+      <div class="stage" data-stage>
+        <figure class="grow grow--a">
+          <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
+        </figure>
+        <div class="tell">
+          <p class="tag">01 &mdash; The letter</p>
+          <h3>The Storm Door</h3>
+          <p>A letter most Saturday mornings. Life and how it's changing, music and technology, memories and old news, how we used to do things and might again.</p>
+          <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read and subscribe</a>
+        </div>
+      </div>
+      <div class="stage stage--flip" data-stage>
+        <figure class="grow grow--b">
+          <div class="slab"><span>THE SOUND OF SOMETHING MORE</span></div>
+        </figure>
+        <div class="tell">
+          <p class="tag">02 &mdash; The book</p>
+          <h3>The Sound of Something More</h3>
+          <p>Mostly about where songs come from, where they go, and where they take us.</p>
+          <p>Years in the making, under the mentorship of New York Times bestselling author Kathryn Aalto.</p>
+          <a class="lnk" href="/book">About the book</a>
         </div>
       </div>
     </section>
 
-    <!-- FRAME -->
-    <section class="frame grain" aria-label="What this is">
-      <span class="frame__bird frame__bird--1" aria-hidden="true"><Bird /></span>
-      <span class="frame__bird frame__bird--2" aria-hidden="true"><Bird /></span>
-      <div class="wrap reveal">
-        <div class="frame__wave"><Wave /></div>
-        <p class="kicker">What this is</p>
-        <h2>It's all one thing, wearing different clothes.</h2>
-        <p>The songs and the essays and the book are all worrying the same bone: what's worth keeping, and how you hold onto it, when everything around you is built to move faster. I come at it sideways, mostly. Through a melody, or an old story, or a letter on a Saturday. Whatever gets closest.</p>
-      </div>
-    </section>
-
-    <!-- THE WORK -->
-    <section class="work grain" id="work" aria-label="The work">
-      <div class="seam cord" aria-hidden="true"></div>
-      <span class="scrap scrap--ochre w-scrap1" aria-hidden="true"></span>
-      <span class="scrap scrap--denim w-scrap2" aria-hidden="true"></span>
-      <div class="head reveal">
-        <p class="kicker">The work</p>
-        <h2>What you'll find here.</h2>
-      </div>
-      <div class="wrap">
-        <div class="feature">
-          <a class="item reveal" href={STORM_DOOR_URL} rel="noopener">
-            <div class="label">The Storm Door <span class="meta">the letter</span></div>
-            <p>A letter most Saturday mornings. Life and how it's changing, music and technology, memories and old news, how we used to do things and might again.</p>
-            <span class="go">Read and subscribe <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          </a>
-          <a class="item reveal" href="/book">
-            <div class="label">The Sound of Something More <span class="meta">what I'm writing</span></div>
-            <p>A book about the power of a song, years in the making, under the mentorship of New York Times bestselling author Kathryn Aalto.</p>
-            <span class="go">About the book <span class="arrow" aria-hidden="true">&rarr;</span></span>
-          </a>
+    <!-- ══ 03 CODE / ART — electric, the future pole ══ -->
+    <section class="act act--wire" data-hud="Code" aria-label="Code">
+      <Well variant="bed" />
+      <div class="wire" aria-hidden="true"><span></span><span></span><span></span></div>
+      <Texture tone="dark" />
+      <h2 class="act__word act__word--lit" aria-hidden="true"><span>CODE</span></h2>
+      <div class="stage" data-stage>
+        <figure class="grow grow--f">
+          <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
+        </figure>
+        <div class="tell">
+          <p class="tag tag--lit">03 &mdash; Billy Bob</p>
+          <h3 class="h3--lit">The living memory</h3>
+          <p>A database of American music history you can fly through. Three hundred nodes, three hundred and eighty threads &mdash; every one a line of descent from somebody to somebody.</p>
+          <a class="lnk lnk--lit" href="/field/first-family/index.html">Open the river</a>
         </div>
-        <div class="minor">
-          <a class="row" href="/field">
-            <span class="row__name">The Field</span>
-            <span class="row__desc">Interactive pieces and the 11:11 essays. Start with the family tree of the music you already know.</span>
-            <span class="row__tag">Explore</span>
-          </a>
-          <div class="row" aria-disabled="true">
-            <span class="row__name">The songs</span>
-            <span class="row__desc">Years of them, with more on the way.</span>
-            <span class="row__tag">Soon</span>
-          </div>
-          <div class="row" aria-disabled="true">
-            <span class="row__name">The Infinite Well</span>
-            <span class="row__desc">Conversations and live gatherings.</span>
-            <span class="row__tag">After the book</span>
-          </div>
+      </div>
+      <div class="stage stage--solo" data-stage>
+        <div class="tell tell--mid">
+          <p class="tag tag--lit">More in progress</p>
         </div>
       </div>
     </section>
 
-    <!-- INTERSTITIAL -->
-    <section class="band" aria-label="">
-      <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" />
-      <div class="scrim" aria-hidden="true"></div>
-      <blockquote>I'm not looking to go back. I'd just hate to leave the good part behind.</blockquote>
-    </section>
-
-    <!-- GROVE (hand-drawn southern tree line) -->
-    <section class="grove" aria-hidden="true">
-      <Oaks />
-    </section>
-
-    <!-- ABOUT -->
-    <section class="about grain" id="about" aria-label="About Jonathan Sexton">
-      <div class="wrap">
-        <div class="about__photo reveal">
-          <figure class="taped">
-            <span class="tape tape--tl" aria-hidden="true"></span>
-            <span class="tape tape--br" aria-hidden="true"></span>
-            <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch in a wood-paneled room, a lamp glowing beside him." width="1000" height="1500" />
-          </figure>
-          <span class="notecard about__note" aria-hidden="true">
-            <span class="tape"></span>
-            raised on liner notes
-          </span>
+    <!-- ══ 04 MUSIC — warm dark ══ -->
+    <section class="act act--dusk" data-hud="Music" aria-label="Music">
+      <Well variant="bed" />
+      <Texture tone="dark" />
+      <h2 class="act__word" aria-hidden="true"><span>SONGS</span></h2>
+      <div class="stage" data-stage>
+        <figure class="grow grow--c">
+          <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" loading="lazy" />
+        </figure>
+        <div class="tell">
+          <p class="tag">04 &mdash; Before the pages</p>
+          <h3>The songs came first</h3>
+          <p>A Bonnaroo stage, an O Music Award, and a Guinness World Record he's still a little embarrassed about. He still writes and fronts a band, because some things don't clock out.</p>
         </div>
-        <div class="reveal">
-          <p class="kicker">Who's back here</p>
-          <h2>Jonathan Sexton</h2>
-          <p><span class="nm">Jonathan grew up</span> in East Tennessee, up the road from where Dolly did, and calls Nashville home now. His dad handed him records and told him who played on them before he could read, and it mostly stuck.</p>
-          <p>He played music for a living for a while, a Bonnaroo stage and an award and a world record he's still a little embarrassed about, then taught school, built a few companies, worked in technology, and studied AI at MIT, close enough to the machine to know what it can't do. He writes and plays under the name JS the Wld.</p>
-          <p><a class="ghost" style="color:var(--rust);border-color:var(--rust)" href="/about">More about Jonathan &rarr;</a></p>
+      </div>
+      <div class="strip" data-stage>
+        <figure class="slide slide--l"><img src="/field/first-family/img/leadbelly.jpg" alt="Lead Belly" width="920" height="1240" loading="lazy" /></figure>
+        <figure class="slide slide--r"><img src="/field/first-family/img/muddy.jpg" alt="Muddy Waters" width="1040" height="1500" loading="lazy" /></figure>
+        <figure class="slide slide--l slide--late"><img src="/field/first-family/img/dolly.jpg" alt="Dolly Parton" width="1000" height="1333" loading="lazy" /></figure>
+        <figure class="slide slide--r slide--late"><img src="/field/first-family/img/dylan.jpg" alt="Bob Dylan" width="1000" height="1336" loading="lazy" /></figure>
+      </div>
+
+      <blockquote class="shout" data-stage>
+        <span>I'm not looking to go back. I'd just hate to leave the good part behind.</span>
+      </blockquote>
+    </section>
+
+
+    <!-- ══ 05 JONATHAN ══ -->
+    <section class="act act--paper" id="about" data-hud="Jonathan" aria-label="Jonathan Sexton">
+      <Texture tone="light" />
+      <h2 class="act__word" aria-hidden="true"><span>SOUTH</span></h2>
+      <div class="stage" data-stage>
+        <figure class="grow grow--d">
+          <img src="/assets/hero.jpg" alt="Jonathan Sexton at a wood-paneled bar in warm lamplight." width="1333" height="2000" loading="lazy" />
+        </figure>
+        <div class="tell">
+          <p class="tag">05 &mdash; Who's back here</p>
+          <h3>East Tennessee, by way of Nashville</h3>
+          <p>Grew up up the road from where Dolly did. His dad handed him records and told him who played on them before he could read, and it mostly stuck.</p>
+          <p>He taught school, built a few companies, worked in technology, and studied AI at MIT.</p>
+          <a class="lnk" href="/about">More about Jonathan</a>
         </div>
       </div>
     </section>
 
-    <!-- SUBSCRIBE -->
-    <section class="sub grain grain--dark" id="subscribe" aria-label="Subscribe">
-      <span class="numeral sub__scrawl" aria-hidden="true">11:11</span>
-      <div class="wrap reveal">
-        <div class="sub__seal"><Seal top="The Storm Door" bottom="Come Saturday" /></div>
-        <h2>Most Saturdays, I write a letter.</h2>
-        <p>It's called The Storm Door, and it's about whatever's got my attention that week. Life and how it's changing, the good of it and the bad. Music and technology, memories and old news. How we used to do things, and how we might come around to doing them again. It's free, and short enough for one cup of coffee. Leave your name and I'll meet you there Saturday.</p>
-        <a class="btn" href={STORM_DOOR_URL} rel="noopener">Read The Storm Door <span class="arrow" aria-hidden="true">&rarr;</span></a>
-        <p class="fine">The letter lives on Substack. This is just the porch.</p>
+    <!-- ══ 06 CLOSE ══ -->
+    <section class="end" id="subscribe" data-hud="The Storm Door" aria-label="Subscribe">
+      <Well variant="bed" />
+      <Texture tone="dark" />
+      <div class="end__body" data-stage>
+        <figure class="grow grow--e end__art">
+          <img src="/assets/storm-door/cover-banner-storm-lower-jswld-topright-1600x600.png" alt="The Storm Door" width="1600" height="600" loading="lazy" />
+        </figure>
+        <p class="tag tag--lit">Most Saturdays</p>
+        <h2 class="end__word">THE STORM DOOR</h2>
+        <p class="end__copy">Free, and short enough for one cup of coffee. Leave your name and I'll meet you there Saturday.</p>
+        <a class="cta" href={STORM_DOOR_URL} rel="noopener">Read the letter</a>
       </div>
+      <p class="colophon">JS the WLD &mdash; the pen name of Jonathan Sexton &mdash; East Tennessee, by way of Nashville</p>
     </section>
   </main>
+
+  <script>
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // hero failsafe — animations throttle in hidden tabs; never ship a blank hero
+    const hero = document.querySelector('.hero');
+    const settle = () => hero && hero.classList.add('set');
+    if (reduce) settle();
+    else {
+      setTimeout(settle, 3400);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
+    }
+
+    // things grow in
+    const risers = document.querySelectorAll('[data-stage] > *, .shout, .slide');
+    if (reduce) risers.forEach((el) => el.classList.add('in'));
+    else {
+      const io = new IntersectionObserver((es) => {
+        for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      risers.forEach((el) => io.observe(el));
+      setTimeout(() => risers.forEach((el) => el.classList.add('in')), 3000);
+    }
+
+    // scroll: HUD readout, percent, texture parallax, hero deck recede
+    const hud = document.querySelector('[data-hud]');
+    const pct = document.querySelector('[data-pct]');
+    const marks = [...document.querySelectorAll('[data-hud]')].filter((m) => m.dataset.hud);
+    const layers = reduce ? [] : [...document.querySelectorAll('[data-par]')];
+    let tick = false;
+    const draw = () => {
+      tick = false;
+      const sy = window.scrollY;
+      const doc = document.body.scrollHeight - window.innerHeight;
+      const p = Math.min(1, Math.max(0, sy / (doc || 1)));
+      if (pct) pct.textContent = String(Math.round(p * 100)).padStart(2, '0');
+      const mid = sy + window.innerHeight * 0.5;
+      let cur = null;
+      for (const m of marks) if (m.offsetTop <= mid) cur = m.dataset.hud;
+      if (hud && cur && hud.textContent !== cur) hud.textContent = cur;
+      for (const l of layers) {
+        const host = l.parentElement.parentElement;
+        l.style.transform = `translate3d(0,${((sy - host.offsetTop) * parseFloat(l.dataset.par)).toFixed(1)}px,0)`;
+      }
+    };
+    addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(draw); } }, { passive: true });
+    draw();
+  </script>
 </Base>
 
 <style>
-  /* hero */
-  .hero{position:relative; min-height:100svh; display:grid; align-items:end; color:#f3efe7; background:var(--charcoal-deep); overflow:hidden}
-  .hero__photo{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 40%}
-  .hero__scrim{position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,18,16,0.5) 0%, rgba(20,18,16,0.05) 28%, rgba(20,18,16,0.12) 52%, rgba(20,18,16,0.9) 100%), radial-gradient(120% 90% at 72% 38%, rgba(0,0,0,0) 42%, rgba(20,18,16,0.5) 100%)}
-  .hero__inner{position:relative; padding:0 var(--pad) clamp(2.5rem,6vw,5rem); max-width:1200px; width:100%}
-  .hero h1{font-size:clamp(2.5rem,6vw,5rem); max-width:16ch; color:#f6f2ea; text-shadow:0 1px 30px rgba(0,0,0,0.35)}
-  .hero h1 em{font-style:italic; color:var(--bone)}
-  .hero__sub{margin:clamp(1.1rem,2.4vw,1.6rem) 0 clamp(1.6rem,3vw,2.2rem); max-width:52ch; font-size:clamp(1.02rem,0.5vw + 0.95rem,1.22rem); color:#e7e1d6; line-height:1.7}
-  .hero__cta{display:flex; gap:1rem; align-items:center; flex-wrap:wrap}
+  /* ══════ TYPE: matte grotesque + typewriter. No serif. ══════ */
+  main{--grot:"Archivo",ui-sans-serif,system-ui,sans-serif;
+    --tw:"Courier Prime",ui-monospace,"SF Mono",monospace;
+    --wire-bg:#04060B; --lit:#40C4E8; --edge:rgba(64,196,232,.18); --edge-lit:rgba(64,196,232,.85);
+    --paper:#EDEAE3; --dusk:#171512; --ink:#1B1916}
 
-  /* frame — the cool room (soft denim from the shoot) */
-  .frame{background:var(--denim); position:relative; overflow:hidden}
-  .frame__wave{width:clamp(150px,20vw,224px); margin:0 auto clamp(1.5rem,3.2vw,2.2rem); filter:drop-shadow(0 6px 14px rgba(35,48,58,0.18))}
-  .frame__bird{position:absolute; color:#33454f; opacity:0.55; z-index:1; pointer-events:none}
-  .frame__bird--1{width:clamp(52px,7vw,84px); top:12%; left:11%; transform:rotate(-6deg)}
-  .frame__bird--2{width:clamp(34px,4.5vw,52px); top:22%; right:15%; transform:rotate(4deg)}
-  @media(max-width:640px){.frame__bird--2{display:none}}
+  /* ══════ HUD chrome ══════ */
+  .seal{position:fixed; top:14px; left:14px; z-index:99; width:38px; height:38px; border-radius:50%;
+    background:rgba(0,0,0,.62); display:grid; place-items:center;
+    box-shadow:0 0 0 1px rgba(255,255,255,.22), 0 2px 12px rgba(0,0,0,.6);
+    transition:box-shadow 900ms cubic-bezier(.2,.8,.2,1)}
+  .seal:hover{box-shadow:0 0 0 1px var(--edge-lit), 0 0 22px rgba(64,196,232,.5)}
+  .seal img{width:18px; height:auto}
+  .hud{position:fixed; z-index:99; padding:7px 11px; text-decoration:none;
+    background:rgba(8,10,14,.55); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+  .hud span{font-family:var(--tw); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:#EAF2F6; white-space:nowrap}
+  .hud--tr{top:14px; right:14px}
+  .hud--tr:hover{box-shadow:inset 0 0 0 1px var(--edge-lit)}
+  .hud--bl{bottom:14px; left:14px; pointer-events:none}
+  .hud--br{bottom:14px; right:14px; pointer-events:none}
+  .hud--br span{color:var(--lit)}
+  @media(max-width:640px){.hud--bl{display:none}}
 
-  /* grove — the hand-drawn tree line divider */
-  .grove{background:var(--ground-2); padding:clamp(1.5rem,4vw,3rem) 0 0; line-height:0}
-  .grove :global(.oaks){display:block; width:100%; max-width:1240px; margin:0 auto; color:#3a4a54}
-  .frame .wrap{max-width:880px; text-align:center}
-  .frame .kicker{color:var(--rust-deep); margin-bottom:1.4rem}
-  .frame h2{font-size:clamp(1.7rem,3.4vw,2.7rem); max-width:22ch; margin:0 auto; line-height:1.16; color:#23303a}
-  .frame p{margin:clamp(1.4rem,3vw,2rem) auto 0; max-width:60ch; font-size:clamp(1.05rem,0.5vw+1rem,1.2rem); color:#33424b}
+  /* ══════ 01 HERO — perspective, the ground falls away ══════ */
+  .hero{position:relative; min-height:100svh; display:grid; place-items:center; overflow:hidden;
+    background:#04060B; color:#E9E4D8; padding:9vh 5vw 11vh}
 
-  /* the work */
-  .work{background:var(--ground-2); position:relative; overflow:hidden}
-  .seam{position:absolute; top:0; left:0; right:0; height:7px; z-index:3}
-  .w-scrap1{width:clamp(90px,12vw,150px); aspect-ratio:1; top:-24px; right:7%; transform:rotate(13deg); opacity:0.5}
-  .w-scrap2{width:clamp(80px,10vw,120px); aspect-ratio:1; bottom:8%; left:-34px; transform:rotate(-11deg); opacity:0.55}
-  .work .head{max-width:1180px; margin:0 auto; padding-inline:var(--pad)}
-  .work .kicker{color:var(--rust)}
-  .work h2{font-size:clamp(1.7rem,3.4vw,2.6rem); margin:0.8rem 0 0}
-  .feature{display:grid; gap:clamp(1rem,3vw,2rem); grid-template-columns:1fr; margin-top:clamp(2rem,5vw,3.5rem)}
-  @media(min-width:820px){.feature{grid-template-columns:1fr 1fr}}
-  .item{display:block; text-decoration:none; color:inherit; padding:clamp(1.5rem,3vw,2.4rem); background:var(--ground); border-radius:3px; transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s}
-  .item:hover{transform:translateY(-3px); box-shadow:0 18px 44px rgba(57,53,51,0.14)}
-  .item .label{font-family:var(--display); font-size:clamp(1.5rem,2.6vw,2.1rem); display:flex; align-items:baseline; gap:0.6rem}
-  .item .meta{font-family:var(--ui); font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--rust)}
-  .item p{margin:0.7rem 0 1.1rem; color:var(--ink-soft); max-width:42ch}
-  .item .go{font-family:var(--ui); font-size:0.85rem; letter-spacing:0.03em; color:var(--rust); display:inline-flex; align-items:center; gap:0.4rem}
-  .item .go .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
-  .item:hover .go .arrow{transform:translateX(4px)}
-  .minor{margin-top:clamp(1rem,2.5vw,1.5rem); border-top:1px solid #d4cfc3}
-  .row{display:flex; align-items:baseline; justify-content:space-between; gap:1.5rem; padding:1.3rem 0; border-bottom:1px solid #d4cfc3; text-decoration:none; color:inherit; flex-wrap:wrap}
-  a.row:hover .row__name{color:var(--rust)}
-  .row__name{font-family:var(--display); font-size:clamp(1.2rem,2vw,1.6rem); transition:color .3s}
-  .row__desc{color:var(--ink-soft); font-size:0.98rem; flex:1 1 320px}
-  .row__tag{font-family:var(--ui); font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase; color:#8a857c}
 
-  /* interstitial */
-  .band{position:relative; min-height:62svh; display:grid; place-items:center; color:#f3efe7; overflow:hidden; text-align:center}
-  .band img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 45%}
-  .band .scrim{position:absolute; inset:0; background:rgba(24,21,19,0.62)}
-  .band blockquote{position:relative; margin:0; padding:0 var(--pad); max-width:24ch; font-family:var(--display); font-style:italic; font-size:clamp(1.6rem,3.4vw,2.6rem); line-height:1.3; text-shadow:0 1px 24px rgba(0,0,0,0.4)}
+  .hero__body{position:relative; z-index:3; text-align:center; max-width:70ch;
+    transform-style:preserve-3d; padding:clamp(1.5rem,4vw,3rem) clamp(1.5rem,5vw,4rem)}
+  /* the streams run behind the text, so the copy gets its own bed of dark */
+  .hero__body::before{content:""; position:absolute; inset:-6% -8%; z-index:-1; border-radius:50%;
+    background:radial-gradient(62% 58% at 50% 50%, rgba(4,6,11,.82) 0%, rgba(4,6,11,.5) 62%, transparent 84%)}
+  .hero__mark{width:clamp(112px,15vw,205px); height:auto; margin:0 auto clamp(1.1rem,2.4vw,1.7rem);
+    filter:drop-shadow(0 24px 46px rgba(0,0,0,.7))}
+  :global(.js) .hero__mark{opacity:0; transform:translateZ(-320px) scale(.7); filter:blur(14px);
+    animation:markIn 1600ms cubic-bezier(.16,.84,.24,1) 180ms forwards}
+  @keyframes markIn{to{opacity:1; transform:translateZ(0) scale(1);
+    filter:blur(0) drop-shadow(0 24px 46px rgba(0,0,0,.7))}}
 
-  /* about */
-  .about{overflow-x:clip}
-  .about .wrap{display:grid; gap:clamp(2rem,5vw,4.5rem); align-items:center; grid-template-columns:1fr}
-  @media(min-width:860px){.about .wrap{grid-template-columns:0.82fr 1fr}}
-  .about__photo{position:relative; display:flex; justify-content:center; padding:1rem 0.5rem 2.5rem}
-  .about__note{position:absolute; right:2%; bottom:0; width:min(210px,60%); font-size:clamp(1.15rem,1.5vw,1.45rem); transform:rotate(3.5deg); z-index:4}
-  @media(max-width:540px){.about__note{right:0; width:min(180px,66%)}}
-  .about .kicker{color:var(--rust); margin-bottom:1rem}
-  .about h2{font-size:clamp(1.7rem,3.4vw,2.6rem); margin-bottom:1.2rem}
-  .about p{max-width:54ch; color:var(--ink-soft)}
-  .about p + p{margin-top:1.05rem}
-  .about .nm{font-variant:small-caps; letter-spacing:0.04em; color:var(--rust)}
+  .rv{display:inline-block}
+  :global(.js) .rv{clip-path:inset(0 100% 0 0); opacity:0;
+    animation:rvIn 1000ms cubic-bezier(.16,1,.3,1) 1200ms forwards}
+  :global(.js) .rv--2{animation-delay:1650ms}
+  :global(.js) .rv--3{animation-delay:3000ms}
+  @keyframes rvIn{to{clip-path:inset(0 0 0 0); opacity:1}}
 
-  /* subscribe */
-  .sub{background:var(--charcoal-deep); color:#e7e1d6; text-align:center; position:relative; overflow:hidden}
-  .sub .wrap{max-width:680px}
-  .sub__seal{color:var(--bone); margin-bottom:clamp(0.6rem,2vw,1rem)}
-  .sub__scrawl{position:absolute; font-size:clamp(9rem,26vw,19rem); top:50%; left:50%; transform:translate(-50%,-48%) rotate(-6deg); color:var(--rust); opacity:0.16; pointer-events:none; z-index:0}
-  .sub h2{font-size:clamp(1.9rem,4.2vw,3rem); color:#f3efe7; margin-top:clamp(1rem,2.4vw,1.6rem)}
-  .sub p{margin:1.1rem auto clamp(1.8rem,4vw,2.4rem); max-width:46ch; color:#cdc6ba; font-size:clamp(1.05rem,0.5vw+1rem,1.18rem)}
-  .sub .fine{margin-top:1.2rem; font-size:0.85rem; color:#a59e92; font-style:italic}
+  .hero__name{font-family:var(--tw); font-size:clamp(.72rem,1.5vw,.86rem); letter-spacing:.2em;
+    text-transform:uppercase; color:#9FB0B8; margin:0 0 clamp(.7rem,1.6vw,1.1rem)}
+
+  /* the maker line — one sentence, small, the three crafts carrying the color */
+  .hero__line{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem); line-height:1.75;
+    letter-spacing:.02em; color:#C9D3D8; margin:0 0 clamp(1.4rem,3vw,2rem)}
+  .hero__line{color:#EDE9DF}
+
+  .hero__tail{font-family:var(--tw); font-size:clamp(.82rem,1.5vw,.98rem); line-height:1.85;
+    color:#8C9BA3; max-width:54ch; margin:0 auto}
+
+  .cue{position:absolute; left:50%; bottom:26px; translate:-50% 0; width:1px; height:44px; z-index:4}
+  .cue span{display:block; width:1px; height:100%;
+    background:linear-gradient(180deg, transparent, var(--lit), transparent);
+    animation:cue 2.6s cubic-bezier(.2,.8,.2,1) infinite}
+  @keyframes cue{0%{opacity:0; transform:translateY(-10px)} 40%{opacity:1} 100%{opacity:0; transform:translateY(16px)}}
+
+  :global(.js) .hero.set .hero__mark,
+  :global(.js) .hero.set .rv,
+  :global(.js) .hero.set .mk{opacity:1; transform:none; clip-path:none; filter:none; animation:none}
+
+  /* ══════ ACTS — contrast flips section to section ══════ */
+  .act{position:relative; overflow-x:clip; padding:clamp(5rem,12vw,9rem) 5vw clamp(5rem,12vw,9rem)}
+  .act--paper{background:var(--paper); color:var(--ink)}
+  .act--dusk{background:var(--dusk); color:#E9E4D8}
+  .act--wire{background:var(--wire-bg); color:#DFF2F8}
+
+  /* the act word — huge, matte, tracked tight, clipped at the top edge */
+  .act__word{position:relative; z-index:2; margin:0 0 clamp(2.5rem,6vw,4.5rem); overflow:hidden}
+  .act__word span{display:block; font-family:var(--grot); font-weight:900;
+    font-size:clamp(3.4rem,17vw,13rem); letter-spacing:-.055em; line-height:.86;
+    color:currentColor; opacity:.13}
+  .act--wire .act__word span{opacity:1; color:var(--lit);
+    text-shadow:0 0 60px rgba(64,196,232,.45), 0 0 160px rgba(64,196,232,.25)}
+
+  /* ══════ STAGE + things that GROW toward you ══════ */
+  .stage{position:relative; z-index:2; display:grid; grid-template-columns:1fr;
+    gap:clamp(2rem,5vw,4rem); align-items:center; max-width:1180px; margin:0 auto;
+    padding-block:clamp(3rem,8vw,6rem); perspective:1100px}
+  @media(min-width:900px){
+    .stage{grid-template-columns:1.05fr .95fr; gap:clamp(2.5rem,6vw,5rem)}
+    .stage--flip figure{order:2} .stage--flip .tell{order:1}
+  }
+  .stage--solo{grid-template-columns:1fr; place-items:center; text-align:center}
+  @media(min-width:900px){.stage--solo{grid-template-columns:1fr}}
+
+  figure{margin:0}
+  .grow{transform-style:preserve-3d}
+  .grow img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
+    box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
+  :global(.js) .grow{opacity:0; transform:translateZ(-520px) scale(.42);
+    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1); will-change:transform}
+  :global(.js) .grow.in{opacity:1; transform:translateZ(0) scale(1) rotate(var(--tilt,0deg))}
+  .grow--a{--tilt:-1.6deg} .grow--b{--tilt:1.8deg}
+  .grow--c{--tilt:1.4deg} .grow--d{--tilt:-1.9deg} .grow--e{--tilt:0deg}
+
+  /* a type slab standing in for a cover */
+  .slab{aspect-ratio:4/5; display:grid; place-items:center; padding:12%;
+    background:linear-gradient(150deg,#20242B,#0D1014);
+    box-shadow:0 40px 90px -28px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.08)}
+  .slab span{font-family:var(--grot); font-weight:900; font-size:clamp(1.2rem,3.2vw,2.3rem);
+    letter-spacing:-.02em; line-height:1.02; color:#F2EFE6; text-align:center}
+
+  :global(.js) .tell{opacity:0; transform:translateY(28px);
+    transition:opacity 900ms ease 120ms, transform 900ms cubic-bezier(.2,.8,.2,1) 120ms}
+  :global(.js) .tell.in{opacity:1; transform:none}
+  .tell{max-width:52ch}
+  .tell--mid{margin-inline:auto; text-align:center}
+  .tag{font-family:var(--tw); font-size:.74rem; letter-spacing:.24em; text-transform:uppercase;
+    color:#A8401D; margin:0 0 1rem}
+  .act--dusk .tag{color:#D99A42}
+  .tag--lit{color:var(--lit)}
+  .tell h3{font-family:var(--grot); font-weight:800; font-size:clamp(1.7rem,4vw,2.9rem);
+    letter-spacing:-.035em; line-height:1.02; margin:0 0 1.1rem}
+  .h3--lit{color:var(--lit); text-shadow:0 0 40px rgba(64,196,232,.4)}
+  .tell p{font-family:var(--tw); font-size:clamp(.86rem,1.5vw,1rem); line-height:1.9;
+    opacity:.82; margin:0 0 1.3rem}
+  .lnk{font-family:var(--tw); font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+    text-decoration:none; color:inherit; border-bottom:2px solid #A8401D; padding-bottom:3px;
+    transition:border-color 700ms ease, color 700ms ease}
+  .lnk:hover{color:#A8401D}
+  .act--dusk .lnk{border-color:#D99A42} .act--dusk .lnk:hover{color:#D99A42}
+  .lnk--lit{border-color:var(--lit)} .lnk--lit:hover{color:var(--lit)}
+  /* the lightform capture is wide, not a 4:5 portrait */
+  .grow--f{--tilt:0deg}
+  .grow--f img{aspect-ratio:auto}
+
+  /* the music strip — portraits arrive from opposite sides */
+  .strip{position:relative; z-index:2; display:grid; grid-template-columns:repeat(2,1fr);
+    gap:clamp(.8rem,2vw,1.4rem); max-width:1180px; margin:clamp(2.5rem,6vw,4rem) auto 0;
+    perspective:1200px}
+  @media(min-width:760px){.strip{grid-template-columns:repeat(4,1fr)}}
+  .strip img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
+    filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
+  :global(.js) .slide{opacity:0; will-change:transform,opacity;
+    transition:opacity 820ms ease, transform 1200ms cubic-bezier(.16,.84,.24,1)}
+  :global(.js) .slide--l{transform:translate3d(-90px,0,0) rotate(-4deg)}
+  :global(.js) .slide--r{transform:translate3d(90px,0,0) rotate(4deg)}
+  :global(.js) .slide--late{transition-delay:180ms}
+  :global(.js) .slide.in{opacity:1; transform:none}
+
+  /* a full-bleed shout — it comes out at you */
+  .shout{position:relative; z-index:2; margin:clamp(2rem,6vw,4rem) auto 0; max-width:1180px;
+    font-family:var(--grot); font-weight:800; font-size:clamp(1.5rem,5vw,3.6rem);
+    letter-spacing:-.035em; line-height:1.06; text-wrap:balance}
+  :global(.js) .shout{opacity:0; transform:perspective(900px) translateZ(-420px);
+    transition:opacity 900ms ease, transform 1300ms cubic-bezier(.16,.84,.24,1)}
+  :global(.js) .shout.in{opacity:1; transform:perspective(900px) translateZ(0)}
+
+  /* ══════ 04 wire — live current running through ══════ */
+  .wire{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
+  .wire span{position:absolute; left:0; right:0; height:1px; background:var(--lit); opacity:.5;
+    box-shadow:0 0 12px var(--lit); transform-origin:left}
+  .wire span:nth-child(1){top:22%; animation:run 5.5s linear infinite}
+  .wire span:nth-child(2){top:54%; animation:run 7.5s linear infinite 1.4s}
+  .wire span:nth-child(3){top:79%; animation:run 6.5s linear infinite .7s}
+  @keyframes run{0%{transform:scaleX(0); opacity:0} 12%{opacity:.55}
+    88%{opacity:.55} 100%{transform:scaleX(1); opacity:0}}
+
+  /* ══════ 06 END ══════ */
+  .end{position:relative; overflow:hidden; background:#0A0C10; color:#E9E4D8;
+    padding:clamp(5rem,12vw,9rem) 5vw clamp(2.5rem,5vw,3.5rem); text-align:center}
+  .end__body{position:relative; z-index:2; max-width:760px; margin:0 auto; perspective:1100px}
+  .end__art{max-width:420px; margin:0 auto clamp(2rem,4vw,3rem)}
+  .end__art img{aspect-ratio:auto; box-shadow:0 30px 70px -24px rgba(0,0,0,.75)}
+  .end__word{font-family:var(--grot); font-weight:900; font-size:clamp(2.1rem,9vw,6.4rem);
+    letter-spacing:-.05em; line-height:.92; margin:0 0 1.4rem; color:#F2EFE6}
+  .end__copy{font-family:var(--tw); font-size:clamp(.86rem,1.5vw,1rem); line-height:1.9;
+    color:#9FB0B8; max-width:44ch; margin:0 auto clamp(2rem,4vw,2.6rem)}
+  .cta{display:inline-block; font-family:var(--tw); font-size:.82rem; letter-spacing:.2em;
+    text-transform:uppercase; text-decoration:none; color:#06080C; background:var(--lit);
+    padding:1rem 2.2rem; box-shadow:0 0 40px rgba(64,196,232,.4);
+    transition:box-shadow 700ms ease, transform 700ms cubic-bezier(.2,.8,.2,1)}
+  .cta:hover{transform:translateY(-2px); box-shadow:0 0 64px rgba(64,196,232,.7)}
+  .colophon{position:relative; z-index:2; margin:clamp(3.5rem,8vw,6rem) 0 0;
+    font-family:var(--tw); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
+    color:#5C6870}
+
+  /* ══════ reduced motion ══════ */
+  @media (prefers-reduced-motion:reduce){
+    :global(.js) .hero__mark, :global(.js) .rv, :global(.js) .mk,
+    :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide{
+      opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
+    .cue span, .wire span{animation:none}
+  }
 </style>
