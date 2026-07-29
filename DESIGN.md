@@ -43,6 +43,17 @@ typography:
     fontSize: "0.74rem"
     fontWeight: 400
     letterSpacing: "0.24em"
+  reel-lead:
+    fontFamily: "Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(1.5rem, 3.4vw, 2.6rem)"
+    fontWeight: 800
+    lineHeight: 1.05
+    letterSpacing: "-0.03em"
+  reel-caption:
+    fontFamily: "Courier Prime, ui-monospace, SF Mono, monospace"
+    fontSize: "0.7rem"
+    fontWeight: 400
+    letterSpacing: "0.2em"
 rounded:
   none: "0px"
   seal: "999px"
@@ -163,6 +174,16 @@ Three distinct entrances, chosen per content type — never one uniform reveal:
 - **Grow** (photographs, the lightform): `translateZ(-520px) scale(.42)` → identity. Comes toward you.
 - **Slide** (the music strip): alternating `translate3d(∓90px,0,0) rotate(∓4deg)` → identity, staggered 180ms on the back pair. Arrives from opposite sides.
 - **Z-exit** (the pull-quote): `perspective(900px) translateZ(-420px)` → 0. Comes out at the reader.
+
+### The Reel (signature)
+
+The Music act turns the page on its side. The section fills the viewport, pins from its top edge, and a rail of nine portraits runs horizontally while the reader keeps using the wheel normally — vertical scroll is spent on horizontal travel before the page advances again. The scrollbar is never hijacked.
+
+Each card also travels **inward** as it reaches the middle of the screen (`z −260 → 0`, scale `.88 → 1`, opacity `.55 → 1`), driven off the rail via ScrollTrigger's `containerAnimation` so depth tracks a card's *sideways* position rather than the page's vertical one. Without that the run is a flat conveyor.
+
+Its own type steps: the lead line `clamp(1.5rem, 3.4vw, 2.6rem)` in the display grotesque, and card captions at `0.7rem` tracked `0.2em` in amber — one step below the standard tag because a caption sits under an image rather than heading a section.
+
+**Hard constraints.** The section must own the full viewport (`min-height: 100svh`) and pin from `top top`; pinning a short band mid-screen reads as a strip sliding past, not as the page turning. `invalidateOnRefresh` is required — a stale width strands the rail mid-track on resize. Below 700px and under reduced motion there is no pin at all; the reel degrades to an ordinary swipeable row.
 
 ### The Well (signature)
 The hero background is a corridor you fall into, not a backdrop. One `perspective: 560px` camera with `transform-style: preserve-3d` holds 14 hairline cyan frames stacked at `translateZ(i × -300px)`, plus a floor and roof plane at `rotateX(±80deg)` converging on the same vanishing point, plus a blurred cyan fog pool that hides the corridor's end. Frames fade with depth (`opacity: .92 − i×.062`) except the farthest four, which brighten so the far end reads as light rather than line. At rest the camera breathes on the genome's 13s cycle; on scroll it pushes forward, so the viewer falls in.
