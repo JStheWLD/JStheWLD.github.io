@@ -291,14 +291,14 @@ import { STORM_DOOR_URL } from '../consts';
       // side without hijacking the scrollbar — the wheel still does the work.
       const reel = document.querySelector('[data-reel]');
       const rail = reel && reel.querySelector('.reel__rail');
-      if (rail && window.matchMedia('(min-width: 760px)').matches) {
+      if (rail && window.matchMedia('(min-width: 700px)').matches) {
         const travel = () => Math.max(0, rail.scrollWidth - window.innerWidth);
         gsap.to(rail, {
           x: () => -travel(),
           ease: 'none',
           scrollTrigger: {
             trigger: reel,
-            start: 'center center',
+            start: 'top top',
             end: () => '+=' + travel(),
             pin: true,
             scrub: 1,
@@ -582,9 +582,12 @@ import { STORM_DOOR_URL } from '../consts';
     filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
 
   /* ══════ THE REEL — the page turns on its side ══════ */
-  .reel{position:relative; z-index:2; overflow:hidden; padding-block:clamp(1rem,3vw,2rem)}
+  /* A forced horizontal section must own the viewport. Pinning a short band
+     mid-screen reads as a strip sliding past, not as the page turning. */
+  .reel{position:relative; z-index:2; overflow:hidden; min-height:100svh;
+    display:flex; align-items:center}
   /* under the pin gate there is no horizontal tween, so let the reader swipe it */
-  @media(max-width:759px){.reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
+  @media(max-width:699px){.reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
     .reel__rail{padding-inline:5vw}}
   .reel__rail{display:flex; align-items:center; gap:clamp(1rem,2.4vw,2.2rem);
     width:max-content; padding-inline:8vw; will-change:transform}
