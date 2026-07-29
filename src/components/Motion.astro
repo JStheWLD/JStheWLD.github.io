@@ -1,0 +1,63 @@
+---
+// MOTION FOUNDATION — one scroll clock for the whole page.
+//
+// Lenis supplies inertial scrolling; GSAP ScrollTrigger reads scroll position
+// to drive scrubbed tweens. The two must share a single RAF loop: running
+// Lenis on its own loop while GSAP runs another makes them disagree about
+// scroll position frame to frame, which shows up as jitter.
+//
+// Under prefers-reduced-motion nothing here initialises at all — smooth scroll
+// is itself a vestibular trigger, so scoping the check to individual tweens
+// would miss the main offender. Native scrolling is left untouched.
+---
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import Lenis from 'lenis';
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Expose a single shared handle so nothing else constructs a second Lenis.
+  const motion = { lenis: null, reduce, gsap, ScrollTrigger };
+  window.__motion = motion;
+
+  if (!reduce) {
+    const lenis = new Lenis({
+      // Lenis's stock weight (1.2). 13322566869.com — the scroll feel Jonathan
+      // pointed at — ships the library's defaults; the easing below is already
+      // Lenis's default expo-out curve, so this matches it.
+      duration: 1.2,
+      // ease-out expo — fast to settle, no bounce
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      // Touch keeps native momentum; overriding it fights the OS and feels worse
+      // than it reads on paper, especially on iOS.
+      syncTouch: false,
+    });
+    motion.lenis = lenis;
+
+    // One clock: GSAP's ticker advances Lenis, Lenis's scroll advances ScrollTrigger.
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    // Anchor links must still land correctly once scroll is virtualised —
+    // the spine's station links depend on this.
+    document.addEventListener('click', (e) => {
+      const a = e.target instanceof Element ? e.target.closest('a[href^="#"]') : null;
+      if (!a) return;
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: 0 });
+    });
+  }
+
+  // Signal readiness so scroll-linked modules can attach without racing init.
+  document.documentElement.classList.add('motion-ready');
+  window.dispatchEvent(new CustomEvent('motion:ready', { detail: motion }));
+</script>

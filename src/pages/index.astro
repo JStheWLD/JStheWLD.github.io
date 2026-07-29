@@ -5,7 +5,7 @@ import Well from '../components/Well.astro';
 import Spine from '../components/Spine.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
-<Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true}>
+<Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true} motion={true}>
   <!-- ── HUD chrome: seal + corner consoles ── -->
   <a class="seal" href="/" aria-label="JS the WLD, home">
     <img src="/assets/bird-white.png" alt="" width="18" height="18" />
@@ -69,7 +69,7 @@ import { STORM_DOOR_URL } from '../consts';
       <Texture tone="dark" />
       <h2 class="act__word act__word--lit act__word--r" aria-hidden="true"><span>CODE</span></h2>
       <div class="stage" data-stage>
-        <figure class="grow grow--f">
+        <figure class="grow grow--f is-wide">
           <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
         </figure>
         <div class="tell">
@@ -101,11 +101,20 @@ import { STORM_DOOR_URL } from '../consts';
           <p>A Bonnaroo stage, an O Music Award, and a Guinness World Record he's still a little embarrassed about. He still writes and fronts a band, because some things don't clock out.</p>
         </div>
       </div>
-      <div class="strip" data-stage>
-        <figure class="slide slide--l"><img src="/field/first-family/img/leadbelly.jpg" alt="Lead Belly" width="920" height="1240" loading="lazy" /></figure>
-        <figure class="slide slide--r"><img src="/field/first-family/img/muddy.jpg" alt="Muddy Waters" width="1040" height="1500" loading="lazy" /></figure>
-        <figure class="slide slide--l slide--late"><img src="/field/first-family/img/dolly.jpg" alt="Dolly Parton" width="1000" height="1333" loading="lazy" /></figure>
-        <figure class="slide slide--r slide--late"><img src="/field/first-family/img/dylan.jpg" alt="Bob Dylan" width="1000" height="1336" loading="lazy" /></figure>
+      <!-- the reel: the page turns on its side and runs the lineage sideways -->
+      <div class="reel" data-reel>
+        <div class="reel__rail">
+          <p class="reel__lead">The line runs <em>sideways</em> &mdash; keep scrolling</p>
+          <figure class="card"><img src="/field/first-family/img/leadbelly.jpg" alt="Lead Belly" loading="lazy" /><figcaption>Lead Belly</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/odetta.jpg" alt="Odetta" loading="lazy" /><figcaption>Odetta</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/muddy.jpg" alt="Muddy Waters" loading="lazy" /><figcaption>Muddy Waters</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/ninasimone.jpg" alt="Nina Simone" loading="lazy" /><figcaption>Nina Simone</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/jh_cash.jpg" alt="Johnny Cash" loading="lazy" /><figcaption>Johnny Cash</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/dolly.jpg" alt="Dolly Parton" loading="lazy" /><figcaption>Dolly Parton</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/dylan.jpg" alt="Bob Dylan" loading="lazy" /><figcaption>Bob Dylan</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/emmylou.jpg" alt="Emmylou Harris" loading="lazy" /><figcaption>Emmylou Harris</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/giddens.jpg" alt="Rhiannon Giddens" loading="lazy" /><figcaption>Rhiannon Giddens</figcaption></figure>
+        </div>
       </div>
 
       <blockquote class="shout" data-stage>
@@ -137,7 +146,7 @@ import { STORM_DOOR_URL } from '../consts';
       <Well variant="bed" />
       <Texture tone="dark" />
       <div class="end__body" data-stage>
-        <figure class="grow grow--e end__art">
+        <figure class="grow grow--e end__art is-wide">
           <img src="/assets/storm-door/cover-banner-storm-lower-jswld-topright-1600x600.png" alt="The Storm Door" width="1600" height="600" loading="lazy" />
         </figure>
         <p class="tag tag--lit">Most Saturdays</p>
@@ -161,15 +170,204 @@ import { STORM_DOOR_URL } from '../consts';
       document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
     }
 
-    // things grow in
-    const risers = document.querySelectorAll('[data-stage] > *, .shout, .slide, .act__word');
-    if (reduce) risers.forEach((el) => el.classList.add('in'));
+    // ── Scroll-linked arrivals ──────────────────────────────────────────────
+    // Every element carries `.in` as its END state. Under reduced motion (or if
+    // the motion stack never boots) we simply add it and stop — the page is
+    // fully composed with no tween ever registered. Otherwise ScrollTrigger
+    // scrubs each element from its start transform to that end state, so motion
+    // tracks the wheel in both directions instead of firing once and forgetting.
+    const risers = [...document.querySelectorAll('[data-stage] > *, .shout, .slide, .act__word')];
+
+    const composeStatically = () => risers.forEach((el) => el.classList.add('in'));
+
+    const wireScrubbed = ({ gsap, ScrollTrigger }) => {
+      // `.in` is applied up front so the element's *final* layout is what CSS
+      // describes; GSAP then owns the transform/opacity between start and end.
+      composeStatically();
+
+      // Start transforms mirror the CSS intent, expressed as GSAP values so one
+      // system owns the property. The CSS transition rules are gone (see <style>).
+      const startFor = (el) => {
+        if (el.classList.contains('slide')) {
+          const far = el.classList.contains('slide--far');
+          const dx = (el.classList.contains('slide--l') ? -1 : 1) * (far ? 160 : 90);
+          return { x: dx, rotation: (dx < 0 ? -1 : 1) * (far ? 5 : 4), scale: far ? 0.92 : 1, opacity: 0 };
+        }
+        if (el.classList.contains('grow')) {
+          const deep = el.classList.contains('grow--f');
+          return { z: deep ? -780 : -520, scale: deep ? 0.3 : 0.42, opacity: 0 };
+        }
+        if (el.classList.contains('shout')) return { z: -420, opacity: 0 };
+        if (el.classList.contains('act__word')) {
+          const dir = el.classList.contains('act__word--r') ? 1 : -1;
+          return { xPercent: 26 * dir, opacity: 0 };
+        }
+        return { y: 28, opacity: 0 }; // .tell and anything else in a stage
+      };
+
+      // ── Per-act signatures ──────────────────────────────────────────────
+      // Each act gets its own window and scrub weight so the page reads as a
+      // composed sequence rather than the same reveal five times. Heavier scrub
+      // = more lag behind the wheel = a slower, weightier arrival.
+      const SIGNATURES = [
+        ['act--paper', { start: 'top 90%', end: 'top 46%', scrub: 0.9 }], // lateral, unhurried
+        ['act--wire', { start: 'top 84%', end: 'top 34%', scrub: 0.4 }], // electric, snappy
+        ['act--dusk', { start: 'top 88%', end: 'top 42%', scrub: 0.7 }], // warm, mid-weight
+        ['end', { start: 'top 92%', end: 'top 56%', scrub: 1.1 }], // settles
+      ];
+      const signatureFor = (el) => {
+        for (const [cls, sig] of SIGNATURES) if (el.closest('.' + cls)) return sig;
+        return { start: 'top 88%', end: 'top 42%', scrub: 0.6 };
+      };
+
+      // The music strip is choreographed as one run across the row, not four
+      // independent arrivals, so the portraits cascade instead of popping together.
+      const strip = document.querySelector('.strip');
+      const stripSlides = strip ? [...strip.querySelectorAll('.slide')] : [];
+      if (stripSlides.length) {
+        gsap.fromTo(
+          stripSlides,
+          { x: (i) => (i % 2 ? 90 : -90), rotation: (i) => (i % 2 ? 4 : -4), opacity: 0 },
+          {
+            x: 0, rotation: 0, opacity: 1, ease: 'none',
+            stagger: { each: 0.18, from: 'start' },
+            scrollTrigger: { trigger: strip, start: 'top 92%', end: 'top 40%', scrub: 0.7 },
+          }
+        );
+      }
+
+      const generic = risers.filter((el) => !stripSlides.includes(el));
+
+      generic.forEach((el) => {
+        // act words animate their inner span so the clipping wrapper stays put
+        const node = el.classList.contains('act__word') ? el.querySelector('span') || el : el;
+        const end = el.classList.contains('act__word')
+          ? { xPercent: 0, opacity: el.closest('.act--wire') ? 1 : 0.13 }
+          : { x: 0, y: 0, z: 0, xPercent: 0, rotation: 0, scale: 1, opacity: 1 };
+        const sig = signatureFor(el);
+
+        gsap.fromTo(node, startFor(el), {
+          ...end,
+          ease: 'none',
+          scrollTrigger: { trigger: el, start: sig.start, end: sig.end, scrub: sig.scrub },
+        });
+      });
+
+      // ── Signature motions ───────────────────────────────────────────────
+      // Each keys off what the thing *is*, rather than being another entrance.
+
+      // 1. UNMASK. Photographs wipe open from their own frame instead of fading,
+      //    so the plate reads as a shutter rather than a container.
+      document.querySelectorAll('.stage figure img, .strip figure img').forEach((img) => {
+        gsap.fromTo(img,
+          { clipPath: 'inset(0% 0% 100% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
+            scrollTrigger: { trigger: img.closest('figure'), start: 'top 86%', end: 'top 50%', scrub: 0.5 } });
+      });
+
+      // 2. COUNTER-DRIFT. Copy rises slightly slower than its own section, so the
+      //    two planes separate as you pass — depth from parallax, not shadow.
+      document.querySelectorAll('.tell').forEach((tell) => {
+        gsap.fromTo(tell, { yPercent: 6 }, { yPercent: -6, ease: 'none',
+          scrollTrigger: { trigger: tell.closest('.stage') || tell, start: 'top bottom', end: 'bottom top', scrub: 1.2 } });
+      });
+
+      // 3. TRACKING OPEN. The act words widen their letterspacing as they arrive,
+      //    so the type breathes instead of just sliding in.
+      document.querySelectorAll('.act__word span').forEach((sp) => {
+        gsap.fromTo(sp, { letterSpacing: '-0.09em' }, { letterSpacing: '-0.035em', ease: 'none',
+          scrollTrigger: { trigger: sp.closest('.act__word'), start: 'top 92%', end: 'top 45%', scrub: 0.8 } });
+      });
+
+      // 4. The seal turns with the page — a real readout of progress, not decor.
+      const seal = document.querySelector('.seal img');
+      if (seal) {
+        gsap.to(seal, { rotation: 360, ease: 'none',
+          scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1.4 } });
+      }
+
+      // ── THE REEL: vertical scroll drives horizontal travel ───────────────
+      // The section pins and the rail runs sideways, so the page turns on its
+      // side without hijacking the scrollbar — the wheel still does the work.
+      const reel = document.querySelector('[data-reel]');
+      const rail = reel && reel.querySelector('.reel__rail');
+      if (rail && window.matchMedia('(min-width: 700px)').matches) {
+        const travel = () => Math.max(0, rail.scrollWidth - window.innerWidth);
+        gsap.to(rail, {
+          x: () => -travel(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: reel,
+            start: 'top top',
+            end: () => '+=' + travel(),
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,   // recompute on resize; a stale width strands the rail
+            anticipatePin: 1,
+          },
+        });
+
+        // ...and each card comes INWARD as it reaches the middle of the screen,
+        // so the sideways run also has depth rather than being a flat conveyor.
+        rail.querySelectorAll('.card').forEach((card) => {
+          gsap.fromTo(card,
+            { z: -260, scale: 0.88, opacity: 0.55 },
+            { z: 0, scale: 1, opacity: 1, ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: gsap.getTweensOf(rail)[0],
+                start: 'left 88%',
+                end: 'center 55%',
+                scrub: 0.6,
+              } });
+        });
+      }
+
+      // ── One pinned act ──────────────────────────────────────────────────
+      // Code's giant word holds while its content passes it — the device both
+      // reference sites lean on. Exactly one act is pinned on purpose: pinning
+      // several makes the page feel like it is fighting the reader.
+      const codeWord = document.querySelector('.act--wire .act__word');
+      const codeAct = document.querySelector('.act--wire');
+      if (codeWord && codeAct && window.matchMedia('(min-width: 900px)').matches) {
+        ScrollTrigger.create({
+          trigger: codeAct,
+          start: 'top top',
+          end: 'bottom 78%',
+          pin: codeWord,
+          pinSpacing: false, // the word holds over its own act; no extra page height
+          anticipatePin: 1,
+        });
+        // A pinned word at full strength would sit on top of the lightform. Fade
+        // it to a watermark as the content arrives — the held word stays present
+        // without competing with what it is introducing.
+        gsap.fromTo(
+          codeWord.querySelector('span') || codeWord,
+          { opacity: 1 },
+          {
+            opacity: 0.18, ease: 'none',
+            scrollTrigger: {
+              trigger: codeAct, start: 'top top', end: 'top -35%', scrub: 0.5,
+            },
+          }
+        );
+      }
+
+      ScrollTrigger.refresh();
+    };
+
+    if (reduce) composeStatically();
+    else if (window.__motion && !window.__motion.reduce) wireScrubbed(window.__motion);
     else {
-      const io = new IntersectionObserver((es) => {
-        for (const e of es) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-      risers.forEach((el) => io.observe(el));
-      setTimeout(() => risers.forEach((el) => el.classList.add('in')), 3000);
+      // Motion stack still booting — attach when it signals, but never leave the
+      // page blank if it fails to arrive at all.
+      let wired = false;
+      addEventListener('motion:ready', (e) => {
+        if (wired) return;
+        wired = true;
+        e.detail && !e.detail.reduce ? wireScrubbed(e.detail) : composeStatically();
+      }, { once: true });
+      setTimeout(() => { if (!wired) { wired = true; composeStatically(); } }, 2500);
     }
 
     // scroll: HUD readout, percent, texture parallax, hero deck recede
@@ -299,11 +497,47 @@ import { STORM_DOOR_URL } from '../consts';
   /* Any figure image sitting directly in a stage gets the same frame, however it
      arrives (grow or slide). Without the .slide arm the portrait fell back to its
      natural size — uncropped and enormous. */
-  .grow img, .stage > .slide img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
+  /* INVARIANT: image sizing keys on a figure's structural position, never on
+     its animation class. .grow / .slide carry motion only — swapping one for
+     the other must not change dimensions. Keying sizing to .grow is what made
+     the Words portrait render at natural size when it became a .slide. */
+  /* :where() keeps this at zero specificity for the container part, so a
+     per-figure exception can always override it. Without it, Astro's scoping
+     attributes push this rule above `figure.is-wide img` and the exception
+     silently loses — which is how the wide lightform got cropped to 4:5. */
+  /* SIZE BUDGET. Sizing to column width alone let a 4:5 portrait render taller
+     than two screens on a short viewport. Width is now capped by a share of
+     viewport HEIGHT, so an image can never dominate the screen it sits on. */
+  main{--fig-h:min(70svh, 672px)}   /* +20% over the first pass */
+  :where(.stage) figure{max-width:calc(var(--fig-h) * 0.8); margin-inline:auto}
+  /* wide artwork needs the same height budget — capping width alone let the
+     lightform stand taller than the viewport it sits in */
+  :where(.stage) figure.is-wide{max-width:min(100%, calc(var(--fig-h) * 1.6))}
+  :where(.strip) figure{max-width:calc(var(--fig-h) * 0.62)}
+
+  /* THE PLATE — a frame in the page's own register: hairline mat plus corner
+     ticks, the same glass-HUD vocabulary as the corner consoles. Reads on both
+     paper and night grounds because it is built from alpha, not a fixed colour. */
+  :where(.stage, .strip, .end__body) figure{position:relative;
+    padding:clamp(7px,0.9vw,13px);
+    background:color-mix(in srgb, currentColor 6%, transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent)}
+  :where(.stage, .strip, .end__body) figure::before,
+  :where(.stage, .strip, .end__body) figure::after{content:""; position:absolute;
+    width:11px; height:11px; pointer-events:none;
+    border:1px solid color-mix(in srgb, currentColor 52%, transparent)}
+  :where(.stage, .strip, .end__body) figure::before{top:4px; left:4px; border-right:0; border-bottom:0}
+  :where(.stage, .strip, .end__body) figure::after{bottom:4px; right:4px; border-left:0; border-top:0}
+  /* the electric act gets lit register marks */
+  .act--wire figure::before, .act--wire figure::after{border-color:var(--lit); opacity:.75}
+  /* the paper acts get a warm mat instead of a neutral one — bone board, kraft
+     hairline, rust ticks. Same plate, Southern side of the page. */
+  .act--paper figure{background:var(--bone); box-shadow:inset 0 0 0 1px rgba(199,169,111,.55),
+    0 26px 56px -26px rgba(51,48,58,.42)}
+  .act--paper figure::before, .act--paper figure::after{border-color:var(--rust); opacity:.7}
+
+  :where(.stage, .end__body) figure img{display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover;
     box-shadow:0 40px 90px -28px rgba(0,0,0,.7)}
-  :global(.js) .grow{opacity:0; transform:translateZ(-520px) scale(.42);
-    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1); will-change:transform}
-  :global(.js) .grow.in{opacity:1; transform:translateZ(0) scale(1) rotate(var(--tilt,0deg))}
   .grow--a{--tilt:-1.6deg} .grow--b{--tilt:1.8deg}
   .grow--c{--tilt:1.4deg} .grow--d{--tilt:-1.9deg} .grow--e{--tilt:0deg}
 
@@ -314,9 +548,6 @@ import { STORM_DOOR_URL } from '../consts';
   .slab span{font-family:var(--grot); font-weight:900; font-size:clamp(1.2rem,3.2vw,2.3rem);
     letter-spacing:-.02em; line-height:1.02; color:#F2EFE6; text-align:center}
 
-  :global(.js) .tell{opacity:0; transform:translateY(28px);
-    transition:opacity 900ms ease 120ms, transform 900ms cubic-bezier(.2,.8,.2,1) 120ms}
-  :global(.js) .tell.in{opacity:1; transform:none}
   .tell{max-width:52ch}
   .tell--mid{margin-inline:auto; text-align:center}
   .tag{font-family:var(--tw); font-size:.74rem; letter-spacing:.24em; text-transform:uppercase;
@@ -336,15 +567,10 @@ import { STORM_DOOR_URL } from '../consts';
   .lnk--lit{border-color:var(--lit)} .lnk--lit:hover{color:var(--lit)}
   /* the lightform capture is wide, not a 4:5 portrait */
   .grow--f{--tilt:0deg}
-  .grow--f img{aspect-ratio:auto}
-  :global(.js) .grow--f{transform:translateZ(-780px) scale(.3); transition-duration:1000ms,1600ms}
+  /* deliberate exceptions: wide artworks, not portraits */
+  figure.is-wide img{aspect-ratio:auto; object-fit:contain}
 
   /* act words arrive from the sides — the section builds itself */
-  :global(.js) .act__word span{display:block; will-change:transform,opacity; opacity:0;
-    transition:opacity 900ms ease, transform 1400ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .act__word--l span{transform:translate3d(-26%,0,0)}
-  :global(.js) .act__word--r span{transform:translate3d(26%,0,0)}
-  :global(.js) .act__word.in span{opacity:.13; transform:none}
   :global(.js) .act--wire .act__word.in span{opacity:1}
 
   /* the music strip — portraits arrive from opposite sides */
@@ -352,24 +578,42 @@ import { STORM_DOOR_URL } from '../consts';
     gap:clamp(.8rem,2vw,1.4rem); max-width:1180px; margin:clamp(2.5rem,6vw,4rem) auto 0;
     perspective:1200px}
   @media(min-width:760px){.strip{grid-template-columns:repeat(4,1fr)}}
-  .strip img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
+  :where(.strip) figure img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
     filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
-  :global(.js) .slide{opacity:0; will-change:transform,opacity;
-    transition:opacity 820ms ease, transform 1200ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .slide--l{transform:translate3d(-90px,0,0) rotate(-4deg)}
-  :global(.js) .slide--r{transform:translate3d(90px,0,0) rotate(4deg)}
-    :global(.js) .slide--late{transition-delay:180ms}
-  :global(.js) .slide--far{transition-duration:1000ms, 1500ms}
-  :global(.js) .slide--far.slide--l{transform:translate3d(-160px,0,0) rotate(-5deg) scale(.92)}
-  :global(.js) .slide.in{opacity:1; transform:none}
+
+  /* ══════ THE REEL — the page turns on its side ══════ */
+  /* A forced horizontal section must own the viewport. Pinning a short band
+     mid-screen reads as a strip sliding past, not as the page turning. */
+  .reel{position:relative; z-index:2; overflow:hidden; min-height:100svh;
+    display:flex; align-items:center}
+  /* under the pin gate there is no horizontal tween, so let the reader swipe it */
+  @media(max-width:699px){.reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .reel__rail{padding-inline:5vw}}
+  .reel__rail{display:flex; align-items:center; gap:clamp(1rem,2.4vw,2.2rem);
+    width:max-content; padding-inline:8vw; will-change:transform}
+  .reel__lead{flex:none; width:min(46vw,340px); margin:0;
+    font-family:var(--grot); font-weight:800; letter-spacing:-.03em; line-height:1.05;
+    font-size:clamp(1.5rem,3.4vw,2.6rem); color:var(--bone)}
+  .reel__lead em{font-style:normal; color:var(--amber)}
+  .reel .card{flex:none; width:clamp(190px,22vw,300px); margin:0; position:relative;
+    transform-style:preserve-3d}
+  .reel .card img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
+    filter:grayscale(.4) contrast(1.06)}
+  .reel .card figcaption{margin-top:.7rem; font-family:var(--tw); font-size:.7rem;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--amber); opacity:.85}
+  /* the reel wears the same plate as every other figure */
+  .reel .card{padding:clamp(7px,0.9vw,13px);
+    background:color-mix(in srgb, currentColor 6%, transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent)}
+  .reel .card::before, .reel .card::after{content:""; position:absolute; width:11px; height:11px;
+    pointer-events:none; border:1px solid color-mix(in srgb, currentColor 45%, transparent)}
+  .reel .card::before{top:4px; left:4px; border-right:0; border-bottom:0}
+  .reel .card::after{bottom:4px; right:4px; border-left:0; border-top:0}
 
   /* a full-bleed shout — it comes out at you */
   .shout{position:relative; z-index:2; margin:clamp(2rem,6vw,4rem) auto 0; max-width:1180px;
     font-family:var(--grot); font-weight:800; font-size:clamp(1.5rem,5vw,3.6rem);
     letter-spacing:-.035em; line-height:1.06; text-wrap:balance}
-  :global(.js) .shout{opacity:0; transform:perspective(900px) translateZ(-420px);
-    transition:opacity 900ms ease, transform 1300ms cubic-bezier(.16,.84,.24,1)}
-  :global(.js) .shout.in{opacity:1; transform:perspective(900px) translateZ(0)}
 
   /* ══════ 04 wire — live current running through ══════ */
   .wire{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden}
@@ -386,7 +630,7 @@ import { STORM_DOOR_URL } from '../consts';
     padding:clamp(5rem,12vw,9rem) 5vw clamp(2.5rem,5vw,3.5rem); text-align:center}
   .end__body{position:relative; z-index:2; max-width:760px; margin:0 auto; perspective:1100px}
   .end__art{max-width:420px; margin:0 auto clamp(2rem,4vw,3rem)}
-  .end__art img{aspect-ratio:auto; box-shadow:0 30px 70px -24px rgba(0,0,0,.75)}
+  .end__art img{box-shadow:0 30px 70px -24px rgba(0,0,0,.75)}
   .end__word{font-family:var(--grot); font-weight:900; font-size:clamp(2.1rem,9vw,6.4rem);
     letter-spacing:-.05em; line-height:.92; margin:0 0 1.4rem; color:#F2EFE6}
   .end__copy{font-family:var(--tw); font-size:clamp(.86rem,1.5vw,1rem); line-height:1.9;
@@ -402,9 +646,16 @@ import { STORM_DOOR_URL } from '../consts';
 
   /* ══════ reduced motion ══════ */
   @media (prefers-reduced-motion:reduce){
+    /* no pin, no scrub — everything sits composed and static */
+    .act__word, .act__word span{position:static !important; opacity:inherit}
     :global(.js) .hero__mark, :global(.js) .rv, :global(.js) .mk,
     :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide, :global(.js) .act__word span{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
     .cue span, .wire span{animation:none}
+    /* the reel becomes an ordinary swipeable row — no pin, no forced travel */
+    .reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .reel__rail{transform:none !important}
+    /* the canvas well and the texture layers are guarded inside their own
+       components — Astro scoping means index.astro cannot reach them. */
   }
 </style>

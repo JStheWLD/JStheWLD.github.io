@@ -47,8 +47,12 @@ const { variant = 'hero' } = Astro.props;
     const Z_NEAR = 60, Z_FAR = 2600, STEP = 55, FOCAL = 460;
     let w = 0, h = 0, cx = 0, cy = 0, dpr = 1, raf = 0, running = false;
     let scrollZ = 0;
-    // pointer influence — eases toward the cursor, decays back to centre
+    // Pointer state in CANVAS PIXELS (not a normalised field vector): the reach
+    // is computed per point from its distance to the cursor, so we need where
+    // the cursor actually is.
     let pxr = 0, pyr = 0, tpx = 0, tpy = 0, pull = 0, tpull = 0;
+    // How far the influence carries, and how far a strand at the centre leans in.
+    const REACH_R = 260, REACH_PX = 46;
 
     const size = () => {
       dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -63,7 +67,22 @@ const { variant = 'hero' } = Astro.props;
       ctx.lineCap = 'round';
       const reach = Math.min(w, h) * 0.5;
       // ease the pointer state so the reaction is fluid, never twitchy
-      pxr += (tpx - pxr) * 0.13; pyr += (tpy - pyr) * 0.13; pull += (tpull - pull) * 0.10;
+      pxr += (tpx - pxr) * 0.16; pyr += (tpy - pyr) * 0.16; pull += (tpull - pull) * 0.10;
+
+      // LOCAL REACH. Influence falls off with distance from the cursor, so
+      // strands near it bend toward it and strands far from it do not move at
+      // all. The previous model added one constant offset to every point, which
+      // slid the entire field toward the mouse instead of reaching for it.
+      const reachAt = (x, y, depth) => {
+        if (pull < 0.001) return null;
+        const dx = pxr - x, dy = pyr - y;
+        const d = Math.hypot(dx, dy);
+        if (d > REACH_R || d < 0.001) return null;
+        const n = 1 - d / REACH_R;
+        const infl = n * n * (3 - 2 * n) * pull * depth;   // smoothstep falloff
+        const k = (infl * REACH_PX) / d;
+        return [dx * k, dy * k];
+      };
 
       for (const s of streams) {
         const a0 = s.a + t * s.rot;
@@ -74,12 +93,13 @@ const { variant = 'hero' } = Astro.props;
           const ang = a0 + zz * s.twist;
           const rad = s.rad * (1 + Math.sin(zz * s.mFreq + s.phase) * s.mAmp);
           const k = FOCAL / z;
-          // strands lean toward the cursor, and lean harder the nearer they are
-          const lean = pull * (1 - z / Z_FAR);
-          pts.push([
-            cx + Math.cos(ang) * rad * reach * k + pxr * lean * 210,
-            cy + Math.sin(ang) * rad * reach * k + pyr * lean * 210,
-            z]);
+          // nearer strands respond more strongly than distant ones
+          const depth = 1 - z / Z_FAR;
+          let sx = cx + Math.cos(ang) * rad * reach * k;
+          let sy = cy + Math.sin(ang) * rad * reach * k;
+          const rr = reachAt(sx, sy, depth);
+          if (rr) { sx += rr[0]; sy += rr[1]; }
+          pts.push([sx, sy, z]);
         }
         // draw far→near so nearer segments overlay
         for (let i = 0; i < pts.length - 1; i++) {
@@ -98,9 +118,11 @@ const { variant = 'hero' } = Astro.props;
         const brad = s.rad * (1 + Math.sin(bzz * s.mFreq + s.phase) * s.mAmp);
         const bk = FOCAL / bz;
         const bd = 1 - bz / Z_FAR;
-        const bLean = pull * bd;
-        const bx = cx + Math.cos(ba) * brad * reach * bk + pxr * bLean * 210;
-        const by = cy + Math.sin(ba) * brad * reach * bk + pyr * bLean * 210;
+        // same displacement as the strand, or the light detaches from it
+        let bx = cx + Math.cos(ba) * brad * reach * bk;
+        let by = cy + Math.sin(ba) * brad * reach * bk;
+        const br = reachAt(bx, by, bd);
+        if (br) { bx += br[0]; by += br[1]; }
         ctx.fillStyle = `rgba(${s.hue},${(Math.pow(bd, 1.4) * 0.9).toFixed(3)})`;
         ctx.beginPath(); ctx.arc(bx, by, Math.max(0.6, bd * 3.4), 0, 6.2832); ctx.fill();
       }
@@ -132,10 +154,7 @@ const { variant = 'hero' } = Astro.props;
         if (!r.width || !r.height) return;
         const inside = e.clientX >= r.left && e.clientX <= r.right
           && e.clientY >= r.top && e.clientY <= r.bottom;
-        if (inside) {
-          tpx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-          tpy = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        }
+        if (inside) { tpx = e.clientX - r.left; tpy = e.clientY - r.top; }
         tpull = inside ? 1 : 0;
       };
       addEventListener('pointermove', track, { passive: true });
