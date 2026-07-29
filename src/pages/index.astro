@@ -101,11 +101,20 @@ import { STORM_DOOR_URL } from '../consts';
           <p>A Bonnaroo stage, an O Music Award, and a Guinness World Record he's still a little embarrassed about. He still writes and fronts a band, because some things don't clock out.</p>
         </div>
       </div>
-      <div class="strip" data-stage>
-        <figure class="slide slide--l"><img src="/field/first-family/img/leadbelly.jpg" alt="Lead Belly" width="920" height="1240" loading="lazy" /></figure>
-        <figure class="slide slide--r"><img src="/field/first-family/img/muddy.jpg" alt="Muddy Waters" width="1040" height="1500" loading="lazy" /></figure>
-        <figure class="slide slide--l slide--late"><img src="/field/first-family/img/dolly.jpg" alt="Dolly Parton" width="1000" height="1333" loading="lazy" /></figure>
-        <figure class="slide slide--r slide--late"><img src="/field/first-family/img/dylan.jpg" alt="Bob Dylan" width="1000" height="1336" loading="lazy" /></figure>
+      <!-- the reel: the page turns on its side and runs the lineage sideways -->
+      <div class="reel" data-reel>
+        <div class="reel__rail">
+          <p class="reel__lead">The line runs <em>sideways</em> &mdash; keep scrolling</p>
+          <figure class="card"><img src="/field/first-family/img/leadbelly.jpg" alt="Lead Belly" loading="lazy" /><figcaption>Lead Belly</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/odetta.jpg" alt="Odetta" loading="lazy" /><figcaption>Odetta</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/muddy.jpg" alt="Muddy Waters" loading="lazy" /><figcaption>Muddy Waters</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/ninasimone.jpg" alt="Nina Simone" loading="lazy" /><figcaption>Nina Simone</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/jh_cash.jpg" alt="Johnny Cash" loading="lazy" /><figcaption>Johnny Cash</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/dolly.jpg" alt="Dolly Parton" loading="lazy" /><figcaption>Dolly Parton</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/dylan.jpg" alt="Bob Dylan" loading="lazy" /><figcaption>Bob Dylan</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/emmylou.jpg" alt="Emmylou Harris" loading="lazy" /><figcaption>Emmylou Harris</figcaption></figure>
+          <figure class="card"><img src="/field/first-family/img/giddens.jpg" alt="Rhiannon Giddens" loading="lazy" /><figcaption>Rhiannon Giddens</figcaption></figure>
+        </div>
       </div>
 
       <blockquote class="shout" data-stage>
@@ -275,6 +284,43 @@ import { STORM_DOOR_URL } from '../consts';
       if (seal) {
         gsap.to(seal, { rotation: 360, ease: 'none',
           scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 1.4 } });
+      }
+
+      // ── THE REEL: vertical scroll drives horizontal travel ───────────────
+      // The section pins and the rail runs sideways, so the page turns on its
+      // side without hijacking the scrollbar — the wheel still does the work.
+      const reel = document.querySelector('[data-reel]');
+      const rail = reel && reel.querySelector('.reel__rail');
+      if (rail && window.matchMedia('(min-width: 760px)').matches) {
+        const travel = () => Math.max(0, rail.scrollWidth - window.innerWidth);
+        gsap.to(rail, {
+          x: () => -travel(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: reel,
+            start: 'center center',
+            end: () => '+=' + travel(),
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,   // recompute on resize; a stale width strands the rail
+            anticipatePin: 1,
+          },
+        });
+
+        // ...and each card comes INWARD as it reaches the middle of the screen,
+        // so the sideways run also has depth rather than being a flat conveyor.
+        rail.querySelectorAll('.card').forEach((card) => {
+          gsap.fromTo(card,
+            { z: -260, scale: 0.88, opacity: 0.55 },
+            { z: 0, scale: 1, opacity: 1, ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                containerAnimation: gsap.getTweensOf(rail)[0],
+                start: 'left 88%',
+                end: 'center 55%',
+                scrub: 0.6,
+              } });
+        });
       }
 
       // ── One pinned act ──────────────────────────────────────────────────
@@ -535,6 +581,32 @@ import { STORM_DOOR_URL } from '../consts';
   :where(.strip) figure img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
     filter:grayscale(.35) contrast(1.06); box-shadow:0 26px 60px -22px rgba(0,0,0,.8)}
 
+  /* ══════ THE REEL — the page turns on its side ══════ */
+  .reel{position:relative; z-index:2; overflow:hidden; padding-block:clamp(1rem,3vw,2rem)}
+  /* under the pin gate there is no horizontal tween, so let the reader swipe it */
+  @media(max-width:759px){.reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .reel__rail{padding-inline:5vw}}
+  .reel__rail{display:flex; align-items:center; gap:clamp(1rem,2.4vw,2.2rem);
+    width:max-content; padding-inline:8vw; will-change:transform}
+  .reel__lead{flex:none; width:min(46vw,340px); margin:0;
+    font-family:var(--grot); font-weight:800; letter-spacing:-.03em; line-height:1.05;
+    font-size:clamp(1.5rem,3.4vw,2.6rem); color:var(--bone)}
+  .reel__lead em{font-style:normal; color:var(--amber)}
+  .reel .card{flex:none; width:clamp(190px,22vw,300px); margin:0; position:relative;
+    transform-style:preserve-3d}
+  .reel .card img{display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover;
+    filter:grayscale(.4) contrast(1.06)}
+  .reel .card figcaption{margin-top:.7rem; font-family:var(--tw); font-size:.7rem;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--amber); opacity:.85}
+  /* the reel wears the same plate as every other figure */
+  .reel .card{padding:clamp(7px,0.9vw,13px);
+    background:color-mix(in srgb, currentColor 6%, transparent);
+    box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 18%, transparent)}
+  .reel .card::before, .reel .card::after{content:""; position:absolute; width:11px; height:11px;
+    pointer-events:none; border:1px solid color-mix(in srgb, currentColor 45%, transparent)}
+  .reel .card::before{top:4px; left:4px; border-right:0; border-bottom:0}
+  .reel .card::after{bottom:4px; right:4px; border-left:0; border-top:0}
+
   /* a full-bleed shout — it comes out at you */
   .shout{position:relative; z-index:2; margin:clamp(2rem,6vw,4rem) auto 0; max-width:1180px;
     font-family:var(--grot); font-weight:800; font-size:clamp(1.5rem,5vw,3.6rem);
@@ -577,6 +649,9 @@ import { STORM_DOOR_URL } from '../consts';
     :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide, :global(.js) .act__word span{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
     .cue span, .wire span{animation:none}
+    /* the reel becomes an ordinary swipeable row — no pin, no forced travel */
+    .reel{overflow-x:auto; -webkit-overflow-scrolling:touch}
+    .reel__rail{transform:none !important}
     /* the canvas well and the texture layers are guarded inside their own
        components — Astro scoping means index.astro cannot reach them. */
   }
