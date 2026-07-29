@@ -513,5 +513,7 @@ import { STORM_DOOR_URL } from '../consts';
     :global(.js) .grow, :global(.js) .tell, :global(.js) .shout, :global(.js) .slide, :global(.js) .act__word span{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
     .cue span, .wire span{animation:none}
+    /* the canvas well and the texture layers are guarded inside their own
+       components — Astro scoping means index.astro cannot reach them. */
   }
 </style>
