@@ -3,16 +3,32 @@
 // 2D simplex (Gustavson's construction) computed on a coarse grid and drawn as
 // soft cells, so it reads as paper and ink moving rather than TV static. No
 // library, no texture files.
-interface Props { tone?: string; }
-const { tone = '#A8401D' } = Astro.props;
+interface Props {
+  tone?: string;      // ink colour
+  seed?: number;      // a different seed = a genuinely different field
+  scale?: number;     // spatial frequency — small is broad, large is fine-grained
+  speed?: number;     // drift rate
+  strength?: number;  // peak opacity
+  blend?: string;     // multiply on paper, screen on dark
+}
+const {
+  tone = '#A8401D', seed = 1337, scale = 0.055,
+  speed = 0.06, strength = 0.5, blend = 'multiply',
+} = Astro.props;
 ---
-<canvas class="noise" data-noise data-tone={tone} aria-hidden="true"></canvas>
+<canvas class="noise" data-noise aria-hidden="true"
+  data-tone={tone} data-seed={seed} data-scale={scale}
+  data-speed={speed} data-strength={strength}
+  style={`mix-blend-mode:${blend}; opacity:${strength}`}></canvas>
 
 <script>
   document.querySelectorAll('[data-noise]').forEach((cv) => {
     const ctx = cv.getContext('2d');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const tone = cv.dataset.tone || '#A8401D';
+    const SEED = +(cv.dataset.seed || 1337);
+    const SCALE = +(cv.dataset.scale || 0.055);
+    const SPEED = +(cv.dataset.speed || 0.06);
     const rgb = [1, 3, 5].map((i) => parseInt(tone.slice(i, i + 2), 16));
 
     // ── 2D simplex noise ────────────────────────────────────────────────────
@@ -22,7 +38,7 @@ const { tone = '#A8401D' } = Astro.props;
       const p = new Uint8Array(256);
       for (let i = 0; i < 256; i++) p[i] = i;
       // deterministic shuffle — the field is the same every load
-      let seed = 1337;
+      let seed = SEED;
       for (let i = 255; i > 0; i--) {
         seed = (seed * 16807) % 2147483647;
         const j = seed % (i + 1);
@@ -71,8 +87,8 @@ const { tone = '#A8401D' } = Astro.props;
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
           // two octaves drifting at different rates = slow churn
-          const n1 = simplex(x * 0.055 + t * 0.06, y * 0.055 - t * 0.04);
-          const n2 = simplex(x * 0.13 - t * 0.03, y * 0.13 + t * 0.05) * 0.5;
+          const n1 = simplex(x * SCALE + t * SPEED, y * SCALE - t * SPEED * 0.66);
+          const n2 = simplex(x * SCALE * 2.4 - t * SPEED * 0.5, y * SCALE * 2.4 + t * SPEED * 0.8) * 0.5;
           const v = (n1 + n2 + 1.5) / 3;             // 0..1
           const a = Math.pow(Math.max(0, v), 2.4);   // bias dark, let bright pool
           const k = (y * cols + x) * 4;
@@ -99,6 +115,7 @@ const { tone = '#A8401D' } = Astro.props;
 
 <style>
   /* the buffer is one pixel per cell; the browser's smoothing does the blooming */
+  /* opacity and blend come from the instance's style attribute */
   .noise{position:absolute; inset:0; width:100%; height:100%; display:block;
-    z-index:0; pointer-events:none; opacity:.5; mix-blend-mode:multiply}
+    z-index:0; pointer-events:none}
 </style>

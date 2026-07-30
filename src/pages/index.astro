@@ -46,6 +46,7 @@ import { STORM_DOOR_URL } from '../consts';
         <!-- WORDS -->
         <article class="panel panel--paper" id="code-anchor-words" data-hud="Words">
           <Texture tone="light" />
+          <Noise tone="#A8401D" seed={1337} scale={0.055} speed={0.06} strength={0.42} blend="multiply" />
           <h2 class="panel__word panel__word--chroma" aria-hidden="true"><span data-t="WORDS">WORDS</span></h2>
           <div class="panel__body">
             <figure class="panel__fig">
@@ -66,6 +67,7 @@ import { STORM_DOOR_URL } from '../consts';
         <article class="panel panel--wire" data-hud="Code">
           <div class="wire" aria-hidden="true"><span></span><span></span><span></span></div>
           <Texture tone="dark" />
+          <Noise tone="#40C4E8" seed={7717} scale={0.16} speed={0.22} strength={0.5} blend="screen" />
           <h2 class="panel__word panel__word--lit panel__word--scramble" aria-hidden="true"><span data-final="CODE">CODE</span></h2>
           <div class="panel__body">
             <figure class="panel__fig is-wide">
@@ -85,6 +87,7 @@ import { STORM_DOOR_URL } from '../consts';
         <!-- MUSIC -->
         <article class="panel panel--dusk" data-hud="Music">
           <Texture tone="dark" />
+          <Noise tone="#D99A42" seed={4242} scale={0.07} speed={0.1} strength={0.46} blend="screen" />
           <h2 class="panel__word panel__word--anaglyph" aria-hidden="true"><span data-t="MUSIC">MUSIC</span></h2>
           <div class="panel__body">
             <figure class="panel__fig">
@@ -101,7 +104,7 @@ import { STORM_DOOR_URL } from '../consts';
 
         <!-- BOOK -->
         <article class="panel panel--book" data-hud="The Book">
-          <Noise tone="#A8401D" />
+          <Noise tone="#A8401D" seed={9091} scale={0.045} speed={0.045} strength={0.5} blend="multiply" />
           <h2 class="panel__word" aria-hidden="true"><span>THE BOOK</span></h2>
           <div class="panel__body panel__body--wide">
             <div class="panel__tell">
@@ -276,9 +279,9 @@ import { STORM_DOOR_URL } from '../consts';
           scrollTrigger: {
             trigger: tri,
             start: 'top top',
-            // TIGHT: 0.55 of the travel distance, so the sideways run costs far
-            // less wheel than a 1:1 mapping. The reel at 1:1 read as a slog.
-            end: () => '+=' + travel() * 0.55,
+            // Pace: slightly MORE scroll than travel, so each panel gets real
+            // dwell. 0.55 flew past; four panels of content need time to land.
+            end: () => '+=' + travel() * 1.15,
             pin: true,
             scrub: 0.8,
             invalidateOnRefresh: true,
@@ -306,13 +309,13 @@ import { STORM_DOOR_URL } from '../consts';
       const pieces = [...document.querySelectorAll('.mark__pc')];
       if (pieces.length) {
         // arrive: the three pieces fall in from apart and lock together
-        gsap.from(pieces, {
-          yPercent: (i) => [-70, 0, 70][i],
-          xPercent: (i) => [-28, 34, -22][i],
-          rotationZ: (i) => [-14, 11, -8][i],
-          z: -420, opacity: 0,
-          duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25,
-        });
+        gsap.fromTo(pieces,
+          { yPercent: (i) => [-70, 0, 70][i],
+            xPercent: (i) => [-28, 34, -22][i],
+            rotationZ: (i) => [-14, 11, -8][i],
+            z: -420, opacity: 0 },
+          { yPercent: 0, xPercent: 0, rotationZ: 0, z: 0, opacity: 1,
+            duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25 });
         // depart: scrolling the hero pulls them apart again and turns them
         gsap.to(pieces, {
           yPercent: (i) => [-46, 0, 46][i],
@@ -472,8 +475,7 @@ import { STORM_DOOR_URL } from '../consts';
   .mark__pc--wld{clip-path:inset(58% 0 0 0)}
 
   /* pieces fly together on load... */
-  :global(.js) .mark__pc{opacity:0}
-  :global(.js) .hero.set .mark__pc{opacity:1}
+  :global(.js) .hero.set .mark__pc{opacity:1 !important}
 
   .rv{display:inline-block}
   :global(.js) .rv{clip-path:inset(0 100% 0 0); opacity:0;
