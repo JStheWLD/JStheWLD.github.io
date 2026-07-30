@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Texture from '../components/Texture.astro';
 import Well from '../components/Well.astro';
+import Noise from '../components/Noise.astro';
 import Spine from '../components/Spine.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
@@ -22,8 +23,13 @@ import { STORM_DOOR_URL } from '../consts';
       <Texture tone="dark" />
 
       <div class="hero__body">
-        <img class="hero__mark" src="/assets/jswld-wordmark.png"
-          alt="JS the WLD" width="969" height="1200" fetchpriority="high" />
+        <!-- the mark in three pieces, cut at the seams where JS / THE / WLD
+             interlock, so it can come apart and turn as you scroll -->
+        <div class="mark" role="img" aria-label="JS the WLD">
+          <span class="mark__pc mark__pc--js" aria-hidden="true"></span>
+          <span class="mark__pc mark__pc--the" aria-hidden="true"></span>
+          <span class="mark__pc mark__pc--wld" aria-hidden="true"></span>
+        </div>
 
         <p class="hero__name"><span class="rv">I'm Jonathan Sexton aka JS the WLD.</span></p>
 
@@ -40,19 +46,17 @@ import { STORM_DOOR_URL } from '../consts';
         <!-- WORDS -->
         <article class="panel panel--paper" id="code-anchor-words" data-hud="Words">
           <Texture tone="light" />
-          <h2 class="panel__word" aria-hidden="true"><span>WORDS</span></h2>
+          <h2 class="panel__word panel__word--chroma" aria-hidden="true"><span data-t="WORDS">WORDS</span></h2>
           <div class="panel__body">
             <figure class="panel__fig">
               <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
             </figure>
             <div class="panel__tell">
-              <p class="tag">01 &mdash; The letter &amp; the book</p>
+              <p class="tag">01 &mdash; The letter</p>
               <h3>The Storm Door</h3>
               <p>A letter most Saturday mornings. Life and how it's changing, music and technology, memories and old news.</p>
-              <p>And <em>The Sound of Something More</em> &mdash; a book about where songs come from, where they go, and where they take us.</p>
               <div class="panel__links">
                 <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read the letter</a>
-                <a class="lnk" href="/book">About the book</a>
               </div>
             </div>
           </div>
@@ -62,7 +66,7 @@ import { STORM_DOOR_URL } from '../consts';
         <article class="panel panel--wire" data-hud="Code">
           <div class="wire" aria-hidden="true"><span></span><span></span><span></span></div>
           <Texture tone="dark" />
-          <h2 class="panel__word panel__word--lit" aria-hidden="true"><span>CODE</span></h2>
+          <h2 class="panel__word panel__word--lit panel__word--scramble" aria-hidden="true"><span data-final="CODE">CODE</span></h2>
           <div class="panel__body">
             <figure class="panel__fig is-wide">
               <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
@@ -81,7 +85,7 @@ import { STORM_DOOR_URL } from '../consts';
         <!-- MUSIC -->
         <article class="panel panel--dusk" data-hud="Music">
           <Texture tone="dark" />
-          <h2 class="panel__word" aria-hidden="true"><span>MUSIC</span></h2>
+          <h2 class="panel__word panel__word--anaglyph" aria-hidden="true"><span data-t="MUSIC">MUSIC</span></h2>
           <div class="panel__body">
             <figure class="panel__fig">
               <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" loading="lazy" />
@@ -90,6 +94,23 @@ import { STORM_DOOR_URL } from '../consts';
               <p class="tag">03 &mdash; Before the pages</p>
               <h3>The songs came first</h3>
               <p>A Bonnaroo stage, an O Music Award, and a Guinness World Record he's still a little embarrassed about. He still writes and fronts a band, because some things don't clock out.</p>
+            </div>
+          </div>
+        </article>
+
+
+        <!-- BOOK -->
+        <article class="panel panel--book" data-hud="The Book">
+          <Noise tone="#A8401D" />
+          <h2 class="panel__word" aria-hidden="true"><span>THE BOOK</span></h2>
+          <div class="panel__body panel__body--wide">
+            <div class="panel__tell">
+              <p class="tag">04 &mdash; Years in the making</p>
+              <h3>The Sound of Something More</h3>
+              <p>Where songs come from, where they go, and where they take us. Written under the mentorship of New York Times bestselling author Kathryn Aalto.</p>
+              <div class="panel__links">
+                <a class="lnk" href="/book">About the book</a>
+              </div>
             </div>
           </div>
         </article>
@@ -281,6 +302,81 @@ import { STORM_DOOR_URL } from '../consts';
       }
 
 
+      // ── THE MARK: assembles on load, comes apart on scroll ───────────────
+      const pieces = [...document.querySelectorAll('.mark__pc')];
+      if (pieces.length) {
+        // arrive: the three pieces fall in from apart and lock together
+        gsap.from(pieces, {
+          yPercent: (i) => [-70, 0, 70][i],
+          xPercent: (i) => [-28, 34, -22][i],
+          rotationZ: (i) => [-14, 11, -8][i],
+          z: -420, opacity: 0,
+          duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25,
+        });
+        // depart: scrolling the hero pulls them apart again and turns them
+        gsap.to(pieces, {
+          yPercent: (i) => [-46, 0, 46][i],
+          xPercent: (i) => [-30, 26, -18][i],
+          rotationZ: (i) => [-13, 9, -7][i],
+          rotationY: (i) => [18, -14, 12][i],
+          z: (i) => [140, -60, 120][i],
+          ease: 'none',
+          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.7 },
+        });
+      }
+
+      // ── WORDS: chromatic aberration widens as the panel arrives ──────────
+      const chroma = document.querySelector('.panel__word--chroma');
+      if (chroma) {
+        // WORDS is the FIRST panel, so its left edge is already past any
+        // containerAnimation start at rail position 0 — that range is
+        // degenerate and the tween sits permanently at its end value. Drive it
+        // off the section's vertical approach instead, which is a live range.
+        gsap.fromTo(chroma, { '--ab': '16px' }, { '--ab': '1px', ease: 'none',
+          scrollTrigger: { trigger: tri, start: 'top 75%', end: 'top top', scrub: 0.6 } });
+      }
+
+      // ── MUSIC: anaglyph separation settles as it centres ─────────────────
+      const ana = document.querySelector('.panel__word--anaglyph');
+      if (ana) {
+        gsap.fromTo(ana, { '--eye': '22px' }, { '--eye': '4px', ease: 'none',
+          scrollTrigger: { trigger: ana.closest('.panel'),
+            containerAnimation: gsap.getTweensOf(triRail)[0],
+            start: 'left 85%', end: 'center 60%', scrub: 0.5 } });
+      }
+
+      // ── CODE: the word scrambles, then resolves ──────────────────────────
+      const scr = document.querySelector('.panel__word--scramble span');
+      if (scr) {
+        const FINAL = scr.dataset.final || scr.textContent;
+        const GLYPHS = '01<>[]{}/\\#$%&*+=~^ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let raf = 0;
+        const run = () => {
+          cancelAnimationFrame(raf);
+          const start = performance.now();
+          const DUR = 900;
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / DUR);
+            // characters resolve left to right
+            const settled = Math.floor(t * FINAL.length * 1.35);
+            let out = '';
+            for (let i = 0; i < FINAL.length; i++) {
+              out += i < settled ? FINAL[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+            }
+            scr.textContent = out;
+            if (t < 1) raf = requestAnimationFrame(tick);
+            else scr.textContent = FINAL;
+          };
+          raf = requestAnimationFrame(tick);
+        };
+        ScrollTrigger.create({
+          trigger: scr.closest('.panel'),
+          containerAnimation: gsap.getTweensOf(triRail)[0],
+          start: 'left 70%',
+          onEnter: run, onEnterBack: run,
+        });
+      }
+
       ScrollTrigger.refresh();
     };
 
@@ -360,12 +456,24 @@ import { STORM_DOOR_URL } from '../consts';
   /* the streams run behind the text, so the copy gets its own bed of dark */
   .hero__body::before{content:""; position:absolute; inset:-6% -8%; z-index:-1; border-radius:50%;
     background:radial-gradient(62% 58% at 50% 50%, rgba(4,6,11,.82) 0%, rgba(4,6,11,.5) 62%, transparent 84%)}
-  .hero__mark{width:clamp(112px,15vw,205px); height:auto; margin:0 auto clamp(1.1rem,2.4vw,1.7rem);
-    filter:drop-shadow(0 24px 46px rgba(0,0,0,.7))}
-  :global(.js) .hero__mark{opacity:0; transform:translateZ(-320px) scale(.7); filter:blur(14px);
-    animation:markIn 1600ms cubic-bezier(.16,.84,.24,1) 180ms forwards}
-  @keyframes markIn{to{opacity:1; transform:translateZ(0) scale(1);
-    filter:blur(0) drop-shadow(0 24px 46px rgba(0,0,0,.7))}}
+
+  /* ══════ THE MARK, EXPLODED ══════
+     One image, three clipped copies. Bands overlap slightly at the seams
+     (measured from the artwork's own ink coverage: JS/THE break ~33%,
+     THE/WLD ~61%) so the pieces read as having come apart rather than
+     been sliced. */
+  .mark{position:relative; width:clamp(112px,15vw,205px); aspect-ratio:969/1200;
+    margin:0 auto clamp(1.1rem,2.4vw,1.7rem); transform-style:preserve-3d}
+  .mark__pc{position:absolute; inset:0; display:block;
+    background:url('/assets/jswld-wordmark.png') center/contain no-repeat;
+    filter:drop-shadow(0 18px 34px rgba(0,0,0,.55)); will-change:transform}
+  .mark__pc--js{clip-path:inset(0 0 64% 0)}
+  .mark__pc--the{clip-path:inset(30% 0 37% 0)}
+  .mark__pc--wld{clip-path:inset(58% 0 0 0)}
+
+  /* pieces fly together on load... */
+  :global(.js) .mark__pc{opacity:0}
+  :global(.js) .hero.set .mark__pc{opacity:1}
 
   .rv{display:inline-block}
   :global(.js) .rv{clip-path:inset(0 100% 0 0); opacity:0;
@@ -391,7 +499,7 @@ import { STORM_DOOR_URL } from '../consts';
     animation:cue 2.6s cubic-bezier(.2,.8,.2,1) infinite}
   @keyframes cue{0%{opacity:0; transform:translateY(-10px)} 40%{opacity:1} 100%{opacity:0; transform:translateY(16px)}}
 
-  :global(.js) .hero.set .hero__mark,
+  :global(.js) .hero.set .mark,
   :global(.js) .hero.set .rv,
   :global(.js) .hero.set .mk{opacity:1; transform:none; clip-path:none; filter:none; animation:none}
 
@@ -514,6 +622,22 @@ import { STORM_DOOR_URL } from '../consts';
   .panel--wire .panel__word span{opacity:1; color:var(--lit);
     text-shadow:0 0 60px rgba(64,196,232,.45), 0 0 160px rgba(64,196,232,.25)}
 
+  /* WORDS — chromatic aberration: the same glyphs in R and C, fringing apart */
+  .panel__word--chroma span{position:relative}
+  .panel__word--chroma span::before,
+  .panel__word--chroma span::after{content:attr(data-t); position:absolute; inset:0;
+    pointer-events:none; mix-blend-mode:screen}
+  .panel__word--chroma span::before{color:#FF2D2D; transform:translate(var(--ab,0px),0)}
+  .panel__word--chroma span::after{color:#12E8FF; transform:translate(calc(var(--ab,0px) * -1),0)}
+
+  /* MUSIC — anaglyph: a stereo pair, offset far enough to read as depth */
+  .panel__word--anaglyph span{position:relative}
+  .panel__word--anaglyph span::before,
+  .panel__word--anaglyph span::after{content:attr(data-t); position:absolute; inset:0;
+    pointer-events:none; mix-blend-mode:screen; opacity:.85}
+  .panel__word--anaglyph span::before{color:#FF1F1F; transform:translate3d(calc(var(--eye,0px) * -1),0,-40px)}
+  .panel__word--anaglyph span::after{color:#00E5FF; transform:translate3d(var(--eye,0px),0,40px)}
+
   .panel__body{position:relative; z-index:2; display:grid; grid-template-columns:1fr;
     gap:clamp(1.4rem,3vw,2.6rem); align-items:center; max-width:1180px; perspective:1100px}
   @media(min-width:820px){.panel__body{grid-template-columns:0.85fr 1fr}}
@@ -534,6 +658,11 @@ import { STORM_DOOR_URL } from '../consts';
     box-shadow:inset 0 0 0 1px rgba(199,169,111,.55), 0 26px 56px -26px rgba(51,48,58,.42)}
   .panel--paper .panel__fig::before, .panel--paper .panel__fig::after{border-color:var(--rust); opacity:.7}
   .panel--wire .panel__fig::before, .panel--wire .panel__fig::after{border-color:var(--lit); opacity:.75}
+
+  /* the book panel: warm paper ground, the noise field blooming behind it */
+  .panel--book{background:#E7E0D2; color:var(--ink); isolation:isolate}
+  .panel--book .panel__word span{opacity:.16}
+  .panel__body--wide{grid-template-columns:1fr !important; max-width:64ch}
 
   .panel__tell{max-width:52ch}
   .panel__links{display:flex; gap:clamp(1rem,2.4vw,2rem); flex-wrap:wrap}
