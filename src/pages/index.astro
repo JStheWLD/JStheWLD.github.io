@@ -7,6 +7,7 @@ import Harp from '../components/Harp.astro';
 import Spine from '../components/Spine.astro';
 import Strings from '../components/Strings.astro';
 import Mark from '../components/Mark.astro';
+import Tilt from '../components/Tilt.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true} motion={true}>
@@ -19,6 +20,7 @@ import { STORM_DOOR_URL } from '../consts';
   <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
   <Spine stops={["Words", "Code", "Music", "Jonathan", "The Storm Door"]} />
   <Harp />
+  <Tilt />
 
   <main id="top">
     <!-- ══ 01 HERO — the ground falls away ══ -->
@@ -49,7 +51,7 @@ import { STORM_DOOR_URL } from '../consts';
           <Noise tone="#C1512A" seed={1337} scale={0.055} speed={0.06} strength={0.42} blend="multiply" />
           <h2 class="panel__word panel__word--chroma" aria-hidden="true"><span data-t="WORDS">WORDS</span></h2>
           <div class="panel__body">
-            <figure class="panel__fig">
+            <figure class="panel__fig" data-tilt>
               <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
             </figure>
             <div class="panel__tell">

@@ -1,0 +1,66 @@
+---
+// TILT — a photograph answers the hand.
+//
+// Behaviour only; renders nothing. Any figure marked `data-tilt` leans toward
+// the pointer, the way a print held in the hand catches the light when you
+// angle it. That is the medium answering in its own terms: a photograph is a
+// physical object in this brand, so it behaves like one.
+//
+// Bound by the Small-Answer Rule — 6 degrees, home within 700ms. The ceiling is
+// the point. A figure that swings hard reads as a widget; one that gives a
+// couple of degrees reads as an object with weight, and is noticed on the
+// second look rather than the first.
+//
+// Fine pointers only. On touch there is no hover to answer, and a tilt driven
+// by a dragging finger fights the scroll it is riding on.
+---
+<script>
+  const els = [...document.querySelectorAll('[data-tilt]')];
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (els.length && fine && !reduce) {
+    const MAX = 6;          // degrees, per the Small-Answer Rule
+    const HOME = 0.5;       // seconds to settle — inside the 700ms ceiling
+
+    const wire = (gsap) => {
+      els.forEach((el) => {
+        // ONE owner per property. quickTo holds rotationX/rotationY for the
+        // element's whole life, and the return home reuses it rather than
+        // starting a second tween on the same properties — two tweens sharing a
+        // transform is how the wordmark ended up tearing itself apart.
+        const rx = gsap.quickTo(el, 'rotationX', { duration: HOME, ease: 'power3.out' });
+        const ry = gsap.quickTo(el, 'rotationY', { duration: HOME, ease: 'power3.out' });
+
+        el.addEventListener('pointermove', (e) => {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return;
+          // Clamped, not merely expected to stay in range: a pointermove can
+          // land on or just past the element's own edge, which pushed the lean
+          // to 6.04 degrees. The ceiling is a rule, so it is enforced here
+          // rather than left as a property of where the cursor happened to be.
+          const clamp = (v) => (v < -0.5 ? -0.5 : v > 0.5 ? 0.5 : v);
+          const nx = clamp((e.clientX - r.left) / r.width - 0.5);   // -0.5 .. 0.5
+          const ny = clamp((e.clientY - r.top) / r.height - 0.5);
+          ry(nx * 2 * MAX);                                   // lean toward the hand
+          rx(-ny * 2 * MAX);                                  // top away as you go low
+        }, { passive: true });
+
+        el.addEventListener('pointerleave', () => { rx(0); ry(0); }, { passive: true });
+      });
+    };
+
+    // Motion.astro owns the single GSAP instance; importing a second one here
+    // would ship the library twice and run it on a different clock.
+    if (window.__motion && !window.__motion.reduce) wire(window.__motion.gsap);
+    else addEventListener('motion:ready', (e) => {
+      if (e.detail && !e.detail.reduce) wire(e.detail.gsap);
+    }, { once: true });
+  }
+</script>
+
+<style>
+  /* The camera comes from .panel__body's perspective; this only promotes the
+     element so the lean does not repaint the framed photograph each frame. */
+  :global([data-tilt]){will-change:transform}
+</style>
