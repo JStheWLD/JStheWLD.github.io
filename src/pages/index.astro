@@ -334,37 +334,58 @@ import { STORM_DOOR_URL } from '../consts';
         addEventListener('pointerleave', () => layers.forEach((l, i) => { qx[i](0); qy[i](0); }), { passive: true });
       }
 
-      // ── THE MARK: assembles on load, comes apart on scroll ───────────────
+      // ── THE MARK ────────────────────────────────────────────────────────
+      // ONE tween owns these transforms at any moment. The previous version had
+      // three: an intro, a scrubbed scroll tween, and an onLeaveBack snap
+      // carrying overwrite:'auto'. The snap killed the scrub tween mid-flight
+      // while ScrollTrigger still owned it, so the pieces slammed home and then
+      // tore apart again — the glitch. The intro also fought the scrub tween for
+      // the first two seconds, since the scrub is live from load at progress 0.
       const pieces = [...document.querySelectorAll('.mark__pc')];
       if (pieces.length) {
-        // arrive: the three pieces fall in from apart and lock together
+        const APART = {
+          yPercent: (i) => [-46, 0, 46][i],
+          xPercent: (i) => [-30, 26, -18][i],
+          rotationZ: (i) => [-13, 9, -7][i],
+          rotationY: (i) => [18, -14, 12][i],
+          z: (i) => [140, -60, 120][i],
+        };
+
+        // the scroll tween is only created once the intro has finished, so the
+        // two never write to the same property in the same frame
+        // Guarded: arming is gated on the intro finishing, and GSAP runs on rAF,
+        // which browsers freeze in hidden tabs. Without a fallback a page opened
+        // in a background tab would never create the scroll tween at all and the
+        // mark would sit inert. Same failsafe doctrine as the hero reveal.
+        let armed = false;
+        const armScroll = () => {
+          if (armed) return;
+          armed = true;
+          // If the failsafe fired while the intro was still mid-flight, that
+          // tween is still holding the pieces part-way. Retire it and set the
+          // assembled state explicitly, so the scroll tween always starts from
+          // a known origin rather than wherever the intro happened to stall.
+          gsap.killTweensOf(pieces);
+          gsap.set(pieces, { yPercent: 0, xPercent: 0, rotationZ: 0, rotationY: 0, z: 0, opacity: 1 });
+          gsap.to(pieces, {
+            ...APART,
+            // power2.in holds them together through the early scroll and then
+            // lets go. Reversed, that same curve slams them home at the end —
+            // the "click", produced by the ease rather than a second tween.
+            ease: 'power2.in',
+            scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
+          });
+        };
+
         gsap.fromTo(pieces,
           { yPercent: (i) => [-70, 0, 70][i],
             xPercent: (i) => [-28, 34, -22][i],
             rotationZ: (i) => [-14, 11, -8][i],
             z: -420, opacity: 0 },
           { yPercent: 0, xPercent: 0, rotationZ: 0, z: 0, opacity: 1,
-            duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25 });
-        // depart: scrolling the hero pulls them apart again and turns them
-        gsap.to(pieces, {
-          yPercent: (i) => [-46, 0, 46][i],
-          xPercent: (i) => [-30, 26, -18][i],
-          rotationZ: (i) => [-13, 9, -7][i],
-          rotationY: (i) => [18, -14, 12][i],
-          z: (i) => [140, -60, 120][i],
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.7,
-            // scrubbing alone drifts the pieces back vaguely; this snaps them
-            // home with a little overshoot so returning to the top *clicks*.
-            onLeaveBack: () => {
-              gsap.to(pieces, {
-                yPercent: 0, xPercent: 0, rotationZ: 0, rotationY: 0, z: 0,
-                duration: 0.5, ease: 'back.out(2.2)', stagger: 0.04, overwrite: 'auto',
-              });
-            },
-          },
-        });
+            duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25,
+            onComplete: armScroll });
+        setTimeout(armScroll, 2600);   // whichever comes first
       }
 
       // ── WORDS: chromatic aberration widens as the panel arrives ──────────
