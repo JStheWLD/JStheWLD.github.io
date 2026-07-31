@@ -54,6 +54,23 @@ typography:
     fontSize: "0.7rem"
     fontWeight: 400
     letterSpacing: "0.2em"
+  # The steps that exist between the named roles above. Several of these were
+  # already specified in the prose below (the maker sentence at
+  # clamp(.9rem,1.9vw,1.14rem) is named in Components), but prose is not
+  # machine-readable, so they are enumerated here as well. Clamp endpoints count
+  # as steps: a fluid size is only on-ramp if both ends are.
+  scale:
+    hud: "10px"            # HUD micro-caps and the sound toggle
+    micro: "0.8rem"        # smallest label step
+    tail-min: "0.82rem"    # hero tail
+    tail-max: "0.98rem"
+    maker-min: "0.9rem"    # hero maker sentence
+    maker-max: "1.14rem"
+    slab-min: "1.2rem"     # type-slab cover
+    slab-max: "2.3rem"
+    close-min: "2.1rem"    # closing word
+    close-max: "6.4rem"
+    panel-max: "8rem"      # pinned triptych panel word
 rounded:
   none: "0px"
   seal: "999px"
