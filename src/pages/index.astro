@@ -309,6 +309,31 @@ import { STORM_DOOR_URL } from '../consts';
       }
 
 
+      // ── HERO PARALLAX: depth behind the strands, driven by the same hand
+      //    that plays them. Layers shift by different amounts, so the wordmark
+      //    sits in front of the field rather than on top of a flat picture.
+      const heroEl = document.querySelector('.hero');
+      if (heroEl && !reduce) {
+        const layers = [
+          { el: heroEl.querySelector('.well'), depth: -14 },
+          { el: heroEl.querySelector('.tex'), depth: -26 },
+          { el: heroEl.querySelector('.hero__body'), depth: 10 },
+        ].filter((l) => l.el);
+        const qx = layers.map((l) => gsap.quickTo(l.el, 'x', { duration: 0.9, ease: 'power3.out' }));
+        const qy = layers.map((l) => gsap.quickTo(l.el, 'y', { duration: 0.9, ease: 'power3.out' }));
+        let inHero = false;
+        addEventListener('pointermove', (e) => {
+          const r = heroEl.getBoundingClientRect();
+          inHero = e.clientY >= r.top && e.clientY <= r.bottom;
+          if (!inHero) return;
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          layers.forEach((l, i) => { qx[i](nx * l.depth); qy[i](ny * l.depth * 0.6); });
+        }, { passive: true });
+        // ease everything home when the pointer leaves the hero
+        addEventListener('pointerleave', () => layers.forEach((l, i) => { qx[i](0); qy[i](0); }), { passive: true });
+      }
+
       // ── THE MARK: assembles on load, comes apart on scroll ───────────────
       const pieces = [...document.querySelectorAll('.mark__pc')];
       if (pieces.length) {

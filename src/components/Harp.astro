@@ -10,6 +10,7 @@
 // and unannounced sound is hostile, so the toggle IS the unlock and the state
 // is remembered.
 ---
+<canvas class="motes" data-motes aria-hidden="true"></canvas>
 <button class="harp" data-harp type="button" aria-pressed="false"
   aria-label="Play the strands">
   <span class="harp__wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
@@ -23,10 +24,28 @@
     let ctx = null, bus = null, on = false;
     let last = -1, lastAt = 0;
 
-    // A minor pentatonic across two octaves — no semitone clashes, so any two
-    // strands struck together still sound intentional.
-    const HZ = [220.0, 261.6, 293.7, 349.2, 392.0,
-                440.0, 523.3, 587.3, 698.5, 784.0, 880.0];
+    // Tuned to G — the key Free Bird lives in — using G major with the flat-7
+    // (F natural) that gives Southern rock its modal colour, i.e. G mixolydian.
+    // This is a KEY and a MODE, not the song: no melody is encoded here. Any
+    // two strands struck together still sit inside that harmony.
+    //   G  A  B  C  D  E  F   across two octaves, low G to high G
+    const HZ = [
+      196.00, // G3
+      220.00, // A3
+      246.94, // B3
+      261.63, // C4
+      293.66, // D4
+      329.63, // E4
+      349.23, // F4   <- the flat-7
+      392.00, // G4
+      440.00, // A4
+      493.88, // B4
+      523.25, // C5
+      587.33, // D5
+      659.25, // E5
+      698.46, // F5
+      783.99, // G5
+    ];
 
     const build = () => {
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -74,6 +93,82 @@
       src.stop(ctx.currentTime + seconds);
     };
 
+    // ── MOTES: a note draws a few sparks out of the strand ──────────────
+    // Pied piper: they are summoned by the sound, then follow the cursor as it
+    // moves away. Deliberately few — a handful per note, hard-capped, so the
+    // hero never turns into a snow globe.
+    const mc = document.querySelector('[data-motes]');
+    const mx = mc && mc.getContext('2d');
+    const motes = [];
+    const CAP = 46;
+    let px = 0, py = 0, mraf = 0, mrunning = false;
+    const reduceMo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const sizeMotes = () => {
+      if (!mc) return;
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      mc.width = Math.round(mc.clientWidth * dpr);
+      mc.height = Math.round(mc.clientHeight * dpr);
+      mx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    // higher notes throw brighter, lighter sparks
+    const summon = (x, y, hz) => {
+      if (!mc || reduceMo) return;
+      const lift = Math.min(1, (hz - 196) / 588);
+      const n = 3 + Math.round(Math.random() * 2);
+      for (let i = 0; i < n; i++) {
+        if (motes.length >= CAP) motes.shift();
+        motes.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: -0.25 - Math.random() * 0.6 - lift * 0.5,
+          life: 1,
+          decay: 0.0055 + Math.random() * 0.004,
+          r: 0.9 + Math.random() * 1.5 + lift,
+          hue: lift,
+        });
+      }
+      startMotes();
+    };
+
+    const stepMotes = () => {
+      const w = mc.clientWidth, h = mc.clientHeight;
+      mx.clearRect(0, 0, w, h);
+      for (let i = motes.length - 1; i >= 0; i--) {
+        const m = motes[i];
+        // the piper: drift toward wherever the pointer went
+        const dx = px - m.x, dy = py - m.y;
+        const d = Math.hypot(dx, dy) || 1;
+        // inverse-LINEAR, not inverse-square: at a few hundred px an
+        // inverse-square pull is ~0.00003, so the motes ignored the pointer
+        // entirely and just floated. This actually follows.
+        const pull = Math.min(0.05, 18 / (d + 80));
+        m.vx += (dx / d) * pull;
+        m.vy += (dy / d) * pull - 0.004;    // and a little buoyancy
+        m.vx *= 0.985; m.vy *= 0.985;
+        m.x += m.vx; m.y += m.vy;
+        m.life -= m.decay;
+        if (m.life <= 0) { motes.splice(i, 1); continue; }
+        const a = Math.pow(m.life, 1.6);
+        // amber for the low strings, cyan for the high ones
+        const c = m.hue > 0.55 ? '64,196,232' : '217,154,66';
+        mx.beginPath();
+        mx.arc(m.x, m.y, m.r * (0.5 + m.life * 0.7), 0, 6.2832);
+        mx.fillStyle = `rgba(${c},${(a * 0.85).toFixed(3)})`;
+        mx.fill();
+      }
+      if (motes.length) mraf = requestAnimationFrame(stepMotes);
+      else { mrunning = false; mx.clearRect(0, 0, w, h); }
+    };
+    const startMotes = () => { if (!mrunning && !reduceMo) { mrunning = true; mraf = requestAnimationFrame(stepMotes); } };
+
+    sizeMotes();
+    addEventListener('resize', sizeMotes, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(mraf); mrunning = false; motes.length = 0; }
+    });
+
     // the hero's strands are a canvas, so pitch comes from where the pointer is
     const hero = document.querySelector('.hero');
     const onMove = (e) => {
@@ -86,7 +181,9 @@
       // only when crossing into a NEW string, and never faster than a hand could
       if (i === last || now - lastAt < 70) return;
       last = i; lastAt = now;
+      px = e.clientX - r.left; py = e.clientY - r.top;
       pluck(HZ[i]);
+      summon(px, py, HZ[i]);
     };
 
     const setOn = (v) => {
@@ -101,7 +198,10 @@
       if (!ctx && !build()) return;       // no Web Audio: leave the button inert
       if (!on) ctx.resume();              // this click is the unlock gesture
       setOn(!on);
-      if (on) pluck(HZ[5]);               // confirm with a single note
+      if (on) {
+        pluck(HZ[7]);                     // confirm on the tonic
+        if (hero) { const r = hero.getBoundingClientRect(); summon(r.width / 2, r.height * 0.62, HZ[7]); }
+      }
     });
 
     addEventListener('pointermove', onMove, { passive: true });
@@ -112,6 +212,8 @@
 </script>
 
 <style>
+  .motes{position:fixed; inset:0; width:100%; height:100%; display:block;
+    z-index:96; pointer-events:none}
   .harp{position:fixed; bottom:14px; left:50%; translate:-50% 0; z-index:99;
     display:flex; align-items:center; gap:9px; cursor:pointer;
     padding:7px 13px; border:0;
