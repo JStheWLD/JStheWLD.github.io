@@ -361,6 +361,7 @@ import { STORM_DOOR_URL } from '../consts';
         const armScroll = () => {
           if (armed) return;
           armed = true;
+          off();                       // every arming path drops the listeners
           // If the failsafe fired while the intro was still mid-flight, that
           // tween is still holding the pieces part-way. Retire it and set the
           // assembled state explicitly, so the scroll tween always starts from
@@ -376,6 +377,22 @@ import { STORM_DOOR_URL } from '../consts';
             scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
           });
         };
+
+        // Hand over on the reader's first scroll, not just on the intro's clock.
+        // Gating purely on onComplete meant anyone who loaded and immediately
+        // scrolled — which is most people — got a mark that sat frozen for two
+        // seconds and then lurched to catch up. Arming here kills the intro and
+        // snaps to assembled first, so the scrub picks up from a known state and
+        // its own 0.6s catch-up smooths the handover.
+        const handover = () => armScroll();
+        const off = () => {
+          removeEventListener('wheel', handover);
+          removeEventListener('touchmove', handover);
+          removeEventListener('keydown', handover);
+        };
+        addEventListener('wheel', handover, { passive: true, once: false });
+        addEventListener('touchmove', handover, { passive: true, once: false });
+        addEventListener('keydown', handover, { passive: true, once: false });
 
         gsap.fromTo(pieces,
           { yPercent: (i) => [-70, 0, 70][i],
@@ -526,10 +543,19 @@ import { STORM_DOOR_URL } from '../consts';
      THE/WLD ~61%) so the pieces read as having come apart rather than
      been sliced. */
   .mark{position:relative; width:clamp(112px,15vw,205px); aspect-ratio:969/1200;
-    margin:0 auto clamp(1.1rem,2.4vw,1.7rem); transform-style:preserve-3d}
+    margin:0 auto clamp(1.1rem,2.4vw,1.7rem);
+    /* The camera. Without this the pieces' rotationY and z render
+       orthographically — the rotation flattens into a horizontal squash and the
+       depth does nothing at all, which is what made the explosion read as a
+       jitter rather than as pieces turning in space. */
+    perspective:900px; transform-style:preserve-3d}
   .mark__pc{position:absolute; inset:0; display:block;
     background:url('/assets/jswld-wordmark.png') center/contain no-repeat;
-    filter:drop-shadow(0 18px 34px rgba(0,0,0,.55)); will-change:transform}
+    filter:drop-shadow(0 18px 34px rgba(0,0,0,.55));
+    /* rotationY turns each piece past its own edge; without this the far face
+       flickers through at the crossing. */
+    backface-visibility:hidden;
+    will-change:transform}
   .mark__pc--js{clip-path:inset(0 0 64% 0)}
   .mark__pc--the{clip-path:inset(30% 0 37% 0)}
   .mark__pc--wld{clip-path:inset(58% 0 0 0)}
