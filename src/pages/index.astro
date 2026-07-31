@@ -370,11 +370,17 @@ import { STORM_DOOR_URL } from '../consts';
           gsap.set(pieces, { yPercent: 0, xPercent: 0, rotationZ: 0, rotationY: 0, z: 0, opacity: 1 });
           gsap.to(pieces, {
             ...APART,
-            // power2.in holds them together through the early scroll and then
-            // lets go. Reversed, that same curve slams them home at the end —
-            // the "click", produced by the ease rather than a second tween.
-            ease: 'power2.in',
-            scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
+            // power1.out front-loads the travel: the pieces separate as soon as
+            // the reader starts scrolling, while the hero is still on screen.
+            // The previous power2.in put 75% of the scroll into 14px of movement
+            // and saved the real motion for the last quarter — which, against an
+            // end of 'bottom top', landed after the hero had already left the
+            // viewport. The explosion was running where nobody could see it.
+            // Reversed, this same curve is slow-then-fast, so it still arrives
+            // home with the click.
+            ease: 'power1.out',
+            // finish while the hero is still half in frame, not as it exits
+            scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.6 },
           });
         };
 
