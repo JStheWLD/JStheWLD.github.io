@@ -283,27 +283,41 @@ import { STORM_DOOR_URL } from '../consts';
       let triTl = null;
       if (tri && triRail && window.matchMedia('(min-width: 700px)').matches) {
         const travel = () => Math.max(0, triRail.scrollWidth - window.innerWidth);
-        // ONE tween, strictly linear. ScrollTrigger's containerAnimation maps a
-        // panel's horizontal position onto this animation's progress, and that
-        // map only exists if the motion is uniform. A previous version prepended
-        // a 0.18 "patience" hold carrying the default (eased) curve and moving
-        // nothing — which destroyed the map. Every containerAnimation trigger
-        // collapsed to a zero-length range, silently killing the CODE scramble
-        // and all four panels' depth reveals. Patience is bought with scroll
-        // distance below, never with a segment in this timeline.
+        // ONE tween for the rail, strictly linear. ScrollTrigger's
+        // containerAnimation maps a panel's horizontal position onto this
+        // animation's progress, and that map only exists if the motion is
+        // uniform — an earlier version prepended a "patience" segment that held
+        // still on a default (eased) curve, which is a hazard here.
+        //
+        // So the dwell is bought OUTSIDE the tween: a pin-only trigger holds the
+        // section for a lead-in before the rail is allowed to move at all. That
+        // gives the reader most of a viewport-height of scrolling with WORDS
+        // sitting still and fully visible, while the rail tween stays perfectly
+        // linear.
+        const LEAD = () => Math.round(window.innerHeight * 0.62);
+
+        const pinTrig = ScrollTrigger.create({
+          trigger: tri,
+          start: 'top top',
+          end: () => '+=' + (LEAD() + travel() * 1.45),
+          pin: true,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          refreshPriority: 1,      // must resolve before the rail reads its range
+        });
+
         triTl = gsap.to(triRail, {
           x: () => -travel(),
           ease: 'none',
           scrollTrigger: {
-            trigger: tri,
-            start: 'top top',
-            // Pace: appreciably more scroll than travel, so each panel gets real
-            // dwell and the hand-off from vertical is not a snap.
-            end: () => '+=' + travel() * 1.45,
-            pin: true,
+            // Absolute scroll positions taken from the pin, NOT a selector-based
+            // start: `tri` is pinned, so ScrollTrigger offsets it by the pin
+            // spacer and a relative start like 'top top-=LEAD' resolved past the
+            // end of the pin — the rail then never moved at all.
+            start: () => pinTrig.start + LEAD(),
+            end: () => pinTrig.end,
             scrub: 0.8,
             invalidateOnRefresh: true,
-            anticipatePin: 1,
           },
         });
 
@@ -434,27 +448,56 @@ import { STORM_DOOR_URL } from '../consts';
         setTimeout(armScroll, 2600);   // whichever comes first
       }
 
-      // ── WORDS: chromatic aberration widens as the panel arrives ──────────
+      // ── THE ACT WORDS ────────────────────────────────────────────────────
+      // All three treatments used to be timed to the word's ARRIVAL and were
+      // spent before anyone could look: the aberration collapsed from 16px to
+      // 1px exactly as the section pinned, and the anaglyph settled to 4px as
+      // its panel centred. The effect always finished a beat before the word
+      // became the thing on screen, which is why it read as missing.
+      //
+      // Each one now swells INTO its word, HOLDS at full separation while the
+      // word is centred, and resolves only as it leaves. Separation is in `em`
+      // so it scales with the type instead of shrinking against a huge word,
+      // capped at the doctrine's 0.06em.
+      const pinST = triTl && triTl.scrollTrigger;
+      const pinLen = () => (pinST ? pinST.end - pinST.start : 0);
+      // Four panels across three viewports of travel, so panel i sits fully on
+      // screen at pin progress i/3.
+      const atPanel = (i, before, after) => ({
+        start: () => pinST.start + Math.max(0, i / 3 - before) * pinLen(),
+        end: () => pinST.start + Math.min(1, i / 3 + after) * pinLen(),
+        scrub: 0.9,
+        invalidateOnRefresh: true,
+      });
+
+      // 0 -> max -> hold -> 0. The hold is the whole point: the split stays at
+      // full width for the stretch where the word is what the reader is looking
+      // at, rather than peaking in passing.
+      const swell = (el, prop, max, st) => {
+        const tl = gsap.timeline({ scrollTrigger: st });
+        tl.fromTo(el, { [prop]: '0em' }, { [prop]: max, ease: 'power2.out', duration: 1 })
+          .to(el, { [prop]: max, duration: 1.6 })
+          .to(el, { [prop]: '0em', ease: 'power2.in', duration: 1 });
+        return tl;
+      };
+
       const chroma = document.querySelector('.panel__word--chroma');
       if (chroma) {
-        // WORDS is the FIRST panel, so its left edge is already past any
-        // containerAnimation start at rail position 0 — that range is
-        // degenerate and the tween sits permanently at its end value. Drive it
-        // off the section's vertical approach instead, which is a live range.
-        gsap.fromTo(chroma, { '--ab': '16px' }, { '--ab': '1px', ease: 'none',
-          scrollTrigger: { trigger: tri, start: 'top 75%', end: 'top top', scrub: 0.6 } });
+        // WORDS is the first panel: it is already centred when the pin begins,
+        // so its swell starts during the vertical approach and carries into the
+        // pin. Driven off the panel's own horizontal position it would have no
+        // room at all — at rail x=0 that range is already spent.
+        swell(chroma, '--ab', '0.06em', pinST
+          ? { trigger: tri, start: 'top 78%', end: () => pinST.start + 0.24 * pinLen(),
+              scrub: 0.9, invalidateOnRefresh: true }
+          : { trigger: tri, start: 'top 85%', end: 'top 20%', scrub: 0.9 });
       }
 
-      // ── MUSIC: anaglyph separation settles as it centres ─────────────────
       const ana = document.querySelector('.panel__word--anaglyph');
       if (ana) {
-        // With a rail, position is horizontal; without one the panels stack, so
-        // the same effect has to read vertical position instead.
-        gsap.fromTo(ana, { '--eye': '22px' }, { '--eye': '4px', ease: 'none',
-          scrollTrigger: triTl
-            ? { trigger: ana.closest('.panel'), containerAnimation: triTl,
-                start: 'left 85%', end: 'center 60%', scrub: 0.5 }
-            : { trigger: ana.closest('.panel'), start: 'top 85%', end: 'center 60%', scrub: 0.5 } });
+        swell(ana, '--eye', '0.06em', pinST
+          ? atPanel(2, 0.22, 0.16)
+          : { trigger: ana.closest('.panel'), start: 'top 85%', end: 'bottom 40%', scrub: 0.9 });
       }
 
       // ── CODE: the word scrambles, then resolves ──────────────────────────
@@ -466,11 +509,11 @@ import { STORM_DOOR_URL } from '../consts';
         const run = () => {
           cancelAnimationFrame(raf);
           const start = performance.now();
-          const DUR = 900;
+          const DUR = 2400;   // was 900 — over before it registered
           const tick = (now) => {
             const t = Math.min(1, (now - start) / DUR);
             // characters resolve left to right
-            const settled = Math.floor(t * FINAL.length * 1.35);
+            const settled = Math.floor(t * FINAL.length * 1.08);  // churn longer before resolving
             let out = '';
             for (let i = 0; i < FINAL.length; i++) {
               out += i < settled ? FINAL[i] : GLYPHS[(Math.random() * GLYPHS.length) | 0];
@@ -481,9 +524,13 @@ import { STORM_DOOR_URL } from '../consts';
           };
           raf = requestAnimationFrame(tick);
         };
-        ScrollTrigger.create(triTl
-          ? { trigger: scr.closest('.panel'), containerAnimation: triTl,
-              start: 'left 70%', onEnter: run, onEnterBack: run }
+        // Fires as CODE reaches the middle of the screen, not as its edge
+        // appears — the decode should happen under the reader's eye.
+        ScrollTrigger.create(pinST
+          ? { trigger: tri,
+              start: () => pinST.start + Math.max(0, 1 / 3 - 0.16) * pinLen(),
+              end: () => pinST.start + Math.min(1, 1 / 3 + 0.16) * pinLen(),
+              invalidateOnRefresh: true, onEnter: run, onEnterBack: run }
           : { trigger: scr.closest('.panel'), start: 'top 70%', onEnter: run, onEnterBack: run });
       }
 
@@ -703,7 +750,13 @@ import { STORM_DOOR_URL } from '../consts';
      One pinned section; the rail carries three full-viewport panels so the
      ground colour changes as you travel sideways rather than as you scroll down.
      The contrast cut happens horizontally here. */
-  .tri{position:relative; z-index:2; overflow:hidden; height:100svh}
+  /* The generic `section` rule in global.css applies padding-block:
+     clamp(4rem,9vw,8rem). This section is a full-viewport pinned rail whose
+     panels carry their own padding, so that outer pad was applied twice — and
+     because the section is 100svh, it ate INTO the viewport: the rail was
+     squeezed to 219px inside a 347px section, leaving a dead band of ground
+     above and below and clipping the bottom of every panel. */
+  .tri{position:relative; z-index:2; overflow:hidden; height:100svh; padding-block:0}
   .tri__rail{display:flex; height:100%; width:max-content; will-change:transform}
   .panel{position:relative; flex:none; width:100vw; height:100svh; overflow:hidden;
     display:flex; flex-direction:column; justify-content:center;
@@ -719,7 +772,9 @@ import { STORM_DOOR_URL } from '../consts';
     font-size:clamp(2.6rem,11vw,8rem); letter-spacing:-.055em; line-height:.86;
     color:currentColor; opacity:.14}
   /* paper grounds need real weight — .14 disappeared into the noise field */
-  .panel--paper .panel__word span, .panel--book .panel__word span{opacity:.42}
+  /* Doctrine floors channel opacity at .5 against light grounds; .42 sat under
+     it and the fringes disappeared into the paper. */
+  .panel--paper .panel__word span, .panel--book .panel__word span{opacity:.56}
   .panel--wire .panel__word span{opacity:1; color:var(--lit);
     text-shadow:0 0 60px rgba(64,196,232,.45), 0 0 160px rgba(64,196,232,.25)}
 
