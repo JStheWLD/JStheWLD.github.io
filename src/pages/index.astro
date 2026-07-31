@@ -272,25 +272,38 @@ import { STORM_DOOR_URL } from '../consts';
       // ── THE TRIPTYCH: vertical scroll runs the three crafts sideways ─────
       const tri = document.querySelector('[data-tri]');
       const triRail = document.querySelector('[data-tri-rail]');
+      // Hoisted: the anaglyph and the CODE scramble below are driven off this
+      // rail, and a block-scoped const left both of them referencing an
+      // undefined binding — a ReferenceError that aborted wireScrubbed partway
+      // through on every single load, taking the scramble, the anaglyph and the
+      // final ScrollTrigger.refresh() with it. Null below 700px, where there is
+      // no rail at all.
+      let triTl = null;
       if (tri && triRail && window.matchMedia('(min-width: 700px)').matches) {
         const travel = () => Math.max(0, triRail.scrollWidth - window.innerWidth);
-        // A hold at the head of the timeline: the first panel sits still for the
-        // opening stretch of the pin, so WORDS can be read before it leaves.
-        const triTl = gsap.timeline({
+        // ONE tween, strictly linear. ScrollTrigger's containerAnimation maps a
+        // panel's horizontal position onto this animation's progress, and that
+        // map only exists if the motion is uniform. A previous version prepended
+        // a 0.18 "patience" hold carrying the default (eased) curve and moving
+        // nothing — which destroyed the map. Every containerAnimation trigger
+        // collapsed to a zero-length range, silently killing the CODE scramble
+        // and all four panels' depth reveals. Patience is bought with scroll
+        // distance below, never with a segment in this timeline.
+        triTl = gsap.to(triRail, {
+          x: () => -travel(),
+          ease: 'none',
           scrollTrigger: {
             trigger: tri,
             start: 'top top',
-            // Pace: slightly MORE scroll than travel, so each panel gets real
-            // dwell. 0.55 flew past; four panels of content need time to land.
-            end: () => '+=' + travel() * 1.15,
+            // Pace: appreciably more scroll than travel, so each panel gets real
+            // dwell and the hand-off from vertical is not a snap.
+            end: () => '+=' + travel() * 1.45,
             pin: true,
             scrub: 0.8,
             invalidateOnRefresh: true,
             anticipatePin: 1,
           },
         });
-        triTl.to(triRail, { x: 0, duration: 0.18 })            // patience
-             .to(triRail, { x: () => -travel(), ease: 'none', duration: 1 });
 
         // each panel's content comes inward as its panel reaches the screen
         triRail.querySelectorAll('.panel').forEach((panel) => {
@@ -433,10 +446,13 @@ import { STORM_DOOR_URL } from '../consts';
       // ── MUSIC: anaglyph separation settles as it centres ─────────────────
       const ana = document.querySelector('.panel__word--anaglyph');
       if (ana) {
+        // With a rail, position is horizontal; without one the panels stack, so
+        // the same effect has to read vertical position instead.
         gsap.fromTo(ana, { '--eye': '22px' }, { '--eye': '4px', ease: 'none',
-          scrollTrigger: { trigger: ana.closest('.panel'),
-            containerAnimation: triTl,
-            start: 'left 85%', end: 'center 60%', scrub: 0.5 } });
+          scrollTrigger: triTl
+            ? { trigger: ana.closest('.panel'), containerAnimation: triTl,
+                start: 'left 85%', end: 'center 60%', scrub: 0.5 }
+            : { trigger: ana.closest('.panel'), start: 'top 85%', end: 'center 60%', scrub: 0.5 } });
       }
 
       // ── CODE: the word scrambles, then resolves ──────────────────────────
@@ -463,12 +479,10 @@ import { STORM_DOOR_URL } from '../consts';
           };
           raf = requestAnimationFrame(tick);
         };
-        ScrollTrigger.create({
-          trigger: scr.closest('.panel'),
-          containerAnimation: triTl,
-          start: 'left 70%',
-          onEnter: run, onEnterBack: run,
-        });
+        ScrollTrigger.create(triTl
+          ? { trigger: scr.closest('.panel'), containerAnimation: triTl,
+              start: 'left 70%', onEnter: run, onEnterBack: run }
+          : { trigger: scr.closest('.panel'), start: 'top 70%', onEnter: run, onEnterBack: run });
       }
 
       ScrollTrigger.refresh();
