@@ -1,116 +1,190 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-29T00:00:00Z",
-  "title": "Design System: JS the Wld",
+  "generatedAt": "2026-07-30T00:00:00Z",
+  "title": "Design System: JS the WLD",
   "extensions": {
     "colorMeta": {
-      "rust": { "role": "primary", "displayName": "Genome Rust", "canonical": "oklch(44% 0.15 36)", "tonalRamp": ["#2E1409", "#4A200E", "#7E2F16", "#A8401D", "#C15734", "#D68A6C", "#E8BCAB", "#F6E4DD"] },
-      "amber": { "role": "secondary", "displayName": "Opry Amber", "canonical": "oklch(71% 0.12 66)", "tonalRamp": ["#3D2A10", "#5E4118", "#8A611F", "#B37A2E", "#D99A42", "#E3AC72", "#F0CDA6", "#F9E8D6"] },
-      "chambray": { "role": "secondary", "displayName": "Faded Chambray", "canonical": "oklch(74% 0.03 230)", "tonalRamp": ["#1D2A2F", "#2C4149", "#436069", "#5E818C", "#9DB4BC", "#BDCDD3", "#D9E3E7", "#EFF4F6"] },
-      "denim": { "role": "secondary", "displayName": "The Cool Room Denim", "canonical": "oklch(70% 0.05 235)", "tonalRamp": ["#182B36", "#20465A", "#2C5F79", "#386F99", "#749FBA", "#ADC1D1", "#CFDCE5", "#EAF0F4"] },
-      "ground": { "role": "neutral", "displayName": "Daylight Ground", "canonical": "oklch(93% 0.01 80)", "tonalRamp": ["#2B2925", "#514C43", "#8B8477", "#B9B2A2", "#D9D3C5", "#E6E2D9", "#EDEAE3", "#F6F4EF"] },
-      "ink": { "role": "neutral", "displayName": "Genome Charcoal", "canonical": "oklch(30% 0.02 300)", "tonalRamp": ["#16151A", "#252230", "#33303A", "#4A4551", "#6B6577", "#928CA0", "#BEB8C8", "#E7E3ED"] },
-      "cyan": { "role": "tertiary", "displayName": "Light-Form Cyan", "canonical": "oklch(76% 0.13 218)", "tonalRamp": ["#062733", "#0A4457", "#0F6A86", "#1B93B8", "#40C4E8", "#7BD8F0", "#B3E9F7", "#DEF6FC"] },
-      "kraft": { "role": "neutral", "displayName": "Kraft Paper", "canonical": "oklch(72% 0.06 80)", "tonalRamp": ["#382C16", "#5A4826", "#8A6E3B", "#AE8D52", "#C7A96F", "#D9C395", "#EBDFC3", "#F7F1E4"] },
-      "paper-cream": { "role": "neutral", "displayName": "Notecard Cream", "canonical": "oklch(90% 0.03 80)", "tonalRamp": ["#3C3323", "#5E4F37", "#8F7A54", "#B9A377", "#D4C3A0", "#E7DEC9", "#F1EBDD", "#F9F5EC"] },
-      "bone": { "role": "neutral", "displayName": "Truth Bird Bone", "canonical": "oklch(85% 0.015 90)", "tonalRamp": ["#33302A", "#565046", "#847B69", "#A79E8A", "#C2BAA6", "#D2CDBB", "#E2DECF", "#F0EDE3"] }
+      "rust": { "role": "primary", "displayName": "Rust", "canonical": "oklch(48% 0.14 40)", "tonalRamp": ["#200C05", "#3B1709", "#5C230E", "#7E3115", "#A8401D", "#C46340", "#DC9B80", "#F0D5C7"] },
+      "lit": { "role": "primary", "displayName": "Electric", "canonical": "oklch(76% 0.13 218)", "tonalRamp": ["#04222B", "#073B4A", "#0B5A70", "#118197", "#40C4E8", "#7BD8F0", "#B0E8F7", "#DDF5FC"] },
+      "amber": { "role": "secondary", "displayName": "Amber", "canonical": "oklch(71% 0.12 66)", "tonalRamp": ["#2E1D08", "#4C300F", "#6F4718", "#9A6423", "#D99A42", "#E5B672", "#F0D3A8", "#F9EDDC"] },
+
+      "paper": { "role": "neutral", "displayName": "Paper", "canonical": "oklch(93% 0.008 80)", "tonalRamp": ["#2A2823", "#464339", "#6B6759", "#918C7C", "#B8B3A3", "#D5D0C4", "#EDEAE3", "#F8F6F2"] },
+      "bone": { "role": "neutral", "displayName": "Bone", "canonical": "oklch(91% 0.014 85)", "tonalRamp": ["#28251E", "#443F33", "#68614F", "#8E866F", "#B5AC93", "#D2CABA", "#E9E4D8", "#F6F3EC"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(21% 0.008 60)", "tonalRamp": ["#0B0A09", "#1B1916", "#2E2B26", "#454138", "#605A4E", "#847D6D", "#B0A996", "#DCD7CA"] },
+      "dusk": { "role": "neutral", "displayName": "Dusk", "canonical": "oklch(19% 0.007 65)", "tonalRamp": ["#090807", "#171512", "#28241F", "#3B362E", "#544D42", "#776E5E", "#A69B87", "#D5CCBB"] },
+      "night": { "role": "neutral", "displayName": "Night", "canonical": "oklch(11% 0.008 250)", "tonalRamp": ["#020305", "#06080C", "#0E121A", "#18202C", "#27323F", "#3E4C5C", "#697A8C", "#A9B7C4"] },
+      "wire": { "role": "neutral", "displayName": "Wire", "canonical": "oklch(9% 0.008 250)", "tonalRamp": ["#010203", "#04060B", "#0A0F17", "#141B26", "#212C3B", "#374556", "#5F7185", "#9CACBE"] },
+      "end": { "role": "neutral", "displayName": "End", "canonical": "oklch(13% 0.008 250)", "tonalRamp": ["#030405", "#0A0C10", "#12161C", "#1D232C", "#2D3540", "#45505E", "#6E7B8B", "#AAB5C1"] },
+
+      "edge": { "role": "tertiary", "displayName": "Wire Edge", "canonical": "rgba(64,196,232,0.18)", "tonalRamp": ["rgba(64,196,232,0.18)"] },
+      "edge-lit": { "role": "tertiary", "displayName": "Wire Edge, Lit", "canonical": "rgba(64,196,232,0.85)", "tonalRamp": ["rgba(64,196,232,0.85)"] },
+
+      "mist": { "role": "neutral", "displayName": "Mist (muted cool text ladder)", "canonical": "oklch(73% 0.02 230)", "tonalRamp": ["#1B2023", "#2C3339", "#3F4A50", "#5C6870", "#8C9BA3", "#9FB0B8", "#C9D3D8", "#E4EAEC"] },
+      "linen": { "role": "neutral", "displayName": "Linen (hero maker sentence)", "canonical": "oklch(93% 0.01 82)", "tonalRamp": ["#2B2822", "#474337", "#6C6656", "#928B77", "#B8B19C", "#D5CFC1", "#EDE9DF", "#F8F6F1"] },
+      "frost": { "role": "neutral", "displayName": "Frost (HUD micro-caps, wire-panel text)", "canonical": "oklch(95% 0.012 220)", "tonalRamp": ["#1A2226", "#2B383E", "#42545C", "#5E747E", "#8AA3AD", "#B7CBD3", "#DFF2F8", "#EAF2F6"] },
+      "book-ground": { "role": "neutral", "displayName": "Book Ground", "canonical": "oklch(90% 0.02 82)", "tonalRamp": ["#2A251A", "#463F2D", "#6A6045", "#8F8460", "#B5A882", "#D0C6AC", "#E7E0D2", "#F5F1E8"] },
+      "slab": { "role": "neutral", "displayName": "Slab (cover gradient)", "canonical": "oklch(20% 0.012 250)", "tonalRamp": ["#05070A", "#0D1014", "#20242B", "#333944", "#4B535F", "#6C7683", "#9AA3AE", "#CBD1D8"] },
+      "spine": { "role": "neutral", "displayName": "Spine Fill", "canonical": "oklch(79% 0 0)", "tonalRamp": ["#1A1A1A", "#2E2E2E", "#474747", "#666666", "#8C8C8C", "#BEBEBE", "#DCDCDC", "#F0F0F0"] },
+
+      "depth-alpha": {
+        "role": "functional",
+        "displayName": "Well Depth Ladder (cyan alpha encodes distance)",
+        "canonical": "rgba(64,196,232,0.5)",
+        "tonalRamp": [
+          "rgba(64,196,232,.07)", "rgba(64,196,232,.09)", "rgba(64,196,232,.10)",
+          "rgba(64,196,232,.13)", "rgba(64,196,232,.14)", "rgba(64,196,232,.16)",
+          "rgba(64,196,232,.18)", "rgba(64,196,232,.25)", "rgba(64,196,232,.28)",
+          "rgba(64,196,232,.30)", "rgba(64,196,232,.4)", "rgba(64,196,232,.45)",
+          "rgba(64,196,232,.5)", "rgba(64,196,232,.7)", "rgba(64,196,232,.85)"
+        ]
+      },
+      "chrome-scrim": {
+        "role": "functional",
+        "displayName": "Chrome Scrim Set (neutral alphas, deliberately hueless)",
+        "canonical": "rgba(8,10,14,0.55)",
+        "tonalRamp": [
+          "rgba(0,0,0,0)", "rgba(255,255,255,.08)", "rgba(255,255,255,.16)", "rgba(255,255,255,.22)",
+          "rgba(0,0,0,.55)", "rgba(0,0,0,.6)", "rgba(0,0,0,.62)", "rgba(0,0,0,.7)", "rgba(0,0,0,.75)",
+          "rgba(8,10,14,.55)", "rgba(4,6,11,.5)", "rgba(4,6,11,.62)", "rgba(4,6,11,.82)",
+          "rgba(51,48,58,.42)", "rgba(199,169,111,.55)"
+        ]
+      },
+      "aberration-channel": {
+        "role": "functional",
+        "displayName": "RGB Split Channels (chromatic aberration + anaglyph)",
+        "canonical": "#FF1F1F",
+        "tonalRamp": ["#FF1F1F", "#E01B1B", "#00E5FF", "#00B7D8"]
+      }
     },
     "typographyMeta": {
-      "monument": { "displayName": "Bodoni Moda Monument", "purpose": "Hero wordmark, pinned chapter words (Words/Code/Music/Jonathan), closing CTA slab. Type at architectural scale on a bare ground — the only place type behaves as image rather than heading. A BAND not one step: longer strings step down (hero 17vw, chapter 21vw, long-word 13vw, close 12vw) so the line never wraps or collides. One per viewport, nothing competing." },
-      "hud-label": { "displayName": "HUD Micro-Cap", "purpose": "Glass-HUD corner consoles only — the Storm Door link and the scroll-tracked beat readout. Tracked micro-caps from the shared genome chrome. Never reading content." },
-      "display": { "displayName": "Bodoni Moda Display", "purpose": "Inner-page hero H1, section H2s, card/item titles, blockquotes. Balanced with text-wrap: balance." },
-      "body": { "displayName": "Libre Baskerville Body", "purpose": "Reading copy on Daylight sections. 65–75ch measure, 1.75 line-height." },
-      "label": { "displayName": "UI Sans Label", "purpose": "Kickers, nav links, button/meta labels only. Never full sentences." },
-      "hand": { "displayName": "Reenie Beanie Handwriting", "purpose": "Notecard scrap and hand-numerals only — a deliberate handwritten-object moment, never body copy." }
+      "act": { "displayName": "Act Word", "purpose": "The full-bleed section words (WORDS / SONGS / CODE / SOUTH). 13% opacity watermark on Southern grounds; full strength and glowing on wire. Type as image, one per viewport." },
+      "craft": { "displayName": "Craft Word", "purpose": "The hero's rotating word in its slot, and the pinned triptych panel words." },
+      "heading": { "displayName": "Heading", "purpose": "Section headings inside acts." },
+      "body": { "displayName": "Body", "purpose": "All reading copy, Courier Prime. Line-height 1.9 is what keeps a typewriter face readable at length. 65-75ch measure." },
+      "tag": { "displayName": "Tag", "purpose": "Numbered section tags and HUD labels. Uppercase, tracked 0.24em. Never a sentence." },
+      "reel-lead": { "displayName": "Reel Lead", "purpose": "The lead line inside the horizontal rail section." },
+      "reel-caption": { "displayName": "Reel Caption", "purpose": "Card captions under rail imagery, amber, one step below tag because a caption sits under an image rather than heading a section." }
     },
     "shadows": [
-      { "name": "photo-lift", "value": "0 18px 46px rgba(57,53,51,0.22)", "purpose": "Taped photographs — physically pinned to the page." },
-      { "name": "card-hover", "value": "0 18px 44px rgba(57,53,51,0.14)", "purpose": "Work-grid item cards, hover only, paired with translateY(-3px)." },
-      { "name": "button-glow", "value": "0 8px 30px rgba(188,90,36,0.35)", "purpose": "Primary button at rest; deepens to 0 14px 38px rgba(188,90,36,0.45) on hover." },
-      { "name": "notecard", "value": "0 14px 34px rgba(57,53,51,0.20)", "purpose": "Handwritten scrap, paired with a 1.5deg rotation." }
+      { "name": "object", "value": "0 40px 90px -28px rgba(0,0,0,.7)", "purpose": "Photographs and slabs that have grown into place. Deep and soft because the object is genuinely closer to the viewer." },
+      { "name": "glow", "value": "0 0 40px rgba(64,196,232,.4)", "purpose": "The CTA and any lit element on the wire ground." },
+      { "name": "hud-hairline", "value": "inset 0 0 0 1px rgba(255,255,255,.16)", "purpose": "Corner consoles and the sound toggle: a hairline edge, not a border." },
+      { "name": "slab-inner", "value": "inset 0 0 0 1px rgba(255,255,255,.08)", "purpose": "The type-slab cover's inner edge." },
+      { "name": "mark-drop", "value": "drop-shadow(0 18px 34px rgba(0,0,0,.55))", "purpose": "Each exploded wordmark piece, so the pieces read as separated in depth." }
     ],
     "motion": [
-      { "name": "ease-standard", "value": "cubic-bezier(0.2,0.8,0.2,1)", "purpose": "Default easing for hover lifts, arrow slides, pill fills." },
-      { "name": "reveal-duration", "value": "0.9s", "purpose": "Scroll-reveal fade+rise for .reveal sections, via IntersectionObserver at 12% threshold." },
-      { "name": "seal-spin", "value": "46s linear infinite", "purpose": "The subscribe-section seal badge's slow rotation; paused under prefers-reduced-motion." }
+      { "name": "lenis-duration", "value": "1.2", "purpose": "Lenis smooth-scroll weight (library stock). GSAP's ticker drives Lenis on one clock; two loops disagree frame to frame and read as jitter." },
+      { "name": "ease-standard", "value": "cubic-bezier(.2,.8,.2,1)", "purpose": "Default easing for chrome state transitions." },
+      { "name": "grow-entrance", "value": "translateZ(-520px) scale(.42) -> identity, 1100-1400ms ease-out", "purpose": "Photographs and the lightform. Content enters by depth, never translateY alone." },
+      { "name": "mark-intro", "value": "expo.out 1.5s, stagger 0.11, delay 0.25", "purpose": "The exploded wordmark assembling on load. Runs alone; the scrubbed scroll tween is armed only after it completes (with a 2600ms failsafe, since rAF is frozen in hidden tabs)." },
+      { "name": "mark-scrub", "value": "power2.in, scrub 0.6", "purpose": "The wordmark coming apart on hero exit. The ease supplies the click on reverse, replacing a competing snap tween that used to fight the scrub." },
+      { "name": "rail-scrub", "value": "scrub 0.8, pin from top top, invalidateOnRefresh", "purpose": "The pinned horizontal triptych. A 0.18-duration hold precedes the travel so the first panel can be read before it moves." },
+      { "name": "well-breath", "value": "13s", "purpose": "The genome's rest cycle: the corridor camera breathes on this period when not scrolling." }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "nav-links", "value": "760px" },
+      { "name": "harp", "value": "620px" },
+      { "name": "reel-gate", "value": "700px" },
+      { "name": "spine", "value": "760px" },
       { "name": "feature-grid", "value": "820px" },
       { "name": "about-grid", "value": "860px" }
     ]
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "CTA",
       "kind": "button",
-      "refersTo": "button-primary",
-      "description": "The one CTA color in the system. Pill-shaped, rust, warm glow shadow.",
-      "html": "<a class=\"ds-btn-primary\" href=\"#\">Read The Storm Door <span class=\"ds-btn-arrow\">&rarr;</span></a>",
-      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:0.55rem; font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; cursor:pointer; padding:0.95rem 1.6rem; border-radius:999px; border:0; background:#A53B1F; color:#FDF7EE; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), background 0.4s, box-shadow 0.4s; box-shadow: 0 8px 30px rgba(188,90,36,0.35); } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { background:#7E2F16; transform: translateY(-2px); box-shadow: 0 14px 38px rgba(188,90,36,0.45); } .ds-btn-arrow { transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1); } .ds-btn-primary:hover .ds-btn-arrow { transform: translateX(4px); }"
+      "refersTo": "cta",
+      "description": "Solid cyan block, black text, square corners, cyan bloom. The only filled button in the system.",
+      "html": "<a class=\"ds-cta\" href=\"#\">Read The Storm Door</a>",
+      "css": ".ds-cta { display:inline-block; font-family:'Courier Prime', ui-monospace, monospace; font-size:.74rem; letter-spacing:.24em; text-transform:uppercase; text-decoration:none; padding:1rem 2.2rem; border:0; border-radius:0; background:#40C4E8; color:#06080C; box-shadow:0 0 40px rgba(64,196,232,.4); transition:box-shadow .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1); } .ds-cta:hover, .ds-cta:focus-visible { transform:translateY(-2px); box-shadow:0 0 64px rgba(64,196,232,.7); }"
     },
     {
-      "name": "Ghost Link",
-      "kind": "button",
-      "refersTo": "button-ghost",
-      "description": "Low-emphasis internal link, underlined, rust on hover.",
-      "html": "<a class=\"ds-ghost\" href=\"#\">More about Jonathan &rarr;</a>",
-      "css": ".ds-ghost { font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.92rem; letter-spacing:0.02em; text-decoration:none; color:#E7E1D6; border-bottom:1px solid rgba(231,225,214,0.4); padding-bottom:2px; transition: border-color 0.3s; } .ds-ghost:hover, .ds-ghost:focus-visible { border-color:#A53B1F; }"
-    },
-    {
-      "name": "Nav Pill",
-      "kind": "nav",
-      "refersTo": "nav-pill",
-      "description": "Outlined pill CTA riding the Lamplit nav, inverts to solid cream on hover.",
-      "html": "<a class=\"ds-nav-pill\" href=\"#\">The Storm Door</a>",
-      "css": ".ds-nav-pill { font-family: ui-sans-serif, system-ui, sans-serif; font-size:0.82rem; letter-spacing:0.04em; text-transform:uppercase; text-decoration:none; color:#F3EFE7; padding:0.55rem 1rem; border:1px solid rgba(243,239,231,0.45); border-radius:999px; transition: background 0.4s cubic-bezier(0.2,0.8,0.2,1), color 0.4s, border-color 0.4s; } .ds-nav-pill:hover, .ds-nav-pill:focus-visible { background:#F3EFE7; color:#393533; border-color:#F3EFE7; }"
-    },
-    {
-      "name": "Work Item Card",
-      "kind": "card",
-      "refersTo": "card-item",
-      "description": "Flat paper block, 3px radius, lifts on hover only — not a rounded digital card.",
-      "html": "<a class=\"ds-item\" href=\"#\"><div class=\"ds-item-label\">The Storm Door <span class=\"ds-item-meta\">the letter</span></div><p class=\"ds-item-body\">A letter most Saturday mornings.</p><span class=\"ds-item-go\">Read and subscribe &rarr;</span></a>",
-      "css": ".ds-item { display:block; text-decoration:none; color:#393533; padding:2.4rem; background:#EDEAE3; border-radius:3px; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s; } .ds-item:hover, .ds-item:focus-visible { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(57,53,51,0.14); } .ds-item-label { font-family: 'Bodoni Moda', serif; font-size:2.1rem; font-weight:500; } .ds-item-meta { font-family: ui-sans-serif, sans-serif; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:#A53B1F; margin-left:0.6rem; } .ds-item-body { margin:0.7rem 0 1.1rem; color:#4A443F; max-width:42ch; } .ds-item-go { font-family: ui-sans-serif, sans-serif; font-size:0.85rem; color:#A53B1F; }"
-    },
-    {
-      "name": "Taped Photo",
+      "name": "HUD Console",
       "kind": "custom",
-      "refersTo": "taped-photo",
-      "description": "The core physical-object motif — photo on cream paper, torn-kraft backing, tape pinning it down, rotated -1.4deg.",
-      "html": "<figure class=\"ds-taped\"><span class=\"ds-tape ds-tape-tl\"></span><span class=\"ds-tape ds-tape-br\"></span><img src=\"\" alt=\"\" /></figure>",
-      "css": ".ds-taped { position:relative; display:inline-block; padding:0.7rem; background:#E7DEC9; box-shadow: 0 18px 46px rgba(57,53,51,0.22); transform: rotate(-1.4deg); } .ds-taped img { display:block; width:260px; height:auto; } .ds-tape { position:absolute; width:104px; height:30px; background:rgba(224,212,178,0.5); box-shadow: 0 1px 2px rgba(57,53,51,0.12); z-index:2; } .ds-tape-tl { top:-13px; left:16%; transform: rotate(-7deg); } .ds-tape-br { bottom:-12px; right:14%; transform: rotate(-6deg); }"
+      "refersTo": "hud",
+      "description": "Fixed corner panel: blurred dark fill, hairline inset edge, Courier micro-caps. Bottom-left names the section; bottom-right is a live scroll percentage in cyan.",
+      "html": "<a class=\"ds-hud\" href=\"#\"><span>The Storm Door</span></a>",
+      "css": ".ds-hud { position:relative; display:inline-block; padding:7px 11px; text-decoration:none; border-radius:0; background:rgba(8,10,14,.55); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); } .ds-hud span { font-family:'Courier Prime', ui-monospace, monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#EAF2F6; white-space:nowrap; } .ds-hud:hover { box-shadow:inset 0 0 0 1px rgba(64,196,232,.85); }"
+    },
+    {
+      "name": "Sound Toggle",
+      "kind": "button",
+      "refersTo": "harp",
+      "description": "The harp unlock. Sound never starts on its own: browsers require a gesture and unannounced audio is hostile, so this button IS the unlock and the preference is remembered.",
+      "html": "<button class=\"ds-harp\" type=\"button\" aria-pressed=\"false\"><span class=\"ds-harp-wave\" aria-hidden=\"true\"><i></i><i></i><i></i><i></i></span><span class=\"ds-harp-txt\">Sound</span></button>",
+      "css": ".ds-harp { display:flex; align-items:center; gap:9px; cursor:pointer; padding:7px 13px; border:0; border-radius:0; background:rgba(8,10,14,.55); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); box-shadow:inset 0 0 0 1px rgba(255,255,255,.16); transition:box-shadow 600ms ease; } .ds-harp:hover, .ds-harp[aria-pressed=\"true\"] { box-shadow:inset 0 0 0 1px rgba(64,196,232,.85); } .ds-harp-txt { font-family:'Courier Prime', ui-monospace, monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#EAF2F6; } .ds-harp[aria-pressed=\"true\"] .ds-harp-txt { color:#40C4E8; } .ds-harp-wave { display:flex; align-items:center; gap:2px; height:12px; } .ds-harp-wave i { display:block; width:2px; height:3px; background:#EAF2F6; opacity:.6; }"
+    },
+    {
+      "name": "Seal",
+      "kind": "custom",
+      "refersTo": "seal",
+      "description": "Fixed circular mark in the top-left. The only round object in a square-cornered system, which is why it reads as a stamp rather than a button.",
+      "html": "<a class=\"ds-seal\" href=\"#\"><img src=\"/assets/truth-bird.svg\" alt=\"JS the WLD\" /></a>",
+      "css": ".ds-seal { display:grid; place-items:center; width:38px; height:38px; border-radius:999px; background:rgba(0,0,0,.62); box-shadow:0 0 0 1px rgba(255,255,255,.22), 0 2px 12px rgba(0,0,0,.6); transition:box-shadow 900ms cubic-bezier(.2,.8,.2,1); } .ds-seal:hover, .ds-seal:focus-visible { box-shadow:0 0 0 1px rgba(64,196,232,.85), 0 0 22px rgba(64,196,232,.5); } .ds-seal img { width:18px; height:auto; }"
+    },
+    {
+      "name": "Act Word",
+      "kind": "custom",
+      "refersTo": "act-word",
+      "description": "Full-bleed section word, overflow-clipped. 13% opacity on Southern grounds, fully lit with a double glow on wire. Type behaving as image, never as a heading.",
+      "html": "<h2 class=\"ds-act\">WORDS</h2>",
+      "css": ".ds-act { margin:0; font-family:Archivo, ui-sans-serif, system-ui, sans-serif; font-weight:900; font-size:clamp(3.4rem,17vw,13rem); line-height:.86; letter-spacing:-.055em; color:#1B1916; opacity:.13; overflow:hidden; } .ds-act[data-ground=\"wire\"] { color:#40C4E8; opacity:1; text-shadow:0 0 40px rgba(64,196,232,.5), 0 0 90px rgba(64,196,232,.25); }"
+    },
+    {
+      "name": "Chromatic Word",
+      "kind": "custom",
+      "refersTo": "panel-word-chroma",
+      "description": "The WORDS panel word, split into red and cyan channels that separate on scroll. Uses multiply, not screen: on a paper ground screen lightens the fringes to white and the effect vanishes.",
+      "html": "<h2 class=\"ds-chroma\"><span data-text=\"WORDS\">WORDS</span></h2>",
+      "css": ".ds-chroma { margin:0; position:relative; font-family:Archivo, ui-sans-serif, system-ui, sans-serif; font-weight:900; font-size:clamp(2.6rem,8vw,5.8rem); letter-spacing:-.045em; color:#1B1916; } .ds-chroma span { position:relative; display:inline-block; } .ds-chroma span::before, .ds-chroma span::after { content:attr(data-text); position:absolute; inset:0; mix-blend-mode:multiply; opacity:.42; } .ds-chroma span::before { color:#E01B1B; transform:translate(var(--ab,0px),0); } .ds-chroma span::after { color:#00B7D8; transform:translate(calc(var(--ab,0px) * -1),0); }"
+    },
+    {
+      "name": "Grow Figure",
+      "kind": "card",
+      "refersTo": "grow-figure",
+      "description": "Photograph or type slab entering from depth. Sizing is keyed on structural position rather than the animation class, so changing how a figure arrives can never change how large it renders.",
+      "html": "<figure class=\"ds-grow\"><img src=\"\" alt=\"\" /></figure>",
+      "css": ".ds-grow { margin:0; perspective:1100px; } .ds-grow img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; box-shadow:0 40px 90px -28px rgba(0,0,0,.7); transform:translateZ(-520px) scale(.42); opacity:0; transition:transform 1200ms cubic-bezier(.16,1,.3,1), opacity 1200ms; } .ds-grow.is-in img { transform:none; opacity:1; } .ds-grow.is-wide img { aspect-ratio:auto; object-fit:contain; }"
+    },
+    {
+      "name": "Spine",
+      "kind": "nav",
+      "refersTo": "spine",
+      "description": "Fixed left route-map nav with a progress fill, blended with mix-blend-mode: difference so it stays legible over both poles without needing a background. Hidden below 760px.",
+      "html": "<nav class=\"ds-spine\"><span class=\"ds-spine-track\"><span class=\"ds-spine-fill\"></span></span></nav>",
+      "css": ".ds-spine { position:fixed; left:18px; top:50%; transform:translateY(-50%); mix-blend-mode:difference; } .ds-spine-track { display:block; width:1px; height:180px; background:rgba(255,255,255,.22); } .ds-spine-fill { display:block; width:100%; background:#BEBEBE; transform-origin:top; transform:scaleY(0); } @media (max-width:760px) { .ds-spine { display:none; } }"
     }
   ],
   "narrative": {
-    "northStar": "The Porch Letter",
-    "overview": "The whole site is built as if it's the porch before the letter arrives — the room you sit in before the Storm Door lands in your inbox Saturday morning. Nothing here is engineered to convert; it's laid out like objects a person actually kept: a taped photograph, a torn scrap of notepaper, a hand-inked underline, a ledger line. The two skins never blend — Daylight (warm eggshell, #EDEAE3) is the reading room, unhurried and paper-toothed; Lamplit (#2C2926 charcoal, filmic photography) is the threshold — hero, interstitials, the subscribe close. Crossing between them is deliberate, like walking from the porch into the house at dusk. This system explicitly rejects: generic AI-slop SaaS marketing (cream/gradient body backgrounds, identical card grids, gradient text, glassmorphism-as-decoration), anything cold or corporate-feeling, and — as standing project doctrine — any crypto/blockchain/decentralization-as-technology visual language, even incidentally.",
+    "northStar": "South Meets the Future",
+    "overview": "Two poles, held in tension on one page. The South is warm, physical, worn: paper grounds, rust and amber, real photographs, cardboard and felt and scratches. The future is a deep-sea instrument panel: near-black grounds, one electric cyan, hairline HUD edges, a receding grid that falls away under your feet. The site earns its interest by cutting hard between them rather than blending them into a comfortable middle. There is no serif anywhere. The voice is a matte grotesque (Archivo, at heavy weights, tracked tight) against a typewriter (Courier Prime) for every label and every line of body copy. The one exception is the JS the WLD wordmark itself, which is an image asset, a stacked interlocking Didone lockup, white on transparency, which is why any ground it sits on must be dark. This system explicitly rejects: the previous editorial/Didone-body world (warm eggshell everywhere, italic serif display, porch-letter restraint), generic AI-slop SaaS marketing, and any crypto/blockchain visual language.",
     "keyCharacteristics": [
-      "Two skins in tension (Daylight reading / Lamplit threshold), never merged into one flat tone",
-      "Depth read as physical objects (tape, torn paper, grain) rather than digital drop-shadows",
-      "Serif-on-serif display/body pairing, one sans-serif reserved for labels only",
-      "Every texture handmade-coded: nothing that reads as a flat vector standing in for the real thing"
+      "Contrast flips section to section - paper, dusk, electric, paper, black. Never a gradient between poles.",
+      "Depth is real: CSS perspective, translateZ, a rotated ground plane, and three independently parallaxing texture layers.",
+      "Things arrive by growing toward the viewer, not sliding up the page.",
+      "Type is the artwork; imagery is evidence."
     ],
     "rules": [
-      { "name": "The One-Accent Rule", "body": "Rust is the only color allowed to mean action or attention. Ochre and denim are atmosphere, never competing CTAs.", "section": "colors" },
-      { "name": "The No-Flat-Shadow Rule", "body": "Depth never comes from a generic box-shadow alone — every elevated element is a physical object whose shadow reads as paper lifting off a surface, warm-tinted, never neutral gray or cool black.", "section": "colors" },
-      { "name": "The Two-Serif Rule", "body": "Only Bodoni Moda and Libre Baskerville carry reading content. The sans-serif label font never appears above label size and never carries a full sentence.", "section": "typography" },
-      { "name": "The Object, Not the Layer Rule", "body": "A shadow only appears where a physical object metaphor justifies it. Flat sections and body text never carry a shadow.", "section": "elevation" }
+      { "name": "The Two-Pole Rule", "body": "Every section commits to South or future. Rust and amber never appear on the wire ground; cyan never appears on paper. A section that uses both is a section that has decided nothing.", "section": "colors" },
+      { "name": "The Cut, Not the Fade Rule", "body": "Grounds change by hard edge between sections. No gradient transitions between paper and night - the jolt is the point.", "section": "colors" },
+      { "name": "The No-Serif Rule", "body": "No serif face ships on a surface built in this world. Not for quotes, not for emphasis, not for warmth. The warmth comes from color, texture, and photography.", "section": "typography" },
+      { "name": "The Z-Axis Rule", "body": "Content enters by scale and depth (translateZ(-520px) scale(.42) to identity), never by translateY alone. Things grow out of the screen.", "section": "elevation" },
+      { "name": "The Depth-Ladder Rule", "body": "Inside the well, cyan alpha encodes distance - it is the depth cue, not decoration. Changing one rung in isolation breaks the read of distance: move the ladder, not a step.", "section": "elevation" },
+      { "name": "The Hueless-Chrome Rule", "body": "Chrome uses neutral alpha scrims that tint whatever ground they sit on rather than introducing a hue. Adding a hue to chrome is drift; adjusting a neutral alpha is not.", "section": "elevation" }
     ],
     "dos": [
-      "Do keep rust as the only color that means action — buttons, active states, the one CTA per section.",
-      "Do justify every shadow with a physical object; nothing gets a shadow just because it's a container.",
-      "Do keep Daylight and Lamplit fully separate — no gradient blending one into the other within a single section.",
-      "Do use the torn-clip / grain / taped-photo vocabulary for anything that needs to feel kept, not built."
+      "Do flip ground and text color completely at every section boundary.",
+      "Do enter content along Z (grow toward the viewer) with 1100-1400ms ease-out.",
+      "Do keep texture below 0.11 opacity - depth, never pattern.",
+      "Do reserve cyan for the future pole and the CTA."
     ],
     "donts": [
-      "Don't use a cream/gradient body background as a generic warm default — Ground (#EDEAE3) is a named, specific surface.",
-      "Don't build identical repeating card grids with icon + heading + text.",
-      "Don't use gradient text, glassmorphism-as-decoration, or generic SaaS-marketing scaffolding.",
-      "Don't introduce crypto/blockchain/decentralization-as-technology visual language.",
-      "Don't let the sans-serif label font carry a full sentence or appear above 0.92rem.",
-      "Don't mix cool denim into more than the one dedicated cool-room section."
+      "Don't use a serif anywhere.",
+      "Don't slide content up the page as the default entrance.",
+      "Don't put rust/amber on the wire ground or cyan on paper.",
+      "Don't reintroduce the retired editorial world (eggshell-everywhere, italic Didone body, taped-photo motif as the primary language).",
+      "Don't use crypto/blockchain visual language.",
+      "Don't gradient between the two poles to ease the transition."
     ]
   }
 }
