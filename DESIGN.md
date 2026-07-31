@@ -99,6 +99,8 @@ components:
 
 **Creative North Star: "South Meets the Future"**
 
+This document governs the brand, not a website. Every rule below is stated so it holds in any medium — page, screen, stage, print, or object. Where a rule needs a particular technique to land in a particular medium, that technique is recorded as an *Implementation note* and is subordinate: the note may be rewritten freely when the medium changes, the doctrine above it may not.
+
 Two poles, held in tension on one page. The **South** is warm, physical, worn: paper grounds, rust and amber, real photographs, cardboard and felt and scratches. The **future** is a deep-sea instrument panel: near-black grounds, one electric cyan, hairline HUD edges, a receding grid that falls away under your feet. The site earns its interest by cutting hard between them rather than blending them into a comfortable middle.
 
 There is **no serif anywhere**. The voice is a matte grotesque (Archivo, at heavy weights, tracked tight) against a typewriter (Courier Prime) for every label and every line of body copy. The one exception is the JS the WLD wordmark itself, which is an image asset — a stacked interlocking Didone lockup, white on transparency, which is why any ground it sits on must be dark.
@@ -109,7 +111,7 @@ This system explicitly rejects: the previous editorial/Didone-body world (warm e
 - Contrast flips section to section — paper, dusk, electric, paper, black. Never a gradient between poles.
 - Depth is real: CSS `perspective`, `translateZ`, a rotated ground plane, and three independently parallaxing texture layers.
 - Things arrive by **growing toward the viewer**, not sliding up the page.
-- Type is the artwork; imagery is evidence.
+- Type is the artwork; imagery is evidence. Where a surface can be touched, pointed at, or walked past, the evidence answers — but it answers by a few degrees, never by performing.
 
 ## 2. Colors
 
@@ -132,6 +134,8 @@ Two families that never mix into each other: warm Southern grounds, and one cold
 **The Two-Pole Rule.** Every section commits to South or future. Rust and amber never appear on the wire ground; cyan never appears on paper. A section that uses both is a section that has decided nothing.
 
 **The Cut, Not the Fade Rule.** Grounds change by hard edge between sections. No gradient transitions between paper and night — the jolt is the point.
+
+**The Channel Exemption.** Split-channel effects — chromatic aberration, anaglyph, misregistration — are not palette colour, and the Two-Pole Rule does not govern them. Their red and cyan are two halves of one separated image, not two accents on a ground, so they may run on either pole. They must stay pure channel values (`#FF1F1F` / `#E01B1B` / `#00E5FF` / `#00B7D8`) and never brand rust or brand cyan — the moment a channel is a brand colour, the effect reads as decoration instead of separation. This holds in print misregistration and on screen alike.
 
 ## 3. Typography
 
@@ -179,6 +183,8 @@ Chrome uses neutral alpha values that are deliberately **not** brand colors — 
 
 ## 5. Components
 
+Each entry states the behaviour first and the technique second. Passages marked *Implementation note* describe how the behaviour is currently achieved on the web; they are a record, not the rule. A new medium inherits the entry and writes its own note.
+
 ### Hero copy scale
 
 The hero runs deliberately **small** against a huge wordmark — the contrast is the point, so nothing here scales with the mark. Name line `clamp(.72rem,1.5vw,.86rem)` tracked `.2em` uppercase in `#9FB0B8`; the maker sentence `clamp(.9rem,1.9vw,1.14rem)` in `#EDE9DF`. The three crafts (Words, Music, Code) are set **plain** — no per-word color, no weight change. An earlier version tinted each one; it read as decoration rather than a sentence.
@@ -187,10 +193,17 @@ Because the streams pass behind this copy, the block carries its own soft bed: `
 
 ### Arrival motions
 
-Three distinct entrances, chosen per content type — never one uniform reveal:
+Entrances are chosen per content type — never one uniform reveal. This is a vocabulary, not a closed set; a new content type may earn a new entrance, but adding one that duplicates an existing feel is drift. So far:
 - **Grow** (photographs, the lightform): `translateZ(-520px) scale(.42)` → identity. Comes toward you.
 - **Slide** (the music strip): alternating `translate3d(∓90px,0,0) rotate(∓4deg)` → identity, staggered 180ms on the back pair. Arrives from opposite sides.
 - **Z-exit** (the pull-quote): `perspective(900px) translateZ(-420px)` → 0. Comes out at the reader.
+
+### The Mark
+The wordmark comes apart and reassembles. It **shatters**, it does not slide: irregular angular shards along fracture lines, never equal horizontal bands. Bands read as a technical exploded-view diagram — correct for a parts catalogue, wrong for a mark that should look struck. Shard count sits between 8 and 14; below that it reads as cut, above it reads as confetti. Each shard carries its own rotation and its own distance from the viewer, and the nearest shards genuinely enlarge. Reassembly is the same fracture run backwards, and arrives with a click rather than a settle.
+
+**The Front-Loaded Rule.** The separation happens in the first third of whatever drives it — a scroll, a cut, a walk past — while the mark is still in frame. Motion saved for the end is spent after the mark has left.
+
+*Implementation note (web).* The shards need a `perspective` on their shared container; without it the rotation flattens into a horizontal squash and the distance does nothing at all. The driving ease must be front-loaded, and the range must complete while the hero is still on screen.
 
 ### The Reel (signature)
 
@@ -211,8 +224,22 @@ The hero background is a corridor you fall into, not a backdrop. One `perspectiv
 
 **Hard constraint (legacy CSS corridor, now replaced):** the earlier CSS-transform well capped camera Z at **300px** against a 560px perspective. As the camera approaches the perspective plane, projected scale goes asymptotic and the corridor detonates rather than receding — a nearest frame measured 8154px wide before the cap was added. Any change to `perspective` must move the cap with it, keeping a wide margin.
 
+### The Answer
+Surfaces answer the hand, and each answers in its own medium: the strands sound, the strings bend, a photograph tilts, a layered figure separates. A surface that answers in a way unrelated to what it *is* is decoration.
+
+**The Small-Answer Rule.** Tilt tops out at **6 degrees**, separation at **3% of the element's own width**, and both return home within 700ms of being left alone. The answer should be noticed on the second look, not the first.
+
+### The Instrument
+The brand has one instrument, and it is a plucked string. However many playable surfaces exist, they are registers of that one instrument rather than separate voices — and there is one permission, asked once. Sound never begins on its own, in any medium: not on a page, not on a stand, not in a room someone walked into.
+
+Everything is tuned to **G mixolydian**, the key and mode Southern rock lives in. This is a key and a mode, never a melody: no song is encoded anywhere in this brand. Registers stack rather than transpose — high strings against low ones — so any two surfaces struck together stay inside the harmony.
+
+*Implementation note (web).* One AudioContext, one unlock gesture, one toggle. A second context would mean a second permission the reader never agreed to.
+
 ### Act Word
-Full-bleed section word, overflow-clipped, 13% opacity on Southern grounds and fully lit with a double glow on wire.
+Full-bleed section word, edge-clipped, 13% opacity on Southern grounds and fully lit with a double glow on wire.
+
+Each act word may carry **one** optical treatment and only one — chromatic aberration, decode, anaglyph depth, or none. The treatment is driven by the reader's own movement through the work, so the word is doing it *because* someone is moving. Separation runs from 0 at rest to a maximum of **0.06em**: far enough to read as a deliberate optical split at a glance, short enough that the word stays a word. Channel opacity floors at **0.5** against light grounds; below that the fringes vanish into the ground and the effect exists only for whoever made it.
 
 ### Grow Figure
 Photograph or type slab that enters from `translateZ(-520px) scale(.42)` and settles with a small per-instance tilt (`--tilt`).
@@ -230,6 +257,8 @@ Solid cyan block, black text, square corners, cyan bloom. The only filled button
 - **Do** enter content along Z (grow toward the viewer) with 1100–1400ms ease-out.
 - **Do** keep texture below 0.11 opacity — depth, never pattern.
 - **Do** reserve cyan for the future pole and the CTA.
+- **Do** let a surface answer the hand in its own medium, within the Small-Answer Rule.
+- **Do** keep split-channel effects on pure channel values, never on brand colours.
 
 ### Don't:
 - **Don't** use a serif anywhere.
