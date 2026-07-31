@@ -5,6 +5,7 @@ import Well from '../components/Well.astro';
 import Noise from '../components/Noise.astro';
 import Harp from '../components/Harp.astro';
 import Spine from '../components/Spine.astro';
+import Strings from '../components/Strings.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true} motion={true}>
@@ -90,6 +91,7 @@ import { STORM_DOOR_URL } from '../consts';
         <article class="panel panel--dusk" data-hud="Music">
           <Texture tone="dark" />
           <Noise tone="#D99A42" seed={4242} scale={0.07} speed={0.1} strength={0.46} blend="screen" />
+          <Strings />
           <h2 class="panel__word panel__word--anaglyph" aria-hidden="true"><span data-t="MUSIC">MUSIC</span></h2>
           <div class="panel__body">
             <figure class="panel__fig">

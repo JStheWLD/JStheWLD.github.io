@@ -1,0 +1,124 @@
+---
+// THE LOW STRINGS — the music panel is the rest of the instrument.
+//
+// The hero's strands are the high register. These are the thick ones: an
+// octave and a half below, longer to die away, darker in tone. Same synth,
+// same AudioContext, same single unlock gesture, because the page is one
+// instrument rather than several that each want their own permission.
+//
+// Drag across and they strum in order. They bend like real strings — each one
+// is a damped spring whose rest position is straight — so the motion is a
+// consequence of being struck rather than a canned transition. That also means
+// a string already ringing responds differently to a second hit, which is what
+// makes strumming feel physical instead of triggered.
+//
+// The bend runs whether or not sound is enabled. Silent feedback still tells
+// the reader the panel is alive, and never makes noise they did not ask for.
+interface Props { count?: number }
+const { count = 9 } = Astro.props;
+---
+<svg class="strings" data-strings viewBox="0 0 100 100" preserveAspectRatio="none"
+  aria-hidden="true" focusable="false">
+  {Array.from({ length: count }).map(() => (
+    <path stroke="#D99A42" fill="none" stroke-width="1" vector-effect="non-scaling-stroke" />
+  ))}
+</svg>
+
+<script>
+  const svg = document.querySelector('[data-strings]');
+  if (svg) {
+    const host = svg.parentElement;
+    const paths = [...svg.querySelectorAll('path')];
+    const N = paths.length;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // G mixolydian again, an octave and a half under the hero: G2 up to A3.
+    // Same key and mode, so a low string struck against a high one still sits
+    // inside the harmony rather than fighting it.
+    const HZ = [98.00, 110.00, 123.47, 130.81, 146.83, 164.81, 174.61, 196.00, 220.00];
+
+    // evenly spaced across the viewBox, inset from the edges
+    const X = Array.from({ length: N }, (_, i) => 12 + (76 * i) / (N - 1));
+
+    // one damped spring per string: rest is straight, struck is bent
+    const bend = new Float32Array(N);
+    const vel = new Float32Array(N);
+    const lastAt = new Float32Array(N);
+    const K = 0.17;      // stiffness — how hard it pulls back to straight
+    const DAMP = 0.935;  // energy lost per frame, so it settles rather than rings forever
+
+    const draw = () => {
+      for (let i = 0; i < N; i++) {
+        const x = X[i];
+        // quadratic control point offset from the string's own line = the bend
+        paths[i].setAttribute('d', `M${x} 0 Q${x + bend[i]} 50 ${x} 100`);
+        const amp = Math.min(1, Math.abs(bend[i]) / 3);
+        paths[i].setAttribute('stroke-opacity', (0.17 + amp * 0.68).toFixed(3));
+      }
+    };
+
+    let raf = 0, running = false;
+    const step = () => {
+      let alive = false;
+      for (let i = 0; i < N; i++) {
+        vel[i] -= K * bend[i];
+        vel[i] *= DAMP;
+        bend[i] += vel[i];
+        if (Math.abs(bend[i]) > 0.01 || Math.abs(vel[i]) > 0.01) alive = true;
+        else { bend[i] = 0; vel[i] = 0; }
+      }
+      draw();
+      if (alive) raf = requestAnimationFrame(step);
+      else running = false;
+    };
+    const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(step); } };
+
+    const strike = (i, dir) => {
+      const now = performance.now();
+      if (now - lastAt[i] < 55) return;          // no faster than a hand could
+      lastAt[i] = now;
+      bend[i] = 0;
+      vel[i] = dir * 3.4;                        // the hit is a velocity, not a position
+      // Thicker string: quieter, darker, and it hangs on longer.
+      window.__harp?.pluck(HZ[i], { gain: 0.72, tone: 1450, seconds: 3.4, decay: 0.9976 });
+      start();
+    };
+
+    let prevX = null;
+    const onMove = (e) => {
+      const r = host.getBoundingClientRect();
+      if (e.clientY < r.top || e.clientY > r.bottom || r.width <= 0) { prevX = null; return; }
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      if (x < -10 || x > 110) { prevX = null; return; }
+      // Crossing, not proximity: a string sounds when the pointer passes THROUGH
+      // it. Comparing against the previous position is also what keeps the rail's
+      // own horizontal travel silent — this only runs on real pointer movement,
+      // so scrolling the panel past a still cursor never strums it.
+      if (prevX !== null) {
+        const dir = x >= prevX ? 1 : -1;
+        // Walk the strings in the direction the hand travelled, so when one
+        // move crosses several at once they sound in the order they were
+        // actually reached. Iterating left-to-right regardless meant a fast
+        // downstroke still sounded low-to-high — an upstroke's pitch order
+        // played back under a downstroke's gesture.
+        for (let n = 0; n < N; n++) {
+          const i = dir === 1 ? n : N - 1 - n;
+          if ((prevX < X[i] && x >= X[i]) || (prevX > X[i] && x <= X[i])) strike(i, dir);
+        }
+      }
+      prevX = x;
+    };
+
+    draw();
+    addEventListener('pointermove', onMove, { passive: true });
+    addEventListener('pointerleave', () => { prevX = null; }, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(raf); running = false; bend.fill(0); vel.fill(0); draw(); }
+    });
+  }
+</script>
+
+<style>
+  .strings{position:absolute; inset:0; width:100%; height:100%; display:block;
+    z-index:1; pointer-events:none}
+</style>

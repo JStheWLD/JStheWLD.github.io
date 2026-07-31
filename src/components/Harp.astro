@@ -67,16 +67,18 @@
       return true;
     };
 
-    // one plucked string
-    const pluck = (hz) => {
+    // one plucked string. The options exist so a second, lower voice elsewhere
+    // on the page can sound like a bigger string rather than a transposed small
+    // one: longer to die away, and darker, because a thick string loses its
+    // harmonics faster than a thin one.
+    const pluck = (hz, opt) => {
       if (!ctx || ctx.state !== 'running') return;
+      const { gain = 1, tone: cutoff = 2600, seconds = 2.2, decay = 0.996 } = opt || {};
       const N = Math.max(2, Math.round(ctx.sampleRate / hz));
-      const seconds = 2.2;
       const buf = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * seconds), ctx.sampleRate);
       const d = buf.getChannelData(0);
       // excite with noise, then run the Karplus-Strong loop in place
       for (let i = 0; i < N; i++) d[i] = Math.random() * 2 - 1;
-      const decay = 0.996;
       for (let i = N; i < d.length; i++) d[i] = (d[i - N] + d[i - N + 1]) * 0.5 * decay;
       // taper the tail so it never clicks off
       const tail = Math.floor(d.length * 0.35);
@@ -85,12 +87,22 @@
       }
       const src = ctx.createBufferSource(); src.buffer = buf;
       const g = ctx.createGain();
-      g.gain.value = 0.9 + Math.random() * 0.2;
+      g.gain.value = (0.9 + Math.random() * 0.2) * gain;
       const tone = ctx.createBiquadFilter();
-      tone.type = 'lowpass'; tone.frequency.value = 2600;
+      tone.type = 'lowpass'; tone.frequency.value = cutoff;
       src.connect(tone); tone.connect(g); g.connect(bus);
       src.start();
       src.stop(ctx.currentTime + seconds);
+    };
+
+    // ── THE INSTRUMENT, SHARED ──────────────────────────────────────────
+    // Other surfaces play through this rather than standing up their own audio.
+    // One AudioContext, one unlock gesture, one toggle: the page is a single
+    // instrument that happens to have more than one set of strings. A second
+    // context would also mean a second unlock, which the reader never agreed to.
+    window.__harp = {
+      pluck: (hz, opt) => { if (on) pluck(hz, opt); },
+      get on() { return on; },
     };
 
     // ── MOTES: a note draws a few sparks out of the strand ──────────────
