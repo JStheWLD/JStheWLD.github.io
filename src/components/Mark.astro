@@ -1,0 +1,113 @@
+---
+// THE MARK — the wordmark shatters and reassembles.
+//
+// The fracture is radial, from a single off-centre strike point. That is what
+// separates a shatter from a cut: glass breaks away from where it was hit, so
+// every shard's escape direction is its own bearing from that point, not an
+// arbitrary drift. Equal horizontal bands read as an exploded-view diagram —
+// right for a parts catalogue, wrong for a mark that should look struck.
+//
+// The geometry is computed here, at build time, from a fixed seed. The fracture
+// is therefore identical on every load and in every browser: a mark that breaks
+// differently each visit is a special effect, not an identity.
+//
+// One image, N clipped copies. Each shard shows the same artwork through its own
+// polygon window, so the assembled mark is pixel-exact — no seams to line up.
+
+const SEED = 20260731;
+let _s = SEED;
+const rnd = () => ((_s = (_s * 16807) % 2147483647) / 2147483647);
+const jit = (amt) => (rnd() * 2 - 1) * amt;
+
+// Struck above and left of centre, so the break has a direction rather than
+// radiating symmetrically out of the middle.
+const CX = 44, CY = 38;
+const WEDGES = 7;        // radial cracks
+const SPLIT = 4;         // how many of those also break concentrically -> 11 shards
+
+const TAU = Math.PI * 2;
+const norm = (a) => ((a % TAU) + TAU) % TAU;
+
+// where a ray from the strike point leaves the 0..100 box
+const edge = (a) => {
+  const dx = Math.cos(a), dy = Math.sin(a);
+  const tx = dx > 1e-9 ? (100 - CX) / dx : dx < -1e-9 ? -CX / dx : Infinity;
+  const ty = dy > 1e-9 ? (100 - CY) / dy : dy < -1e-9 ? -CY / dy : Infinity;
+  const t = Math.min(tx, ty);
+  return [CX + dx * t, CY + dy * t];
+};
+
+const CORNERS = [[0, 0], [100, 0], [100, 100], [0, 100]];
+// A wedge that spans a corner of the box has to bend around it, or the shard
+// clips a triangle out of the artwork instead of filling to the edge.
+const cornersIn = (a1, span) =>
+  CORNERS.map((c) => ({ c, d: norm(Math.atan2(c[1] - CY, c[0] - CX) - a1) }))
+    .filter((o) => o.d > 1e-6 && o.d < span - 1e-6)
+    .sort((x, y) => x.d - y.d)
+    .map((o) => o.c);
+
+// crack bearings: evenly spread, then jittered so no two shards match
+const base = Array.from({ length: WEDGES }, (_, i) => (i / WEDGES) * TAU + jit(0.34));
+base.sort((a, b) => a - b);
+
+const lerp = (p, f) => [CX + (p[0] - CX) * f, CY + (p[1] - CY) * f];
+const poly = (pts) => `polygon(${pts.map(([x, y]) => `${x.toFixed(2)}% ${y.toFixed(2)}%`).join(', ')})`;
+
+const shards = [];
+for (let i = 0; i < WEDGES; i++) {
+  const a1 = base[i];
+  const a2 = i === WEDGES - 1 ? base[0] + TAU : base[i + 1];
+  const span = a2 - a1;
+  const rim = [edge(a1), ...cornersIn(a1, span), edge(a2)];
+  const bis = a1 + span / 2;
+
+  // A shard's bearing decides where it goes; only its distance and spin vary.
+  const fling = (ring) => {
+    const reach = ring === 'out' ? 40 + rnd() * 26 : 17 + rnd() * 14;
+    return {
+      dx: +(Math.cos(bis) * reach).toFixed(1),
+      dy: +(Math.sin(bis) * reach).toFixed(1),
+      rot: +(jit(ring === 'out' ? 26 : 15)).toFixed(1),
+      ry: +(jit(ring === 'out' ? 30 : 16)).toFixed(1),
+      // Some shards come at the reader and some fall away. With a camera on the
+      // container the near ones genuinely enlarge, which is the whole reason
+      // the break reads as depth rather than as a flat scatter.
+      z: Math.round(ring === 'out' ? -70 + rnd() * 250 : -40 + rnd() * 150),
+    };
+  };
+
+  if (i < SPLIT) {
+    const f = 0.44 + rnd() * 0.16;               // where the concentric crack runs
+    const inner = rim.map((p) => lerp(p, f));
+    shards.push({ clip: poly([[CX, CY], ...inner]), ...fling('in') });
+    shards.push({ clip: poly([...inner, ...[...rim].reverse()]), ...fling('out') });
+  } else {
+    shards.push({ clip: poly([[CX, CY], ...rim]), ...fling('out') });
+  }
+}
+---
+{/* The shards are one image seen through eleven windows, so each is decorative
+    on its own; the name lives on the container. */}
+<div class="mark" data-mark role="img" aria-label="JS the WLD">
+  {shards.map((s) => (
+    <span class="mark__pc" aria-hidden="true" style={`clip-path:${s.clip}`}
+      data-dx={s.dx} data-dy={s.dy} data-rot={s.rot} data-ry={s.ry} data-z={s.z} />
+  ))}
+</div>
+
+<style>
+  /* The camera. Without it the shards' rotation flattens into a horizontal
+     squash and their distance does nothing at all — the break renders as a flat
+     scatter no matter what the numbers say. */
+  .mark{position:relative; width:clamp(112px,15vw,205px); aspect-ratio:969/1200;
+    margin:0 auto clamp(1.1rem,2.4vw,1.7rem);
+    perspective:900px; transform-style:preserve-3d}
+
+  .mark__pc{position:absolute; inset:0; display:block;
+    background:url('/assets/jswld-wordmark.png') center/contain no-repeat;
+    /* Lighter than the three-piece version: eleven animated drop-shadows cost
+       eleven re-rasterisations a frame, and depth is already carried by the
+       camera. This only has to keep a shard off the ground behind it. */
+    filter:drop-shadow(0 10px 18px rgba(0,0,0,.5));
+    backface-visibility:hidden; will-change:transform}
+</style>

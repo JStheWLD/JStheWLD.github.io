@@ -6,6 +6,7 @@ import Noise from '../components/Noise.astro';
 import Harp from '../components/Harp.astro';
 import Spine from '../components/Spine.astro';
 import Strings from '../components/Strings.astro';
+import Mark from '../components/Mark.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
 <Base title="JS the WLD — Jonathan Sexton" nav="none" bare={true} motion={true}>
@@ -28,11 +29,7 @@ import { STORM_DOOR_URL } from '../consts';
       <div class="hero__body">
         <!-- the mark in three pieces, cut at the seams where JS / THE / WLD
              interlock, so it can come apart and turn as you scroll -->
-        <div class="mark" role="img" aria-label="JS the WLD">
-          <span class="mark__pc mark__pc--js" aria-hidden="true"></span>
-          <span class="mark__pc mark__pc--the" aria-hidden="true"></span>
-          <span class="mark__pc mark__pc--wld" aria-hidden="true"></span>
-        </div>
+        <Mark />
 
         <p class="hero__name"><span class="rv">I'm Jonathan Sexton aka JS the WLD.</span></p>
 
@@ -345,12 +342,16 @@ import { STORM_DOOR_URL } from '../consts';
       // the first two seconds, since the scrub is live from load at progress 0.
       const pieces = [...document.querySelectorAll('.mark__pc')];
       if (pieces.length) {
+        // Every shard's escape is its own bearing from the strike point,
+        // computed with the fracture at build time and carried on the element.
+        // Hard-coded arrays here would silently desynchronise from the geometry
+        // the moment the shard count or the seed changed.
         const APART = {
-          yPercent: (i) => [-46, 0, 46][i],
-          xPercent: (i) => [-30, 26, -18][i],
-          rotationZ: (i) => [-13, 9, -7][i],
-          rotationY: (i) => [18, -14, 12][i],
-          z: (i) => [140, -60, 120][i],
+          xPercent:  (i, el) => +el.dataset.dx,
+          yPercent:  (i, el) => +el.dataset.dy,
+          rotationZ: (i, el) => +el.dataset.rot,
+          rotationY: (i, el) => +el.dataset.ry,
+          z:         (i, el) => +el.dataset.z,
         };
 
         // the scroll tween is only created once the intro has finished, so the
@@ -380,7 +381,7 @@ import { STORM_DOOR_URL } from '../consts';
             // viewport. The explosion was running where nobody could see it.
             // Reversed, this same curve is slow-then-fast, so it still arrives
             // home with the click.
-            ease: 'power1.out',
+            ease: 'power2.out',
             // finish while the hero is still half in frame, not as it exits
             scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom center', scrub: 0.6 },
           });
@@ -402,13 +403,18 @@ import { STORM_DOOR_URL } from '../consts';
         addEventListener('touchmove', handover, { passive: true, once: false });
         addEventListener('keydown', handover, { passive: true, once: false });
 
+        // On load the shards come in from further out than they ever fly, so the
+        // mark assembles out of the same fracture it will later break along.
         gsap.fromTo(pieces,
-          { yPercent: (i) => [-70, 0, 70][i],
-            xPercent: (i) => [-28, 34, -22][i],
-            rotationZ: (i) => [-14, 11, -8][i],
+          { xPercent:  (i, el) => +el.dataset.dx * 1.5,
+            yPercent:  (i, el) => +el.dataset.dy * 1.5,
+            rotationZ: (i, el) => +el.dataset.rot * 1.4,
+            rotationY: (i, el) => +el.dataset.ry * 1.4,
             z: -420, opacity: 0 },
-          { yPercent: 0, xPercent: 0, rotationZ: 0, z: 0, opacity: 1,
-            duration: 1.5, ease: 'expo.out', stagger: 0.11, delay: 0.25,
+          { xPercent: 0, yPercent: 0, rotationZ: 0, rotationY: 0, z: 0, opacity: 1,
+            // eleven shards, so the stagger is shorter than it was for three —
+            // 0.11 each would have run the intro past two seconds.
+            duration: 1.5, ease: 'expo.out', stagger: 0.045, delay: 0.25,
             onComplete: armScroll });
         setTimeout(armScroll, 2600);   // whichever comes first
       }
@@ -545,28 +551,7 @@ import { STORM_DOOR_URL } from '../consts';
   .hero__body::before{content:""; position:absolute; inset:-6% -8%; z-index:-1; border-radius:50%;
     background:radial-gradient(62% 58% at 50% 50%, rgba(4,6,11,.82) 0%, rgba(4,6,11,.5) 62%, transparent 84%)}
 
-  /* ══════ THE MARK, EXPLODED ══════
-     One image, three clipped copies. Bands overlap slightly at the seams
-     (measured from the artwork's own ink coverage: JS/THE break ~33%,
-     THE/WLD ~61%) so the pieces read as having come apart rather than
-     been sliced. */
-  .mark{position:relative; width:clamp(112px,15vw,205px); aspect-ratio:969/1200;
-    margin:0 auto clamp(1.1rem,2.4vw,1.7rem);
-    /* The camera. Without this the pieces' rotationY and z render
-       orthographically — the rotation flattens into a horizontal squash and the
-       depth does nothing at all, which is what made the explosion read as a
-       jitter rather than as pieces turning in space. */
-    perspective:900px; transform-style:preserve-3d}
-  .mark__pc{position:absolute; inset:0; display:block;
-    background:url('/assets/jswld-wordmark.png') center/contain no-repeat;
-    filter:drop-shadow(0 18px 34px rgba(0,0,0,.55));
-    /* rotationY turns each piece past its own edge; without this the far face
-       flickers through at the crossing. */
-    backface-visibility:hidden;
-    will-change:transform}
-  .mark__pc--js{clip-path:inset(0 0 64% 0)}
-  .mark__pc--the{clip-path:inset(30% 0 37% 0)}
-  .mark__pc--wld{clip-path:inset(58% 0 0 0)}
+  /* The mark's geometry, camera and shard styling live in Mark.astro. */
 
   /* pieces fly together on load... */
   :global(.js) .hero.set .mark__pc{opacity:1 !important}
