@@ -9,7 +9,7 @@ colors:
   end: "#0A0C10"
   ink: "#1B1916"
   bone: "#E9E4D8"
-  rust: "#A8401D"
+  rust: "#C1512A"
   amber: "#D99A42"
   lit: "#40C4E8"
   edge: "rgba(64,196,232,0.18)"
