@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Texture from '../components/Texture.astro';
 import Well from '../components/Well.astro';
 import Noise from '../components/Noise.astro';
+import Harp from '../components/Harp.astro';
 import Spine from '../components/Spine.astro';
 import { STORM_DOOR_URL } from '../consts';
 ---
@@ -15,6 +16,7 @@ import { STORM_DOOR_URL } from '../consts';
   <div class="hud hud--bl" aria-hidden="true"><span data-hud>Words / Music / Code</span></div>
   <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
   <Spine stops={["Words", "Code", "Music", "Jonathan", "The Storm Door"]} />
+  <Harp />
 
   <main id="top">
     <!-- ══ 01 HERO — the ground falls away ══ -->
@@ -273,9 +275,9 @@ import { STORM_DOOR_URL } from '../consts';
       const triRail = document.querySelector('[data-tri-rail]');
       if (tri && triRail && window.matchMedia('(min-width: 700px)').matches) {
         const travel = () => Math.max(0, triRail.scrollWidth - window.innerWidth);
-        gsap.to(triRail, {
-          x: () => -travel(),
-          ease: 'none',
+        // A hold at the head of the timeline: the first panel sits still for the
+        // opening stretch of the pin, so WORDS can be read before it leaves.
+        const triTl = gsap.timeline({
           scrollTrigger: {
             trigger: tri,
             start: 'top top',
@@ -288,6 +290,8 @@ import { STORM_DOOR_URL } from '../consts';
             anticipatePin: 1,
           },
         });
+        triTl.to(triRail, { x: 0, duration: 0.18 })            // patience
+             .to(triRail, { x: () => -travel(), ease: 'none', duration: 1 });
 
         // each panel's content comes inward as its panel reaches the screen
         triRail.querySelectorAll('.panel').forEach((panel) => {
@@ -296,7 +300,7 @@ import { STORM_DOOR_URL } from '../consts';
             { z: 0, opacity: 1, ease: 'none',
               scrollTrigger: {
                 trigger: panel,
-                containerAnimation: gsap.getTweensOf(triRail)[0],
+                containerAnimation: triTl,
                 start: 'left 78%',
                 end: 'center 60%',
                 scrub: 0.5,
@@ -324,7 +328,17 @@ import { STORM_DOOR_URL } from '../consts';
           rotationY: (i) => [18, -14, 12][i],
           z: (i) => [140, -60, 120][i],
           ease: 'none',
-          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.7 },
+          scrollTrigger: {
+            trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.7,
+            // scrubbing alone drifts the pieces back vaguely; this snaps them
+            // home with a little overshoot so returning to the top *clicks*.
+            onLeaveBack: () => {
+              gsap.to(pieces, {
+                yPercent: 0, xPercent: 0, rotationZ: 0, rotationY: 0, z: 0,
+                duration: 0.5, ease: 'back.out(2.2)', stagger: 0.04, overwrite: 'auto',
+              });
+            },
+          },
         });
       }
 
@@ -344,7 +358,7 @@ import { STORM_DOOR_URL } from '../consts';
       if (ana) {
         gsap.fromTo(ana, { '--eye': '22px' }, { '--eye': '4px', ease: 'none',
           scrollTrigger: { trigger: ana.closest('.panel'),
-            containerAnimation: gsap.getTweensOf(triRail)[0],
+            containerAnimation: triTl,
             start: 'left 85%', end: 'center 60%', scrub: 0.5 } });
       }
 
@@ -374,7 +388,7 @@ import { STORM_DOOR_URL } from '../consts';
         };
         ScrollTrigger.create({
           trigger: scr.closest('.panel'),
-          containerAnimation: gsap.getTweensOf(triRail)[0],
+          containerAnimation: triTl,
           start: 'left 70%',
           onEnter: run, onEnterBack: run,
         });
@@ -613,6 +627,8 @@ import { STORM_DOOR_URL } from '../consts';
   .panel{position:relative; flex:none; width:100vw; height:100svh; overflow:hidden;
     display:flex; flex-direction:column; justify-content:center;
     padding:clamp(4rem,8vw,7rem) 6vw clamp(3rem,6vw,5rem)}
+  /* the first panel is the one the reader meets mid-stride — give it room */
+  .panel:first-child{padding-left:clamp(2rem,10vw,9rem)}
   .panel--paper{background:var(--paper); color:var(--ink)}
   .panel--dusk{background:var(--dusk); color:#E9E4D8}
   .panel--wire{background:var(--wire-bg); color:#DFF2F8}
@@ -621,6 +637,8 @@ import { STORM_DOOR_URL } from '../consts';
   .panel__word span{display:block; font-family:var(--grot); font-weight:900;
     font-size:clamp(2.6rem,11vw,8rem); letter-spacing:-.055em; line-height:.86;
     color:currentColor; opacity:.14}
+  /* paper grounds need real weight — .14 disappeared into the noise field */
+  .panel--paper .panel__word span, .panel--book .panel__word span{opacity:.42}
   .panel--wire .panel__word span{opacity:1; color:var(--lit);
     text-shadow:0 0 60px rgba(64,196,232,.45), 0 0 160px rgba(64,196,232,.25)}
 
@@ -628,9 +646,12 @@ import { STORM_DOOR_URL } from '../consts';
   .panel__word--chroma span{position:relative}
   .panel__word--chroma span::before,
   .panel__word--chroma span::after{content:attr(data-t); position:absolute; inset:0;
-    pointer-events:none; mix-blend-mode:screen}
-  .panel__word--chroma span::before{color:#FF2D2D; transform:translate(var(--ab,0px),0)}
-  .panel__word--chroma span::after{color:#12E8FF; transform:translate(calc(var(--ab,0px) * -1),0)}
+    pointer-events:none;
+    /* multiply, not screen: screen LIGHTENS, so on paper the fringes went white
+       and bleached the word instead of colouring its edges */
+    mix-blend-mode:multiply}
+  .panel__word--chroma span::before{color:#E01B1B; transform:translate(var(--ab,0px),0)}
+  .panel__word--chroma span::after{color:#00B7D8; transform:translate(calc(var(--ab,0px) * -1),0)}
 
   /* MUSIC — anaglyph: a stereo pair, offset far enough to read as depth */
   .panel__word--anaglyph span{position:relative}
