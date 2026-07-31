@@ -12,7 +12,7 @@ interface Props {
   blend?: string;     // multiply on paper, screen on dark
 }
 const {
-  tone = '#A8401D', seed = 1337, scale = 0.055,
+  tone = '#C1512A', seed = 1337, scale = 0.055,
   speed = 0.06, strength = 0.5, blend = 'multiply',
 } = Astro.props;
 ---
@@ -25,7 +25,7 @@ const {
   document.querySelectorAll('[data-noise]').forEach((cv) => {
     const ctx = cv.getContext('2d');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const tone = cv.dataset.tone || '#A8401D';
+    const tone = cv.dataset.tone || '#C1512A';
     const SEED = +(cv.dataset.seed || 1337);
     const SCALE = +(cv.dataset.scale || 0.055);
     const SPEED = +(cv.dataset.speed || 0.06);

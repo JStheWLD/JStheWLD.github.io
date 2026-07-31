@@ -4,7 +4,7 @@
   "title": "Design System: JS the WLD",
   "extensions": {
     "colorMeta": {
-      "rust": { "role": "primary", "displayName": "Rust", "canonical": "oklch(48% 0.14 40)", "tonalRamp": ["#200C05", "#3B1709", "#5C230E", "#7E3115", "#A8401D", "#C46340", "#DC9B80", "#F0D5C7"] },
+      "rust": { "role": "primary", "displayName": "Rust", "canonical": "oklch(57% 0.15 39)", "tonalRamp": ["#210B05", "#431C0F", "#6B2D18", "#934023", "#C1512A", "#E07653", "#EDA58E", "#F3D3C9"] },
       "lit": { "role": "primary", "displayName": "Electric", "canonical": "oklch(76% 0.13 218)", "tonalRamp": ["#04222B", "#073B4A", "#0B5A70", "#118197", "#40C4E8", "#7BD8F0", "#B0E8F7", "#DDF5FC"] },
       "amber": { "role": "secondary", "displayName": "Amber", "canonical": "oklch(71% 0.12 66)", "tonalRamp": ["#2E1D08", "#4C300F", "#6F4718", "#9A6423", "#D99A42", "#E5B672", "#F0D3A8", "#F9EDDC"] },
 

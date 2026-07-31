@@ -101,6 +101,8 @@ components:
 
 This document governs the brand, not a website. Every rule below is stated so it holds in any medium — page, screen, stage, print, or object. Where a rule needs a particular technique to land in a particular medium, that technique is recorded as an *Implementation note* and is subordinate: the note may be rewritten freely when the medium changes, the doctrine above it may not.
 
+**Parentage (2026-07-31).** This world is a **skin of the light form**. *The Sound of Something More · Light Form Design System* is the genome: it owns the token names, the marks, the shared eighty percent of motion and its living tether, and the Always/Never. Everything below sets that genome's values for one surface. A skin re-values, it never rewrites — so where this document and the genome disagree on a **value**, this document wins for this surface; where they disagree on the **contract**, the genome wins everywhere. What this skin inherits and cannot re-set: the truth-bird and the glass-HUD grammar, the family palette as ancestor, the shared motion, and the standing prohibition on a surface that cannot breathe.
+
 Two poles, held in tension on one page. The **South** is warm, physical, worn: paper grounds, rust and amber, real photographs, cardboard and felt and scratches. The **future** is a deep-sea instrument panel: near-black grounds, one electric cyan, hairline HUD edges, a receding grid that falls away under your feet. The site earns its interest by cutting hard between them rather than blending them into a comfortable middle.
 
 There is **no serif anywhere**. The voice is a matte grotesque (Archivo, at heavy weights, tracked tight) against a typewriter (Courier Prime) for every label and every line of body copy. The one exception is the JS the WLD wordmark itself, which is an image asset — a stacked interlocking Didone lockup, white on transparency, which is why any ground it sits on must be dark.
@@ -118,7 +120,7 @@ This system explicitly rejects: the previous editorial/Didone-body world (warm e
 Two families that never mix into each other: warm Southern grounds, and one cold electric accent reserved for the future pole.
 
 ### Primary
-- **Rust** (`#A8401D`): the Southern action color — tags, link underlines, warmth on paper grounds.
+- **Rust** (`#C1512A`): the Southern action color — tags, link underlines, warmth on paper grounds. Taken from the genome's family palette, which is the ancestor of every skin's warm pole. This skin previously ran `#A8401D`; three documents once shipped three different rusts and this is the one that survived.
 - **Electric** (`#40C4E8`): the future. Section 04 (Code), the HUD percent readout, the CTA, the wire lines, the receding grid.
 
 ### Secondary
@@ -134,6 +136,8 @@ Two families that never mix into each other: warm Southern grounds, and one cold
 **The Two-Pole Rule.** Every section commits to South or future. Rust and amber never appear on the wire ground; cyan never appears on paper. A section that uses both is a section that has decided nothing.
 
 **The Cut, Not the Fade Rule.** Grounds change by hard edge between sections. No gradient transitions between paper and night — the jolt is the point.
+
+**The One Cyan Rule.** `#40C4E8` is the single value this skin and the genome hold in common, byte for byte. It is the point of contact, so it is never re-tinted to taste at either end — when it moves, it moves in both places or the family breaks. Every other value here is this skin's own.
 
 **The Channel Exemption.** Split-channel effects — chromatic aberration, anaglyph, misregistration — are not palette colour, and the Two-Pole Rule does not govern them. Their red and cyan are two halves of one separated image, not two accents on a ground, so they may run on either pole. They must stay pure channel values (`#FF1F1F` / `#E01B1B` / `#00E5FF` / `#00B7D8`) and never brand rust or brand cyan — the moment a channel is a brand colour, the effect reads as decoration instead of separation. This holds in print misregistration and on screen alike.
 
@@ -154,6 +158,8 @@ Two families that never mix into each other: warm Southern grounds, and one cold
 
 ### Named Rules
 **The No-Serif Rule.** No serif face ships on a surface built in this world. Not for quotes, not for emphasis, not for "warmth." The warmth comes from color, texture, and photography.
+
+**Scope of that rule (genome amendment, 2026-07-31).** The genome locks the display **role**, not the face: every skin declares one display voice and never mixes. This skin declares Archivo; the light form and its installations declare Bodoni Moda. So the No-Serif Rule governs this skin and no further — a Didone on an installation is that skin's declared voice, not a violation of this one. The rule is absolute inside its own world and silent outside it.
 
 ### Migration status (accurate as of this revision)
 
@@ -244,6 +250,14 @@ Each act word may carry **one** optical treatment and only one — chromatic abe
 ### Grow Figure
 Photograph or type slab that enters from `translateZ(-520px) scale(.42)` and settles with a small per-instance tilt (`--tilt`).
 
+### The Stamp
+
+Two marks, and this skin restyles neither — they come down from the genome intact. The **truth-bird** is a spread-wing bird held in a dark roundel, pressed into a corner of every world like wax; it is the most literal signature the brand has. It sits at an edge rather than in the composition, small and constant, and it is never enlarged into decoration or knocked out to match a section's palette — the roundel carries its own dark so it reads on any ground. The **wordmark** is the stacked interlocking lockup, white on transparency, which is why any ground beneath it must be dark; what it *does* is described under The Mark.
+
+**The One Stamp Rule.** One truth-bird per surface. A second one in the same view turns a signature into a pattern.
+
+*Implementation note (web).* The bird ships as `/assets/bird-white.png` at 18px inside the top-left seal, which doubles as the home link, so the stamp and the way home are the same object. The wordmark is `/assets/jswld-wordmark.png`, tiled across the shards of The Mark. `Seal.astro` (a ring-text badge) and `Bird.astro` (pen-and-ink line art) are separate marks in the repo and are currently used by no page.
+
 ### HUD Console
 Fixed corner panels: blurred dark fill, hairline inset edge, Courier micro-caps. Bottom-left names the current section; bottom-right is a live scroll percentage in cyan.
 
@@ -267,3 +281,4 @@ Solid cyan block, black text, square corners, cyan bloom. The only filled button
 - **Don't** reintroduce the retired editorial world (eggshell-everywhere, italic Didone body, taped-photo motif as the primary language).
 - **Don't** use crypto/blockchain visual language.
 - **Don't** gradient between the two poles to "ease" the transition.
+- **Don't** let the future pole drift to neon-on-black. It is a deep-sea instrument panel — one cyan, warm ink, real photography — never cyberpunk.

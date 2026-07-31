@@ -5,10 +5,10 @@
 :root {
   /* Billy Bob genome — the ancestor swatches (family palette).
      First Family "day" ground; charcoal/rust/amber/bone/chambray per the brand guide. */
-  --charcoal-genome:#33303A; --rust-genome:#A8401D; --amber:#D99A42;
+  --charcoal-genome:#33303A; --rust-genome:#C1512A; --amber:#D99A42;
   --bone-genome:#E4DECC; --chambray:#9DB4BC; --cyan:#40C4E8;
   --ground:#EDEAE3; --ground-2:#e6e2d9; --ink:#33303A; --ink-soft:#4a4551;
-  --rust:#A8401D; --rust-deep:#7E2F16; --ochre:#D99A42; --bone:#E4DECC; --dusty:#9DB4BC;
+  --rust:#C1512A; --rust-deep:#7E2F16; --ochre:#D99A42; --bone:#E4DECC; --dusty:#9DB4BC;
   /* motion genome: the shared 80% */
   --breath:13s; --ease:cubic-bezier(.2,.8,.2,1); --drift:1.4;
   /* the deck's warm accents are rust + ochre; no invented hues */
