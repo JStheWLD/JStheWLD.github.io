@@ -109,6 +109,8 @@ There is **no serif anywhere**. The voice is a matte grotesque (Archivo, at heav
 
 This system explicitly rejects: the previous editorial/Didone-body world (warm eggshell everywhere, italic serif display, "porch letter" restraint), generic AI-slop SaaS marketing, and any crypto/blockchain visual language.
 
+**Reading the numbers.** Every measurement in this document is a default and a direction, not a permission. Each is written as the value that works and the place it stops working, so a value outside it is a decision to argue with rather than a violation to report — trust your eyes over the figure. The exceptions are marked **load-bearing**: a handful of numbers where crossing the line breaks the render rather than the taste. Those say so in those words, and they mean it.
+
 **Key Characteristics:**
 - Contrast flips section to section — paper, dusk, electric, paper, black. Never a gradient between poles.
 - Depth is real: CSS `perspective`, `translateZ`, a rotated ground plane, and three independently parallaxing texture layers.
@@ -133,7 +135,7 @@ Two families that never mix into each other: warm Southern grounds, and one cold
 - **Bone** (`#E9E4D8`): text on any dark ground.
 
 ### Named Rules
-**The Two-Pole Rule.** Every section commits to South or future. Rust and amber never appear on the wire ground; cyan never appears on paper. A section that uses both is a section that has decided nothing.
+**The Two-Pole Rule.** Every section commits to South or future. Rust and amber do not carry the wire ground; cyan does not carry paper. What the rule forbids is a section spending both palettes as though it never chose — it governs the commitment, not every pixel inside it. A single functional mark that plainly isn't palette (a focus ring, a state colour, an optical effect) is not a section changing its mind.
 
 **The Cut, Not the Fade Rule.** Grounds change by hard edge between sections. No gradient transitions between paper and night — the jolt is the point.
 
@@ -185,7 +187,7 @@ Inside the well, **cyan alpha encodes distance** — it is the depth cue, not de
 Chrome uses neutral alpha values that are deliberately **not** brand colors — they tint whatever ground they sit on rather than introducing a hue: seal fill `rgba(0,0,0,.62)`, seal ring `rgba(255,255,255,.22)`, HUD fill `rgba(8,10,14,.55)`, HUD hairline `rgba(255,255,255,.16)`, slab inner edge `rgba(255,255,255,.08)`. Treat these as a functional scrim set. Adding a *hue* to chrome is drift; adjusting a neutral alpha is not.
 
 ### Named Rules
-**The Z-Axis Rule.** Content enters by scale and depth (`translateZ(-520px) scale(.42)` → identity), never by `translateY` alone. Things grow out of the screen.
+**The Z-Axis Rule.** Content enters by scale and depth (`translateZ(-520px) scale(.42)` → identity). Things grow out of the screen — that is the house entrance, and it is what a reader should feel most of the time. A vertical slide isn't banned; it is simply not the default, and it earns its place only when the content genuinely arrives from off-page rather than from depth. What the rule is really against is every element on the page rising the same inch.
 
 ## 5. Components
 
@@ -205,7 +207,7 @@ Entrances are chosen per content type — never one uniform reveal. This is a vo
 - **Z-exit** (the pull-quote): `perspective(900px) translateZ(-420px)` → 0. Comes out at the reader.
 
 ### The Mark
-The wordmark comes apart and reassembles. It **shatters**, it does not slide: irregular angular shards along fracture lines, never equal horizontal bands. Bands read as a technical exploded-view diagram — correct for a parts catalogue, wrong for a mark that should look struck. Shard count sits between 8 and 14; below that it reads as cut, above it reads as confetti. Each shard carries its own rotation and its own distance from the viewer, and the nearest shards genuinely enlarge. Reassembly is the same fracture run backwards, and arrives with a click rather than a settle.
+The wordmark comes apart and reassembles. It **shatters**, it does not slide: irregular angular shards along fracture lines, never equal horizontal bands. Bands read as a technical exploded-view diagram — correct for a parts catalogue, wrong for a mark that should look struck. Shard count sits around 8 to 14 — the count itself matters less than the two ways it fails: too few reads as cut, too many reads as confetti. Each shard carries its own rotation and its own distance from the viewer, and the nearest shards genuinely enlarge. Reassembly is the same fracture run backwards, and arrives with a click rather than a settle.
 
 **The Front-Loaded Rule.** The separation happens in the first third of whatever drives it — a scroll, a cut, a walk past — while the mark is still in frame. Motion saved for the end is spent after the mark has left.
 
@@ -219,7 +221,7 @@ Each card also travels **inward** as it reaches the middle of the screen (`z −
 
 Its own type steps: the lead line `clamp(1.5rem, 3.4vw, 2.6rem)` in the display grotesque, and card captions at `0.7rem` tracked `0.2em` in amber — one step below the standard tag because a caption sits under an image rather than heading a section.
 
-**Hard constraints.** The section must own the full viewport (`min-height: 100svh`) and pin from `top top`; pinning a short band mid-screen reads as a strip sliding past, not as the page turning. `invalidateOnRefresh` is required — a stale width strands the rail mid-track on resize. Below 700px and under reduced motion there is no pin at all; the reel degrades to an ordinary swipeable row.
+**Constraints.** The section should own the full viewport (`min-height: 100svh`) and pin from `top top`; pinning a short band mid-screen reads as a strip sliding past, not as the page turning. Load-bearing: `invalidateOnRefresh` is required — a stale width strands the rail mid-track on resize. Below 700px and under reduced motion there is no pin at all; the reel degrades to an ordinary swipeable row.
 
 ### The Well (signature)
 The hero background is a corridor you fall into, not a backdrop. One `perspective: 560px` camera with `transform-style: preserve-3d` holds 14 hairline cyan frames stacked at `translateZ(i × -300px)`, plus a floor and roof plane at `rotateX(±80deg)` converging on the same vanishing point, plus a blurred cyan fog pool that hides the corridor's end. Frames fade with depth (`opacity: .92 − i×.062`) except the farthest four, which brighten so the far end reads as light rather than line. At rest the camera breathes on the genome's 13s cycle; on scroll it pushes forward, so the viewer falls in.
@@ -228,12 +230,12 @@ The hero background is a corridor you fall into, not a backdrop. One `perspectiv
 
 **`variant="bed"`.** The same generative field runs quietly behind the dark acts (Code, Music, the close) at 55% opacity with stroke alpha halved, no fog. It ties the sections together without competing with content. Only dark grounds get a bed — never paper.
 
-**Hard constraint (legacy CSS corridor, now replaced):** the earlier CSS-transform well capped camera Z at **300px** against a 560px perspective. As the camera approaches the perspective plane, projected scale goes asymptotic and the corridor detonates rather than receding — a nearest frame measured 8154px wide before the cap was added. Any change to `perspective` must move the cap with it, keeping a wide margin.
+**Load-bearing (legacy CSS corridor, now replaced):** the earlier CSS-transform well capped camera Z at **300px** against a 560px perspective. As the camera approaches the perspective plane, projected scale goes asymptotic and the corridor detonates rather than receding — a nearest frame measured 8154px wide before the cap was added. Any change to `perspective` must move the cap with it, keeping a wide margin.
 
 ### The Answer
 Surfaces answer the hand, and each answers in its own medium: the strands sound, the strings bend, a photograph tilts, a layered figure separates. A surface that answers in a way unrelated to what it *is* is decoration.
 
-**The Small-Answer Rule.** Tilt tops out at **6 degrees**, separation at **3% of the element's own width**, and both return home within 700ms of being left alone. The answer should be noticed on the second look, not the first.
+**The Small-Answer Rule.** Tilt sits around **6 degrees**, separation around **3% of the element's own width**, and both come home within about 700ms of being left alone. Somewhere past ten degrees the surface stops answering and starts performing — that crossing is the real rule, and the figures are only where it comfortably sits. The answer should be noticed on the second look, not the first.
 
 ### The Instrument
 The brand has one instrument, and it is a plucked string. However many playable surfaces exist, they are registers of that one instrument rather than separate voices — and there is one permission, asked once. Sound never begins on its own, in any medium: not on a page, not on a stand, not in a room someone walked into.
@@ -245,7 +247,7 @@ Everything is tuned to **G mixolydian**, the key and mode Southern rock lives in
 ### Act Word
 Full-bleed section word, edge-clipped, 13% opacity on Southern grounds and fully lit with a double glow on wire.
 
-Each act word may carry **one** optical treatment and only one — chromatic aberration, decode, anaglyph depth, or none. The treatment is driven by the reader's own movement through the work, so the word is doing it *because* someone is moving. Separation runs from 0 at rest to a maximum of **0.06em**: far enough to read as a deliberate optical split at a glance, short enough that the word stays a word. Channel opacity floors at **0.5** against light grounds; below that the fringes vanish into the ground and the effect exists only for whoever made it.
+Each act word may carry **one** optical treatment and only one — chromatic aberration, decode, anaglyph depth, or none. The treatment is driven by the reader's own movement through the work, so the word is doing it *because* someone is moving. Separation runs from 0 at rest to around **0.06em**: far enough to read as a deliberate optical split at a glance, short enough that the word stays a word. The failure is the moment the eye reads two words instead of one split word, and that is the line to watch rather than the figure. Channel opacity sits near **0.5** against light grounds; much below and the fringes vanish into the ground, so the effect exists only for whoever made it.
 
 ### Grow Figure
 Photograph or type slab that enters from `translateZ(-520px) scale(.42)` and settles with a small per-instance tilt (`--tilt`).
@@ -254,7 +256,7 @@ Photograph or type slab that enters from `translateZ(-520px) scale(.42)` and set
 
 Two marks, and this skin restyles neither — they come down from the genome intact. The **truth-bird** is a spread-wing bird held in a dark roundel, pressed into a corner of every world like wax; it is the most literal signature the brand has. It sits at an edge rather than in the composition, small and constant, and it is never enlarged into decoration or knocked out to match a section's palette — the roundel carries its own dark so it reads on any ground. The **wordmark** is the stacked interlocking lockup, white on transparency, which is why any ground beneath it must be dark; what it *does* is described under The Mark.
 
-**The One Stamp Rule.** One truth-bird per surface. A second one in the same view turns a signature into a pattern.
+**The One Stamp Rule.** One truth-bird per surface, as a rule of thumb — a second one in the same view starts turning a signature into a pattern.
 
 *Implementation note (web).* The bird ships as `/assets/bird-white.png` at 18px inside the top-left seal, which doubles as the home link, so the stamp and the way home are the same object. The wordmark is `/assets/jswld-wordmark.png`, tiled across the shards of The Mark. `Seal.astro` (a ring-text badge) and `Bird.astro` (pen-and-ink line art) are separate marks in the repo and are currently used by no page.
 
@@ -269,7 +271,7 @@ Solid cyan block, black text, square corners, cyan bloom. The only filled button
 ### Do:
 - **Do** flip ground and text color completely at every section boundary.
 - **Do** enter content along Z (grow toward the viewer) with 1100–1400ms ease-out.
-- **Do** keep texture below 0.11 opacity — depth, never pattern.
+- **Do** keep texture around 0.11 opacity or under — the line is where it starts reading as pattern instead of depth.
 - **Do** reserve cyan for the future pole and the CTA.
 - **Do** let a surface answer the hand in its own medium, within the Small-Answer Rule.
 - **Do** keep split-channel effects on pure channel values, never on brand colours.
