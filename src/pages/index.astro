@@ -446,6 +446,17 @@ import { STORM_DOOR_URL } from '../consts';
             duration: 1.5, ease: 'expo.out', stagger: 0.045, delay: 0.25,
             onComplete: armScroll });
         setTimeout(armScroll, 2600);   // whichever comes first
+
+        // A tab that is hidden at load never runs rAF, so the intro cannot play
+        // and the shards would sit at its from-state — invisible, and scattered
+        // once the visibility failsafe reveals them. Arming immediately puts
+        // them assembled and visible without waiting on a clock that is not
+        // ticking. This is the case that actually loses the mark: open the site
+        // in a background tab, come back, and it is gone.
+        if (document.hidden) armScroll();
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) armScroll();
+        }, { once: true });
       }
 
       // ── THE ACT WORDS ────────────────────────────────────────────────────
@@ -617,7 +628,6 @@ import { STORM_DOOR_URL } from '../consts';
   /* The mark's geometry, camera and shard styling live in Mark.astro. */
 
   /* pieces fly together on load... */
-  :global(.js) .hero.set .mark__pc{opacity:1 !important}
 
   .rv{display:inline-block}
   :global(.js) .rv{clip-path:inset(0 100% 0 0); opacity:0;
@@ -643,7 +653,6 @@ import { STORM_DOOR_URL } from '../consts';
     animation:cue 2.6s cubic-bezier(.2,.8,.2,1) infinite}
   @keyframes cue{0%{opacity:0; transform:translateY(-10px)} 40%{opacity:1} 100%{opacity:0; transform:translateY(16px)}}
 
-  :global(.js) .hero.set .mark,
   :global(.js) .hero.set .rv,
   :global(.js) .hero.set .mk{opacity:1; transform:none; clip-path:none; filter:none; animation:none}
 

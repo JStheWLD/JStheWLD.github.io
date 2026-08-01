@@ -110,4 +110,16 @@ for (let i = 0; i < WEDGES; i++) {
        camera. This only has to keep a shard off the ground behind it. */
     filter:drop-shadow(0 10px 18px rgba(0,0,0,.5));
     backface-visibility:hidden; will-change:transform}
+
+  /* VISIBILITY FAILSAFE. The hero adds `.set` 3.4s after load (and immediately
+     under reduced motion) to guarantee nothing ships invisible. This rule used
+     to live in index.astro — but moving the mark into its own component
+     silently broke it, because Astro scopes `.mark__pc` to the file that
+     DECLARES it. index's copy compiled to a selector matching nothing, so the
+     shards were left wherever the intro tween had put them, which is opacity 0,
+     with no backstop at all. It has to live here, where the class is in scope;
+     only the ancestor is :global. !important because the tween writes opacity
+     inline, and an inline value beats a stylesheet without it. */
+  :global(.hero.set) .mark{opacity:1}
+  :global(.hero.set) .mark__pc{opacity:1 !important}
 </style>
