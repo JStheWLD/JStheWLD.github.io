@@ -564,6 +564,40 @@ import { STORM_DOOR_URL } from '../consts';
           : { trigger: ana.closest('.panel'), start: 'top 85%', end: 'bottom 40%', scrub: 0.9 });
       }
 
+      // ── THE TELLS ARRIVE FROM FOUR BEARINGS ──────────────────────────────
+      // Each panel's copy comes in from its own direction, so moving through the
+      // rail does not feel like the same reveal four times. Every bearing is
+      // paired with depth: the Z-Axis Rule forbids arriving by translate alone,
+      // and a flat slide reads as a slideshow rather than as something entering
+      // the room.
+      //
+      // Deliberately NOT animating opacity. The panel body already fades, and a
+      // second opacity tween on the same content means that if a trigger ever
+      // fails to fire, the copy is stranded invisible with no way back. Stranded
+      // OFF to one side is recoverable and readable; stranded invisible is the
+      // failure that lost the wordmark.
+      const BEARINGS = [
+        { x: -130, y: 0 },    // WORDS from the left, against the rail's travel
+        { x: 0, y: 120 },     // CODE  up from below
+        { x: 130, y: 0 },     // MUSIC from the right, with the travel
+        { x: 0, y: -120 },    // BOOK  down from above
+      ];
+      document.querySelectorAll('.panel__tell').forEach((tell, i) => {
+        const b = BEARINGS[i % BEARINGS.length];
+        // Panel 0 is already centred when the pin begins, so its own horizontal
+        // range is spent before it could animate. It rides the vertical approach
+        // instead, exactly as the chromatic aberration does.
+        const st = (pinST && i > 0)
+          ? atPanel(i, 0.26, 0.08)
+          : pinST
+            ? { trigger: tri, start: 'top 76%', end: () => pinST.start + 0.14 * pinLen(),
+                scrub: 0.9, invalidateOnRefresh: true }
+            : { trigger: tell.closest('.panel'), start: 'top 85%', end: 'center 65%', scrub: 0.9 };
+        gsap.fromTo(tell,
+          { x: b.x, y: b.y, z: -180 },
+          { x: 0, y: 0, z: 0, ease: 'power2.out', scrollTrigger: st });
+      });
+
       // ── CODE: the word scrambles, then resolves ──────────────────────────
       const scr = document.querySelector('.panel__word--scramble span');
       if (scr) {
