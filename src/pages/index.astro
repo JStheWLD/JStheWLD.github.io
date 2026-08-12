@@ -576,26 +576,35 @@ import { STORM_DOOR_URL } from '../consts';
       // fails to fire, the copy is stranded invisible with no way back. Stranded
       // OFF to one side is recoverable and readable; stranded invisible is the
       // failure that lost the wordmark.
+      // Each line arrives on its own beat. Moving the whole block as one
+      // rectangle is what made this read as a card sliding: however far a rigid
+      // slab travels, nothing is happening INSIDE it. Staggering the tag, the
+      // heading, the paragraphs, the links and the quote is what turns an
+      // entrance into choreography.
       const BEARINGS = [
-        { x: -130, y: 0 },    // WORDS from the left, against the rail's travel
-        { x: 0, y: 120 },     // CODE  up from below
-        { x: 130, y: 0 },     // MUSIC from the right, with the travel
-        { x: 0, y: -120 },    // BOOK  down from above
+        { x: -300, y: 0, ry: 20, rx: 0 },    // WORDS from the left, turning in
+        { x: 0, y: 230, ry: 0, rx: -18 },    // CODE  up from below, tipping level
+        { x: 300, y: 0, ry: -20, rx: 0 },    // MUSIC from the right, turning in
+        { x: 0, y: -230, ry: 0, rx: 18 },    // BOOK  down from above, tipping level
       ];
       document.querySelectorAll('.panel__tell').forEach((tell, i) => {
         const b = BEARINGS[i % BEARINGS.length];
+        const kids = [...tell.children];
         // Panel 0 is already centred when the pin begins, so its own horizontal
         // range is spent before it could animate. It rides the vertical approach
         // instead, exactly as the chromatic aberration does.
+        // Widened from the earlier window, because a stagger needs room: the
+        // last line still has to land before its panel starts leaving.
         const st = (pinST && i > 0)
-          ? atPanel(i, 0.26, 0.08)
+          ? atPanel(i, 0.31, 0.10)
           : pinST
-            ? { trigger: tri, start: 'top 76%', end: () => pinST.start + 0.14 * pinLen(),
+            ? { trigger: tri, start: 'top 72%', end: () => pinST.start + 0.17 * pinLen(),
                 scrub: 0.9, invalidateOnRefresh: true }
-            : { trigger: tell.closest('.panel'), start: 'top 85%', end: 'center 65%', scrub: 0.9 };
-        gsap.fromTo(tell,
-          { x: b.x, y: b.y, z: -180 },
-          { x: 0, y: 0, z: 0, ease: 'power2.out', scrollTrigger: st });
+            : { trigger: tell.closest('.panel'), start: 'top 88%', end: 'center 62%', scrub: 0.9 };
+        gsap.fromTo(kids,
+          { x: b.x, y: b.y, z: -520, rotationY: b.ry, rotationX: b.rx },
+          { x: 0, y: 0, z: 0, rotationY: 0, rotationX: 0,
+            ease: 'power3.out', stagger: 0.085, scrollTrigger: st });
       });
 
       // ── CODE: the word scrambles, then resolves ──────────────────────────
@@ -934,7 +943,9 @@ import { STORM_DOOR_URL } from '../consts';
   .panel--book .panel__word span{opacity:.16}
   .panel__body--wide{grid-template-columns:1fr !important; max-width:64ch}
 
-  .panel__tell{max-width:52ch}
+  /* Its own camera, so the lines can turn as they arrive. Perspective on
+     .panel__body reaches this element but not its children. */
+  .panel__tell{max-width:52ch; perspective:900px}
 
   /* THE PULL QUOTE. The only place on this page where a voice other than his
      own speaks, so it changes FACE rather than just getting louder: the display
