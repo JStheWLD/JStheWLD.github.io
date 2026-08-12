@@ -73,10 +73,10 @@ import { STORM_DOOR_URL } from '../consts';
           <Noise tone="#40C4E8" seed={7717} scale={0.16} speed={0.22} strength={0.5} blend="screen" />
           <h2 class="panel__word panel__word--lit panel__word--scramble" aria-hidden="true"><span data-final="CODE">CODE</span></h2>
           <div class="panel__body">
-            <Layers class="is-wide"
-              src="/assets/billy-bob-lightform.png"
-              alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation."
-              width={1269} height={777} />
+            <figure class="panel__fig is-wide" data-layers>
+              <img src="/assets/billy-bob-lightform.png" alt="Billy Bob, the light form — 302 nodes and 380 threads of American music history rendered as a constellation." width="1269" height="777" loading="lazy" />
+              <Layers />
+            </figure>
             <div class="panel__tell">
               <p class="tag tag--lit">02 &mdash; Billy Bob</p>
               <h3 class="h3--lit">The living memory</h3>

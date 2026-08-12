@@ -12,28 +12,28 @@
 // figure's own width and returns home inside 700ms. A picture that flies apart
 // is performing; one that opens a few percent is an object with depth.
 //
-// The image element stays in the DOM as the real content — accessible name, SEO, and
-// the fallback. The canvas only takes over once WebGL has actually compiled, so
-// a failure anywhere in setup leaves an ordinary photograph rather than a hole.
-interface Props {
-  src: string; alt: string; width: number; height: number;
-  class?: string;
-}
-const { src, alt, width, height, class: cls = '' } = Astro.props;
+// The image element stays in the DOM as the real content — accessible name, SEO,
+// and the fallback. The canvas only takes over once WebGL has actually compiled,
+// so a failure anywhere in setup leaves an ordinary photograph rather than a hole.
+//
+// This component renders ONLY the canvas, and is dropped INSIDE a figure that
+// index.astro still owns. It deliberately does not render the <figure> or the
+// image itself: Astro scopes styles to the file that declares the markup, so a
+// figure rendered from here would carry this file's scope id and none of
+// index.astro's .panel__fig rules — sizing, padding, frame corners — would
+// reach it. That is exactly what happened: the figure lost its max-width and
+// blew out to 536px wide, collapsing the whole CODE panel.
 ---
-<figure class={`panel__fig ${cls}`} data-layers>
-  <img src={src} alt={alt} width={width} height={height} loading="lazy" />
-  <canvas class="layers__gl" aria-hidden="true"></canvas>
-</figure>
+<canvas class="layers__gl" aria-hidden="true"></canvas>
 
 <script>
-  const fig = document.querySelector('[data-layers]');
+  const cv = document.querySelector('.layers__gl');
+  const fig = cv && cv.closest('[data-layers]');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (fig && fine && !reduce) {
     const img = fig.querySelector('img');
-    const cv = fig.querySelector('.layers__gl');
 
     const N = 5;                 // depth planes
     const MAX = 0.03;            // 3% of the figure's width — the doctrine cap
@@ -185,6 +185,8 @@ const { src, alt, width, height, class: cls = '' } = Astro.props;
     opacity:0; pointer-events:none}
   /* The swap only happens once WebGL has compiled and drawn a first frame, so a
      failure at any point above leaves an ordinary photograph. */
-  .panel__fig.is-gl .layers__gl{opacity:1}
-  .panel__fig.is-gl img{visibility:hidden}
+  /* The figure and the image are declared in index.astro and carry ITS scope id,
+     so these have to reach across scopes. Only the canvas stays scoped here. */
+  :global(.panel__fig.is-gl) .layers__gl{opacity:1}
+  :global(.panel__fig.is-gl img){visibility:hidden}
 </style>
