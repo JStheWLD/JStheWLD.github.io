@@ -1,0 +1,190 @@
+---
+// LAYERS — a picture that comes apart into depth planes inside its own frame.
+//
+// The CODE figure is the Billy Bob light-form: a network of nodes and threads
+// on a dark ground. So the answer in its own medium is the network lifting OFF
+// that ground rather than a card tilting. The image is split by luminance into
+// planes — dark ground at the back, bright threads and nodes at the front — and
+// the planes slide against each other as the hand moves. Nothing leaves the
+// frame; the canvas IS the frame.
+//
+// Bound by the Small-Answer Rule: total separation tops out at 3% of the
+// figure's own width and returns home inside 700ms. A picture that flies apart
+// is performing; one that opens a few percent is an object with depth.
+//
+// The image element stays in the DOM as the real content — accessible name, SEO, and
+// the fallback. The canvas only takes over once WebGL has actually compiled, so
+// a failure anywhere in setup leaves an ordinary photograph rather than a hole.
+interface Props {
+  src: string; alt: string; width: number; height: number;
+  class?: string;
+}
+const { src, alt, width, height, class: cls = '' } = Astro.props;
+---
+<figure class={`panel__fig ${cls}`} data-layers>
+  <img src={src} alt={alt} width={width} height={height} loading="lazy" />
+  <canvas class="layers__gl" aria-hidden="true"></canvas>
+</figure>
+
+<script>
+  const fig = document.querySelector('[data-layers]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (fig && fine && !reduce) {
+    const img = fig.querySelector('img');
+    const cv = fig.querySelector('.layers__gl');
+
+    const N = 5;                 // depth planes
+    const MAX = 0.03;            // 3% of the figure's width — the doctrine cap
+    const HOME = 0.12;           // ease per frame; settles well inside 700ms
+
+    // Back to front. Each plane owns a slice of the luminance range, and the
+    // brighter the slice the further it travels: the dark ground barely moves,
+    // the lit network moves most, which is what reads as depth rather than as
+    // a smear. Bands are contiguous so at rest they recompose the exact image.
+    const PLANES = Array.from({ length: N }, (_, i) => ({
+      lo: i / N,
+      hi: (i + 1) / N,
+      depth: -0.3 + 1.3 * (i / (N - 1)),
+    }));
+
+    const VERT = `
+      attribute vec2 aPos;
+      varying vec2 vUv;
+      void main(){ vUv = aPos * 0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`;
+
+    const FRAG = `
+      precision mediump float;
+      uniform sampler2D uTex;
+      uniform vec2 uOffset;   // this plane's slide, in uv
+      uniform vec2 uBand;     // luminance slice it owns
+      uniform vec2 uFit;      // replicates object-fit: contain
+      varying vec2 vUv;
+      void main(){
+        vec2 uv = (vUv - 0.5) * uFit + 0.5 + uOffset;
+        uv.y = 1.0 - uv.y;
+        if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) discard;
+        vec4 c = texture2D(uTex, uv);
+        float l = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
+        // small softness: enough to stop banding, tight enough that adjacent
+        // slices still sum to the original where they meet
+        float s = 0.02;
+        float a = smoothstep(uBand.x - s, uBand.x + s, l)
+                * (1.0 - smoothstep(uBand.y - s, uBand.y + s, l));
+        if (a <= 0.001) discard;
+        gl_FragColor = vec4(c.rgb * c.a, c.a) * a;
+      }`;
+
+    const start = () => {
+      const gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false });
+      if (!gl) return false;
+
+      const sh = (type, src) => {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src); gl.compileShader(s);
+        return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+      };
+      const vs = sh(gl.VERTEX_SHADER, VERT), fs = sh(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return false;
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
+      gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const aPos = gl.getAttribLocation(prog, 'aPos');
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+      const tex = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);   // premultiplied
+      gl.clearColor(0, 0, 0, 0);
+
+      const uOffset = gl.getUniformLocation(prog, 'uOffset');
+      const uBand = gl.getUniformLocation(prog, 'uBand');
+      const uFit = gl.getUniformLocation(prog, 'uFit');
+
+      let fitX = 1, fitY = 1;
+      const size = () => {
+        const r = img.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(r.width * dpr);
+        cv.height = Math.round(r.height * dpr);
+        gl.viewport(0, 0, cv.width, cv.height);
+        // object-fit: contain, reproduced so the canvas lines up with the image
+        // element it replaces to the pixel — otherwise the swap on hover jumps.
+        const s = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+        fitX = r.width / (img.naturalWidth * s);
+        fitY = r.height / (img.naturalHeight * s);
+      };
+
+      let tx = 0, ty = 0, cxx = 0, cyy = 0, raf = 0, running = false;
+
+      const draw = () => {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.uniform2f(uFit, fitX, fitY);
+        for (const p of PLANES) {
+          gl.uniform2f(uOffset, cxx * p.depth, cyy * p.depth);
+          gl.uniform2f(uBand, p.lo, p.hi);
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        }
+      };
+
+      const step = () => {
+        cxx += (tx - cxx) * HOME;
+        cyy += (ty - cyy) * HOME;
+        draw();
+        if (Math.abs(tx - cxx) > 1e-5 || Math.abs(ty - cyy) > 1e-5) raf = requestAnimationFrame(step);
+        else { cxx = tx; cyy = ty; draw(); running = false; }
+      };
+      const kick = () => { if (!running) { running = true; raf = requestAnimationFrame(step); } };
+
+      fig.addEventListener('pointermove', (e) => {
+        const r = fig.getBoundingClientRect();
+        if (!r.width) return;
+        const clamp = (v) => (v < -0.5 ? -0.5 : v > 0.5 ? 0.5 : v);
+        tx = clamp((e.clientX - r.left) / r.width - 0.5) * 2 * MAX;
+        ty = clamp((e.clientY - r.top) / r.height - 0.5) * 2 * MAX;
+        kick();
+      }, { passive: true });
+
+      fig.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); }, { passive: true });
+
+      addEventListener('resize', () => { size(); draw(); }, { passive: true });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { cancelAnimationFrame(raf); running = false; }
+      });
+
+      size();
+      draw();
+      fig.classList.add('is-gl');   // only now does the canvas take over
+      return true;
+    };
+
+    const boot = () => { try { start(); } catch { /* leave the plain image element */ } };
+    if (img.complete && img.naturalWidth) boot();
+    else img.addEventListener('load', boot, { once: true });
+  }
+</script>
+
+<style>
+  .layers__gl{position:absolute; inset:0; width:100%; height:100%; display:block;
+    opacity:0; pointer-events:none}
+  /* The swap only happens once WebGL has compiled and drawn a first frame, so a
+     failure at any point above leaves an ordinary photograph. */
+  .panel__fig.is-gl .layers__gl{opacity:1}
+  .panel__fig.is-gl img{visibility:hidden}
+</style>
