@@ -298,33 +298,34 @@ import { STORM_DOOR_URL } from '../consts';
       // no rail at all.
       let triTl = null;
       if (tri && triRail && window.matchMedia('(min-width: 700px)').matches) {
-        const travel = () => Math.max(0, triRail.scrollWidth - window.innerWidth);
-        // ONE tween for the rail, strictly linear. ScrollTrigger's
-        // containerAnimation maps a panel's horizontal position onto this
-        // animation's progress, and that map only exists if the motion is
-        // uniform — an earlier version prepended a "patience" segment that held
-        // still on a default (eased) curve, which is a hazard here.
-        //
-        // So the dwell is bought OUTSIDE the tween: a pin-only trigger holds the
-        // section for a lead-in before the rail is allowed to move at all. That
-        // gives the reader most of a viewport-height of scrolling with WORDS
-        // sitting still and fully visible, while the rail tween stays perfectly
-        // linear.
+        // THE SERPENTINE. Across the top, down the right, back across the
+        // bottom, so the reader turns three corners instead of running one
+        // direction for four screens: down, right, down, left, then down and out.
+        const stepX = () => window.innerWidth;
+        const stepY = () => window.innerHeight;
+        const pathLen = () => stepX() * 2 + stepY();
+
+        // Dwell is bought OUTSIDE the path: a pin-only trigger holds the section
+        // for a lead-in before anything is allowed to move, so the reader gets
+        // most of a viewport of scrolling with WORDS sitting still.
         const LEAD = () => Math.round(window.innerHeight * 0.62);
 
         const pinTrig = ScrollTrigger.create({
           trigger: tri,
           start: 'top top',
-          end: () => '+=' + (LEAD() + travel() * 1.45),
+          end: () => '+=' + (LEAD() + pathLen() * 1.45),
           pin: true,
           invalidateOnRefresh: true,
           anticipatePin: 1,
-          refreshPriority: 1,      // must resolve before the rail reads its range
+          refreshPriority: 1,      // must resolve before the path reads its range
         });
 
-        triTl = gsap.to(triRail, {
-          x: () => -travel(),
-          ease: 'none',
+        // Three equal legs, so each panel sits at a clean third of the timeline
+        // and the panel-window helper below keeps mapping index -> i/3. This can
+        // be a multi-leg timeline now only because nothing reads it through
+        // containerAnimation any more; that API maps a single linear horizontal
+        // tween and cannot survive a path that turns corners.
+        triTl = gsap.timeline({
           scrollTrigger: {
             // Absolute scroll positions taken from the pin, NOT a selector-based
             // start: `tri` is pinned, so ScrollTrigger offsets it by the pin
@@ -336,6 +337,9 @@ import { STORM_DOOR_URL } from '../consts';
             invalidateOnRefresh: true,
           },
         });
+        triTl.to(triRail, { x: () => -stepX(), ease: 'none', duration: 1 })   // right
+             .to(triRail, { y: () => -stepY(), ease: 'none', duration: 1 })   // down
+             .to(triRail, { x: 0, ease: 'none', duration: 1 });               // left
 
         // ── RUBBER BAND ──────────────────────────────────────────────────
         // The rail carries momentum: it runs past where the scroll says it
@@ -355,38 +359,28 @@ import { STORM_DOOR_URL } from '../consts';
           const K = 0.085;     // pull home
           const DAMP = 0.82;   // low enough to overshoot, high enough to settle
           const FEED = 0.30;   // how much scroll momentum becomes spring velocity
-          let prevX = 0, d = 0, v = 0, wrote = false;
+          // Two springs now, one per axis: the path turns corners, so the give
+          // has to follow whichever direction is actually moving.
+          let pX = 0, pY = 0, dx = 0, dy = 0, vx = 0, vy = 0, wrote = false;
 
           gsap.ticker.add(() => {
-            const x = -(triTl.progress() * travel());
-            const dx = x - prevX;
-            prevX = x;
-            v += dx * FEED;          // momentum in
-            v += -K * d;             // spring home
-            v *= DAMP;
-            d += v;
-            if (d > CAP) { d = CAP; v = 0; }
-            else if (d < -CAP) { d = -CAP; v = 0; }
+            const m = new DOMMatrixReadOnly(getComputedStyle(triRail).transform);
+            const mx = m.m41, my = m.m42;
+            vx += (mx - pX) * FEED; pX = mx;
+            vy += (my - pY) * FEED; pY = my;
+            vx += -K * dx; vx *= DAMP; dx += vx;
+            vy += -K * dy; vy *= DAMP; dy += vy;
+            if (dx > CAP) { dx = CAP; vx = 0; } else if (dx < -CAP) { dx = -CAP; vx = 0; }
+            if (dy > CAP) { dy = CAP; vy = 0; } else if (dy < -CAP) { dy = -CAP; vy = 0; }
             // Stop writing once it has settled, so a parked page is not
             // setting the same transform sixty times a second forever.
-            if (Math.abs(d) > 0.05 || Math.abs(v) > 0.05) { gsap.set(spring, { x: d }); wrote = true; }
-            else if (wrote) { gsap.set(spring, { x: 0 }); wrote = false; }
+            const live = Math.abs(dx) > 0.05 || Math.abs(vx) > 0.05
+                      || Math.abs(dy) > 0.05 || Math.abs(vy) > 0.05;
+            if (live) { gsap.set(spring, { x: dx, y: dy }); wrote = true; }
+            else if (wrote) { gsap.set(spring, { x: 0, y: 0 }); wrote = false; }
           });
         }
 
-        // each panel's content comes inward as its panel reaches the screen
-        triRail.querySelectorAll('.panel').forEach((panel) => {
-          gsap.fromTo(panel.querySelector('.panel__body'),
-            { z: -220, opacity: 0.4 },
-            { z: 0, opacity: 1, ease: 'none',
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: triTl,
-                start: 'left 78%',
-                end: 'center 60%',
-                scrub: 0.5,
-              } });
-        });
       }
 
 
@@ -544,6 +538,25 @@ import { STORM_DOOR_URL } from '../consts';
           .to(el, { [prop]: '0em', ease: 'power2.in', duration: 1 });
         return tl;
       };
+
+      // Each panel's content comes inward as its panel arrives. Driven off the
+      // pin window rather than containerAnimation: containerAnimation maps a
+      // panel's HORIZONTAL position onto a single linear tween, which cannot
+      // survive a path that turns corners. This was the last thing holding the
+      // rail to a straight line.
+      document.querySelectorAll('.panel').forEach((panel, i) => {
+        const body = panel.querySelector('.panel__body');
+        if (!body) return;
+        gsap.fromTo(body,
+          { z: -220, opacity: 0.4 },
+          { z: 0, opacity: 1, ease: 'none',
+            scrollTrigger: pinST
+              // Panel 0 is centred AT progress 0, so it has no run-up: its
+              // window opens at the pin and has to be wide enough to ease
+              // rather than snap. It still finishes well inside the lead-in.
+              ? atPanel(i, 0.30, i === 0 ? 0.06 : 0.02)
+              : { trigger: panel, start: 'top 80%', end: 'center 60%', scrub: 0.5 } });
+      });
 
       const chroma = document.querySelector('.panel__word--chroma');
       if (chroma) {
@@ -876,9 +889,19 @@ import { STORM_DOOR_URL } from '../consts';
      squeezed to 219px inside a 347px section, leaving a dead band of ground
      above and below and clipping the bottom of every panel. */
   .tri{position:relative; z-index:2; overflow:hidden; height:100svh; padding-block:0}
-  .tri__spring{height:100%; width:max-content; will-change:transform}
-  .tri__rail{display:flex; height:100%; width:max-content; will-change:transform}
-  .panel{position:relative; flex:none; width:100vw; height:100svh; overflow:hidden;
+  .tri__spring{width:max-content; height:max-content; will-change:transform}
+  /* A 2x2 board, not a strip. The path crosses the top, drops down the right
+     side, and comes back across the bottom, so the reader changes direction
+     three times instead of running one way for four screens. */
+  .tri__rail{display:grid; grid-template-columns:100vw 100vw; grid-template-rows:100svh 100svh;
+    width:200vw; height:200svh; will-change:transform}
+  /* placed explicitly: auto-flow would fill left-to-right on both rows and put
+     the fourth panel under the first, which is a zigzag, not a serpentine */
+  .panel:nth-child(1){grid-area:1 / 1}   /* WORDS  top left   */
+  .panel:nth-child(2){grid-area:1 / 2}   /* CODE   top right  */
+  .panel:nth-child(3){grid-area:2 / 2}   /* MUSIC  bottom right */
+  .panel:nth-child(4){grid-area:2 / 1}   /* BOOK   bottom left  */
+  .panel{position:relative; width:100vw; height:100svh; overflow:hidden;
     display:flex; flex-direction:column; justify-content:center;
     padding:clamp(4rem,8vw,7rem) 6vw clamp(3rem,6vw,5rem)}
   /* the first panel is the one the reader meets mid-stride — give it room */
@@ -962,8 +985,13 @@ import { STORM_DOOR_URL } from '../consts';
   /* below the pin gate the triptych reads as three ordinary stacked sections */
   @media(max-width:699px){
     .tri{height:auto; overflow:visible}
-    .tri__spring{width:100%; transform:none !important}
-    .tri__rail{flex-direction:column; width:100%; transform:none !important}
+    .tri{height:auto}
+    .tri__spring{width:100%; height:auto; transform:none !important}
+    .tri__rail{display:block; width:100%; height:auto; transform:none !important}
+    /* the board collapses back to one column, so the explicit placement above
+       has to be released or the panels stack in grid order, not reading order */
+    .panel:nth-child(1), .panel:nth-child(2),
+    .panel:nth-child(3), .panel:nth-child(4){grid-area:auto}
     .panel{width:100%; height:auto; min-height:auto; padding-block:clamp(3.5rem,10vw,5rem)}
   }
 
