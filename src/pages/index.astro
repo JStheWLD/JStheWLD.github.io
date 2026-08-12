@@ -34,12 +34,15 @@ import { STORM_DOOR_URL } from '../consts';
              interlock, so it can come apart and turn as you scroll -->
         <Mark />
 
-        <p class="hero__name"><span class="rv">Hi, I'm Jonathan Sexton (aka: JS the WLD)</span></p>
+        <p class="hero__name"><span class="rv">Hi. I'm Jonathan. AKA, JS the WLD.</span></p>
 
         <p class="hero__line"><span class="rv rv--2">I make stories with Words, Music, and Code.</span></p>
-
-        <p class="hero__sound"><span class="rv rv--3">&#9834; Sound on. This page plays.</span></p>
       </div>
+
+      <!-- Sits at the fold rather than under the copy, so it reads as a label
+           on the toggle already fixed bottom-centre instead of as a third line
+           of the introduction. -->
+      <p class="hero__sound"><span class="rv rv--3">&#9834; Sound on. This page plays.</span></p>
 
       <a class="cue" href="#words" aria-label="Start"><span aria-hidden="true"></span></a>
     </section>
@@ -661,8 +664,16 @@ import { STORM_DOOR_URL } from '../consts';
   /* A label on the instrument, not a request. It sits at tag size in the
      muted cool step so it reads as chrome rather than as another sentence,
      and points at the toggle already sitting bottom-centre. */
-  .hero__sound{font-family:var(--tw); font-size:.74rem; letter-spacing:.18em;
-    text-transform:uppercase; color:#8C9BA3; margin:clamp(1rem,2.2vw,1.5rem) 0 0}
+  .hero__sound{position:absolute; left:50%; translate:-50% 0; z-index:4; margin:0;
+    bottom:clamp(80px,11vh,108px); white-space:nowrap;
+    font-family:var(--tw); font-size:.74rem; letter-spacing:.18em;
+    text-transform:uppercase; color:#8C9BA3}
+  /* The toggle itself is hidden on small screens, so a label pointing at it
+     would be pointing at nothing. */
+  @media(max-width:620px){ .hero__sound{display:none} }
+  /* On a short viewport the centred copy grows down into the fold and the cue
+     would land on top of the maker line. Measured overlap at 346px tall. */
+  @media(max-height:600px){ .hero__sound{display:none} }
 
   .cue{position:absolute; left:50%; bottom:26px; translate:-50% 0; width:1px; height:44px; z-index:4}
   .cue span{display:block; width:1px; height:100%;
