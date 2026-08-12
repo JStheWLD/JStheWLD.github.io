@@ -34,9 +34,11 @@ import { STORM_DOOR_URL } from '../consts';
              interlock, so it can come apart and turn as you scroll -->
         <Mark />
 
-        <p class="hero__name"><span class="rv">I'm Jonathan Sexton aka JS the WLD.</span></p>
+        <p class="hero__name"><span class="rv">I'm Jonathan Sexton. JS the WLD.</span></p>
 
         <p class="hero__line"><span class="rv rv--2">I make stories with Words, Music, and Code.</span></p>
+
+        <p class="hero__sound"><span class="rv rv--3">&#9834; Sound on. This page plays.</span></p>
       </div>
 
       <a class="cue" href="#words" aria-label="Start"><span aria-hidden="true"></span></a>
@@ -56,12 +58,18 @@ import { STORM_DOOR_URL } from '../consts';
               <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
             </figure>
             <div class="panel__tell">
-              <p class="tag">01 &mdash; The letter</p>
-              <h3>The Storm Door</h3>
-              <p>A letter most Saturday mornings. Life and how it's changing, music and technology, memories and old news.</p>
+              <p class="tag">01 &mdash; The alchemy</p>
+              <h3>Still looking for the alchemy.</h3>
+              <p>I write about music, technology, culture, and the South. How they show up in our lives, how that shapes something else, and how that shape goes on shaping. I connect old things to new things.</p>
+              <p>You can read that work in places like MTV.com. I'm writing my first book: <em>The Sound of Something More</em>.</p>
               <div class="panel__links">
+                <a class="lnk" href="/book">Read about the book</a>
                 <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read the letter</a>
               </div>
+              <blockquote class="pull">
+                <p>&ldquo;JS the WLD is the real deal, a true and refreshing authentic Southern voice.&rdquo;</p>
+                <cite>Kathryn Aalto, New York Times bestselling author</cite>
+              </blockquote>
             </div>
           </div>
         </article>
@@ -78,9 +86,10 @@ import { STORM_DOOR_URL } from '../consts';
               <Layers />
             </figure>
             <div class="panel__tell">
-              <p class="tag tag--lit">02 &mdash; Billy Bob</p>
-              <h3 class="h3--lit">The living memory</h3>
-              <p>A database of American music history you can fly through. Three hundred nodes, three hundred and eighty threads &mdash; every one a line of descent from somebody to somebody.</p>
+              <p class="tag tag--lit">02 &mdash; Digital art</p>
+              <h3 class="h3--lit">Generative art, interactive scrolls.</h3>
+              <p>I make digital art, and I'm always looking for the next possible way to make art and tell a story.</p>
+              <p>This one is Billy Bob: American music history you can fly through, three hundred nodes and three hundred and eighty threads, every one a line of descent from somebody to somebody.</p>
               <div class="panel__links">
                 <a class="lnk lnk--lit" href="/field/first-family/index.html">Open the river</a>
               </div>
@@ -99,9 +108,10 @@ import { STORM_DOOR_URL } from '../consts';
               <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" loading="lazy" />
             </figure>
             <div class="panel__tell">
-              <p class="tag">03 &mdash; Before the pages</p>
-              <h3>The songs came first</h3>
-              <p>A Bonnaroo stage, an O Music Award, and a Guinness World Record he's still a little embarrassed about. He still writes and fronts a band, because some things don't clock out.</p>
+              <p class="tag">03 &mdash; Early 2027</p>
+              <h3>Long Way to Run</h3>
+              <p>Songwriter, performer, singer, guitarist. New EP produced by Cruz Contreras.</p>
+              <p>I've placed songs on TV and in film, and played some big festivals.</p>
             </div>
           </div>
         </article>
@@ -649,6 +659,12 @@ import { STORM_DOOR_URL } from '../consts';
   .hero__tail{font-family:var(--tw); font-size:clamp(.82rem,1.5vw,.98rem); line-height:1.85;
     color:#8C9BA3; max-width:54ch; margin:0 auto}
 
+  /* A label on the instrument, not a request. It sits at tag size in the
+     muted cool step so it reads as chrome rather than as another sentence,
+     and points at the toggle already sitting bottom-centre. */
+  .hero__sound{font-family:var(--tw); font-size:.74rem; letter-spacing:.18em;
+    text-transform:uppercase; color:#8C9BA3; margin:clamp(1rem,2.2vw,1.5rem) 0 0}
+
   .cue{position:absolute; left:50%; bottom:26px; translate:-50% 0; width:1px; height:44px; z-index:4}
   .cue span{display:block; width:1px; height:100%;
     background:linear-gradient(180deg, transparent, var(--lit), transparent);
@@ -835,6 +851,17 @@ import { STORM_DOOR_URL } from '../consts';
   .panel__body--wide{grid-template-columns:1fr !important; max-width:64ch}
 
   .panel__tell{max-width:52ch}
+
+  /* THE PULL QUOTE. The only place on this page where a voice other than his
+     own speaks, so it changes FACE rather than just getting louder: the display
+     grotesque against the Courier body copy around it. Both clamp endpoints are
+     documented type steps, and the hairline uses the chrome scrim set. */
+  .pull{margin:clamp(1.4rem,3vw,2.2rem) 0 0; padding-top:clamp(1rem,2.2vw,1.5rem);
+    border-top:1px solid rgba(51,48,58,.42)}
+  .pull p{font-family:var(--grot); font-weight:800; font-size:clamp(1.2rem,3.2vw,2.3rem);
+    line-height:1.2; letter-spacing:-.03em; margin:0 0 .8rem; text-wrap:balance}
+  .pull cite{font-family:var(--tw); font-style:normal; font-size:.7rem; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--rust)}
   .panel__links{display:flex; gap:clamp(1rem,2.4vw,2rem); flex-wrap:wrap}
 
   /* below the pin gate the triptych reads as three ordinary stacked sections */
