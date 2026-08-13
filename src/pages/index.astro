@@ -158,7 +158,8 @@ import { STORM_DOOR_URL } from '../consts';
       </div>
     </section>
 
-    <!-- ══ 06 CLOSE ══ -->
+    <!-- ══ 06 CLOSE — arrives from the right, the last turn ══ -->
+    <div class="endwrap" data-endwrap>
     <section class="end" id="the-storm-door" data-hud="The Storm Door" aria-label="Subscribe">
       <Well variant="bed" />
       <Texture tone="dark" />
@@ -173,6 +174,7 @@ import { STORM_DOOR_URL } from '../consts';
       </div>
       <p class="colophon">JS the WLD &mdash; the pen name of Jonathan Sexton &mdash; East Tennessee, by way of Nashville</p>
     </section>
+    </div>
   </main>
 
   <script>
@@ -620,6 +622,33 @@ import { STORM_DOOR_URL } from '../consts';
             ease: 'power3.out', stagger: 0.085, scrollTrigger: st });
       });
 
+      // ── THE LAST TURN ────────────────────────────────────────────────────
+      // The close arrives from the right, so the page reads down, right, down,
+      // left, down, right rather than ending on a second screen of scrolling
+      // down. Its wrapper pins for one viewport and the section travels across
+      // a paper ground.
+      //
+      // Only the close is a travelling panel. The Jonathan act ahead of it is
+      // taller than a viewport at desktop sizes, so putting the pair in a rail
+      // together would clip it; sliding the close OVER a matching ground gets
+      // the same turn without touching that section's layout.
+      const endWrap = document.querySelector('[data-endwrap]');
+      const endSec = endWrap && endWrap.querySelector('.end');
+      if (endWrap && endSec && window.matchMedia('(min-width: 700px)').matches) {
+        gsap.fromTo(endSec,
+          { xPercent: 100 },
+          { xPercent: 0, ease: 'none',
+            scrollTrigger: {
+              trigger: endWrap,
+              start: 'top top',
+              end: () => '+=' + Math.round(window.innerHeight * 1.15),
+              pin: true,
+              scrub: 0.8,
+              invalidateOnRefresh: true,
+              anticipatePin: 1,
+            } });
+      }
+
       // ── CODE: the word scrambles, then resolves ──────────────────────────
       const scr = document.querySelector('.panel__word--scramble span');
       if (scr) {
@@ -985,6 +1014,8 @@ import { STORM_DOOR_URL } from '../consts';
   /* below the pin gate the triptych reads as three ordinary stacked sections */
   @media(max-width:699px){
     .tri{height:auto; overflow:visible}
+    .endwrap{height:auto; overflow:visible}
+    .end{position:static; transform:none !important}
     .tri{height:auto}
     .tri__spring{width:100%; height:auto; transform:none !important}
     .tri__rail{display:block; width:100%; height:auto; transform:none !important}
@@ -1007,7 +1038,14 @@ import { STORM_DOOR_URL } from '../consts';
     88%{opacity:.55} 100%{transform:scaleX(1); opacity:0}}
 
   /* ══════ 06 END ══════ */
-  .end{position:relative; overflow:hidden; background:#0A0C10; color:#E9E4D8;
+  /* The last turn. The close travels in from the right across a paper ground,
+     so the final move is sideways rather than a sixth screen of scrolling down.
+     Only the close has to fit one viewport for this to work: the Jonathan act
+     before it stays a normal, taller, vertically scrolling section, which is why
+     it is not in a rail with it. */
+  .endwrap{position:relative; height:100svh; overflow:hidden; background:var(--paper)}
+  .end{position:absolute; inset:0; display:grid; align-content:center;
+    overflow:hidden; background:#0A0C10; color:#E9E4D8;
     padding:clamp(5rem,12vw,9rem) 5vw clamp(2.5rem,5vw,3.5rem); text-align:center}
   .end__body{position:relative; z-index:2; max-width:760px; margin:0 auto; perspective:1100px}
   .end__art{max-width:420px; margin:0 auto clamp(2rem,4vw,3rem)}
