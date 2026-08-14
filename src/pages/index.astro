@@ -72,13 +72,11 @@ import { STORM_DOOR_URL } from '../consts';
               <img src="/assets/portrait.jpg" alt="Jonathan Sexton seated on a red couch, a lamp glowing beside him." width="1000" height="1500" loading="lazy" />
             </figure>
             <div class="panel__tell">
-              <p class="tag">01 &mdash; The alchemy</p>
-              <h3>Finding the thread between old, new, and next.</h3>
-              <p>I write about music, technology, culture, and the South. The unexpected ways they show up in our lives, how that shapes something else, that shapes something else.</p>
-              <p class="aside">Turtles all the way down.</p>
+              <p class="tag">01 &mdash; The thread between old and new</p>
+              <p>I write about music, technology, culture, and the South. The unexpected ways they show up in our lives, how that shapes something else, that shapes something else&hellip; turtles all the way down.</p>
               <p>You can find my work in places like MTV.com and Substack.</p>
               <div class="panel__links">
-                <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read my words</a>
+                <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read my Substack</a>
               </div>
             </div>
           </div>
@@ -96,10 +94,9 @@ import { STORM_DOOR_URL } from '../consts';
               <Layers />
             </figure>
             <div class="panel__tell">
-              <p class="tag tag--lit">02 &mdash; Digital Experiences</p>
-              <h3 class="h3--lit">Tracing patterns with generative art</h3>
-              <p>I make interactive installations and data visualizations to fascinate and educate.</p>
-              <p>The newest piece is <em>The Lomax Trail</em>: a hundred and fifty years of American song drawn as one river, where almost everything you listen to flows back up to a Lomax field recording.</p>
+              <p class="tag tag--lit">02 &mdash; Generative Art</p>
+              <p>I make digital installations that trace influence over time.</p>
+              <p>The newest piece is <em>The Lomax Trail</em>: a hundred and fifty years of American song drawn off of one trailhead, where almost everything you hear flows back up to a Lomax field recording.</p>
               <div class="panel__links">
                 <a class="lnk lnk--lit" href="/field/lomax/">Open the river</a>
               </div>
@@ -381,7 +378,7 @@ import { STORM_DOOR_URL } from '../consts';
             // end of the pin — the rail then never moved at all.
             start: () => pinTrig.start + LEAD(),
             end: () => pinTrig.end,
-            scrub: 0.8,
+            scrub: 1.1,
             invalidateOnRefresh: true,
           },
         });
@@ -403,10 +400,12 @@ import { STORM_DOOR_URL } from '../consts';
         // underneath stays exactly where the scroll put it.
         const spring = tri.querySelector('[data-tri-spring]');
         if (spring) {
-          const CAP = 20;      // px — a give, not a slide
-          const K = 0.085;     // pull home
-          const DAMP = 0.78;   // settles quicker; the wobble was outstaying it
-          const FEED = 0.16;   // how much scroll momentum becomes spring velocity
+          const CAP = 12;      // px — a give, not a slide
+          const K = 0.075;     // pull home
+          const DAMP = 0.62;   // near critical: it lags and settles instead of
+                               // oscillating. Higher values keep energy in the
+                               // spring, which is what read as bouncy.
+          const FEED = 0.11;   // how much scroll momentum becomes spring velocity
           // Two springs now, one per axis: the path turns corners, so the give
           // has to follow whichever direction is actually moving.
           let pX = 0, pY = 0, dx = 0, dy = 0, vx = 0, vy = 0, wrote = false;
@@ -821,11 +820,11 @@ import { STORM_DOOR_URL } from '../consts';
   :global(.js) .rv--4{animation-delay:3200ms}
   @keyframes rvIn{to{clip-path:inset(0 0 0 0); opacity:1}}
 
-  .hero__name{font-family:var(--tw); font-size:clamp(.72rem,1.5vw,.86rem); letter-spacing:.2em;
+  .hero__name{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem); letter-spacing:.2em;
     text-transform:uppercase; color:#9FB0B8; margin:0 0 clamp(.35rem,.8vw,.55rem)}
   /* The alias on its own line, tracked wider and lit, so it reads as the name
      he goes by rather than as a trailing clause on the introduction. */
-  .hero__aka{font-family:var(--tw); font-size:clamp(.72rem,1.5vw,.86rem); letter-spacing:.34em;
+  .hero__aka{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem); letter-spacing:.34em;
     text-transform:uppercase; color:var(--lit); margin:0 0 clamp(.9rem,2vw,1.4rem)}
 
   /* the maker line — one sentence, small, the three crafts carrying the color */
@@ -993,7 +992,13 @@ import { STORM_DOOR_URL } from '../consts';
   .panel--dusk{background:var(--dusk); color:#E9E4D8}
   .panel--wire{background:var(--wire-bg); color:#DFF2F8}
 
-  .panel__word{position:relative; z-index:2; margin:0 0 clamp(1rem,2.4vw,2rem); overflow:hidden}
+  /* flex:none is load-bearing. .panel is a flex column of fixed height, and a
+     flex item carrying overflow:hidden is free to be shrunk to nothing — so as
+     soon as the panel's contents outgrew its height, the act word was crushed
+     to a 0px box and its own overflow clipped every glyph. It read as the word
+     being cut off. It must hold its size and let the column give elsewhere. */
+  .panel__word{position:relative; z-index:2; flex:none;
+    margin:0 0 clamp(1rem,2.4vw,2rem); overflow:hidden}
   .panel__word span{display:block; font-family:var(--grot); font-weight:900;
     font-size:clamp(2.6rem,11vw,8rem); letter-spacing:-.055em; line-height:.86;
     color:currentColor; opacity:.14}
@@ -1068,8 +1073,16 @@ import { STORM_DOOR_URL } from '../consts';
   /* the aside inside a tell: a punchline, so it changes face rather than size */
   .aside{font-family:var(--grot); font-weight:800; font-size:1.2rem;
     letter-spacing:-.02em; margin:0 0 1rem}
-  .pull--amber cite, .pull--amber p{color:inherit}
+  /* A quote set INSIDE a panel is part of the copy and takes the copy's size.
+     Only a quote with a panel to itself is allowed to be a monument. */
+  /* Doubled class deliberately: the generic .pull p rule is declared LATER in
+     this sheet, and at equal specificity source order wins — so a single class
+     here lost and the quote kept the monument size. */
   .pull--amber{border-top-color:rgba(199,169,111,.55)}
+  .pull.pull--amber p{font-family:var(--tw); font-weight:400;
+    font-size:clamp(.86rem,1.5vw,1rem); line-height:1.9; letter-spacing:0;
+    color:inherit}
+  .pull.pull--amber cite{color:inherit}
 
   .panel__tell{max-width:52ch; perspective:900px}
 
