@@ -73,14 +73,17 @@ const { count = 9 } = Astro.props;
     };
     const start = () => { if (!running && !reduce) { running = true; raf = requestAnimationFrame(step); } };
 
-    const strike = (i, dir) => {
+    const strike = (i, dir, order) => {
       const now = performance.now();
       if (now - lastAt[i] < 55) return;          // no faster than a hand could
       lastAt[i] = now;
       bend[i] = 0;
       vel[i] = dir * 3.4;                        // the hit is a velocity, not a position
-      // Thicker string: quieter, darker, and it hangs on longer.
-      window.__harp?.pluck(HZ[i], { gain: 0.72, tone: 1450, seconds: 3.4, decay: 0.9976 });
+      // Handbells, spread in time. A fast drag can cross several at once, and
+      // firing them on the same sample is a chord landing flat, not a strum —
+      // this was the main thing making the run sound harsh. 45ms apart is about
+      // as fast as a hand can actually travel across a table of bells.
+      window.__harp?.bell(HZ[i], { gain: 0.85, seconds: 5.2, when: (order || 0) * 0.045 });
       start();
     };
 
@@ -101,9 +104,10 @@ const { count = 9 } = Astro.props;
         // actually reached. Iterating left-to-right regardless meant a fast
         // downstroke still sounded low-to-high — an upstroke's pitch order
         // played back under a downstroke's gesture.
+        let order = 0;
         for (let n = 0; n < N; n++) {
           const i = dir === 1 ? n : N - 1 - n;
-          if ((prevX < X[i] && x >= X[i]) || (prevX > X[i] && x <= X[i])) strike(i, dir);
+          if ((prevX < X[i] && x >= X[i]) || (prevX > X[i] && x <= X[i])) strike(i, dir, order++);
         }
       }
       prevX = x;

@@ -95,6 +95,60 @@
       src.stop(ctx.currentTime + seconds);
     };
 
+    // one struck handbell
+    //
+    // A bell is not a string, so Karplus-Strong is the wrong model: a plucked
+    // string's partials are whole-number multiples of its fundamental, while a
+    // bell's are not, and that inharmonicity IS the sound of metal. Built by
+    // addition instead, one sine per partial.
+    //
+    // Tuned as a HANDBELL rather than a tower bell. A handbell's first overtone
+    // is a twelfth above the fundamental; a tower bell's is a minor third,
+    // which is what makes big church bells sound dark and mournful. The twelfth
+    // is why a handbell choir rings sweet.
+    const bell = (hz, opt) => {
+      if (!ctx || ctx.state !== 'running') return;
+      const { gain = 1, seconds = 5.2, when = 0 } = opt || {};
+      const t0 = ctx.currentTime + when;
+      const PARTIALS = [
+        { r: 0.5, a: 0.16, d: 1.00 },   // hum, quietest and longest
+        { r: 1.0, a: 1.00, d: 0.92 },   // the note you hear
+        { r: 2.0, a: 0.24, d: 0.55 },
+        { r: 3.0, a: 0.42, d: 0.48 },   // the twelfth — the handbell's signature
+        { r: 4.0, a: 0.10, d: 0.30 },
+        { r: 6.0, a: 0.12, d: 0.22 },
+        { r: 8.4, a: 0.05, d: 0.10 },   // deliberately not a whole multiple
+      ];
+      const out = ctx.createGain();
+      out.gain.value = 0.4 * gain;
+      out.connect(bus);
+      for (const p of PARTIALS) {
+        const o = ctx.createOscillator();
+        o.type = 'sine';
+        o.frequency.value = hz * p.r;
+        const g = ctx.createGain();
+        const dur = seconds * p.d;
+        // exponential both ways: a bell strikes almost instantly and then dies
+        // away on a curve, and a linear fade sounds like a synthesiser instead
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(p.a, t0 + 0.006);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+        o.connect(g); g.connect(out);
+        o.start(t0); o.stop(t0 + dur + 0.02);
+      }
+      // the clapper: a short filtered tick, so the note lands rather than fades in
+      const n = ctx.createBufferSource();
+      const nb = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * 0.03), ctx.sampleRate);
+      const nd = nb.getChannelData(0);
+      for (let i = 0; i < nd.length; i++) nd[i] = (Math.random() * 2 - 1) * (1 - i / nd.length);
+      n.buffer = nb;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass'; bp.frequency.value = hz * 5; bp.Q.value = 1.2;
+      const ng = ctx.createGain(); ng.gain.value = 0.13 * gain;
+      n.connect(bp); bp.connect(ng); ng.connect(out);
+      n.start(t0); n.stop(t0 + 0.05);
+    };
+
     // ── THE INSTRUMENT, SHARED ──────────────────────────────────────────
     // Other surfaces play through this rather than standing up their own audio.
     // One AudioContext, one unlock gesture, one toggle: the page is a single
@@ -102,6 +156,7 @@
     // context would also mean a second unlock, which the reader never agreed to.
     window.__harp = {
       pluck: (hz, opt) => { if (on) pluck(hz, opt); },
+      bell: (hz, opt) => { if (on) bell(hz, opt); },
       get on() { return on; },
     };
 

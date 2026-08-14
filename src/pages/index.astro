@@ -16,7 +16,6 @@ import { STORM_DOOR_URL } from '../consts';
   <a class="seal" href="/" aria-label="JS the WLD, home">
     <img src="/assets/bird-white.png" alt="" width="18" height="18" />
   </a>
-  <a class="hud hud--tr" href={STORM_DOOR_URL} rel="noopener"><span>The Storm Door</span></a>
   <div class="hud hud--bl" aria-hidden="true"><span data-hud>Words / Music / Code</span></div>
   <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
   <Spine stops={["Words", "Code", "Music", "Jonathan", "The Storm Door"]} />
@@ -34,20 +33,31 @@ import { STORM_DOOR_URL } from '../consts';
              interlock, so it can come apart and turn as you scroll -->
         <Mark />
 
-        <p class="hero__name"><span class="rv">Hi. I'm Jonathan. AKA, JS the WLD.</span></p>
+        <p class="hero__name"><span class="rv">Hi. I'm Jonathan.</span></p>
 
-        <p class="hero__line"><span class="rv rv--2">I make stories with Words, Music, and Code.</span></p>
+        <p class="hero__aka"><span class="rv rv--2">AKA JS the WLD</span></p>
+
+        <p class="hero__line"><span class="rv rv--3">I make stories with Words, Music, and Code.</span></p>
       </div>
 
       <!-- Sits at the fold rather than under the copy, so it reads as a label
            on the toggle already fixed bottom-centre instead of as a third line
            of the introduction. -->
-      <p class="hero__sound"><span class="rv rv--3">&#9834; Sound on. This page plays.</span></p>
+      <p class="hero__sound"><span class="rv rv--4">&#9834; Sound on. This page plays.</span></p>
 
       <a class="cue" href="#words" aria-label="Start"><span aria-hidden="true"></span></a>
     </section>
 
-    <!-- ══ 02–04 THE TRIPTYCH — the three crafts run left to right ══ -->
+    <!-- ══ 02 THE WORD ON HIM — its own room, so it is not a footnote ══ -->
+    <section class="say" aria-label="Praise">
+      <Texture tone="dark" />
+      <blockquote class="say__quote">
+        <p>&ldquo;JS the WLD is the real deal. An authentic, refreshing Southern voice.&rdquo;</p>
+        <cite>Kathryn Aalto, New York Times bestselling author</cite>
+      </blockquote>
+    </section>
+
+    <!-- ══ 03–05 THE TRIPTYCH — the three crafts run left to right ══ -->
     <section class="tri" id="words" data-tri aria-label="Words, Code and Music">
       <div class="tri__spring" data-tri-spring>
       <div class="tri__rail" data-tri-rail>
@@ -63,16 +73,13 @@ import { STORM_DOOR_URL } from '../consts';
             </figure>
             <div class="panel__tell">
               <p class="tag">01 &mdash; The alchemy</p>
-              <h3>Finding the thread between old and new</h3>
-              <p>I write about music, technology, culture, and the South. How they show up in our lives, how that shapes something else, and how that shape goes on shaping.</p>
-              <p>You can read that work in places like MTV.com. I'm writing my first book: <em>The Sound of Something More</em>.</p>
+              <h3>Finding the thread between old, new, and next.</h3>
+              <p>I write about music, technology, culture, and the South. The unexpected ways they show up in our lives, how that shapes something else, that shapes something else.</p>
+              <p class="aside">Turtles all the way down.</p>
+              <p>You can find my work in places like MTV.com and Substack.</p>
               <div class="panel__links">
                 <a class="lnk" href={STORM_DOOR_URL} rel="noopener">Read my words</a>
               </div>
-              <blockquote class="pull">
-                <p>&ldquo;JS the WLD is the real deal. An authentic, refreshing Southern voice.&rdquo;</p>
-                <cite>Kathryn Aalto, New York Times bestselling author</cite>
-              </blockquote>
             </div>
           </div>
         </article>
@@ -89,10 +96,10 @@ import { STORM_DOOR_URL } from '../consts';
               <Layers />
             </figure>
             <div class="panel__tell">
-              <p class="tag tag--lit">02 &mdash; Digital art</p>
-              <h3 class="h3--lit">Generative art, interactive scrolls</h3>
-              <p>I make digital art, and I'm always looking for the next possible way to make art and tell a story.</p>
-              <p>The newest is <em>The River of Lomax</em>: a hundred and fifty years of American song drawn as one river, where almost everything you listen to flows back up to a Lomax field recording.</p>
+              <p class="tag tag--lit">02 &mdash; Digital Experiences</p>
+              <h3 class="h3--lit">Tracing patterns with generative art</h3>
+              <p>I make interactive installations and data visualizations to fascinate and educate.</p>
+              <p>The newest piece is <em>The Lomax Trail</em>: a hundred and fifty years of American song drawn as one river, where almost everything you listen to flows back up to a Lomax field recording.</p>
               <div class="panel__links">
                 <a class="lnk lnk--lit" href="/field/lomax/">Open the river</a>
               </div>
@@ -111,12 +118,13 @@ import { STORM_DOOR_URL } from '../consts';
               <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="1333" height="2000" loading="lazy" />
             </figure>
             <div class="panel__tell">
-              <p class="tag">03 &mdash; Early 2027</p>
-              <h3>Long Way to Run</h3>
-              <p>Songwriter, performer, singer, guitarist. New EP produced by Cruz Contreras.</p>
-              <p>I've placed songs on TV and in film, and played some big festivals.</p>
+              <p class="tag">03 &mdash; Performing Artist</p>
+              <blockquote class="pull pull--amber">
+                <p>&ldquo;Imagine Little Feat and Bleachers made a record together. That's JS the WLD.&rdquo;</p>
+              </blockquote>
+              <p>New EP <em>Long Way to Run</em>, produced by Cruz Contreras, out in 2027 on Baked Alaska Records.</p>
               <div class="panel__links">
-                <a class="lnk lnk--amber" href="https://www.youtube.com/watch?v=M_LTKnkf4b4" rel="noopener">Watch the band</a>
+                <a class="lnk lnk--amber" href="https://www.youtube.com/watch?v=M_LTKnkf4b4" rel="noopener">Listen to the band</a>
               </div>
             </div>
           </div>
@@ -131,7 +139,8 @@ import { STORM_DOOR_URL } from '../consts';
             <div class="panel__tell">
               <p class="tag">04 &mdash; Years in the making</p>
               <h3>The Sound of Something More</h3>
-              <p>Where songs come from, where they go, and where they take us. Written under the mentorship of New York Times bestselling author Kathryn Aalto.</p>
+              <p><em>The Sound of Something More</em> is the inaugural literary work from JS the WLD, likening the undeniable power of song, with high wit and high wisdom, to elemental forces such as dreams and prayers.</p>
+              <p>It weaves personal narrative, cultural history, and philosophical inquiry to explore music as a force that shapes who we are, and the patterns that ripple across generations.</p>
               <div class="panel__links">
                 <a class="lnk" href="/book">About the book</a>
               </div>
@@ -152,10 +161,11 @@ import { STORM_DOOR_URL } from '../consts';
           <img src="/assets/hero.jpg" alt="Jonathan Sexton at a wood-paneled bar in warm lamplight." width="1333" height="2000" loading="lazy" />
         </figure>
         <div class="tell">
-          <p class="tag">05 &mdash; Who's back here</p>
-          <h3>East Tennessee, by way of Nashville</h3>
-          <p>Grew up up the road from where Dolly did. His dad handed him records and told him who played on them before he could read, and it mostly stuck.</p>
-          <p>He taught school, built a few companies, worked in technology, and studied AI at MIT.</p>
+          <p class="tag">05 &mdash; About JS the WLD</p>
+          <h3>In a world of ones and zeros, we still need three chords and the truth.</h3>
+          <p>I live in Nashville, but I grew up in the same East Tennessee mountains that gave us Dolly Parton.</p>
+          <p>I'm an endless creative who had to learn a lot of ways to keep food on the table. Public school teacher, touring musician, award-winning software entrepreneur, blockchain and AI expert. Along the way I picked up an MTV O Music Award, a Guinness World Record, and a Napster download history I still won't own up to.</p>
+          <p>I'm obsessed with carrying the best of our old ways into the best of the new ones, without losing what makes us human.</p>
           <a class="lnk" href="/about">More about Jonathan</a>
         </div>
       </div>
@@ -360,10 +370,10 @@ import { STORM_DOOR_URL } from '../consts';
         // underneath stays exactly where the scroll put it.
         const spring = tri.querySelector('[data-tri-spring]');
         if (spring) {
-          const CAP = 48;      // px — a give, not a slide
+          const CAP = 20;      // px — a give, not a slide
           const K = 0.085;     // pull home
-          const DAMP = 0.82;   // low enough to overshoot, high enough to settle
-          const FEED = 0.30;   // how much scroll momentum becomes spring velocity
+          const DAMP = 0.78;   // settles quicker; the wobble was outstaying it
+          const FEED = 0.16;   // how much scroll momentum becomes spring velocity
           // Two springs now, one per axis: the path turns corners, so the give
           // has to follow whichever direction is actually moving.
           let pX = 0, pY = 0, dx = 0, dy = 0, vx = 0, vy = 0, wrote = false;
@@ -774,11 +784,16 @@ import { STORM_DOOR_URL } from '../consts';
   :global(.js) .rv{clip-path:inset(0 100% 0 0); opacity:0;
     animation:rvIn 1000ms cubic-bezier(.16,1,.3,1) 1200ms forwards}
   :global(.js) .rv--2{animation-delay:1650ms}
-  :global(.js) .rv--3{animation-delay:3000ms}
+  :global(.js) .rv--3{animation-delay:2150ms}
+  :global(.js) .rv--4{animation-delay:3200ms}
   @keyframes rvIn{to{clip-path:inset(0 0 0 0); opacity:1}}
 
   .hero__name{font-family:var(--tw); font-size:clamp(.72rem,1.5vw,.86rem); letter-spacing:.2em;
-    text-transform:uppercase; color:#9FB0B8; margin:0 0 clamp(.7rem,1.6vw,1.1rem)}
+    text-transform:uppercase; color:#9FB0B8; margin:0 0 clamp(.35rem,.8vw,.55rem)}
+  /* The alias on its own line, tracked wider and lit, so it reads as the name
+     he goes by rather than as a trailing clause on the introduction. */
+  .hero__aka{font-family:var(--tw); font-size:clamp(.72rem,1.5vw,.86rem); letter-spacing:.34em;
+    text-transform:uppercase; color:var(--lit); margin:0 0 clamp(.9rem,2vw,1.4rem)}
 
   /* the maker line — one sentence, small, the three crafts carrying the color */
   .hero__line{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem); line-height:1.75;
@@ -1003,6 +1018,26 @@ import { STORM_DOOR_URL } from '../consts';
 
   /* Its own camera, so the lines can turn as they arrive. Perspective on
      .panel__body reaches this element but not its children. */
+  /* THE WORD ON HIM. Dusk, deliberately: the hero is wire and WORDS is paper,
+     so putting this on paper would mean two paper grounds meeting with no cut
+     between them. A warm dark here keeps the hard edge where it belongs, on
+     the way into WORDS. */
+  .say{position:relative; overflow:hidden; background:var(--dusk); color:#E9E4D8;
+    min-height:62svh; display:grid; place-items:center;
+    padding:clamp(4rem,10vw,7rem) 6vw}
+  .say__quote{position:relative; z-index:2; margin:0; max-width:26ch; text-align:center}
+  .say__quote p{font-family:var(--grot); font-weight:800; font-size:clamp(1.2rem,4.4vw,2.3rem);
+    line-height:1.18; letter-spacing:-.03em; margin:0 0 clamp(1rem,2.2vw,1.5rem);
+    text-wrap:balance}
+  .say__quote cite{font-family:var(--tw); font-style:normal; font-size:.7rem;
+    letter-spacing:.2em; text-transform:uppercase; color:var(--amber)}
+
+  /* the aside inside a tell: a punchline, so it changes face rather than size */
+  .aside{font-family:var(--grot); font-weight:800; font-size:1.2rem;
+    letter-spacing:-.02em; margin:0 0 1rem}
+  .pull--amber cite, .pull--amber p{color:inherit}
+  .pull--amber{border-top-color:rgba(199,169,111,.55)}
+
   .panel__tell{max-width:52ch; perspective:900px}
 
   /* THE PULL QUOTE. The only place on this page where a voice other than his
