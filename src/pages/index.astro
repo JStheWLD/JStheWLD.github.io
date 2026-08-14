@@ -202,6 +202,39 @@ import { STORM_DOOR_URL } from '../consts';
       document.addEventListener('visibilitychange', () => { if (document.hidden) settle(); });
     }
 
+    // ── LAZY LOADING CANNOT SEE INSIDE A PINNED RAIL ────────────────────────
+    // Three of the four panels sit at grid positions outside the viewport and
+    // are brought in by a transform on the rail, not by the document scrolling
+    // them into view. The browser's lazy heuristic therefore decides they are
+    // permanently off screen and never fetches them. Measured: walking the
+    // entire pinned section start to finish loaded NONE of the photographs.
+    //
+    // It is not only the rail. The close is absolutely positioned and slid in,
+    // and every .grow figure sits under its own translateZ(-520px) until it is
+    // revealed — the About portrait failed to load even with the section
+    // scrolled fully into view. ANY transformed ancestor defeats the heuristic,
+    // so the sweep covers every lazy image in main rather than guessing which
+    // containers move. There are five; the cost of being right is nothing.
+    //
+    // So they are promoted to eager once the hero has had its moment: on the
+    // reader's first scroll, or shortly after load, whichever comes first.
+    // Reassigning src is what actually starts the fetch; flipping the attribute
+    // alone does not re-run the decision on an image the parser already saw.
+    let lifted = false;
+    const lift = () => {
+      if (lifted) return;
+      lifted = true;
+      removeEventListener('scroll', lift);
+      removeEventListener('wheel', lift);
+      removeEventListener('touchstart', lift);
+      document.querySelectorAll('main img[loading="lazy"]')
+        .forEach((im) => { im.loading = 'eager'; if (!im.complete) im.src = im.src; });
+    };
+    addEventListener('scroll', lift, { passive: true });
+    addEventListener('wheel', lift, { passive: true });
+    addEventListener('touchstart', lift, { passive: true });
+    setTimeout(lift, 1800);
+
     // ── Scroll-linked arrivals ──────────────────────────────────────────────
     // Every element carries `.in` as its END state. Under reduced motion (or if
     // the motion stack never boots) we simply add it and stop — the page is
@@ -1112,6 +1145,18 @@ import { STORM_DOOR_URL } from '../consts';
     :global(.js) .grow, :global(.js) .tell, :global(.js) .act__word span, :global(.js) .panel__body{
       opacity:1; transform:none; clip-path:none; filter:none; animation:none; transition:none}
     .cue span, .wire span{animation:none}
+    /* THE BOARD COMES APART. Without this the rail keeps its 2x2 grid inside a
+       one-viewport clip while nothing is left to move it, so WORDS is all a
+       reduced-motion reader ever sees and CODE, MUSIC and THE BOOK are
+       unreachable. Same collapse the narrow-screen fallback performs. */
+    .tri{height:auto; overflow:visible}
+    .tri__spring{width:100%; height:auto; transform:none !important}
+    .tri__rail{display:block; width:100%; height:auto; transform:none !important}
+    .panel:nth-child(1), .panel:nth-child(2),
+    .panel:nth-child(3), .panel:nth-child(4){grid-area:auto}
+    .panel{width:100%; height:auto; min-height:auto}
+    .endwrap{height:auto; overflow:visible}
+    .end{position:static; transform:none !important}
     /* the reel becomes an ordinary swipeable row — no pin, no forced travel */
     /* the canvas well and the texture layers are guarded inside their own
        components — Astro scoping means index.astro cannot reach them. */
