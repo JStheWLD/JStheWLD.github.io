@@ -115,6 +115,9 @@ import { STORM_DOOR_URL } from '../consts';
               <h3>Long Way to Run</h3>
               <p>Songwriter, performer, singer, guitarist. New EP produced by Cruz Contreras.</p>
               <p>I've placed songs on TV and in film, and played some big festivals.</p>
+              <div class="panel__links">
+                <a class="lnk lnk--amber" href="https://www.youtube.com/watch?v=M_LTKnkf4b4" rel="noopener">Watch the band</a>
+              </div>
             </div>
           </div>
         </article>
@@ -898,6 +901,9 @@ import { STORM_DOOR_URL } from '../consts';
     transition:border-color 700ms ease, color 700ms ease}
   .lnk:hover{color:#C1512A}
   .lnk--lit{border-color:var(--lit)} .lnk--lit:hover{color:var(--lit)}
+  /* Amber, not the default rust: DESIGN.md gives amber to links on dusk
+     grounds and keeps rust for paper. */
+  .lnk--amber{border-color:var(--amber)} .lnk--amber:hover{color:var(--amber)}
   /* the lightform capture is wide, not a 4:5 portrait */
   .grow--f{--tilt:0deg}
   /* deliberate exceptions: wide artworks, not portraits */
