@@ -132,7 +132,15 @@ import { STORM_DOOR_URL } from '../consts';
         <article class="panel panel--book" data-hud="The Book">
           <Noise tone="#C1512A" seed={9091} scale={0.045} speed={0.045} strength={0.5} blend="multiply" />
           <h2 class="panel__word" aria-hidden="true"><span>THE BOOK</span></h2>
-          <div class="panel__body panel__body--wide">
+          <div class="panel__body">
+            {/* PLACEHOLDER. The Storm Door cover frame standing in until the book
+                has an image of its own. Shown whole rather than cropped: the
+                banner carries the Storm Door wordmark across its lower third
+                and the JS·THE·WLD mark top-right, and a portrait crop would
+                slice into brand marks that do not belong on this panel. */}
+            <figure class="panel__fig is-wide">
+              <img src="/assets/storm-door/cover-banner-storm-lower-jswld-topright-1600x600.png" alt="A silhouetted figure standing in a lit doorway." width="1600" height="600" loading="lazy" />
+            </figure>
             <div class="panel__tell">
               <p class="tag">04 &mdash; Years in the making</p>
               <h3>The Sound of Something More</h3>
