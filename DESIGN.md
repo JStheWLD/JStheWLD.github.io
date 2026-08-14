@@ -238,11 +238,13 @@ Surfaces answer the hand, and each answers in its own medium: the strands sound,
 **The Small-Answer Rule.** Tilt sits around **6 degrees**, separation around **3% of the element's own width**, and both come home within about 700ms of being left alone. Somewhere past ten degrees the surface stops answering and starts performing — that crossing is the real rule, and the figures are only where it comfortably sits. The answer should be noticed on the second look, not the first.
 
 ### The Instrument
-The brand has one instrument, and it is a plucked string. However many playable surfaces exist, they are registers of that one instrument rather than separate voices — and there is one permission, asked once. Sound never begins on its own, in any medium: not on a page, not on a stand, not in a room someone walked into.
+The brand has one instrument in two voices: a plucked string and a struck bell. However many playable surfaces exist, they are voices and registers of that one instrument rather than instruments of their own — and there is one permission, asked once. Sound never begins on its own, in any medium: not on a page, not on a stand, not in a room someone walked into.
 
-Everything is tuned to **G mixolydian**, the key and mode Southern rock lives in. This is a key and a mode, never a melody: no song is encoded anywhere in this brand. Registers stack rather than transpose — high strings against low ones — so any two surfaces struck together stay inside the harmony.
+Everything is tuned to **G mixolydian**, the key and mode Southern rock lives in. This is a key and a mode, never a melody: no song is encoded anywhere in this brand. Voices stack rather than transpose — high strings against low bells — so any two surfaces sounded together stay inside the harmony.
 
-*Implementation note (web).* One AudioContext, one unlock gesture, one toggle. A second context would mean a second permission the reader never agreed to.
+**The Two-Voice Rule.** A voice earns its place by being a different physical object, not a different setting. A string is plucked and its overtones are whole multiples of its fundamental; a bell is struck and its overtones are not, and that is the whole reason one sounds like gut and the other like metal. A third voice must be as plainly a third thing, or it is the same instrument with the knobs moved.
+
+*Implementation note (web).* One AudioContext, one unlock gesture, one toggle. A second context would mean a second permission the reader never agreed to. The string is Karplus-Strong; the bell is additive, one sine per partial, tuned as a **handbell** — first overtone a twelfth above the fundamental — rather than a tower bell, whose first overtone is a minor third. That interval is the difference between ringing sweet and ringing dark. A run of bells is spread in time; sounded on the same instant they land as a flat chord rather than a strum.
 
 ### Act Word
 Full-bleed section word, edge-clipped, 13% opacity on Southern grounds and fully lit with a double glow on wire.
