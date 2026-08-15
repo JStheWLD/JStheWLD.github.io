@@ -35,7 +35,7 @@ import { STORM_DOOR_URL } from '../consts';
 
         <p class="hero__name"><span class="rv">Hi. I'm Jonathan.</span></p>
 
-        <p class="hero__aka"><span class="rv rv--2">AKA <b>JS the WLD</b></span></p>
+        <p class="hero__aka"><span class="rv rv--2">AKA JS the WLD</span></p>
 
         <p class="hero__line"><span class="rv rv--3">I make stories with Words, Music, and Code.</span></p>
       </div>
@@ -819,34 +819,25 @@ import { STORM_DOOR_URL } from '../consts';
   :global(.js) .rv--4{animation-delay:3200ms}
   @keyframes rvIn{to{clip-path:inset(0 0 0 0); opacity:1}}
 
-  /* THREE LINES, ONE BUILD.
-     They were the same size in three different colours with three different
-     tracking values, which reads as three competing treatments rather than one
-     introduction. They now climb: each step a little larger and a little
-     brighter, ending on the only line that says anything.
+  /* THREE LINES, ONE VOICE.
+     Every attempt to differentiate these — a size ramp, a colour that
+     brightened, a cyan alias — read as separate scraps rather than one
+     introduction. So they now share a single treatment outright: same face,
+     same size, same colour, same tracking, same case. The spacing comes from
+     the shared line-height, so the three sit as one block instead of three
+     stacked objects.
 
-     Tracking does NOT ramp, deliberately. The first two are micro-caps and
-     share one value, because they are a pair and a pair should match; the third
-     drops to almost nothing because it is sentence-case prose and prose is not
-     tracked. An invented middle value there would be a third treatment again,
-     which is the thing being fixed.
+     No accent colour here at all. Cyan is the brand's future pole and it earns
+     its place on the wire ground and the CTA; spent on a name in the hero it
+     was simply the loudest thing on screen.
 
-     Spacing carries the same argument: the pair sits close, then a breath
-     before the statement. The whole group stays small against the wordmark;
-     the contrast is the point and nothing here scales with the mark. */
-  .hero__name{font-family:var(--tw); font-size:clamp(.82rem,1.5vw,.98rem); letter-spacing:.2em;
-    text-transform:uppercase; color:#9FB0B8; margin:0 0 clamp(.3rem,.7vw,.45rem)}
-
-  .hero__aka{font-family:var(--tw); font-size:clamp(.86rem,1.5vw,1rem); letter-spacing:.2em;
-    text-transform:uppercase; color:#9FB0B8; font-weight:400;
-    margin:0 0 clamp(1.1rem,2.4vw,1.7rem)}
-  /* The accent lands on the NAME, not on a whole line. A line of cyan among two
-     of grey was the loudest part of the scrapbook. */
-  .hero__aka b{font-weight:400; color:var(--lit)}
-
-  /* the maker line — one sentence, small, the three crafts carrying the color */
-  .hero__line{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem); line-height:1.75;
-    letter-spacing:.02em; color:#EDE9DF; margin:0}
+     The group stays small against the wordmark — that contrast is doctrine and
+     nothing here scales with the mark. */
+  .hero__name,
+  .hero__aka,
+  .hero__line{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem);
+    line-height:1.75; letter-spacing:.02em; color:#EDE9DF; margin:0;
+    text-transform:none}
 
   .hero__tail{font-family:var(--tw); font-size:clamp(.82rem,1.5vw,.98rem); line-height:1.85;
     color:#8C9BA3; max-width:54ch; margin:0 auto}
