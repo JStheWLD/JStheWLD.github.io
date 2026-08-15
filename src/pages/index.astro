@@ -388,54 +388,27 @@ import { STORM_DOOR_URL } from '../consts';
             end: () => pinTrig.end,
             scrub: 1.1,
             invalidateOnRefresh: true,
+            // EACH PANEL LOCKS IN. Three legs carry four panels, so a panel is
+            // centred at every third of this timeline. When the reader stops,
+            // the rail settles onto the nearest one rather than resting
+            // half-way between two, and moving on takes a fresh scroll.
+            snap: {
+              snapTo: (v) => Math.round(v * 3) / 3,
+              duration: { min: 0.2, max: 0.5 },
+              delay: 0.04,          // short: a long wait reads as the page hanging
+              ease: 'power2.out',
+            },
           },
         });
         triTl.to(triRail, { x: () => -stepX(), ease: 'none', duration: 1 })   // right
              .to(triRail, { y: () => -stepY(), ease: 'none', duration: 1 })   // down
              .to(triRail, { x: 0, ease: 'none', duration: 1 });               // left
 
-        // ── RUBBER BAND ──────────────────────────────────────────────────
-        // The rail carries momentum: it runs past where the scroll says it
-        // should be, then springs back. Most visible at the boundaries, where
-        // the sideways motion starts and stops, which is the hand-off that felt
-        // like a hard switch.
-        //
-        // Critically the bounce is applied to a WRAPPER, never to the rail
-        // itself. ScrollTrigger reads the rail's position to decide when each
-        // panel's effects fire, so shoving the rail off its track would lie to
-        // the CODE scramble, the MUSIC anaglyph and all four depth reveals about
-        // where their panel is. The wrapper moves what the eye sees; the rail
-        // underneath stays exactly where the scroll put it.
-        const spring = tri.querySelector('[data-tri-spring]');
-        if (spring) {
-          const CAP = 12;      // px — a give, not a slide
-          const K = 0.075;     // pull home
-          const DAMP = 0.62;   // near critical: it lags and settles instead of
-                               // oscillating. Higher values keep energy in the
-                               // spring, which is what read as bouncy.
-          const FEED = 0.11;   // how much scroll momentum becomes spring velocity
-          // Two springs now, one per axis: the path turns corners, so the give
-          // has to follow whichever direction is actually moving.
-          let pX = 0, pY = 0, dx = 0, dy = 0, vx = 0, vy = 0, wrote = false;
-
-          gsap.ticker.add(() => {
-            const m = new DOMMatrixReadOnly(getComputedStyle(triRail).transform);
-            const mx = m.m41, my = m.m42;
-            vx += (mx - pX) * FEED; pX = mx;
-            vy += (my - pY) * FEED; pY = my;
-            vx += -K * dx; vx *= DAMP; dx += vx;
-            vy += -K * dy; vy *= DAMP; dy += vy;
-            if (dx > CAP) { dx = CAP; vx = 0; } else if (dx < -CAP) { dx = -CAP; vx = 0; }
-            if (dy > CAP) { dy = CAP; vy = 0; } else if (dy < -CAP) { dy = -CAP; vy = 0; }
-            // Stop writing once it has settled, so a parked page is not
-            // setting the same transform sixty times a second forever.
-            const live = Math.abs(dx) > 0.05 || Math.abs(vx) > 0.05
-                      || Math.abs(dy) > 0.05 || Math.abs(vy) > 0.05;
-            if (live) { gsap.set(spring, { x: dx, y: dy }); wrote = true; }
-            else if (wrote) { gsap.set(spring, { x: 0, y: 0 }); wrote = false; }
-          });
-        }
-
+        // NO RUBBER BAND. There was a two-axis spring here that let the rail
+        // run past its position and settle back. It read as bouncy however far
+        // it was dialled down, and it actively fights the snap below: a spring
+        // and a snap are two different opinions about where the rail should
+        // come to rest. The wrapper stays in the markup as the hook, unanimated.
       }
 
 
