@@ -1042,9 +1042,15 @@ import { STORM_DOOR_URL } from '../consts';
      between them. A warm dark here keeps the hard edge where it belongs, on
      the way into WORDS. */
   .say{position:relative; overflow:hidden; background:var(--dusk); color:#E9E4D8;
-    min-height:62svh; display:grid; place-items:center;
-    padding:clamp(4rem,10vw,7rem) 6vw}
-  .say__quote{position:relative; z-index:2; margin:0; max-width:26ch; text-align:center}
+    min-height:42svh; display:grid; place-items:center;
+    padding:clamp(3rem,7vw,5rem) 6vw}
+  /* Runs the long way across rather than stacking into a narrow column. At 26ch
+     this broke into five short lines and the section had to be tall to hold
+     them; given the width it lands in one or two and the panel comes down with
+     it. Still capped, because a display line past ~70 characters stops being
+     read in one go. */
+  .say__quote{position:relative; z-index:2; margin:0;
+    max-width:min(92vw, 70ch); text-align:center}
   .say__quote p{font-family:var(--grot); font-weight:800; font-size:clamp(1.2rem,4.4vw,2.3rem);
     line-height:1.18; letter-spacing:-.03em; margin:0 0 clamp(1rem,2.2vw,1.5rem);
     text-wrap:balance}
