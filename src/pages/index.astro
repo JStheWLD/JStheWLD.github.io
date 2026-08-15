@@ -835,9 +835,12 @@ import { STORM_DOOR_URL } from '../consts';
      The group stays small against the wordmark — that contrast is doctrine and
      nothing here scales with the mark. */
   .hero__name,
-  .hero__line{font-family:var(--tw); font-size:clamp(.9rem,1.9vw,1.14rem);
-    line-height:1.75; letter-spacing:.02em; color:#EDE9DF; margin:0;
+  .hero__line{font-family:var(--tw); font-size:clamp(1rem,2.1vw,1.2rem);
+    line-height:2; letter-spacing:.02em; color:#EDE9DF; margin:0;
     text-transform:none}
+  /* A line of air between the two, so they read as two statements rather than
+     a wrapped paragraph. */
+  .hero__name{margin-bottom:.55em}
 
   .hero__tail{font-family:var(--tw); font-size:clamp(.82rem,1.5vw,.98rem); line-height:1.85;
     color:#8C9BA3; max-width:54ch; margin:0 auto}
