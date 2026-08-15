@@ -35,7 +35,7 @@ import { STORM_DOOR_URL } from '../consts';
 
         <p class="hero__name"><span class="rv">Hi. I'm Jonathan.</span></p>
 
-        <p class="hero__aka"><span class="rv rv--2">AKA JS the WLD</span></p>
+        <p class="hero__aka"><span class="rv rv--2">AKA: JS THE WLD</span></p>
 
         <p class="hero__line"><span class="rv rv--3">I make stories with Words, Music, and Code.</span></p>
       </div>
@@ -279,13 +279,16 @@ import { STORM_DOOR_URL } from '../consts';
       // Each act gets its own window and scrub weight so the page reads as a
       // composed sequence rather than the same reveal five times. Heavier scrub
       // = more lag behind the wheel = a slower, weightier arrival.
+      // Windows end high on the screen so a section is COMPOSED by the time the
+      // reader reaches it. The previous ends — 46% and 56% — meant content was
+      // still arriving while it was already being read.
       const SIGNATURES = [
-        ['act--paper', { start: 'top 90%', end: 'top 46%', scrub: 0.9 }], // lateral, unhurried
-        ['end', { start: 'top 92%', end: 'top 56%', scrub: 1.1 }], // settles
+        ['act--paper', { start: 'top 99%', end: 'top 70%', scrub: 0.9 }], // lateral, unhurried
+        ['end', { start: 'top 99%', end: 'top 74%', scrub: 1.1 }], // settles
       ];
       const signatureFor = (el) => {
         for (const [cls, sig] of SIGNATURES) if (el.closest('.' + cls)) return sig;
-        return { start: 'top 88%', end: 'top 42%', scrub: 0.6 };
+        return { start: 'top 96%', end: 'top 68%', scrub: 0.6 };
       };
 
 
@@ -315,7 +318,10 @@ import { STORM_DOOR_URL } from '../consts';
         gsap.fromTo(img,
           { clipPath: 'inset(0% 0% 100% 0%)' },
           { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none',
-            scrollTrigger: { trigger: img.closest('figure'), start: 'top 86%', end: 'top 50%', scrub: 0.5 } });
+            // Ends near the foot of the screen, not halfway up it. At 'top 50%'
+            // a photograph was still opening when the reader had already
+            // arrived and was looking straight at it.
+            scrollTrigger: { trigger: img.closest('figure'), start: 'top 98%', end: 'top 72%', scrub: 0.5 } });
       });
 
       // 2. COUNTER-DRIFT. Copy rises slightly slower than its own section, so the
@@ -600,7 +606,10 @@ import { STORM_DOOR_URL } from '../consts';
                   ? { trigger: tri, start: 'top 85%',
                       end: () => (triPin ? triPin.start : 0),
                       scrub: 0.5, invalidateOnRefresh: true }
-                  : atPanel(i, 0.30, 0.02))
+                  // Negative 'after': the reveal completes a tenth of the path
+                  // BEFORE the panel is centred, so it is already composed when
+                  // it arrives rather than resolving under the reader's eye.
+                  : atPanel(i, 0.34, -0.10))
               : { trigger: panel, start: 'top 80%', end: 'center 60%', scrub: 0.5 } });
       });
 
