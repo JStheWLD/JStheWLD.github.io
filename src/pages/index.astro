@@ -349,7 +349,7 @@ import { STORM_DOOR_URL } from '../consts';
       // through on every single load, taking the scramble, the anaglyph and the
       // final ScrollTrigger.refresh() with it. Null below 700px, where there is
       // no rail at all.
-      let triTl = null;
+      let triTl = null, triPin = null;
       if (tri && triRail && window.matchMedia('(min-width: 700px)').matches) {
         // THE SERPENTINE. Across the top, down the right, back across the
         // bottom, so the reader turns three corners instead of running one
@@ -363,7 +363,7 @@ import { STORM_DOOR_URL } from '../consts';
         // most of a viewport of scrolling with WORDS sitting still.
         const LEAD = () => Math.round(window.innerHeight * 0.62);
 
-        const pinTrig = ScrollTrigger.create({
+        const pinTrig = triPin = ScrollTrigger.create({
           trigger: tri,
           start: 'top top',
           end: () => '+=' + (LEAD() + pathLen() * 1.45),
@@ -591,7 +591,14 @@ import { STORM_DOOR_URL } from '../consts';
                   // WORDS sat at 40% for the whole dwell that exists to let it
                   // be read, and only came up to full strength as the rail
                   // started carrying it away.
-                  ? { trigger: tri, start: 'top 88%', end: 'top 20%',
+                  // End given as an ABSOLUTE scroll position, not 'top 20%'.
+                  // `tri` is pinned, and a relative end measured against a
+                  // pinned element does not resolve — the reveal simply never
+                  // ran and WORDS stayed at 40% for the whole section. Ending
+                  // exactly at pin engagement means it is at full strength for
+                  // every pixel of the dwell.
+                  ? { trigger: tri, start: 'top 85%',
+                      end: () => (triPin ? triPin.start : 0),
                       scrub: 0.5, invalidateOnRefresh: true }
                   : atPanel(i, 0.30, 0.02))
               : { trigger: panel, start: 'top 80%', end: 'center 60%', scrub: 0.5 } });
