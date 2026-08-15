@@ -16,14 +16,22 @@
   --denim:#ADC1D1; --denim-mid:#749FBA; --denim-deep:#386F99;
   --charcoal:#393533; --charcoal-deep:#2c2926;
   --tape:rgba(224,212,178,0.5);
-  --hand:"Reenie Beanie","Bradley Hand",cursive;
+  /* --hand is gone. The handwriting belonged to the retired taped-photo
+     motif; its three decorative users are translated below rather than
+     deleted, since each is doing real compositional work. */
   /* torn-paper edge, done with clip-path so it renders on every browser (no SVG filter ref) */
   --torn-clip:polygon(1% 4%, 9% 1%, 19% 5%, 29% 2%, 40% 6%, 51% 2%, 62% 5%, 73% 1%, 84% 5%, 93% 2%, 99% 6%, 98% 17%, 100% 29%, 98% 41%, 100% 53%, 98% 64%, 100% 76%, 98% 88%, 99% 96%, 90% 99%, 79% 96%, 68% 100%, 56% 96%, 45% 100%, 33% 96%, 22% 100%, 11% 98%, 2% 99%, 1% 88%, 3% 76%, 0% 64%, 2% 53%, 0% 41%, 2% 29%, 0% 17%);
   /* warm paper grain, inline so it costs no request */
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --display:"Bodoni Moda","Didot","Bodoni 72",serif;
-  --body:"Libre Baskerville",Georgia,"Times New Roman",serif;
-  --ui:ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",sans-serif;
+  /* TWO FACES. DESIGN.md names Archivo and Courier Prime and forbids a serif
+     on any surface built in this world; these tokens were still pointing at
+     the retired editorial world, which is the only reason /about, /book and
+     /field looked like a different site. The inner pages read these tokens
+     rather than naming fonts themselves, so repointing here migrates all
+     three without touching a line of their markup. */
+  --display:"Archivo",ui-sans-serif,system-ui,sans-serif;
+  --body:"Courier Prime",ui-monospace,"SF Mono",monospace;
+  --ui:"Courier Prime",ui-monospace,"SF Mono",monospace;
   --pad:clamp(1.25rem,5vw,5.5rem);
   --z-nav:50;
 }
@@ -33,7 +41,11 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0; background:var(--ground); color:var(--ink); font-family:var(--body);
-  font-size:clamp(1rem,0.5vw + 0.92rem,1.12rem); line-height:1.75;
+  /* Courier sets roughly a third wider per character than the serif this
+     replaces, so the old ramp read oversized and the lines ran long. Size
+     down a step, leading up to the 1.9 the brand guide gives the body role —
+     generous leading is what keeps a typewriter readable at length. */
+  font-size:clamp(0.9rem,0.4vw + 0.84rem,1rem); line-height:1.9;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 h1,h2,h3{font-family:var(--display); font-weight:500; line-height:1.05; letter-spacing:-0.01em; text-wrap:balance; margin:0;}
@@ -86,16 +98,16 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .pagehead{background:var(--charcoal-deep); color:#f3efe7; padding:clamp(5.5rem,12vw,8.5rem) 0 clamp(2.5rem,6vw,4rem); text-align:center}
 .pagehead .kicker{color:var(--ochre); margin-bottom:1.1rem}
 .pagehead h1{font-size:clamp(2.1rem,5vw,3.4rem); max-width:20ch; margin:0 auto; color:#f6f2ea}
-.pagehead .standfirst{margin:clamp(1.1rem,2.4vw,1.5rem) auto 0; max-width:46ch; color:#cdc6ba; font-style:italic; font-size:clamp(1.05rem,0.5vw+1rem,1.2rem); line-height:1.6}
+.pagehead .standfirst{margin:clamp(1.1rem,2.4vw,1.5rem) auto 0; max-width:42ch; color:#cdc6ba; font-style:italic; font-size:clamp(1.05rem,0.5vw+1rem,1.2rem); line-height:1.6}
 .read{max-width:720px; margin:0 auto; padding:clamp(3rem,7vw,5.5rem) var(--pad)}
-.read .col{max-width:65ch}
+.read .col{max-width:58ch}   /* 65ch of mono is a far longer line than 65ch of serif */
 .read p{margin:0 0 1.15rem; color:var(--ink-soft)}
 .read p.lede{font-size:clamp(1.15rem,0.6vw+1.05rem,1.35rem); color:var(--ink); line-height:1.6}
 .read h2{font-size:clamp(1.5rem,3vw,2.1rem); margin:clamp(2.4rem,5vw,3.2rem) 0 1rem}
 .read .kicker{color:var(--rust); display:block; margin:clamp(2.4rem,5vw,3.2rem) 0 0.6rem}
 .read .kicker + h2{margin-top:0.3rem}
 .read a{color:var(--rust); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px}
-.read blockquote{margin:2rem 0; padding-left:1.2rem; border-left:2px solid var(--rust); font-family:var(--display); font-style:italic; font-size:clamp(1.3rem,2.6vw,1.7rem); line-height:1.3; color:var(--ink)}
+.read blockquote{margin:2rem 0; padding-left:1.2rem; border-left:2px solid var(--rust); font-family:var(--display); font-weight:700; font-size:clamp(1.2rem,2.6vw,1.7rem); line-height:1.3; color:var(--ink)}
 .note{margin-top:clamp(2.4rem,5vw,3.2rem); padding-top:1.4rem; border-top:1px solid #d4cfc3; font-size:0.95rem; color:#7d776d; font-style:italic}
 
 /* ---- brand motifs, drawn from the JS the WLD deck (moodboard + Direction 1 collage) ---- */
@@ -134,7 +146,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 
 /* a taped note: ruled cream paper with handwriting, like a scrap of lyrics */
 .notecard{position:relative; display:inline-block; padding:1.15rem 1.4rem 1.3rem;
-  background:var(--paper-cream); font-family:var(--hand); color:var(--ink);
+  background:var(--paper-cream); font-family:var(--body); color:var(--charcoal);
   font-size:clamp(1.4rem,2.4vw,1.9rem); line-height:1.25;
   background-image:repeating-linear-gradient(180deg, transparent 0 30px, rgba(51,48,58,0.10) 30px 31px);
   box-shadow:0 14px 34px rgba(51,48,58,0.20); transform:rotate(1.5deg)}
@@ -152,10 +164,16 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 .scrap--denim{background:var(--denim-mid)}
 
 /* handwriting: scrawled margin notes and hand numerals (the "1542" energy) */
-.hand{font-family:var(--hand); font-weight:400}
-.annot{font-family:var(--hand); color:var(--rust); line-height:0.98;
-  font-size:clamp(1.5rem,3vw,2.4rem); display:inline-block}
-.numeral{font-family:var(--hand); color:var(--rust); line-height:0.7; letter-spacing:0.02em}
+.hand{font-family:var(--body); font-weight:400}
+/* was a handwritten scrawl; now a typed margin note, which is what a
+   typewriter brand actually produces */
+.annot{font-family:var(--body); color:var(--rust); line-height:1.4;
+  font-size:0.82rem; letter-spacing:0.18em; text-transform:uppercase;
+  display:inline-block}
+/* the big background numeral joins the act-word vocabulary: display face,
+   heavy, tracked tight */
+.numeral{font-family:var(--display); font-weight:900; color:var(--rust);
+  line-height:0.7; letter-spacing:-0.04em}
 
 /* hand-inked underline / mark: roughened stroke, pen not highlighter */
 .mark{position:relative; white-space:nowrap}
@@ -177,7 +195,7 @@ footer .meta{font-family:var(--ui); font-size:0.8rem; letter-spacing:0.03em; col
 @media(min-width:860px){.pair{grid-template-columns:0.9fr 1fr}}
 .pair__visual{position:relative}
 @media(min-width:860px){.pair__visual{position:sticky; top:clamp(5rem,10vw,7rem)}}
-.pair__text{max-width:56ch; align-self:center}
+.pair__text{max-width:50ch; align-self:center}
 
 /* reveal on scroll */
 .reveal{opacity:1}
