@@ -125,15 +125,14 @@ import { STORM_DOOR_URL } from '../consts';
         <article class="panel panel--book" data-hud="The Book">
           <Noise tone="#C1512A" seed={9091} scale={0.045} speed={0.045} strength={0.5} blend="multiply" />
           <h2 class="panel__word" aria-hidden="true"><span>THE BOOK</span></h2>
-          <div class="panel__body">
-            {/* PLACEHOLDER. The Storm Door cover frame standing in until the book
-                has an image of its own. Shown whole rather than cropped: the
-                banner carries the Storm Door wordmark across its lower third
-                and the JS·THE·WLD mark top-right, and a portrait crop would
-                slice into brand marks that do not belong on this panel. */}
-            <figure class="panel__fig is-wide">
-              <img src="/assets/storm-door/cover-banner-storm-lower-jswld-topright-1600x600.png" alt="A silhouetted figure standing in a lit doorway." width="1600" height="600" loading="lazy" />
-            </figure>
+          {/* No figure here on purpose. The stand-in was the Storm Door cover
+              banner, which is the letter's masthead and carries its wordmark —
+              wrong thing entirely on a panel about the book. There is no unused
+              photograph in the repo to replace it with: the only three
+              (hero, portrait, interstitial) are already carrying About, Words
+              and Music. Runs full width until the book has an image of its own,
+              which is how this panel read before. */}
+          <div class="panel__body panel__body--wide">
             <div class="panel__tell">
               <p class="tag">04 &mdash; Years in the making</p>
               <h3>The Sound of Something More</h3>
@@ -243,7 +242,7 @@ import { STORM_DOOR_URL } from '../consts';
 
     const composeStatically = () => risers.forEach((el) => el.classList.add('in'));
 
-    const wireScrubbed = ({ gsap, ScrollTrigger }) => {
+    const wireScrubbed = ({ gsap, ScrollTrigger, lenis }) => {
       // `.in` is applied up front so the element's *final* layout is what CSS
       // describes; GSAP then owns the transform/opacity between start and end.
       composeStatically();
@@ -391,19 +390,45 @@ import { STORM_DOOR_URL } from '../consts';
             // centred at every third of this timeline. When the reader stops,
             // the rail settles onto the nearest one rather than resting
             // half-way between two, and moving on takes a fresh scroll.
-            snap: {
-              snapTo: (v) => Math.round(v * 3) / 3,
-              duration: { min: 0.2, max: 0.5 },
-              delay: 0.04,          // short: a long wait reads as the page hanging
-              ease: 'power2.out',
-              // Without this the snap target is chosen from scroll VELOCITY, so
-              // a firm flick sails past a panel and lands on the next one. The
-              // panel the reader actually stopped on is the one to hold.
-              inertia: false,
-              directional: false,
-            },
           },
         });
+        // ── SNAP, ASKED OF WHOEVER OWNS SCROLL ──────────────────────────
+        // ScrollTrigger's own snap writes the scroll position directly, and
+        // Lenis overwrites it on its very next frame, so the snap was undone
+        // before it could land. Measured: parked halfway between two panels it
+        // drifted 232px toward the target and stopped at 0.41 instead of 0.33.
+        // Lenis owns scroll here, so the settle has to be asked of Lenis.
+        //
+        // Fires only once the wheel has actually stopped. Snapping mid-gesture
+        // fights the reader for control of their own scroll.
+        if (lenis) {
+          let idle = 0, landing = false;
+          const settle = () => {
+            const st = triTl.scrollTrigger;
+            if (landing || !st) return;
+            const a = st.start, b = st.end, y = lenis.scroll;
+            if (y <= a + 1 || y >= b - 1) return;      // outside the rail, leave it alone
+            const p = (y - a) / (b - a);
+            const target = a + (Math.round(p * 3) / 3) * (b - a);   // four panels, three legs
+            if (Math.abs(target - y) < 2) return;                    // already home
+            landing = true;
+            // Failsafe. If onComplete never arrives — an interrupted scroll, a
+            // resize mid-flight — `landing` would stay true and snapping would
+            // be dead for the rest of the session with no way back.
+            const release = setTimeout(() => { landing = false; }, 900);
+            lenis.scrollTo(target, {
+              duration: 0.5,
+              easing: (t) => 1 - Math.pow(1 - t, 3),
+              onComplete: () => { clearTimeout(release); landing = false; },
+            });
+          };
+          lenis.on('scroll', () => {
+            if (landing) return;
+            clearTimeout(idle);
+            idle = setTimeout(settle, 150);
+          });
+        }
+
         triTl.to(triRail, { x: () => -stepX(), ease: 'none', duration: 1 })   // right
              .to(triRail, { y: () => -stepY(), ease: 'none', duration: 1 })   // down
              .to(triRail, { x: 0, ease: 'none', duration: 1 });               // left
