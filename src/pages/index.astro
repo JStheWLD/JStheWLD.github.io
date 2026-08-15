@@ -397,6 +397,11 @@ import { STORM_DOOR_URL } from '../consts';
               duration: { min: 0.2, max: 0.5 },
               delay: 0.04,          // short: a long wait reads as the page hanging
               ease: 'power2.out',
+              // Without this the snap target is chosen from scroll VELOCITY, so
+              // a firm flick sails past a panel and lands on the next one. The
+              // panel the reader actually stopped on is the one to hold.
+              inertia: false,
+              directional: false,
             },
           },
         });
@@ -579,10 +584,16 @@ import { STORM_DOOR_URL } from '../consts';
           { z: -220, opacity: 0.4 },
           { z: 0, opacity: 1, ease: 'none',
             scrollTrigger: pinST
-              // Panel 0 is centred AT progress 0, so it has no run-up: its
-              // window opens at the pin and has to be wide enough to ease
-              // rather than snap. It still finishes well inside the lead-in.
-              ? atPanel(i, 0.30, i === 0 ? 0.06 : 0.02)
+              ? (i === 0
+                  // Panel 0 must arrive on the VERTICAL approach, finishing
+                  // before the section pins. Measured against the rail it could
+                  // not: the rail does not begin until the lead-in is over, so
+                  // WORDS sat at 40% for the whole dwell that exists to let it
+                  // be read, and only came up to full strength as the rail
+                  // started carrying it away.
+                  ? { trigger: tri, start: 'top 88%', end: 'top 20%',
+                      scrub: 0.5, invalidateOnRefresh: true }
+                  : atPanel(i, 0.30, 0.02))
               : { trigger: panel, start: 'top 80%', end: 'center 60%', scrub: 0.5 } });
       });
 
@@ -933,7 +944,7 @@ import { STORM_DOOR_URL } from '../consts';
 
   .tell{max-width:52ch}
   .tell--mid{margin-inline:auto; text-align:center}
-  .tag{font-family:var(--tw); font-size:.74rem; letter-spacing:.24em; text-transform:uppercase;
+  .tag{font-family:var(--tw); font-size:.82rem; letter-spacing:.24em; text-transform:uppercase;
     color:#C1512A; margin:0 0 1rem}
   .tag--lit{color:var(--lit)}
   .tell h3{font-family:var(--grot); font-weight:800; font-size:clamp(1.7rem,4vw,2.9rem);
