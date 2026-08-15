@@ -12,9 +12,9 @@
 ---
 <canvas class="motes" data-motes aria-hidden="true"></canvas>
 <button class="harp" data-harp type="button" aria-pressed="false"
-  aria-label="Play the strands">
+  aria-label="Turn sound on to play this page">
   <span class="harp__wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-  <span class="harp__txt">Sound</span>
+  <span class="harp__txt">Sound on to play this page</span>
 </button>
 
 <script>
@@ -289,7 +289,7 @@
     transition:box-shadow 600ms ease}
   .harp:hover, .harp.is-on{box-shadow:inset 0 0 0 1px rgba(64,196,232,.85)}
   .harp__txt{font-family:"Courier Prime",ui-monospace,monospace; font-size:10px;
-    letter-spacing:.2em; text-transform:uppercase; color:#EAF2F6}
+    letter-spacing:.14em; text-transform:uppercase; color:#EAF2F6; white-space:nowrap}
   .harp.is-on .harp__txt{color:#40C4E8}
   .harp__wave{display:flex; align-items:center; gap:2px; height:12px}
   .harp__wave i{display:block; width:2px; height:3px; background:#EAF2F6; opacity:.6}
