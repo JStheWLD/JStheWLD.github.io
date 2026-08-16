@@ -18,7 +18,7 @@ import { STORM_DOOR_URL } from '../consts';
   </a>
   <div class="hud hud--bl" aria-hidden="true"><span data-hud>Words / Music / Code</span></div>
   <div class="hud hud--br" aria-hidden="true"><span data-pct>00</span></div>
-  <Spine stops={["Words", "Code", "Music", "Jonathan", "The Storm Door"]} />
+  <Spine stops={["Words", "Music", "Code", "Jonathan", "The Storm Door"]} />
   <Harp />
   <Tilt />
 
@@ -75,6 +75,30 @@ import { STORM_DOOR_URL } from '../consts';
           </div>
         </article>
 
+        <!-- MUSIC -->
+        <article class="panel panel--dusk" data-hud="Music">
+          <Texture tone="dark" />
+          <Noise tone="#D99A42" seed={4242} scale={0.07} speed={0.1} strength={0.46} blend="screen" />
+          <Strings />
+          <h2 class="panel__word panel__word--anaglyph" aria-hidden="true"><span data-t="MUSIC">MUSIC</span></h2>
+          <div class="panel__body">
+            <figure class="panel__fig">
+              <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="600" height="900" loading="lazy" />
+            </figure>
+            <div class="panel__tell">
+              <p class="tag">02 &mdash; Performing Artist</p>
+              <blockquote class="pull pull--amber">
+                <p>&ldquo;Imagine Little Feat and Bleachers made a record together. That's JS the WLD.&rdquo;</p>
+              </blockquote>
+              <p>New EP <em>Long Way to Run</em>, produced by Cruz Contreras, out in 2027 on Baked Alaska Records.</p>
+              <div class="panel__links">
+                <a class="lnk lnk--amber" href="https://www.youtube.com/watch?v=M_LTKnkf4b4" rel="noopener">Listen to the band</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+
         <!-- CODE -->
         <article class="panel panel--wire" data-hud="Code">
           <div class="wire" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -87,7 +111,7 @@ import { STORM_DOOR_URL } from '../consts';
               <Layers />
             </figure>
             <div class="panel__tell">
-              <p class="tag tag--lit">02 &mdash; Generative Art</p>
+              <p class="tag tag--lit">03 &mdash; Generative Art</p>
               <p>I make digital installations that trace influence over time.</p>
               <p>The newest piece is <em>The Lomax Trail</em>: a hundred and fifty years of American song drawn off of one trailhead, where almost everything you hear flows back up to a Lomax field recording.</p>
               <div class="panel__links">
@@ -96,30 +120,6 @@ import { STORM_DOOR_URL } from '../consts';
             </div>
           </div>
         </article>
-
-        <!-- MUSIC -->
-        <article class="panel panel--dusk" data-hud="Music">
-          <Texture tone="dark" />
-          <Noise tone="#D99A42" seed={4242} scale={0.07} speed={0.1} strength={0.46} blend="screen" />
-          <Strings />
-          <h2 class="panel__word panel__word--anaglyph" aria-hidden="true"><span data-t="MUSIC">MUSIC</span></h2>
-          <div class="panel__body">
-            <figure class="panel__fig">
-              <img src="/assets/interstitial.jpg" alt="" aria-hidden="true" width="600" height="900" loading="lazy" />
-            </figure>
-            <div class="panel__tell">
-              <p class="tag">03 &mdash; Performing Artist</p>
-              <blockquote class="pull pull--amber">
-                <p>&ldquo;Imagine Little Feat and Bleachers made a record together. That's JS the WLD.&rdquo;</p>
-              </blockquote>
-              <p>New EP <em>Long Way to Run</em>, produced by Cruz Contreras, out in 2027 on Baked Alaska Records.</p>
-              <div class="panel__links">
-                <a class="lnk lnk--amber" href="https://www.youtube.com/watch?v=M_LTKnkf4b4" rel="noopener">Listen to the band</a>
-              </div>
-            </div>
-          </div>
-        </article>
-
 
         <!-- BOOK -->
         <article class="panel panel--book" data-hud="The Book">
@@ -645,7 +645,7 @@ import { STORM_DOOR_URL } from '../consts';
       const ana = document.querySelector('.panel__word--anaglyph');
       if (ana) {
         swell(ana, '--eye', '0.06em', pinST
-          ? atPanel(2, 0.22, 0.16)
+          ? atPanel(1, 0.22, 0.16)   // MUSIC is the second panel now
           : { trigger: ana.closest('.panel'), start: 'top 85%', end: 'bottom 40%', scrub: 0.9 });
       }
 
@@ -747,8 +747,10 @@ import { STORM_DOOR_URL } from '../consts';
         // appears — the decode should happen under the reader's eye.
         ScrollTrigger.create(pinST
           ? { trigger: tri,
-              start: () => pinST.start + Math.max(0, 1 / 3 - 0.16) * pinLen(),
-              end: () => pinST.start + Math.min(1, 1 / 3 + 0.16) * pinLen(),
+              // CODE is the third panel now, so its window moves with it —
+              // these are positions on the path, not references to the panel.
+              start: () => pinST.start + Math.max(0, 2 / 3 - 0.16) * pinLen(),
+              end: () => pinST.start + Math.min(1, 2 / 3 + 0.16) * pinLen(),
               invalidateOnRefresh: true, onEnter: run, onEnterBack: run }
           : { trigger: scr.closest('.panel'), start: 'top 70%', onEnter: run, onEnterBack: run });
       }
@@ -1126,7 +1128,7 @@ import { STORM_DOOR_URL } from '../consts';
     line-height:1.2; letter-spacing:-.03em; margin:0 0 .8rem; text-wrap:balance}
   .pull cite{font-family:var(--tw); font-style:normal; font-size:.7rem; letter-spacing:.2em;
     text-transform:uppercase; color:var(--rust)}
-  .panel__links{display:flex; gap:clamp(1rem,2.4vw,2rem); flex-wrap:wrap}
+  .panel__links{display:flex; justify-content:center; gap:clamp(1rem,2.4vw,2rem); flex-wrap:wrap}
 
   /* below the pin gate the triptych reads as three ordinary stacked sections */
   @media(max-width:699px){
