@@ -12,7 +12,7 @@ import Base from '../layouts/Base.astro';
     <p class="standfirst">The story of American music, told by the people who made it.</p>
   </div>
 
-  <article class="read grain">
+  <article class="read grain lm-wide">
     <div class="col reveal">
       <p class="lede">The Living Memory of Music is a record of American music told by the people who were there. A record's credits tell you who played on it. We keep what the credits leave out: who taught whom, what was passed on, and who was in the room.</p>
 
@@ -48,7 +48,12 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style>
-  .lm-clip{margin:0 0 2.2rem}
-  .lm-clip video{display:block; width:100%; max-width:100%; height:auto; border-radius:4px; background:#0b0c12}
-  .lm-clip figcaption{margin-top:.7rem; font-size:.95em; opacity:.8}
+  /* This page shows the Living Memory moving, so it runs wide: clips and text use the screen. */
+  .lm-wide{max-width:1240px}
+  .lm-wide .col{max-width:none}
+  .lm-wide p{font-size:clamp(1.1rem,0.5vw+1rem,1.3rem); line-height:1.65}
+  .lm-wide p.lede{font-size:clamp(1.25rem,0.8vw+1.1rem,1.6rem)}
+  .lm-clip{margin:0 0 2.6rem}
+  .lm-clip video{display:block; width:100%; max-width:100%; height:auto; border-radius:6px; background:#0b0c12}
+  .lm-clip figcaption{margin-top:.8rem; font-size:clamp(1rem,0.4vw+.95rem,1.15rem); opacity:.85}
 </style>
