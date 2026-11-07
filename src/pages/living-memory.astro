@@ -16,6 +16,21 @@ import Base from '../layouts/Base.astro';
     <div class="col reveal">
       <p class="lede">The Living Memory of Music is a record of American music told by the people who were there. A record's credits tell you who played on it. We keep what the credits leave out: who taught whom, what was passed on, and who was in the room.</p>
 
+      <figure class="lm-clip">
+        <video src="/assets/living-memory/lm-dolly.mp4" width="1120" height="525" poster="/assets/living-memory/lm-dolly.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The Living Memory turns and flies in to Dolly Parton."></video>
+        <figcaption>Every light is a person, a song or a moment. Here it finds Dolly Parton.</figcaption>
+      </figure>
+
+      <figure class="lm-clip">
+        <video src="/assets/living-memory/lm-names.mp4" width="1120" height="525" poster="/assets/living-memory/lm-names.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The whole Living Memory turning slowly, with names on."></video>
+        <figcaption>With the names on, you can see who's in it.</figcaption>
+      </figure>
+
+      <figure class="lm-clip">
+        <video src="/assets/living-memory/lm-river.mp4" width="1120" height="560" poster="/assets/living-memory/lm-river.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scrolling down one family's river of American song."></video>
+        <figcaption>Up close, it becomes a river: who passed the music on, and to whom.</figcaption>
+      </figure>
+
       <span class="kicker">Why now</span>
       <p>Many of the people who made this music are still here, and most of their stories have never been written down. When they are gone, the stories go with them, unless someone asks.</p>
 
@@ -31,3 +46,9 @@ import Base from '../layouts/Base.astro';
     </div>
   </article>
 </Base>
+
+<style>
+  .lm-clip{margin:0 0 2.2rem}
+  .lm-clip video{display:block; width:100%; max-width:100%; height:auto; border-radius:4px; background:#0b0c12}
+  .lm-clip figcaption{margin-top:.7rem; font-size:.95em; opacity:.8}
+</style>
