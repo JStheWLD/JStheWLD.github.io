@@ -16,19 +16,17 @@ import Base from '../layouts/Base.astro';
     <div class="col reveal">
       <p class="lede">The Living Memory of Music is a record of American music told by the people who were there. A record's credits tell you who played on it. We keep what the credits leave out: who taught whom, what was passed on, and who was in the room.</p>
 
+      <span class="kicker">What it looks like</span>
+      <p>Every person, song and moment in it is a point of light. Type a name, and it takes you there.</p>
       <figure class="lm-clip">
         <video src="/assets/living-memory/lm-dolly.mp4" width="1120" height="525" poster="/assets/living-memory/lm-dolly.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The Living Memory turns and flies in to Dolly Parton."></video>
-        <figcaption>Every light is a person, a song or a moment. Here it finds Dolly Parton.</figcaption>
+        <figcaption>Finding Dolly Parton.</figcaption>
       </figure>
 
+      <p>The lines between the lights are the point. Each one is a connection someone told us about, with the proof beside it: who taught whom, and who passed a song on.</p>
       <figure class="lm-clip">
         <video src="/assets/living-memory/lm-names.mp4" width="1120" height="525" poster="/assets/living-memory/lm-names.jpg" autoplay muted loop playsinline preload="metadata" aria-label="The whole Living Memory turning slowly, with names on."></video>
-        <figcaption>With the names on, you can see who's in it.</figcaption>
-      </figure>
-
-      <figure class="lm-clip">
-        <video src="/assets/living-memory/lm-river.mp4" width="1120" height="560" poster="/assets/living-memory/lm-river.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scrolling down one family's river of American song."></video>
-        <figcaption>Up close, it becomes a river: who passed the music on, and to whom.</figcaption>
+        <figcaption>The whole Living Memory with the names on: Mother Maybelle Carter, Woody Guthrie, Johnny Cash and hundreds more.</figcaption>
       </figure>
 
       <span class="kicker">Why now</span>
@@ -39,6 +37,11 @@ import Base from '../layouts/Base.astro';
       <p>A note-taker named Maybelle is on every call. Maybelle is an AI, so nothing you say gets lost.</p>
 
       <span class="kicker">What happens to your story</span>
+      <p>What you say becomes part of the Living Memory: a line from you to the people you talked about, with your name on it. Up close, those lines read like a river, showing who passed the music on and to whom.</p>
+      <figure class="lm-clip">
+        <video src="/assets/living-memory/lm-river.mp4" width="1120" height="560" poster="/assets/living-memory/lm-river.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Scrolling down one river of American song, from John A. Lomax onward."></video>
+        <figcaption>One river, from John A. Lomax's field recordings down through the folk revival.</figcaption>
+      </figure>
       <p>Your name stays on what you said. You see your words before anything is shared, and you can fix anything that's wrong. You can say "off the record" at any point, and nothing you say after that is kept until you say "back on the record." You can also take back your part later. Afterward, you get clips of your conversation to share with family and friends, or online.</p>
 
       <span class="kicker">Who's behind it</span>
@@ -53,7 +56,7 @@ import Base from '../layouts/Base.astro';
   .lm-wide .col{max-width:none}
   .lm-wide p{font-size:clamp(1.1rem,0.5vw+1rem,1.3rem); line-height:1.65}
   .lm-wide p.lede{font-size:clamp(1.25rem,0.8vw+1.1rem,1.6rem)}
-  .lm-clip{margin:0 0 2.6rem}
+  .lm-clip{margin:1.4rem 0 2.4rem}
   .lm-clip video{display:block; width:100%; max-width:100%; height:auto; border-radius:6px; background:#0b0c12}
   .lm-clip figcaption{margin-top:.8rem; font-size:clamp(1rem,0.4vw+.95rem,1.15rem); opacity:.85}
 </style>
