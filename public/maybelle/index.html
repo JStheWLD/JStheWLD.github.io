@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maybelle: the Living Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: five scenes stacked full screen; one control bar at the bottom that drives them all. */
+:root{ --void:#03050b; --amber:#e0a54a; --cyan:#40c4e8; --muted:#b3ab9c; --faint:#8f887c; --rule-2:#4a4552; --ink:#0f0e13; --cream:#fbf8f0;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; color-scheme:dark; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--void);overflow:hidden}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;opacity:0;pointer-events:none;transition:opacity .7s ease}
+iframe.on{opacity:1;pointer-events:auto}
+.bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:10;display:flex;align-items:center;gap:2px;flex-wrap:nowrap;white-space:nowrap;justify-content:center;
+  max-width:calc(100vw - 24px);padding:6px;border-radius:999px;background:rgba(12,12,18,.9);border:1px solid var(--rule-2);box-shadow:0 12px 40px rgba(0,0,0,.5);font-family:var(--mono);transition:opacity .5s}
+.bar.idle{opacity:.12} .bar.idle:hover,.bar.idle:focus-within{opacity:1}
+.bar.gone{opacity:0;pointer-events:none}
+.bar button{border:0;background:transparent;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;min-height:34px;padding:0 9px;border-radius:999px;cursor:pointer}
+.bar button:hover{color:var(--cream)}
+.bar button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.sep{width:1px;height:22px;background:var(--rule-2);margin:0 2px}
+.dots{display:flex;gap:2px}
+.dots button{display:flex;align-items:center;gap:6px;padding:0 7px}.dots button span{display:none}.dots button.on span{display:inline}
+.dots button i{width:8px;height:8px;border-radius:50%;background:var(--faint);transition:background .3s, box-shadow .3s}
+.dots button.on{color:var(--cream)} .dots button.on i{background:var(--amber);box-shadow:0 0 10px var(--amber)}
+.dots button.done i{background:var(--muted)}
+.bar .on-fill{background:var(--amber);color:var(--ink)}
+.bar #pp[aria-pressed="true"]{background:var(--cyan);color:var(--ink)}
+.bar #auto[aria-pressed="true"]{background:rgba(224,165,74,.18);color:var(--amber)}
+.prog{position:absolute;left:18px;right:18px;bottom:2px;height:2px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--amber);opacity:.7}
+@media (max-width:700px){ .dots button.on span{display:none} .bar [data-x]{display:none} }
+</style>
+</head>
+<body>
+<iframe id="f0" title="Capture" src="capture.html"></iframe>
+<iframe id="f1" title="Verify" src="verify.html"></iframe>
+<iframe id="f2" title="Decide" src="decide.html"></iframe>
+<iframe id="f3" title="Invite" src="invite.html"></iframe>
+<iframe id="f4" title="Connect" src="connect.html"></iframe>
+
+<div class="bar" id="bar" role="toolbar" aria-label="Demo controls">
+  <button type="button" id="back" aria-label="Previous scene">‹</button>
+  <div class="dots" id="dots"></div>
+  <button type="button" id="next" aria-label="Next scene">›</button>
+  <span class="sep"></span>
+  <button type="button" id="auto" aria-pressed="false" title="Advance on its own">Auto</button>
+  <button type="button" id="pp" aria-pressed="false">Pause</button>
+  <button type="button" data-x="0.5">½×</button><button type="button" data-x="1" class="on-fill">1×</button><button type="button" data-x="2">2×</button>
+  <button type="button" id="again" title="Play this scene from the top">Replay</button>
+  <div class="prog"><i id="prog"></i></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+/* each scene: how fast it runs, how long one pass takes (in its own time), and how to drive it */
+const HIDE_SPEED='.speed{display:none!important}';
+const SCENES=[
+  { name:'Capture', base:2.5, dur:66000, css:'.controls{display:none!important}',
+    start:x=>`setMode(false); speed=${x}; start();`, speed:x=>`speed=${x}`, pause:(p,x)=>p?'speed=0':`speed=${x}` },
+  { name:'Verify', base:1, dur:26600, css:HIDE_SPEED,
+    start:x=>`PAUSED=false; SPEEDX=${x}; reset();`, speed:x=>`SPEEDX=${x}`, pause:p=>`PAUSED=${p}` },
+  { name:'Decide', base:1.2, dur:37400, css:HIDE_SPEED,
+    start:x=>`PAUSED=false; SPEEDX=${x}; reset();`, speed:x=>`SPEEDX=${x}`, pause:p=>`PAUSED=${p}` },
+  { name:'Invite', base:1, dur:18500, css:'',
+    start:x=>`PAUSED=false; SPEEDX=${x}; reset();`, speed:x=>`SPEEDX=${x}`, pause:p=>`PAUSED=${p}` },
+  { name:'Connect', base:1, dur:33500, css:HIDE_SPEED+'.pilot{display:none!important}',
+    start:x=>`__demo.start(${x})`, speed:x=>`__demo.speed(${x})`, pause:p=>`__demo.pause(${p})` }
+];
+const frames=SCENES.map((_,i)=>$('f'+i));
+const ready=frames.map(f=>new Promise(res=>f.addEventListener('load',res,{once:true})));
+function run(i,code,tries=0){ try{ frames[i].contentWindow.eval(code); }catch(e){ if(tries<20) setTimeout(()=>run(i,code,tries+1),300); else console.log('scene',i,e); } }
+
+let cur=-1, G=1, PAUSED=false, AUTO=false, sceneT=0, last=performance.now();
+const kx=i=>SCENES[i].base*G;
+
+/* chapter dots */
+SCENES.forEach((s,i)=>{ const b=document.createElement('button'); b.type='button'; b.innerHTML=`<i></i><span>${i+1} ${s.name}</span>`; b.setAttribute('aria-label',`Scene ${i+1}: ${s.name}`); b.onclick=()=>go(i); $('dots').appendChild(b); });
+
+async function go(i){
+  i=(i+SCENES.length)%SCENES.length;
+  if(cur>=0 && cur!==i) run(cur, SCENES[cur].pause(true,0));
+  cur=i; sceneT=0;
+  frames.forEach((f,j)=>f.classList.toggle('on',j===i));
+  [...$('dots').children].forEach((b,j)=>{ b.classList.toggle('on',j===i); b.classList.toggle('done',j<i); });
+  await ready[i];
+  run(i, SCENES[i].start(kx(i)));
+  if(PAUSED) run(i, SCENES[i].pause(true,0));
+}
+function setPaused(p){ PAUSED=p; $('pp').setAttribute('aria-pressed',String(p)); $('pp').textContent=p?'Play':'Pause'; if(cur>=0) run(cur, SCENES[cur].pause(p,kx(cur))); }
+function setSpeed(x){ G=x; document.querySelectorAll('.bar [data-x]').forEach(b=>b.classList.toggle('on-fill',parseFloat(b.dataset.x)===x)); if(cur>=0 && !PAUSED) run(cur, SCENES[cur].speed(kx(cur))); }
+
+/* the shared clock: in Auto it moves to the next scene after one pass; otherwise the scene replays until you move on */
+(function tick(){ const n=performance.now(); if(!PAUSED && cur>=0) sceneT+=(n-last)*kx(cur); last=n;
+  if(cur>=0){ const s=SCENES[cur]; $('prog').style.width=Math.min(100,sceneT/s.dur*100)+'%';
+    if(sceneT>=s.dur){ if(AUTO) go(cur+1); else { sceneT=0; run(cur, s.start(kx(cur))); } } }
+  requestAnimationFrame(tick); })();
+
+$('next').onclick=()=>go(cur+1); $('back').onclick=()=>go(cur-1);
+$('again').onclick=()=>go(cur);
+$('pp').onclick=()=>setPaused(!PAUSED);
+$('auto').onclick=()=>{ AUTO=!AUTO; $('auto').setAttribute('aria-pressed',String(AUTO)); };
+document.querySelectorAll('.bar [data-x]').forEach(b=>b.onclick=()=>setSpeed(parseFloat(b.dataset.x)));
+
+/* keys work wherever focus is, including inside a scene */
+function onKey(e){ if(e.target && /input|textarea/i.test(e.target.tagName)) return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+  else if(e.key===' '){ e.preventDefault(); setPaused(!PAUSED); }
+  else if(e.key==='a'||e.key==='A'){ $('auto').click(); }
+  else if(e.key==='h'||e.key==='H'){ $('bar').classList.toggle('gone'); }
+  else if(/^[1-5]$/.test(e.key)){ go(+e.key-1); } }
+addEventListener('keydown',onKey);
+
+/* the bar fades while the mouse is still, so it stays out of a recording */
+let idle; const wake=()=>{ $('bar').classList.remove('idle'); clearTimeout(idle); idle=setTimeout(()=>$('bar').classList.add('idle'),2500); };
+addEventListener('mousemove',wake);
+
+frames.forEach((f,i)=>f.addEventListener('load',()=>{ try{
+  const d=f.contentDocument, st=d.createElement('style'); st.textContent=SCENES[i].css; d.head.appendChild(st);
+  d.addEventListener('keydown',onKey); d.addEventListener('mousemove',wake);
+  if(i!==cur) run(i, SCENES[i].pause(true,0));
+}catch(e){} }));
+wake(); go(0);
+</script>
+</body>
+</html>
