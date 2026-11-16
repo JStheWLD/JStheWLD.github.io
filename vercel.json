@@ -1,5 +1,6 @@
 {
   "redirects": [
+    { "source": "/HoFdemo", "destination": "/HoFdemo/", "permanent": false },
     { "source": "/hofdemo", "destination": "/HoFdemo/", "permanent": false },
     { "source": "/hofdemo/:path*", "destination": "/HoFdemo/:path*", "permanent": false }
   ]
