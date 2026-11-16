@@ -1,0 +1,758 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+  .ill{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .ill .mouth{transform-box:fill-box;transform-origin:center}
+  .ill .eyes{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+  .ill .hg{transform-box:view-box;transform-origin:100px 150px}
+  .tile.speaking .ill .mouth{animation:talk .55s infinite}
+  .tile.speaking .ill .hg{animation:bob 1.6s ease-in-out infinite}
+  @keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+  @keyframes talk{0%{transform:scaleY(1)}20%{transform:scaleY(3)}40%{transform:scaleY(1.5)}60%{transform:scaleY(3.4)}80%{transform:scaleY(1.2)}100%{transform:scaleY(1)}}
+  @keyframes bob{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.6deg)}70%{transform:rotate(1.2deg)}}
+  .tile .nameplate{z-index:2}
+  /* a quiet prompt Maybelle raises inside the call when a name keeps coming up */
+  .flag{position:absolute;left:50%;top:18px;transform:translate(-50%,-10px);z-index:6;width:min(420px,86%);background:rgba(10,14,22,.94);border:1px solid var(--edge-lit);border-radius:14px;padding:14px 16px;box-shadow:0 18px 40px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .5s,transform .5s}
+  .flag.in{opacity:1;transform:translate(-50%,0)}
+  .flag .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+  .flag p{margin:6px 0 10px;font-size:15px;line-height:1.4;color:var(--ink)}
+  .flag .b{display:flex;gap:8px}
+  .flag .b span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;border-radius:8px;padding:7px 12px;border:1px solid var(--line-2);color:var(--ink-faint)}
+  .flag .b span.go{background:var(--amber);color:#1a1206;border-color:var(--amber);transition:transform .2s}
+  .flag .b span.go.press{transform:scale(.94)}
+  .flag .done{display:none;font-size:13px;color:var(--cyan)} .flag.sent .b{display:none} .flag.sent .done{display:block}
+  .layout{position:relative}
+</style></head><body>
+<title>Maybelle × Country Music Hall of Fame</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Libre+Baskerville:ital@0;1&display=swap">
+<style>
+  /* Layout: a video call. Presenter mode off = faces | Maybelle's shared screen (the light form) | transcript.
+     Presenter mode on = shared screen | her working memory. Single dark look: the light form's own skin (tokens.css). */
+  :root {
+    color-scheme: dark;
+    --void: #0f0e13; --void-2: #17151d; --raised: #1e1b25; --raised-2: #2a2733; --halo: #020409;
+    --line: rgba(233,227,212,.10); --line-2: rgba(233,227,212,.2);
+    --ink: #ece6d8; --ink-soft: #b3ab9c; --ink-faint: #968f82;
+    --glint: #ffffff; --cyan: #40c4e8; --amber: #e0a54a; --rust: #c1512a; --chambray: #9db4bc;
+    --kind-person: #e8a020; --kind-song: #33e08a; --kind-moment: #9a5cf0; --kind-place: #b9b0a0;
+    --glass: rgba(15,14,19,.72);
+    --edge: rgba(64,196,232,.16); --edge-lit: rgba(64,196,232,.85);
+    --display: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
+    --body: "Libre Baskerville", Georgia, serif;
+    --ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, Menlo, Consolas, monospace;
+    --breath: 13s; --ease: cubic-bezier(.2,.8,.2,1);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; display: flex; flex-direction: column; overflow: hidden;
+    background: radial-gradient(120% 80% at 50% -10%, var(--raised), var(--void) 60%);
+    background-color: var(--void);
+    color: var(--ink); font-family: var(--ui); font-size: 14px; line-height: 1.45;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 12px;
+    gap: 12px;
+  }
+  .micro { font-family: var(--ui); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); }
+
+  /* ---------- top bar ---------- */
+  .topbar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .brandmark { display: flex; align-items: center; gap: 10px; }
+  .seal { width: 40px; height: 40px; flex: none; border-radius: 999px; display: grid; place-items: center;
+    background: radial-gradient(circle at 38% 32%, var(--raised-2), var(--halo) 78%);
+    border: 1px solid var(--line-2); box-shadow: 0 4px 16px rgba(0,0,0,.5); }
+  .seal img { width: 60%; opacity: .94; }
+  .wm b { display: block; font-family: var(--display); font-weight: 400; font-size: 19px; letter-spacing: .02em; line-height: 1.1; }
+  .wm .x { font-style: normal; color: var(--amber); margin: 0 .25em; }
+  .wm .partner { display: inline; font-family: var(--display); font-size: 19px; letter-spacing: .02em; text-transform: none; color: var(--ink); opacity: 1; }
+  .wm .partner small { font-family: var(--ui); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); margin-left: .6em; }
+  .wm > span { font-size: 9.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--cyan); opacity: .85; }
+  .controls { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  button { font: inherit; color: inherit; }
+  .btn { appearance: none; cursor: pointer; background: var(--glass); border: 1px solid var(--line-2); color: var(--ink);
+    padding: 7px 12px; border-radius: 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    transition: border-color .15s, background .15s; }
+  .btn:hover { border-color: var(--edge-lit); }
+  .btn:focus-visible, .seg button:focus-visible, .switch:focus-visible { outline: 2px solid var(--edge-lit); outline-offset: 2px; }
+  .btn.primary { border-color: var(--edge-lit); color: var(--cyan); box-shadow: 0 0 14px rgba(64,196,232,.18) inset; }
+  .seg { display: flex; border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; background: var(--glass); }
+  .seg button { appearance: none; border: 0; background: transparent; padding: 7px 10px; cursor: pointer; font-size: 11px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .seg button.on { color: var(--void); background: var(--cyan); }
+  .switch { appearance: none; cursor: pointer; display: flex; align-items: center; gap: 9px; background: var(--glass);
+    border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 11px 6px 8px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+  .switch .track { width: 30px; height: 17px; border-radius: 999px; background: var(--raised-2); position: relative; transition: background .2s; border: 1px solid var(--line-2); }
+  .switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: var(--ink-soft); transition: transform .2s var(--ease), background .2s; }
+  .switch[aria-pressed="true"] { color: var(--ink); border-color: var(--edge-lit); }
+  .switch[aria-pressed="true"] .track { background: rgba(64,196,232,.25); }
+  .switch[aria-pressed="true"] .track::after { transform: translateX(13px); background: var(--cyan); }
+
+  /* ---------- the call ---------- */
+  .layout { flex: 1; min-height: 0; display: grid; gap: 12px; grid-template-rows: minmax(0, 1fr); }
+  .layout[data-mode="call"] { grid-template-columns: minmax(160px, 200px) minmax(0, 1fr) minmax(240px, 300px); }
+  .layout[data-mode="call"] .transcript-panel { order: 3; }
+  .layout[data-mode="presenter"] { grid-template-columns: minmax(0, 1fr) minmax(260px, 340px); }
+  .panel { min-height: 0; min-width: 0; display: flex; flex-direction: column; background: var(--glass);
+    border: 1px solid var(--edge); border-radius: 14px; overflow: hidden; backdrop-filter: blur(10px); }
+  .panel > header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+
+  /* faces */
+  .faces { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+  .tile { position: relative; flex: 1; min-height: 0; border-radius: 14px; overflow: hidden;
+    background: radial-gradient(90% 90% at 50% 35%, var(--raised-2), var(--halo));
+    border: 1px solid var(--line); display: grid; place-items: center; transition: border-color .25s, box-shadow .25s; }
+  .tile.speaking { border-color: var(--edge-lit); box-shadow: 0 0 0 1px var(--edge-lit), 0 0 22px rgba(64,196,232,.28); }
+  .face { width: min(42%, 96px); aspect-ratio: 1; max-width: 100%; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--display); font-size: clamp(20px, 2.4vw, 32px); color: var(--ink); letter-spacing: .02em;
+    border: 1px solid var(--line-2); }
+  .face.ray { background: radial-gradient(circle at 35% 30%, #6a4a1c, #2a1d0e 75%); }
+  .face.joe { background: radial-gradient(circle at 35% 30%, #3f5964, #172229 75%); }
+  .face.maybelle { background: radial-gradient(circle at 38% 32%, var(--raised-2), var(--halo) 78%); position: relative; }
+  .face.maybelle img { width: 58%; opacity: .95; }
+  .face.maybelle::before { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 1px solid var(--edge-lit);
+    opacity: .5; animation: breathe var(--breath) ease-in-out infinite; }
+  .tile.speaking .face.maybelle::before { animation-duration: 1.6s; opacity: .9; }
+  @keyframes breathe { 0%,100% { transform: scale(1); opacity: .35; } 50% { transform: scale(1.08); opacity: .8; } }
+  .nameplate { position: absolute; left: 8px; bottom: 8px; right: 8px; display: flex; align-items: center; gap: 7px; }
+  .nameplate .who { background: rgba(2,4,9,.7); border-radius: 6px; padding: 3px 8px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .nameplate .who small { color: var(--ink-faint); margin-left: 6px; font-size: 10.5px; }
+  .ai-chip { font-size: 9px; letter-spacing: .16em; color: var(--cyan); border: 1px solid var(--edge-lit); border-radius: 4px; padding: 1px 5px; background: rgba(2,4,9,.7); }
+  .bars { margin-left: auto; display: flex; gap: 2px; align-items: flex-end; height: 14px; background: rgba(2,4,9,.7); padding: 2px 5px; border-radius: 6px; }
+  .bars i { width: 3px; height: 3px; border-radius: 2px; background: var(--ink-faint); }
+  .tile.speaking .bars i { background: var(--cyan); animation: eq .9s ease-in-out infinite; }
+  .tile.speaking .bars i:nth-child(2) { animation-delay: .15s; } .tile.speaking .bars i:nth-child(3) { animation-delay: .3s; }
+  @keyframes eq { 0%,100% { height: 3px; } 50% { height: 10px; } }
+
+  /* transcript */
+  .transcript { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+  .line { animation: rise .35s var(--ease); }
+  .line .spk { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 3px; display: flex; gap: 8px; align-items: baseline; }
+  .line .spk time { color: var(--ink-faint); font-family: var(--mono); letter-spacing: 0; font-size: 10px; }
+  .line.maybelle .spk b { color: var(--cyan); } .line.ray .spk b { color: var(--amber); } .line.joe .spk b { color: var(--chambray); }
+  .line .text { font-family: var(--body); font-size: 13px; line-height: 1.6; color: var(--ink); }
+  .empty { color: var(--ink-faint); font-size: 12.5px; }
+  @keyframes rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* shared screen */
+  .share-pill { display: inline-flex; align-items: center; gap: 7px; }
+  .share-pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .graph-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden;
+    background: var(--halo); }
+  svg.graph { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .star { fill: var(--ink); }
+  #edges { filter: drop-shadow(0 0 2px rgba(64,196,232,.55)); }
+  .edge { stroke: var(--cyan); stroke-width: .9; fill: none; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1;
+    transition: opacity .6s ease-out, stroke-dashoffset 1.1s var(--ease); }
+  .edge.on { opacity: .62; stroke-dashoffset: 0; }
+  .node-g .hub { fill: none; stroke: var(--cyan); stroke-width: 1.1; opacity: 0; filter: drop-shadow(0 0 4px var(--cyan)); transition: opacity 1.2s ease-out .4s; }
+  .node-g.on .hub { opacity: .75; }
+  .graph.hide-names .node-g text { opacity: 0; transition: opacity .2s; }
+  .graph.hide-names .node-g:hover text, .graph.hide-names .node-g:focus text { opacity: 1; }
+  .names-pill { position: absolute; top: 10px; right: 12px; z-index: 3; cursor: pointer; font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink); background: var(--glass); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 12px; }
+  .names-pill[aria-pressed="true"] { border-color: var(--edge-lit); color: var(--cyan); }
+  .names-pill:focus-visible { outline: 2px solid var(--edge-lit); outline-offset: 2px; }
+  .node-g { opacity: 0; transition: opacity .6s ease-out; cursor: pointer; }
+  .node-g.on { opacity: 1; }
+  .node-g .core { transform-box: fill-box; transform-origin: center; transform: scale(.2); transition: transform .7s cubic-bezier(.3,1.5,.5,1); }
+  .node-g.on .core { transform: scale(1); }
+  .node-g .glow { opacity: .55; }
+  .node-g.on .glow { animation: glow var(--breath) ease-in-out infinite; }
+  @keyframes glow { 0%,100% { opacity: .35; } 50% { opacity: .7; } }
+  .node-g .ping { fill: none; stroke-width: 1.2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .node-g.fresh .ping { animation: ping 1.4s ease-out 1; }
+  @keyframes ping { 0% { opacity: .9; transform: scale(.6); } 100% { opacity: 0; transform: scale(3.2); } }
+  .node-g text { font-family: var(--mono); font-size: 16px; fill: var(--ink); paint-order: stroke; stroke: var(--halo); stroke-width: 4.5px; stroke-linejoin: round; pointer-events: none; user-select: none; }
+  .node-g:hover text, .node-g:focus text { fill: #fff; }
+  .graph-empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 20px;
+    font-family: var(--display); font-size: 20px; color: var(--ink-soft); pointer-events: none; transition: opacity .5s; }
+  .graph-empty small { display: block; margin-top: 8px; font-family: var(--ui); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); }
+  .hud { position: absolute; top: 48px; right: 14px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); text-align: right; font-variant-numeric: tabular-nums; }
+  .hud b { color: var(--ink); font-weight: 500; }
+  .legend { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 12px; flex-wrap: wrap; background: var(--glass);
+    border: 1px solid var(--edge); border-radius: 10px; padding: 7px 11px; font-size: 10.5px; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 6px 1px currentColor; }
+  .hovercard { position: absolute; max-width: 270px; pointer-events: none; opacity: 0; transition: opacity .15s; z-index: 4;
+    background: var(--glass); border: 1px solid var(--edge-lit); border-radius: 10px; padding: 9px 11px; backdrop-filter: blur(10px); }
+  .hovercard.on { opacity: 1; }
+  .hovercard .hn { font-family: var(--display); font-size: 16px; }
+  .hovercard .hk { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); margin-left: 6px; }
+  .hovercard .hq { font-family: var(--body); font-size: 12px; line-height: 1.5; color: var(--ink-soft); margin-top: 5px; }
+
+  /* memory */
+  .memory { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .mem { padding: 7px 9px; border-radius: 8px; background: rgba(2,4,9,.45); border: 1px solid var(--line); animation: rise .35s var(--ease); }
+  .mem .row { display: flex; align-items: center; gap: 8px; }
+  .mem .tag { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; border: 1px solid currentColor; }
+  .mem .tag.detect { color: var(--cyan); } .mem .tag.score { color: var(--amber); } .mem .tag.ask { color: var(--rust); }
+  .mem time { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+  .mem .body { font-family: var(--mono); font-size: 11.5px; line-height: 1.5; color: var(--ink); margin-top: 5px; }
+  .mem.ask { border-color: rgba(193,81,42,.45); }
+
+  /* summary */
+  .summary { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; z-index: 5;
+    background: rgba(2,4,9,.78); backdrop-filter: blur(6px); }
+  .summary-card { width: 100%; max-width: 440px; background: var(--glass); border: 1px solid var(--edge-lit); border-radius: 14px; padding: 22px; }
+  .summary-card h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 26px; }
+  .summary-card p { margin: 6px 0 0; font-family: var(--body); font-size: 13px; color: var(--ink-soft); }
+  .sgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 12px; margin: 18px 0; }
+  .sgrid div { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+  .sgrid b { display: block; font-family: var(--display); font-weight: 400; font-size: 28px; color: var(--ink); letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; }
+  .summary-card .btn { width: 100%; }
+  .summary-card .foot { margin-top: 14px; font-size: 11.5px; color: var(--ink-faint); line-height: 1.5; }
+
+  @media (max-width: 860px) {
+    body { overflow: auto; height: auto; min-height: 100%; }
+    .layout, .layout[data-mode] { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+    .faces { flex-direction: row; }
+    .tile { min-height: 120px; }
+    .face { width: 56px; font-size: 20px; }
+    .nameplate .who small { display: none; }
+    .panel.memory-panel, .panel.transcript-panel { max-height: 300px; }
+    .panel.screen { min-height: 440px; }
+    .controls { margin-left: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+  }
+</style>
+
+<div class="topbar">
+  <div class="brandmark">
+    <span class="seal"><img src="data:image/png;base64,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" alt="" width="24" height="24"></span>
+    <span class="wm"><b>Maybelle <i class="x">×</i> <span class="partner">Country Music Hall of Fame<small>and Museum</small></span></b><span>The Living Memory · meeting demo</span></span>
+  </div>
+  <div class="controls">
+    <button class="switch" id="mode" type="button" aria-pressed="false"><span class="track"></span>Presenter mode</button>
+    <div class="seg" role="group" aria-label="Playback speed">
+      <button type="button" data-speed="1" class="on">1x</button>
+      <button type="button" data-speed="2">2x</button>
+      <button type="button" data-speed="4">4x</button>
+    </div>
+    <button class="btn" id="restart" type="button">Restart</button>
+    <button class="btn primary" id="start" type="button">Start meeting</button>
+  </div>
+</div>
+
+<main class="layout" id="layout" data-mode="call">
+  <section class="faces" id="faces" aria-label="People on the call">
+    <div class="tile" data-who="maybelle">
+      <div class="face maybelle"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAARGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAADoAEAAwAAAAEAAQAAoAIABAAAAAEAAABgoAMABAAAAAEAAABgAAAAAKkzX04AAAHLaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA2LjAuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPGV4aWY6Q29sb3JTcGFjZT4xPC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj41MTI8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NTEyPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CgCF4JgAAAgtSURBVHgB7ZtZjBVFFIYZEQUBBRFQRBEiBCPIqEQkKgaMGrfIAyQSthENL4YE5VEfjAsKUdwSMVFEfXFJQKPBNWCIERUEwy6iEEAQWZU9bOP3j7eHounu29XTl7mXOSf5U6eqTp069VdXdXXfvs2amRgDxoAxYAwYA8aAMWAMGAPGgDFgDBgDxoAxYAwYA8aAMWAMGAPGgDFgDBgDxoAxYAwYA8ZASRioKonXEjmtra1VvJeAC0At2A12VVVVHSE1KRUDIh6MAwvATnAIHATbwVIwBXQqVf9N3m+BYJJEWUFt7yZPVt4EQOpAcDSR+hOVy1DPzzuGUvo7q5TOc/I9Gj/Ni/haSv1soPGMKmJr1WkZ4GpuDhafuMBP0Y5T8gQ4Vz5JW4Jeaf2Xg11Zn4IgswMkrQAXx5ClumpOQcdi6mOL8d2NyhHgarANzBPwdZD0zBAGeQGoBv1BG99R0aYH2AfiZI6vT9nj7GawJcLpEsqGZfFZVm0YRF/wGlgPdAPVVrEc3OgTKPb9QNINeL6PP9ni70KwBiTJO1Rq9VWWEHR7MBXsBVHyJ4Xd044K2yFRTpyyjehepx7spzvtk1StBm1PlSEEq2WtY2AxmZV2RDgaX8TZMepv8/A3HHu1SSubMByQ1n+j2RHkaLAn5ai0HQ1NEyx2s1P4nINN0cMENtcCPTn7ymYa9EkTb6PYEFwNOOI5qnXY90gKmHptP3rdkEYeL+KrD07WpnEUY6PXHeV3TyCoO0BaksJjW01B5PZB+T0g6pQS9uHmp5E5hSTKhgFdxQ2Vt5MmOWtd0aUb55jRdKHuB3B5nE2K8qPYzAXfgu1AL9SGAE1Mlqf09bT7FKwG7cCdYDDIQ47j5F6eE77Iw1ngoyETMBMnNYGjQlpLKp9BGqqu+OxPjGAQk3A4r5Fkucp0lr6BAEZGBBFMaJBGmFR0kU5Et+c5gkwTQAATQIs8A6kgXzV5xup9pXL1X0oAy0H7PAOpIF+6V/VhG9L7owZLlhWgG2RTJV+EdwT9pOQhWSZgSEzHuvEKTUEaZwLYfs6G3eoYhr23sxg/lVDcM68gfVeAHnS6JnTeVCZB98FcxHcCOtOrPgkpJmf6VpSGg2Ic1dX7ToA61jZUTM70ldCK7diXu0jOfJ20jfTS9Ar1WiKXVe47Aed4cp1LkJ59ng7zAzwH5DI23wk46Dm6M3Ur2u3JQ6y57wTsi/XUtCo25zVc3wn4h46P5NV5Bfv5Pa/YfSdgJx3vyavzEvlZhN9XQC7vamJiXBlT7l3sOwHa+0o5ML1n/xL85j2S/xuo7RBukBNJH43woQ+5XgV6r59V/qXh6qyNG9yO869+BG+I6PPyuI+tnlaA1LcDMzw7+Qf7+lcE6F2AygJZiFL3EpG0I8j6M+X3tPW9cGN5z+JIV1FWWU9D/ZgzGIRXku4tH4FmXMG61zwCtJ2kla9ot9Yx1oltv5OfTn3d6YVUr5R/dep81Lm013NALpJlAhY2oOf3CP4PIGLfCvnZRX5LUIbNIfQXg3yKdH7IRk/swVO7CFsWqq/7oDdUViyrb1AzfQ4Z5zjLBPyMs6zH0VVOIBqIeyXJZ/g5Qz/Y/+20SVI3hCr1Lep5hbIDpDuCerYQfU13eZD3SPVD1BIP+6KmWSZgI14XF/GsLSRKWjqFupG55J7yZMkqEGlLnTZJ6t5QpUhuVShTnVuve4X+a+bKu2QeAElb0/vElOsx3HsCCEBEzXIjD+m/kK8G40H4s/GrAlv8aD9eE+QT0vDWEWcafk2iT16CFaaJdo/Pt5IPtif5+wQ8SEwfkk5TQYQo3vcjyhtU5D0Bhd40AfVLOhTBbAayAbxJeTjgm1j+VY69u2/HxZJmkuSyneNXqkgPrvo5xKMJ0QlL/d8lvSC7SCdRH6zAoE1QH6QfYLMpyOSVxg060T+B6GY5I8ao/kZK/VPA3Y6uI3+l0+5j9DpiSLX/B7pj0iztoE/aUohRF4iu5pngBcdhN/QBTl6no3VO3o0vKNakvBxkyiLlSuoM9Hl4WKa6AVL5ZMhgQqj+Ker1FXKNWx7olA8KtY/LpiKIxg87Drah6wu/eiH/qVMfqC/VG5STQnRjgwidVJNyURAnuv4QscGpn4d+0sojX/eAFLRxU+oGO22T1M/ddnE6Dt5wnExx7SjvBDQpruiB7aTV5bZpVJ3A9Ce6r91oC/pkNzDKJjk2/6KnPgJiO8Jpm6Tqi+vWbr9ROjbPFpzsIO3q2pCvKdS5yUOuTdnpRKrv7ve7ERfy1wfBktd/xVY5Nu4eHJhFprTRv+DTiP7KNDDSiVOITW/wHRjpFOvm3ALodYUrn5Fp7tqVpU6QT7tRF/T5pPVHQ3SdgLS8td+nWtLYaYUtAmnl9awE0cHYUCf6PL57Vn+ntR2Btgbhq0fjGecGQr47uMItS9KxvQX4/PlD21vfJJ9RdbTpBtz/I6jP+6Nsy7aMgK8BetPpygoyRfflqEHRTn+61g3bVxbQoE2Uz7gy7J8PdfJYnG1ZlzOI+8ABZzCH0XtlCZp2oxw/vuoknz5x/hzQVa8b+RiftmVnywCGguDPcCvR22YJknbDQVbxOrfTib7z0X+SY4/DWcbQaG0YSE8wBmS6+hU4bXUDngj+AmllK4aTQfi1RKNxUfEdQ2ZX8AxImgj9AVw2l1XagN0XY2UdO+TqlcHdoD/oUAh2K+mP4Bve52wrlFliDBgDxoAxYAwYA8aAMWAMGAPGgDFgDBgDxoAxYAwYA8aAMWAMGAPGgDFgDBgDxoAxYAwYA8aAMWAMNHUG/gPoXLrgTGnfmwAAAABJRU5ErkJggg==" alt=""></div>
+      <div class="nameplate"><span class="who">Maybelle</span><span class="ai-chip">AI</span><span class="bars"><i></i><i></i><i></i></span></div>
+    </div>
+    <div class="tile" data-who="ray">
+      <div class="ill-slot" data-k="ray"></div>
+      <div class="nameplate"><span class="who">Ray Kennedy<small>Producer, engineer</small></span><span class="bars"><i></i><i></i><i></i></span></div>
+    </div>
+    <div class="tile" data-who="joe">
+      <div class="ill-slot" data-k="joe"></div>
+      <div class="nameplate"><span class="who">Joe Glaser<small>Glaser Instruments</small></span><span class="bars"><i></i><i></i><i></i></span></div>
+    </div>
+  </section>
+
+  <div class="flag" id="flag"><div class="k">Maybelle · Harold Bradley came up</div><p>Harold Bradley is on the map with hundreds of sessions and two firsthand accounts. Invite someone who knew him?</p><div class="b"><span class="go" id="flagGo">Invite</span><span>Not now</span></div><div class="done">Maybelle will find people who knew Harold and write to them.</div></div>
+  <section class="panel transcript-panel" id="transcriptPanel" hidden>
+    <header><span class="micro">Meeting transcript</span></header>
+    <div class="transcript" id="transcript"><div class="empty">The transcript appears here once the meeting starts.</div></div>
+  </section>
+
+  <section class="panel screen">
+    <header>
+      <span class="share-pill micro"><i></i>Maybelle is sharing her screen</span><span class="micro" style="margin-left:auto">Maybelle × Country Music Hall of Fame and Museum</span>
+    </header>
+    <div class="graph-wrap" id="graphWrap">
+      <svg class="graph" id="graph" viewBox="-70 -30 1140 760" preserveAspectRatio="xMidYMid meet" aria-label="The Living Memory map, built during the meeting">
+        <defs>
+          <filter id="bloom" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+        <g id="stars"></g><g id="edges"></g><g id="nodes"></g>
+      </svg>
+      <div class="graph-empty" id="graphEmpty"><div>Press Start meeting.<small>Maybelle adds people, songs, places and moments as they come up</small></div></div>
+      <button class="names-pill" id="namesBtn" type="button" aria-pressed="true">Names</button>
+      <div class="hud"><b id="st-nodes">0</b> names &middot; <b id="st-edges">0</b> lines<br><span id="clock">0:00</span></div>
+      <div class="legend">
+        <span style="color:var(--kind-person)"><i style="background:var(--kind-person)"></i>People</span>
+        <span style="color:var(--kind-song)"><i style="background:var(--kind-song)"></i>Songs</span>
+        <span style="color:var(--kind-moment)"><i style="background:var(--kind-moment)"></i>Moments</span>
+        <span style="color:var(--kind-place)"><i style="background:var(--kind-place)"></i>Places</span>
+      </div>
+      <div class="hovercard" id="hovercard"></div>
+      <div class="summary" id="summary" hidden>
+        <div class="summary-card">
+          <h3>Saved to the Living Memory</h3>
+          <p>Three stories. Maybelle built the map while they talked.</p>
+          <div class="sgrid">
+            <div><b id="sum-people">0</b>People</div>
+            <div><b id="sum-songs">0</b>Songs</div>
+            <div><b id="sum-places">0</b>Places</div>
+            <div><b id="sum-moments">0</b>Moments</div>
+            <div><b id="sum-edges">0</b>Lines</div>
+            <div><b id="sum-time">0:00</b>Minutes</div>
+          </div>
+          <button class="btn primary" id="replay" type="button">Replay</button>
+          <div class="foot">This is a demo with a written script. In a real meeting, Maybelle would pick out the names, songs and places from the call as it is transcribed.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel memory-panel" id="memoryPanel">
+    <header><span class="micro">Maybelle's working memory</span></header>
+    <div class="memory" id="memory"><div class="empty">What Maybelle notices, checks and wants to ask next.</div></div>
+  </section>
+</main>
+
+<script>
+const NODES = {
+  ray:    { label: "Ray Kennedy",     type: "person", x: 500, y: 350, note: "Producer and engineer. He tells all three stories in this meeting." },
+  dolly:  { label: "Dolly Parton",    type: "person", x: 260, y: 150, note: "She goes, oh, you from Texas? She was so fast, you know." },
+  rca:    { label: "RCA Building",    type: "place",  x: 380, y: 220, note: "The tax preparer upstairs, the Taxi guys down the hall, the loading dock out back." },
+  mTexas: { label: "oh, you from Texas", type: "moment", x: 170, y: 260, note: "I said, I was hoping to get on your session, but actually I'm here to do my taxes. She goes, oh, you from Texas?" },
+  brent:  { label: "Brent Maher",     type: "person", x: 640, y: 180, note: "Came to Nashville in 1964 wanting to be an engineer." },
+  porter: { label: "Bill Porter",     type: "person", x: 760, y: 280, note: "Engineered Elvis records. Pivotal to Roy Orbison." },
+  fred:   { label: "Fred Foster",     type: "person", x: 880, y: 180, note: "Had a recording suite and a label in the Masonic Temple on 7th Avenue North." },
+  masonic:{ label: "Masonic Temple",  type: "place",  x: 910, y: 290, note: "7th Avenue North. Where Brent Maher walked in and got the job." },
+  chet:   { label: "Chet Atkins",     type: "person", x: 700, y: 400, note: "Fired Bill Porter over a publishing company on the side. Called him back years later." },
+  elvis:  { label: "Elvis Presley",   type: "person", x: 870, y: 410, note: "Bill Porter engineered his records." },
+  susp:   { label: "Suspicious Minds",type: "song",   x: 995, y: 455, note: "The next record Bill Porter engineered after Chet brought him back." },
+  mFired: { label: "Porter fired",    type: "moment", x: 610, y: 470, note: "Chet Atkins fired him because he started a publishing company on the side." },
+  mBack:  { label: "Porter brought back", type: "moment", x: 820, y: 500, note: "A few years later, Chet called Bill and asked him to come back." },
+  dan:    { label: "Dan Penn",        type: "person", x: 420, y: 470, note: "Ray has been helping him record and mix." },
+  rick:   { label: "Rick Hall",       type: "person", x: 290, y: 510, note: "Would not let Dan produce records. Pressed 7 inch singles and drove them to stations." },
+  shoals: { label: "Muscle Shoals",   type: "place",  x: 210, y: 400, note: "Every artist was Black, every musician was white, every songwriter was white." },
+  wallace:{ label: "George Wallace",  type: "person", x: 170, y: 565, note: "The height of segregation in the South." },
+  mInt:   { label: "integrated culture, 1962 to 1968", type: "moment", x: 130, y: 470, note: "Everybody got along, everybody trusted each other, everybody relied on each other." },
+  m7in:   { label: "7 inch singles drive", type: "moment", x: 300, y: 610, note: "They drove all over the South and dropped off the records, then heard them on the radio driving away." },
+  chips:  { label: "Chips Moman",     type: "person", x: 480, y: 575, note: "Told Dan: meet me in Memphis, let's do it over there." },
+  memphis:{ label: "Memphis",         type: "place",  x: 570, y: 625, note: "Where Dan went when Rick would not let him produce." },
+  amer:   { label: "American Studios",type: "place",  x: 680, y: 580, note: "Chips Moman's studio. Where The Letter was cut." },
+  box:    { label: "Box Tops",        type: "person", x: 470, y: 680, note: "The first act Dan produced in Memphis." },
+  letter: { label: "The Letter",      type: "song",   x: 620, y: 690, note: "The first record Dan produced." },
+  otis:   { label: "Otis Redding",    type: "person", x: 370, y: 650, note: "Dan wanted to make a record on Otis Redding." },
+  willie: { label: "Willie Mitchell", type: "person", x: 760, y: 680, note: "Royal Studios." },
+  boo:    { label: "Boo Mitchell",    type: "person", x: 900, y: 660, note: "Willie's son. Runs Royal now." },
+  royal:  { label: "Royal Studios",   type: "place",  x: 840, y: 600, note: "Still a dangerous neighborhood, with a pocket of great talent inside it." },
+  aretha: { label: "Aretha Franklin", type: "person", x: 110, y: 330, note: "Came through Muscle Shoals and recorded with Jerry Wexler." },
+  percy:  { label: "Percy Sledge",    type: "person", x: 20,  y: 420, note: "Part of the Muscle Shoals run." },
+  darkEnd:{ label: "Dark End of the Street", type: "song", x: 30, y: 530, note: "Written by Dan Penn and Chips Moman." },
+  doRight:{ label: "Do Right Woman",  type: "song",   x: 80, y: 640, note: "Dan Penn and Chips Moman. Recorded by Aretha." },
+  puppet: { label: "I'm Your Puppet", type: "song",   x: 220, y: 662, note: "Dan Penn and Spooner Oldham." },
+  harold: { label: "Harold Bradley",  type: "person", x: 560, y: 240, note: "Session guitarist, Hall of Fame 2006. Hundreds of sessions on the map, two firsthand accounts." }
+};
+
+const EDGES = [
+  ["ray","rca"], ["ray","dolly"], ["dolly","rca"], ["ray","mTexas"], ["dolly","mTexas"], ["mTexas","rca"],
+  ["brent","porter"], ["brent","fred"], ["fred","masonic"], ["porter","elvis"], ["porter","chet"], ["chet","mFired"], ["porter","mFired"],
+  ["chet","mBack"], ["porter","mBack"], ["mBack","susp"], ["elvis","susp"], ["porter","susp"],
+  ["harold","porter"], ["harold","ray"],
+  ["ray","dan"], ["dan","rick"], ["rick","shoals"], ["dan","shoals"], ["shoals","wallace"], ["shoals","mInt"], ["dan","mInt"],
+  ["rick","m7in"], ["dan","m7in"],
+  ["dan","chips"], ["chips","memphis"], ["chips","amer"], ["amer","memphis"], ["dan","amer"], ["dan","otis"],
+  ["box","letter"], ["dan","letter"], ["letter","amer"],
+  ["willie","royal"], ["boo","royal"], ["royal","memphis"], ["willie","boo"],
+  ["dan","darkEnd"], ["chips","darkEnd"], ["dan","doRight"], ["aretha","doRight"], ["aretha","shoals"], ["percy","shoals"],
+  ["dan","puppet"]
+];
+
+// t = milliseconds into the meeting at 1x
+const SCRIPT = [
+  { t: 200,  mem: ["detect", "Listening for people, songs, places and moments."] },
+  { t: 500,  speak: "maybelle", text: "I'm Maybelle, an AI. I'll put what you say on the map as we talk. Ray, Dolly Parton is on the screen. What do you remember about her?" },
+  { t: 3800, mem: ["detect", "Person: Dolly Parton."] },
+  { t: 4200, node: "dolly" },
+  { t: 5200, speak: "ray", text: "Well, I was headed into the RCA building to do my taxes. The tax preparer was upstairs, same floor as the Taxi guys back then. Dolly's session players were out on the loading dock on a break and waved me in to meet her." },
+  { t: 7600, mem: ["detect", "Person: Ray Kennedy. Place: RCA Building, Nashville."] },
+  { t: 8000, node: "ray" },
+  { t: 8400, node: "rca" },
+  { t: 8900, edge: ["ray","rca"] },
+  { t: 9200, edge: ["dolly","rca"] },
+  { t: 12000, speak: "ray", text: "She asked what I was doing there. I said, well, I was hoping to get on your session, but actually I'm here to do my taxes. She goes, oh, you from Texas? She was so fast, you know." },
+  { t: 15200, mem: ["score", "Ray was there. His words are saved as he said them."] },
+  { t: 15800, mem: ["detect", "Moment: \"oh, you from Texas\". Nashville, 1970s."] },
+  { t: 16300, node: "mTexas" },
+  { t: 17000, edge: ["ray","mTexas"] },
+  { t: 17200, edge: ["dolly","mTexas"] },
+  { t: 17400, edge: ["mTexas","rca"] },
+  { t: 18200, edge: ["ray","dolly"] },
+
+  { t: 19000, mem: ["ask", "Next question, from the RCA Building: who was engineering there then?"] },
+  { t: 19800, speak: "maybelle", text: "Ray, who was engineering in that building then?" },
+  { t: 22800, speak: "ray", text: "Probably Bill Porter or one of his guys. Which reminds me. Brent Maher came to Nashville in 64 wanting to be an engineer. There were only four record labels in town." },
+  { t: 25500, mem: ["detect", "People: Bill Porter, Brent Maher. Year: 1964."] },
+  { t: 26000, node: "brent" },
+  { t: 26400, node: "porter" },
+  { t: 27500, speak: "ray", text: "Fred Foster had a recording suite and a label in the Masonic Temple on 7th Avenue North. Brent walked in, didn't know much, got the job because the other kid trying to do it was having trouble. Ended up being Bill Porter's assistant engineer for years." },
+  { t: 31000, mem: ["detect", "Person: Fred Foster. Place: Masonic Temple, 7th Avenue North."] },
+  { t: 31400, node: "fred" },
+  { t: 31800, node: "masonic" },
+  { t: 32400, edge: ["fred","masonic"] },
+  { t: 32700, edge: ["brent","porter"] },
+  { t: 33000, edge: ["brent","fred"] },
+
+  { t: 34500, speak: "ray", text: "Bill Porter engineered every Elvis record. Pivotal to Roy Orbison. Chet Atkins fired him when it came out he'd started a publishing company on the side." },
+  { t: 37800, mem: ["detect", "People: Chet Atkins, Elvis Presley. Moment: Porter fired over a publishing company."] },
+  { t: 38400, node: "chet" },
+  { t: 38800, node: "elvis" },
+  { t: 39400, node: "mFired" },
+  { t: 40100, edge: ["porter","elvis"] },
+  { t: 40300, edge: ["porter","chet"] },
+  { t: 40500, edge: ["chet","mFired"] },
+  { t: 40700, edge: ["porter","mFired"] },
+
+  { t: 42500, speak: "ray", text: "A few years go by. RCA Nashville can't get a record on the radio. Chet calls Bill, says come back. The next record Bill engineered was Suspicious Minds." },
+  { t: 46200, mem: ["detect", "Moment: Porter brought back. Song: Suspicious Minds."] },
+  { t: 46700, mem: ["score", "Needs a second source: \"RCA could not get a record on the radio.\" Marked to check."] },
+  { t: 47400, node: "mBack" },
+  { t: 47900, node: "susp" },
+  { t: 48500, edge: ["chet","mBack"] },
+  { t: 48700, edge: ["porter","mBack"] },
+  { t: 48900, edge: ["mBack","susp"] },
+  { t: 49100, edge: ["elvis","susp"] },
+  { t: 49300, edge: ["porter","susp"] },
+
+  { t: 51000, speak: "joe", text: "Ray, this is the Harold Bradley pattern. One pivot player, dozens of records nobody connects to him. This is exactly why we run 21 conversations about Harold." },
+  { t: 54800, mem: ["detect", "Joe linked Bill Porter to Harold Bradley, who is already on the map. Same pattern: one player behind many records."] },
+  { t: 55400, node: "harold" },
+  { t: 56200, edge: ["harold","porter"] },
+  { t: 56400, edge: ["harold","ray"] },
+  { t: 56800, mem: ["ask", "Harold Bradley: hundreds of sessions on the map, two firsthand accounts. Find people who knew him."] },
+  { t: 57300, flag: 1 },
+  { t: 60200, flag: 2 },
+  { t: 60600, flag: 3 },
+  { t: 63800, flag: 4 },
+
+  { t: 58500, speak: "ray", text: "Right. Which gets me to Dan Penn. I've been spending time with him, helping him record and mix. From 62 to 68 in Muscle Shoals, every artist was Black, every musician was white, every songwriter was white." },
+  { t: 62500, mem: ["detect", "Person: Dan Penn. Place: Muscle Shoals. Years: 1962 to 1968."] },
+  { t: 63000, node: "dan" },
+  { t: 63400, node: "shoals" },
+  { t: 63900, edge: ["ray","dan"] },
+  { t: 64100, edge: ["dan","shoals"] },
+
+  { t: 65500, speak: "ray", text: "Height of segregation. George Wallace era. But inside that scene everybody got along, everybody trusted each other, totally integrated culture. That's the most significant thing about Muscle Shoals." },
+  { t: 69500, mem: ["detect", "Person: George Wallace (context). Moment: an integrated working culture, 1962 to 1968."] },
+  { t: 69900, mem: ["score", "Ray heard this from Dan Penn directly. Strong source."] },
+  { t: 70400, node: "wallace" },
+  { t: 70800, node: "mInt" },
+  { t: 71300, edge: ["shoals","wallace"] },
+  { t: 71500, edge: ["shoals","mInt"] },
+  { t: 71700, edge: ["dan","mInt"] },
+
+  { t: 73000, speak: "ray", text: "Rick Hall would press up 7 inch singles. Boxes of them. He and Dan would drive all over the South and drop them at radio stations in person. Driving away, they'd hear the song come on the radio." },
+  { t: 77200, mem: ["detect", "Person: Rick Hall. Moment: hand-delivering singles to radio stations."] },
+  { t: 77700, node: "rick" },
+  { t: 78100, node: "m7in" },
+  { t: 78600, edge: ["dan","rick"] },
+  { t: 78800, edge: ["rick","shoals"] },
+  { t: 79000, edge: ["rick","m7in"] },
+  { t: 79200, edge: ["dan","m7in"] },
+
+  { t: 81000, speak: "maybelle", text: "How did Dan end up in Memphis?" },
+  { t: 83000, speak: "ray", text: "Rick wouldn't let Dan produce. Dan wanted to make a record on Otis Redding. Chips Moman said, meet me in Memphis, let's do it over there, at American Studios. First record Dan produced was the Box Tops. The Letter." },
+  { t: 88000, mem: ["detect", "People: Chips Moman, Otis Redding, Box Tops. Places: Memphis, American Studios. Song: The Letter."] },
+  { t: 88600, node: "chips" },
+  { t: 89000, node: "otis" },
+  { t: 89400, node: "memphis" },
+  { t: 89800, node: "amer" },
+  { t: 90400, node: "box" },
+  { t: 90800, node: "letter" },
+  { t: 91400, edge: ["dan","chips"] },
+  { t: 91600, edge: ["chips","amer"] },
+  { t: 91800, edge: ["amer","memphis"] },
+  { t: 92000, edge: ["dan","amer"] },
+  { t: 92200, edge: ["dan","otis"] },
+  { t: 92400, edge: ["dan","letter"] },
+  { t: 92600, edge: ["letter","amer"] },
+  { t: 92800, edge: ["box","letter"] },
+
+  { t: 94000, speak: "joe", text: "And Royal Studios is in the same town, right?" },
+  { t: 96000, speak: "ray", text: "Willie Mitchell's Royal. Still a dangerous neighborhood. Boo, Willie's son, runs it now. Little pockets of incredible talent surrounded by community stories just as important as the music." },
+  { t: 101000, mem: ["detect", "People: Willie Mitchell, Boo Mitchell. Place: Royal Studios, South Memphis."] },
+  { t: 101500, node: "willie" },
+  { t: 101900, node: "boo" },
+  { t: 102300, node: "royal" },
+  { t: 102900, edge: ["willie","royal"] },
+  { t: 103100, edge: ["boo","royal"] },
+  { t: 103300, edge: ["willie","boo"] },
+  { t: 103500, edge: ["royal","memphis"] },
+
+  { t: 105000, speak: "maybelle", text: "What else did Dan write in those years?" },
+  { t: 107000, speak: "ray", text: "Dark End of the Street. Do Right Woman. I'm Your Puppet. Percy Sledge records. And then Aretha came through Muscle Shoals, cut with Jerry Wexler." },
+  { t: 112000, mem: ["detect", "Songs: Dark End of the Street, Do Right Woman, I'm Your Puppet. People: Percy Sledge, Aretha Franklin."] },
+  { t: 112500, node: "darkEnd" },
+  { t: 112900, node: "doRight" },
+  { t: 113300, node: "puppet" },
+  { t: 113700, node: "percy" },
+  { t: 114100, node: "aretha" },
+  { t: 114700, edge: ["dan","darkEnd"] },
+  { t: 114900, edge: ["chips","darkEnd"] },
+  { t: 115100, edge: ["dan","doRight"] },
+  { t: 115300, edge: ["aretha","doRight"] },
+  { t: 115500, edge: ["dan","puppet"] },
+  { t: 115700, edge: ["aretha","shoals"] },
+  { t: 115900, edge: ["percy","shoals"] },
+
+  { t: 117500, mem: ["ask", "Ask Ray: was Jerry Wexler in the room for those Aretha sessions?"] },
+  { t: 119000, mem: ["ask", "Ask Joe: how does Bill Porter fit the Harold Bradley pattern for the 21 conversations?"] },
+  { t: 120500, mem: ["detect", "Three stories joined: Nashville in the 1970s, Muscle Shoals and Memphis in the 1960s."] },
+  { t: 122500, end: true }
+];
+
+const $ = (id) => document.getElementById(id);
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619) } return h>>>0 }
+const PPL={
+ ray:{n:'Ray Kennedy',skin:'#efc4a2',hair:'#b5532a',brow:'#8e3f1f',st:'crop',gl:1,shirt:'#2a2620',bg:['#6a4a1c','#241809'],prop:'records'},
+ joe:{n:'Joe Glaser',skin:'#efc7a4',hair:'#9a9590',brow:'#6a645e',st:'messy',shirt:'#2b2e35',bg:['#24384f','#111a26'],prop:'frame'}};
+let fid=0;
+function face(k){ const p=PPL[k], g='fg'+(fid++), H=p.hair, S=p.skin, o=[];
+ if(p.mono) return `<svg class="ill" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient></defs><rect width="200" height="200" fill="url(#${g})"/><circle cx="100" cy="100" r="56" fill="rgba(0,0,0,.25)" stroke="rgba(224,165,74,.55)" stroke-width="2"/><text x="100" y="118" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="52" fill="#fbf8f0">${p.mono}</text><ellipse class="mouth" cx="100" cy="150" rx="0" ry="0"/></svg>`;
+ o.push(`<svg class="ill" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient><radialGradient id="${g}l" cx=".85" cy=".1" r=".7"><stop offset="0" stop-color="#ffd28c" stop-opacity=".3"/><stop offset="1" stop-color="#ffd28c" stop-opacity="0"/></radialGradient></defs><rect width="200" height="200" fill="url(#${g})"/>`);
+ if(p.prop==='guitar') o.push(`<g opacity=".5" transform="rotate(-12 166 130)"><rect x="163" y="20" width="7" height="100" fill="#2e1c10"/><ellipse cx="166" cy="128" rx="17" ry="18" fill="#9a6230"/><ellipse cx="166" cy="160" rx="23" ry="25" fill="#9a6230"/><circle cx="166" cy="148" r="6" fill="#24150b"/></g>`);
+ if(p.prop==='records'){ const cols=['#c1512a','#e0a54a','#40c4e8','#ece6d8','#5b4a86','#2e6a45']; let r='<g opacity=".5"><rect x="0" y="62" width="200" height="3" fill="#0a0806"/>'; for(let i=0;i<11;i++){ const h=20+(hash(k+i)%10); r+=`<rect x="${4+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[i%6]}"/><rect x="${143+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[(i+3)%6]}"/>` } o.push(r+'</g>') }
+ if(p.prop==='frame') o.push(`<g opacity=".6"><rect x="16" y="24" width="40" height="48" fill="rgba(0,0,0,.25)" stroke="#c9a46a" stroke-width="3"/><circle cx="36" cy="48" r="12" fill="#151515"/><circle cx="36" cy="48" r="3.5" fill="#c9a46a"/></g>`);
+ if(p.prop==='lamp') o.push(`<g opacity=".65"><circle cx="30" cy="36" r="44" fill="#ffd28c" opacity=".16"/><path d="M16 32h28l-7-18h-14Z" fill="#e8c88a"/><rect x="29" y="32" width="2" height="70" fill="#111"/></g>`);
+ o.push(`<rect width="200" height="200" fill="url(#${g}l)"/><path d="M18 200C22 162 58 148 100 148S178 162 182 200Z" fill="${p.shirt}"/><path d="M88 116h24v34q-12 8-24 0Z" fill="${S}"/><path d="M88 130q12 8 24 0v6q-12 6-24 0Z" fill="rgba(0,0,0,.14)"/><g class="hg">`);
+ if(p.st==='long') o.push(`<path d="M60 92C58 46 142 46 140 92L148 166Q100 180 52 166Z" fill="${H}"/>`);
+ if(p.st==='bob') o.push(`<path d="M61 92C59 48 141 48 139 92L143 130Q100 140 57 130Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M62 100C54 34 146 34 138 100L134 108Q130 92 126 96L122 84Q100 78 78 84L74 96Q70 92 66 108Z" fill="${H}"/>`);
+ if(p.st==='crop') o.push(`<path d="M62 100C54 30 146 30 138 100L135 106Q100 98 65 106Z" fill="${H}"/>`);
+ if(p.st==='curly'){ let c=''; for(let a=150;a<=390;a+=17){ const r=a*Math.PI/180; c+=`<circle cx="${(100+Math.cos(r)*37).toFixed(1)}" cy="${(88+Math.sin(r)*37).toFixed(1)}" r="12" fill="${H}"/>` } o.push(c) }
+ o.push(`<ellipse cx="67" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="133" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="100" cy="94" rx="33" ry="40" fill="${S}"/><ellipse cx="100" cy="120" rx="24" ry="13" fill="rgba(0,0,0,.05)"/><circle cx="82" cy="108" r="6" fill="#d9776a" opacity=".13"/><circle cx="118" cy="108" r="6" fill="#d9776a" opacity=".13"/>`);
+ if(p.bd) o.push(`<path d="M68 100C68 138 88 150 100 150S132 138 132 100C128 118 118 127 100 127S72 118 68 100Z" fill="${H}"/>`);
+ if(p.st==='short') o.push(`<path d="M67 90C64 54 136 54 133 90C130 74 116 66 100 66S70 74 67 90Z" fill="${H}"/>`);
+ if(p.st==='bob'||p.st==='long') o.push(`<path d="M64 98C58 50 142 50 136 98C132 76 118 64 100 64C90 72 74 78 64 98Z" fill="${H}"/>`);
+ if(p.st==='crop') o.push(`<path d="M64 94C56 26 144 26 136 94C133 78 126 70 115 67C106 73 93 73 84 68C75 72 68 81 64 94Z" fill="${H}"/><path d="M84 68C93 73 106 73 115 67" stroke="rgba(0,0,0,.15)" stroke-width="1.5" fill="none"/>`);
+ if(p.st==='messy') o.push(`<path d="M64 94C56 30 144 30 136 94C134 82 130 76 124 74L128 66L117 70L118 61L108 68L104 58L97 68L90 60L88 70L79 64L80 73C72 76 67 84 64 94Z" fill="${H}"/><g stroke-linecap="round" fill="none" stroke-width="2"><path d="M74 70q8-10 18-8" stroke="#4a4642" opacity=".7"/><path d="M100 52q12 2 18 12" stroke="#4a4642" opacity=".6"/><path d="M84 52q-10 6-14 16" stroke="#e4e1dc" opacity=".7"/><path d="M112 50q12 6 16 18" stroke="#e4e1dc" opacity=".6"/><path d="M92 46q6-2 12 0" stroke="#3a3734" opacity=".6"/><path d="M66 86q2-8 6-12M134 86q-2-8-6-12" stroke="#3a3734" opacity=".5"/></g>`);
+ if(p.st==='bun') o.push(`<circle cx="100" cy="51" r="15" fill="${H}"/><path d="M66 92C64 54 136 54 134 92C128 72 114 64 100 64S72 72 66 92Z" fill="${H}"/>`);
+ if(p.st==='curly') o.push(`<circle cx="80" cy="62" r="11" fill="${H}"/><circle cx="93" cy="56" r="11" fill="${H}"/><circle cx="107" cy="56" r="11" fill="${H}"/><circle cx="120" cy="62" r="11" fill="${H}"/>`);
+ if(p.st==='cap') o.push(`<path d="M67 86v14l4-2V86Z" fill="${H}"/><path d="M133 86v14l-4-2V86Z" fill="${H}"/><path d="M65 84C64 48 136 48 135 84Z" fill="#1d1f24"/><path d="M64 82Q100 70 154 84L154 90Q100 78 64 88Z" fill="#15171b"/>`);
+ if(p.st==='bald') o.push(`<path d="M66 84q-2 10 1 18l5-2q-2-8 0-14Z" fill="${H}"/><path d="M134 84q2 10-1 18l-5-2q2-8 0-14Z" fill="${H}"/>`);
+ o.push(`<path d="M79 81q8-5 16-1M105 80q8-4 16 1" stroke="${p.brow}" stroke-width="3" fill="none" stroke-linecap="round"/><g class="eyes" style="animation-delay:-${(hash(k)%40)/10}s"><ellipse cx="88" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><ellipse cx="112" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><circle cx="89.2" cy="90.8" r="1" fill="#fff" opacity=".7"/><circle cx="113.2" cy="90.8" r="1" fill="#fff" opacity=".7"/></g><path d="M74 90l-4-2M74 94l-4 1M126 90l4-2M126 94l4 1M86 71q14-3 28 0" stroke="rgba(0,0,0,.16)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M84 108q-4 8-1 15M116 108q4 8 1 15" stroke="rgba(0,0,0,.13)" stroke-width="1.4" fill="none"/><path d="M100 92q-3 12-6 17q6 4 12 0" stroke="rgba(0,0,0,.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="100" cy="121" rx="8" ry="2.4" fill="#4e231e"/>`);
+ if(p.mu) o.push(`<path d="M86 116q14-7 28 0q-6 3-14 1q-8 2-14-1Z" fill="${H}"/>`);
+ if(p.gl) o.push(`<g fill="rgba(255,255,255,.06)" stroke="#2b2622" stroke-width="2.2"><circle cx="88" cy="92" r="9.5"/><circle cx="112" cy="92" r="9.5"/><path d="M97.5 91q2.5-2 5 0M78.5 90l-11-3M121.5 90l11-3" fill="none"/></g>`);
+ if(p.ear) o.push(`<circle cx="66" cy="110" r="2.8" fill="#e0a54a"/><circle cx="134" cy="110" r="2.8" fill="#e0a54a"/>`);
+ o.push('</g></svg>'); return o.join('') }
+document.querySelectorAll('.ill-slot').forEach(s=>{ s.outerHTML=face(s.dataset.k); });
+function flag(step){ const f=$('flag'); if(step===0){ f.classList.remove('in','sent'); return; } if(step===1) f.classList.add('in'); if(step===2) $('flagGo').classList.add('press'); if(step===3){ $('flagGo').classList.remove('press'); f.classList.add('sent'); } if(step===4) f.classList.remove('in'); }
+
+const SVGNS = "http://www.w3.org/2000/svg";
+const KIND = { person: "var(--kind-person)", song: "var(--kind-song)", moment: "var(--kind-moment)", place: "var(--kind-place)" };
+const RADIUS = { person: 6, song: 5.6, moment: 5.2, place: 6.4 };
+// spread the layout taller so it fills a screen-shaped panel
+for (const id in NODES) NODES[id].y = Math.round(80 + (NODES[id].y - 150) * 1.35);
+const DEG = {}; EDGES.forEach(([a, b]) => { DEG[a] = (DEG[a] || 0) + 1; DEG[b] = (DEG[b] || 0) + 1; });
+const KINDNAME = { person: "person", song: "song", moment: "moment", place: "place" };
+const nodeEls = {}, edgeEls = {};
+const activeNodes = new Set(), activeEdges = new Set();
+
+// background stars, a fixed seed so every run looks the same
+(function stars(){
+  let s = 7; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const g = $("stars");
+  for (let i = 0; i < 320; i++) {
+    const c = document.createElementNS(SVGNS, "circle");
+    c.setAttribute("cx", (-500 + r() * 2000).toFixed(1)); c.setAttribute("cy", (-400 + r() * 1700).toFixed(1));
+    c.setAttribute("r", (0.4 + r() * 0.9).toFixed(2)); c.setAttribute("class", "star");
+    c.setAttribute("opacity", (0.08 + r() * 0.22).toFixed(2));
+    g.appendChild(c);
+  }
+})();
+
+const key = (a, b) => a < b ? a + "|" + b : b + "|" + a;
+for (const [a, b] of EDGES) {
+  const na = NODES[a], nb = NODES[b]; if (!na || !nb) continue;
+  const p = document.createElementNS(SVGNS, "path");
+  const mx = (na.x + nb.x) / 2, my = (na.y + nb.y) / 2, dx = nb.x - na.x, dy = nb.y - na.y;
+  const bend = 0; // straight threads, as the light form draws them
+  p.setAttribute("d", `M${na.x},${na.y} Q${mx - dy * bend},${my + dx * bend} ${nb.x},${nb.y}`);
+  p.setAttribute("pathLength", "1"); p.setAttribute("class", "edge");
+  $("edges").appendChild(p); edgeEls[key(a, b)] = p;
+}
+
+const hovercard = $("hovercard"), wrap = $("graphWrap"), svg = $("graph");
+function placeCard(n) {
+  const pt = svg.createSVGPoint(); pt.x = n.x; pt.y = n.y;
+  const sp = pt.matrixTransform(svg.getScreenCTM()); const wr = wrap.getBoundingClientRect();
+  let left = sp.x - wr.left + 14, top = sp.y - wr.top - 10;
+  if (left + 280 > wr.width) left = sp.x - wr.left - 284;
+  hovercard.style.left = Math.max(8, left) + "px"; hovercard.style.top = Math.max(8, Math.min(top, wr.height - 120)) + "px";
+}
+for (const id in NODES) {
+  const n = NODES[id];
+  const g = document.createElementNS(SVGNS, "g");
+  g.setAttribute("class", "node-g"); g.setAttribute("transform", `translate(${n.x},${n.y})`); g.setAttribute("tabindex", "-1");
+  const glow = document.createElementNS(SVGNS, "circle");
+  glow.setAttribute("r", RADIUS[n.type] * 3.2); glow.setAttribute("fill", KIND[n.type]); glow.setAttribute("filter", "url(#bloom)"); glow.setAttribute("class", "glow");
+  const ping = document.createElementNS(SVGNS, "circle");
+  ping.setAttribute("r", RADIUS[n.type] * 2.6); ping.setAttribute("stroke", KIND[n.type]); ping.setAttribute("class", "ping");
+  const core = document.createElementNS(SVGNS, "circle");
+  core.setAttribute("r", RADIUS[n.type]); core.setAttribute("fill", KIND[n.type]); core.setAttribute("class", "core");
+  const pip = document.createElementNS(SVGNS, "circle");   // the white-hot centre of a light-form point
+  pip.setAttribute("r", (RADIUS[n.type] * 0.45).toFixed(2)); pip.setAttribute("fill", "var(--glint)"); pip.setAttribute("class", "core");
+  const t = document.createElementNS(SVGNS, "text");
+  t.setAttribute("y", DEG[id] >= 6 ? 40 : RADIUS[n.type] + 19); t.setAttribute("text-anchor", "middle"); t.textContent = n.label;
+  g.append(glow, ping, core, pip, t);
+  if (DEG[id] >= 6) { const h = document.createElementNS(SVGNS, "circle"); h.setAttribute("r", 22); h.setAttribute("class", "hub"); g.insertBefore(h, t); } $("nodes").appendChild(g); nodeEls[id] = g;
+  const show = () => {
+    if (!activeNodes.has(id)) return;
+    hovercard.innerHTML = `<div><span class="hn"></span><span class="hk"></span></div><div class="hq"></div>`;
+    hovercard.querySelector(".hn").textContent = n.label;
+    hovercard.querySelector(".hk").textContent = KINDNAME[n.type];
+    hovercard.querySelector(".hq").textContent = n.note;
+    placeCard(n); hovercard.classList.add("on");
+  };
+  g.addEventListener("mouseenter", show); g.addEventListener("focus", show);
+  g.addEventListener("mouseleave", () => hovercard.classList.remove("on"));
+  g.addEventListener("blur", () => hovercard.classList.remove("on"));
+}
+
+// the camera: frames only the names on the map so far, so every name stays readable
+const FULL = { x: -70, y: -30, w: 1140, h: 960 };
+let cam = { ...FULL }, camT = { ...FULL };
+const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fitCamera() {
+  const ids = [...activeNodes];
+  if (!ids.length) { camT = { ...FULL }; return; }
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  ids.forEach(id => { const n = NODES[id], hw = n.label.length * 4.9 + 10;
+    x0 = Math.min(x0, n.x - hw); x1 = Math.max(x1, n.x + hw); y0 = Math.min(y0, n.y - 30); y1 = Math.max(y1, n.y + 48); });
+  let w = Math.max(x1 - x0, 820), h = Math.max(y1 - y0, 560);
+  const ratio = wrap.clientWidth / Math.max(1, wrap.clientHeight);
+  if (w / h < ratio) w = h * ratio; else h = w / ratio;
+  w *= 1.06; h *= 1.14;   // room for the key at the bottom and the counts at the top
+  camT = { x: (x0 + x1) / 2 - w / 2, y: (y0 + y1) / 2 - h / 2 + h * 0.01, w, h };
+}
+function camLoop() {
+  const k = still ? 1 : 0.07;
+  for (const p of ["x", "y", "w", "h"]) cam[p] += (camT[p] - cam[p]) * k;
+  svg.setAttribute("viewBox", `${cam.x.toFixed(1)} ${cam.y.toFixed(1)} ${cam.w.toFixed(1)} ${cam.h.toFixed(1)}`);
+  requestAnimationFrame(camLoop);
+}
+requestAnimationFrame(camLoop);
+window.addEventListener("resize", fitCamera);
+function updateStats() { $("st-nodes").textContent = activeNodes.size; $("st-edges").textContent = activeEdges.size; }
+function showNode(id) {
+  if (activeNodes.has(id) || !nodeEls[id]) return;
+  activeNodes.add(id); const g = nodeEls[id];
+  g.classList.add("on", "fresh"); g.setAttribute("tabindex", "0");
+  setTimeout(() => g.classList.remove("fresh"), 1500);
+  $("graphEmpty").style.opacity = 0; updateStats(); fitCamera();
+}
+let pending = [];
+let typing = [];
+function typeTick(all) {
+  const boxes = { transcript: $("transcript"), memory: $("memory") }, stick = {};
+  for (const k in boxes) { const b = boxes[k]; stick[k] = b.scrollHeight - b.scrollTop - b.clientHeight < 40; }
+  typing = typing.filter(l => {
+    const n = all ? l.words.length : Math.min(l.words.length, Math.ceil(((vt - l.t0) / l.dur) * l.words.length));
+    if (n !== l.shown) { l.el.textContent = l.words.slice(0, n).join(" "); l.shown = n; }
+    return n < l.words.length;
+  });
+  for (const k in boxes) if (stick[k] || all) boxes[k].scrollTop = boxes[k].scrollHeight;
+}
+function showEdge(a, b) {
+  const k = key(a, b); if (activeEdges.has(k) || !edgeEls[k]) return;
+  if (!activeNodes.has(a) || !activeNodes.has(b)) { pending.push([a, b]); return; }
+  activeEdges.add(k); edgeEls[k].classList.add("on"); updateStats();
+}
+
+const fmt = (ms) => { const s = Math.floor(ms / 1000); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const NAMES = { maybelle: "Maybelle", ray: "Ray Kennedy", joe: "Joe Glaser" };
+function clearEmpty(el) { const e = el.querySelector(".empty"); if (e) e.remove(); }
+function addLine(who, text) {
+  const tr = $("transcript"); clearEmpty(tr);
+  const d = document.createElement("div"); d.className = "line " + who;
+  d.innerHTML = `<div class="spk"><b></b><time></time></div><div class="text"></div>`;
+  d.querySelector("b").textContent = NAMES[who]; d.querySelector("time").textContent = fmt(vt);
+  tr.appendChild(d); tr.scrollTop = tr.scrollHeight;
+  // words arrive one at a time, at speaking pace, finishing before the next person speaks
+  const words = text.split(/\s+/);
+  const next = SCRIPT.slice(idx).find(e => e.speak);
+  const room = next ? next.t - vt - 250 : 4000;
+  typing.push({ el: d.querySelector(".text"), words, t0: vt, dur: Math.max(600, Math.min(words.length * 300, room)), shown: 0, box: "transcript" });
+  document.querySelectorAll(".tile").forEach(t => t.classList.toggle("speaking", t.dataset.who === who));
+}
+const TAG = { detect: "Noticed", score: "Checked", ask: "Ask next" };
+function addMem(kind, text) {
+  const m = $("memory"); clearEmpty(m);
+  const d = document.createElement("div"); d.className = "mem " + kind;
+  d.innerHTML = `<div class="row"><span class="tag ${kind}"></span><time></time></div><div class="body"></div>`;
+  d.querySelector(".tag").textContent = TAG[kind]; d.querySelector("time").textContent = fmt(vt);
+  m.appendChild(d); m.scrollTop = m.scrollHeight;
+  const words = text.split(/\s+/);
+  const next = SCRIPT.slice(idx).find(e => e.mem);
+  const room = next ? next.t - vt - 100 : 3000;
+  typing.push({ el: d.querySelector(".body"), words, t0: vt, dur: Math.max(300, Math.min(words.length * 120, room)), shown: 0, box: "memory" });
+}
+
+// playback: one clock in meeting time, so the speed buttons work mid-meeting
+let vt = 0, idx = 0, speed = 1, playing = false, last = 0, timer = null;
+function reset() {
+  playing = false; clearInterval(timer); vt = 0; idx = 0; pending = []; typing = [];
+  $("transcript").innerHTML = '<div class="empty">The transcript appears here once the meeting starts.</div>';
+  $("memory").innerHTML = '<div class="empty">What Maybelle notices, checks and wants to ask next.</div>';
+  activeNodes.clear(); activeEdges.clear();
+  Object.values(nodeEls).forEach(g => { g.classList.remove("on", "fresh"); g.setAttribute("tabindex", "-1"); });
+  Object.values(edgeEls).forEach(e => e.classList.remove("on"));
+  flag(0);
+  document.querySelectorAll(".tile").forEach(t => t.classList.remove("speaking"));
+  $("graphEmpty").style.opacity = 1; $("summary").hidden = true; $("clock").textContent = "0:00"; updateStats(); fitCamera();
+}
+function tick() {
+  const now = performance.now(); vt += (now - last) * speed; last = now;
+  while (idx < SCRIPT.length && SCRIPT[idx].t <= vt) {
+    const ev = SCRIPT[idx++];
+    if (ev.speak) addLine(ev.speak, ev.text);
+    if (ev.mem) addMem(ev.mem[0], ev.mem[1]);
+    if (ev.node) showNode(ev.node);
+    if (ev.edge) showEdge(ev.edge[0], ev.edge[1]);
+    if (ev.flag) flag(ev.flag);
+    if (ev.end) { finish(); return; }
+  }
+  if (pending.length) { const p = pending; pending = []; p.forEach(([a, b]) => showEdge(a, b)); }
+  if (typing.length) typeTick(false);
+  $("clock").textContent = fmt(vt);
+}
+function start() { reset(); playing = true; last = performance.now(); timer = setInterval(tick, 50); $("start").textContent = "Start again"; }
+function finish() {
+  playing = false; clearInterval(timer); typeTick(true);
+  const c = { person: 0, song: 0, moment: 0, place: 0 };
+  activeNodes.forEach(id => c[NODES[id].type]++);
+  $("sum-people").textContent = c.person; $("sum-songs").textContent = c.song;
+  $("sum-moments").textContent = c.moment; $("sum-places").textContent = c.place;
+  $("sum-edges").textContent = activeEdges.size; $("sum-time").textContent = fmt(vt);
+  document.querySelectorAll(".tile").forEach(t => t.classList.remove("speaking"));
+  $("summary").hidden = false;
+}
+
+$("namesBtn").addEventListener("click", () => {
+  const on = $("namesBtn").getAttribute("aria-pressed") !== "true";
+  $("namesBtn").setAttribute("aria-pressed", String(on)); svg.classList.toggle("hide-names", !on);
+});
+$("start").addEventListener("click", start);
+$("restart").addEventListener("click", start);
+$("replay").addEventListener("click", start);
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".seg button").forEach(x => x.classList.remove("on"));
+  b.classList.add("on"); speed = parseFloat(b.dataset.speed);
+}));
+
+// presenter mode on: shared screen + Maybelle's working memory; off: faces + shared screen + transcript
+function setMode(presenter) {
+  $("layout").dataset.mode = presenter ? "presenter" : "call";
+  $("mode").setAttribute("aria-pressed", String(presenter));
+  $("faces").hidden = presenter; $("transcriptPanel").hidden = presenter; $("memoryPanel").hidden = !presenter;
+  const tr = $("transcript"); tr.scrollTop = tr.scrollHeight;
+  fitCamera();
+  try { localStorage.setItem("lm-demo-mode-cmhof", presenter ? "p" : "c"); } catch (e) {}
+}
+$("mode").addEventListener("click", () => setMode($("mode").getAttribute("aria-pressed") !== "true"));
+let saved = "c"; try { saved = localStorage.getItem("lm-demo-mode-cmhof") || "c"; } catch (e) {}
+setMode(saved === "p");
+updateStats();
+</script>
+
+</body></html>

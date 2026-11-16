@@ -1,0 +1,360 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Maybelle × Country Music Hall of Fame: Andy Reiss and Joe Glaser</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Archivo:wght@800&display=swap">
+<style>
+/* Layout: the real Living Memory fills the screen; two phones sit on it, one per person Maybelle pairs. One status line, four counters. Autopilot plays the loop; Take over hands you the left phone. */
+:root{
+  --ink:#0f0e13; --ink-2:#16141b; --ink-3:#1e1b25; --rule:#33303b; --rule-2:#4a4552;
+  --cream:#fbf8f0; --body:#ece6d8; --muted:#b3ab9c; --faint:#8f887c;
+  --cyan:#40c4e8; --cyan-soft:#7fd6ee; --amber:#e0a54a; --rec:#c1512a;
+  --display:"Bodoni Moda","Didot",Georgia,serif; --serif:"Libre Baskerville",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0;background:var(--ink);color:var(--body);font-family:var(--serif);-webkit-font-smoothing:antialiased;overflow:hidden}
+canvas#map{position:fixed;inset:0;width:100%;height:100%}
+.top{position:fixed;left:0;right:0;top:0;display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) 0 max(18px,env(safe-area-inset-left,0px));z-index:5}
+.mark{font-family:var(--display);font-style:italic;font-size:24px;color:var(--amber);white-space:nowrap}.mark .x{font-style:normal;color:var(--muted);font-size:18px;margin:0 .35em}.mark .partner{font-family:'Archivo',ui-sans-serif,sans-serif;font-style:normal;font-weight:800;font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--cream)}
+.sp{flex:1}
+.ask{display:flex;gap:6px;width:min(380px,40vw);background:rgba(22,20,27,.9);border:1px solid var(--rule);border-radius:999px;padding:4px 4px 4px 14px}
+.ask:focus-within{border-color:var(--amber)}
+.ask input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--cream);font-family:var(--serif);font-size:14px}
+.ask button{border:0;border-radius:999px;background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:11px;font-weight:600;padding:0 14px;min-height:34px;cursor:pointer}
+.speed{display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--rule-2);background:rgba(22,20,27,.9);border-radius:999px}.speed button{border:0;background:transparent;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;min-height:34px;padding:0 11px;border-radius:999px;cursor:pointer}.speed button.on{background:var(--amber);color:var(--ink)}.speed #pp[aria-pressed="true"]{background:var(--cyan);color:var(--ink)}.speed button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.pilot{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule-2);background:rgba(22,20,27,.9);color:var(--cream);border-radius:999px;padding:0 16px;min-height:42px;cursor:pointer}
+.pilot i{width:9px;height:9px;border-radius:50%;background:var(--amber);animation:pl 1.6s infinite}
+.pilot[data-on="0"] i{background:var(--faint);animation:none}
+@keyframes pl{0%{box-shadow:0 0 0 0 rgba(224,165,74,.6)}70%{box-shadow:0 0 0 9px rgba(224,165,74,0)}100%{box-shadow:0 0 0 0 rgba(224,165,74,0)}}
+.btn{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--rule-2);background:rgba(22,20,27,.9);color:var(--muted);border-radius:999px;padding:0 12px;min-height:42px;cursor:pointer}
+.btn[aria-pressed="true"]{border-color:var(--amber);color:var(--amber)}
+.counts{position:fixed;top:calc(68px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);display:flex;gap:18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);z-index:4}
+.counts b{display:block;font-family:var(--display);font-size:28px;letter-spacing:0;color:var(--cream);font-weight:500;font-variant-numeric:tabular-nums;text-align:right;transition:color .4s}
+.counts b.up{color:var(--amber)}
+.phone{position:fixed;top:54%;width:min(290px,26vw);height:min(580px,72vh);transform:translateY(-50%);border-radius:40px;background:#0b0a0e;border:2px solid var(--rule-2);box-shadow:0 30px 80px rgba(0,0,0,.6);overflow:hidden;z-index:3;transition:opacity .6s, transform .6s}
+#phA{left:max(4vw,18px)} #phB{right:max(4vw,18px)}
+.phone.away{opacity:0;transform:translateY(-46%) scale(.96)}
+.notch{height:28px;display:flex;justify-content:center;align-items:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--faint);white-space:nowrap;overflow:hidden;padding:0 26px}
+.scr{position:absolute;inset:28px 0 0;display:flex;flex-direction:column;padding:12px 14px 16px;gap:10px;opacity:0;pointer-events:none;transition:opacity .4s}
+.scr.on{opacity:1;pointer-events:auto}
+.name{font-family:var(--display);font-size:22px;color:var(--cream);text-align:center;margin-top:24px}
+.clockbig{font-family:var(--display);font-size:56px;text-align:center;color:var(--cream);line-height:1}
+.notif{background:rgba(40,37,48,.96);border-radius:16px;padding:12px 14px;animation:drop .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes drop{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.notif b{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:4px}
+.notif p{margin:0;font-size:13.5px;line-height:1.45;color:var(--cream)}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.h{font-family:var(--display);font-size:22px;color:var(--cream);font-weight:600;line-height:1.15;margin:0}
+.p{margin:0;font-size:13.5px;line-height:1.5;color:var(--body)}
+.go{margin-top:auto;border:0;border-radius:14px;background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:13px;font-weight:600;padding:13px;cursor:pointer;transition:transform .15s, background-color .3s}
+.go.press{transform:scale(.94)}
+.go.done{background:var(--ink-3);color:var(--cyan-soft)}
+.vid{flex:1;display:grid;grid-template-rows:1fr 1fr;gap:8px;min-height:0}
+.vt{border-radius:14px;background:var(--ink-3);border:1px solid var(--rule);position:relative;display:grid;place-items:center;font-family:var(--display);font-size:34px;color:var(--muted);transition:border-color .3s, box-shadow .3s}
+.vt.on{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(64,196,232,.45);color:var(--cyan-soft)}
+.vt span{position:absolute;left:10px;bottom:8px;font-family:var(--mono);font-size:10px;color:var(--body)}
+.rec{position:absolute;top:8px;left:10px;display:flex;gap:6px;align-items:center;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.rec::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rec)}
+.mbline{font-size:12.5px;line-height:1.45;color:var(--cream);min-height:54px;background:var(--ink-3);border:1px solid rgba(224,165,74,.35);border-radius:12px;padding:8px 10px}
+.mbline b{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:400;color:var(--amber);display:block}
+.mbline.them b{color:var(--cyan-soft)}
+.clip{border-radius:16px;background:linear-gradient(165deg,#221f2a,#121117);border:1px solid rgba(224,165,74,.5);padding:14px;display:flex;flex-direction:column;gap:10px}
+.clip .q{font-family:var(--display);font-style:italic;font-size:18px;line-height:1.3;color:var(--cream)}
+.bar{height:4px;background:var(--rule);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--amber)}
+.bar.play i{animation:bar 4s linear forwards}
+@keyframes bar{to{width:100%}}
+.clipmeta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.feed{display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.feed div{font-size:12.5px;line-height:1.4;background:var(--ink-3);border-radius:10px;padding:8px 10px;color:var(--body);animation:drop .45s ease both}
+.feed div b{color:var(--cream);font-weight:400}
+.likes{font-family:var(--mono);font-size:11px;color:var(--cyan-soft)}
+.thread{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:0}
+.bb{max-width:88%;padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.45;animation:drop .3s ease both}
+.bb.m{background:var(--ink-3);border:1px solid rgba(224,165,74,.4);color:var(--cream);align-self:flex-start}
+.bb.u{background:rgba(64,196,232,.14);border:1px solid rgba(64,196,232,.4);color:var(--body);align-self:flex-end}
+.cin{display:flex;gap:6px;background:var(--ink-3);border:1px solid var(--rule);border-radius:12px;padding:4px}
+.cin input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--cream);font-family:var(--serif);font-size:13.5px;padding:8px}
+.cin button{border:0;border-radius:9px;background:var(--amber);color:var(--ink);font-family:var(--mono);font-size:11px;font-weight:600;padding:0 12px;min-height:36px;cursor:pointer}
+.mem{font-size:12px;background:var(--ink-3);border:1px solid var(--rule);border-radius:10px;padding:7px 9px}
+.mem button{font-family:var(--mono);font-size:10px;border:1px solid var(--rule-2);background:transparent;color:var(--muted);border-radius:999px;padding:3px 8px;margin-left:6px;cursor:pointer}
+.status{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(560px,40vw);text-align:center;z-index:4;pointer-events:none}
+.status .s{font-family:var(--display);font-size:clamp(20px,2.2vw,30px);color:var(--cream);line-height:1.2;animation:drop .5s ease both}
+.status .n{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:6px}
+.answer{position:fixed;left:50%;top:calc(92px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:min(440px,38vw);background:rgba(22,20,27,.95);border:1px solid rgba(224,165,74,.45);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.55;color:var(--cream);z-index:4;animation:drop .4s ease both}
+.answer .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:flex;justify-content:space-between;margin-bottom:6px}
+.answer .k button{border:0;background:transparent;color:var(--muted);font-family:var(--mono);cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* faces: illustrated, invented tellers; the mouth moves while that person talks */
+.face{position:absolute;inset:0;width:100%;height:100%;display:block}
+.face .mouth{transform-box:fill-box;transform-origin:center}
+.face .eyes{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.talk .face .mouth{animation:talk .55s infinite}
+@keyframes talk{0%{transform:scaleY(1)}20%{transform:scaleY(3)}40%{transform:scaleY(1.5)}60%{transform:scaleY(3.4)}80%{transform:scaleY(1.2)}100%{transform:scaleY(1)}}
+.face .hg{transform-box:view-box;transform-origin:100px 150px}
+.talk .face .hg{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.6deg)}70%{transform:rotate(1.2deg)}}
+.vid.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.vt{overflow:hidden}
+.vt .nm{position:absolute;left:8px;bottom:6px;font-family:var(--mono);font-size:10px;color:#fff;text-shadow:0 1px 3px #000;z-index:1}
+.vt .rec{z-index:1;color:#fff;text-shadow:0 1px 3px #000}
+.vt.on{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(64,196,232,.55)}
+.avs{display:flex;justify-content:center;margin:4px 0}
+.av{width:52px;height:52px;border-radius:50%;overflow:hidden;position:relative;border:2px solid #0b0a0e;margin-left:-12px;flex:none}
+.av:first-child{margin-left:0}
+.notif .avs{justify-content:flex-start;margin:0 0 6px}.notif .av{width:30px;height:30px;margin-left:-8px}.notif .av:first-child{margin-left:0}
+.reel{padding:0;gap:0;background:#000}
+.rows{position:absolute;inset:0 0 104px;display:flex;flex-direction:column;gap:2px}
+.rows>div{flex:1;position:relative;overflow:hidden}
+.rtop{position:absolute;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:#fff;text-shadow:0 1px 3px #000;z-index:2}
+.cap{position:absolute;left:10px;right:12px;bottom:36px;text-align:center;font-family:Archivo,system-ui,sans-serif;font-weight:800;font-size:20px;line-height:1.15;color:#fff;text-shadow:0 2px 0 #000,0 0 8px rgba(0,0,0,.9);z-index:2;min-height:48px}
+.cap em{font-style:normal;color:#ffd35a}
+.cap small{display:block;font-family:var(--mono);font-weight:400;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;opacity:.85;margin-bottom:4px}
+.rside{position:absolute;right:8px;bottom:120px;display:flex;flex-direction:column;gap:14px;z-index:2;align-items:center}
+.ic{display:flex;flex-direction:column;align-items:center;gap:2px;color:#fff;font-family:var(--mono);font-size:9.5px;text-shadow:0 1px 3px #000;transition:transform .2s}
+.ic svg{width:26px;height:26px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.7))}
+.ic.hot{color:#ff6b7d}.ic.sh.hot{color:var(--amber);transform:scale(1.18)}
+.rby{position:absolute;left:12px;right:12px;bottom:18px;text-align:center;opacity:.8;font-family:var(--mono);font-size:9.5px;color:#fff;text-shadow:0 1px 3px #000;z-index:2}
+.rbar{position:absolute;left:0;right:0;bottom:104px;height:3px;background:rgba(255,255,255,.25);z-index:2}
+.rbar i{display:block;height:100%;width:100%;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .25s linear}
+.post{background:#fbf8f0;color:#1b1a1f;border-radius:14px;overflow:hidden;animation:drop .5s ease both;flex:none}
+.post .ph{display:flex;gap:8px;align-items:center;padding:9px 10px}
+.post .ph .av{width:32px;height:32px;margin:0;border:0}
+.post b{font-family:var(--serif);font-size:12px;font-weight:700}.post small{display:block;font-size:10px;color:#6b665c}
+.post p{margin:0 10px 8px;font-size:12.5px;line-height:1.35}
+.pv{display:grid;height:104px;position:relative;gap:2px;background:#000}.pv>div{position:relative;overflow:hidden}
+.play{position:absolute;left:50%;top:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:rgba(0,0,0,.55);border:2px solid #fff}
+.play::after{content:"";position:absolute;left:14px;top:10px;border-left:12px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
+.pl{padding:7px 10px;font-size:11px;color:#4a463f;border-top:1px solid #e3ddd0;font-family:var(--mono)}
+.feed div.mb{border:1px solid rgba(224,165,74,.45)}
+@media (max-width:900px){ body{overflow:auto} .phone{position:relative;top:auto;transform:none;width:min(320px,90vw);height:560px;margin:20px auto 0;left:auto!important;right:auto!important} .phone.away{transform:none} .status,.answer{position:relative;left:auto;transform:none;width:auto;margin:16px 20px} .counts{position:relative;top:auto;right:auto;justify-content:center;margin-top:70px} .ask{width:auto;flex:1} }
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<canvas id="map" aria-label="The Living Memory, live"></canvas>
+<div class="top">
+  <span class="mark">Maybelle<i class="x">×</i><span class="partner">Hall of Fame</span></span>
+  <form class="ask" id="askForm" autocomplete="off"><input id="askIn" placeholder="Ask her about any name in American music" aria-label="Ask about a name"><button type="submit">Ask</button></form>
+  <span class="sp"></span>
+  <button class="btn" id="voice" type="button" aria-pressed="false" hidden>Voice</button>
+  <div class="speed" role="group" aria-label="Demo speed"><button type="button" id="pp" aria-pressed="false">Pause</button><button type="button" data-x="0.5">½×</button><button type="button" data-x="1" class="on">1×</button><button type="button" data-x="2">2×</button><button type="button" data-x="4">4×</button><button type="button" id="rs">Restart</button></div>
+  <button class="pilot" id="pilot" type="button" data-on="1"><i></i><span id="pilotTxt">Autopilot · Take over</span></button>
+</div>
+<div class="counts" aria-live="polite"><div><b id="cStories">0</b>stories</div><div><b id="cPeople">0</b>people</div><div><b id="cCalls">0</b>calls</div><div><b id="cShares">0</b>shares</div></div>
+
+<div class="phone" id="phA">
+  <div class="scr" id="A4"><div class="thread" id="thread"></div><div id="memBox"></div><form class="cin" id="chatForm" autocomplete="off"><input id="chatIn" placeholder="Your answer" aria-label="Your answer"><button type="submit">Send</button></form></div>
+</div>
+<div class="phone" id="phB"></div>
+<div class="status" id="status"><div class="s" id="sLine"></div><div class="n" id="sNote"></div></div>
+<div id="answerBox"></div>
+
+<script>
+(async function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let LM={nodes:[],edges:[]}; try{ LM=await (await fetch('lm.json')).json() }catch(e){}
+const byId=new Map(LM.nodes.map(n=>[n.id,n])); const adj=new Map();
+LM.edges.forEach((e,i)=>{ e.i=i; for(const k of [e.f,e.t]){ if(!adj.has(k)) adj.set(k,[]); adj.get(k).push(e) } });
+const deg=id=>(adj.get(id)||[]).length, label=id=>(byId.get(id)||{}).l||id;
+const flat=s=>String(s||'').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+const FLAGS={one_voice:'rests on one voice',thin:'has a thin record',dead_end:'is a dead end so far',untold:'has no firsthand account yet',undated:'has no date yet'};
+function find(q){ const k=flat(q); if(!k) return []; const r=[]; for(const n of LM.nodes){ const l=flat(n.l); let s=l===k?100:l.startsWith(k)?60:l.includes(k)?40:0; if(!s){ const w=k.split(' ').filter(x=>x.length>2); if(w.length&&w.every(x=>l.includes(x))) s=30 } if(s) r.push([s+deg(n.id)/10,n]) } return r.sort((a,b)=>b[0]-a[0]).slice(0,5).map(x=>x[1]) }
+const HUMAN_VERB=v=>String(v||'').replace(/_/g,' ');
+
+/* counters */
+const C={stories:0,people:0,calls:0,shares:0};
+function add(k,n){ C[k]+=n; const el=$('c'+k[0].toUpperCase()+k.slice(1)); el.textContent=C[k].toLocaleString('en-US'); el.classList.add('up'); setTimeout(()=>el.classList.remove('up'),700) }
+
+/* capabilities */
+let sample=null,tts=null,voiceOn=false;
+const capP=(async()=>{ try{sample=await window.claude?.use?.('sample')}catch(e){} try{tts=await window.claude?.use?.('tts')}catch(e){} if(tts) $('voice').hidden=false })();
+$('voice').onclick=e=>{ voiceOn=!voiceOn; e.currentTarget.setAttribute('aria-pressed',voiceOn); if(!voiceOn&&tts) try{tts.stop()}catch(_){} };
+const speak=t=>{ if(voiceOn&&tts&&t) tts.speak(String(t).slice(0,1900)).catch(()=>{}) };
+
+/* map */
+const cv=$('map'), cx=cv.getContext('2d'); let W=0,H=0; const P=new Map();
+let focus=null, focusNb=new Set(), born=[], ripples=[], wave=null, link=null;
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619) } return h>>>0 }
+function layout(){ const d=Math.min(2,devicePixelRatio||1); W=innerWidth; H=innerHeight; cv.width=W*d; cv.height=H*d; cx.setTransform(d,0,0,d,0,0);
+  const maps=['lomax','carter','dolly','akashic','blackbird','livingline'], R=Math.min(W*.22,H*.4);
+  LM.nodes.forEach(n=>{ const mi=maps.indexOf(n.m[0]); const a=mi/6*Math.PI*2+((hash(n.id)%1000)/1000-.5); const dd=R*(.2+.8*Math.sqrt((hash(n.id+'r')%1000)/1000)); P.set(n.id,{x:W/2+Math.cos(a)*dd*1.25,y:H*.46+Math.sin(a)*dd*.9}) });
+  born.forEach(b=>b.x=null) }
+addEventListener('resize',layout); layout();
+function setFocus(id){ focus=id; focusNb=new Set((adj.get(id)||[]).map(e=>e.f===id?e.t:e.f)) }
+function anchorXY(){ const p=focus&&P.get(focus); return p||{x:W/2,y:H*.46} }
+function draw(now){ const T=now/1000; cx.clearRect(0,0,W,H);
+  for(const e of LM.edges){ const a=P.get(e.f),b=P.get(e.t); if(!a||!b) continue; const f=focus&&(e.f===focus||e.t===focus);
+    cx.strokeStyle=f?'rgba(64,196,232,.5)':'rgba(127,214,238,.055)'; cx.lineWidth=f?1:.5; cx.beginPath(); cx.moveTo(a.x,a.y); cx.lineTo(b.x,b.y); cx.stroke() }
+  for(const n of LM.nodes){ const p=P.get(n.id); let col='rgba(236,230,216,.4)', r=1.2;
+    if(wave!=null){ const pr=(now-wave)/2400; if(Math.abs((p.x-W*.3)/(W*.4)-pr)<.05){ col='rgba(127,214,238,.95)'; r=2.2 } }
+    if(focus&&focusNb.has(n.id)){ col='rgba(64,196,232,.9)'; r=2.2 } if(n.id===focus){ col='#e0a54a'; r=5 }
+    cx.fillStyle=col; cx.beginPath(); cx.arc(p.x,p.y,r,0,7); cx.fill() }
+  if(focus){ const p=P.get(focus); const pr=(T*.8)%1; cx.strokeStyle=`rgba(224,165,74,${.6*(1-pr)})`; cx.lineWidth=1.4; cx.beginPath(); cx.arc(p.x,p.y,7+pr*36,0,7); cx.stroke(); cx.fillStyle='#fbf8f0'; cx.font='italic 600 16px "Bodoni Moda", Georgia, serif'; cx.textAlign='center'; cx.fillText(label(focus),p.x,p.y-16); cx.textAlign='start' }
+  if(link){ const a=link.a(), b=link.b(); const k=Math.min(1,(now-link.t)/900); cx.strokeStyle='rgba(224,165,74,.85)'; cx.lineWidth=2; cx.setLineDash([7,6]); cx.lineDashOffset=-T*24; cx.beginPath(); cx.moveTo(a.x,a.y); const mx=(a.x+b.x)/2, my=Math.min(a.y,b.y)-90; cx.quadraticCurveTo(mx,my,a.x+(b.x-a.x)*k,a.y+(b.y-a.y)*k); cx.stroke(); cx.setLineDash([]) }
+  ripples=ripples.filter(r=>now-r.t<3200); ripples.forEach(r=>{ const k=(now-r.t)/3200; cx.strokeStyle=`rgba(224,165,74,${.5*(1-k)})`; cx.lineWidth=1.5; cx.beginPath(); cx.arc(r.x,r.y,10+k*r.R,0,7); cx.stroke();
+    for(let q=0;q<r.n;q++){ const a=q/r.n*Math.PI*2+r.s; const d=10+k*r.R; cx.fillStyle=`rgba(127,214,238,${.9*(1-k)})`; cx.beginPath(); cx.arc(r.x+Math.cos(a)*d,r.y+Math.sin(a)*d*.8,1.8,0,7); cx.fill() } });
+  born.forEach(b=>{ const a=P.get(b.anchor)||{x:W/2,y:H*.46}; const k=Math.min(1,(now-b.t)/800); if(b.x==null){ b.x=a.x+b.dx; b.y=a.y+b.dy }
+    cx.strokeStyle=`rgba(224,165,74,${.8*k})`; cx.lineWidth=1.5; cx.beginPath(); cx.moveTo(a.x,a.y); cx.lineTo(a.x+(b.x-a.x)*k,a.y+(b.y-a.y)*k); cx.stroke();
+    cx.fillStyle='#e0a54a'; cx.beginPath(); cx.arc(b.x,b.y,3+2*(1-k),0,7); cx.fill(); cx.fillStyle='rgba(251,248,240,.9)'; cx.font='11px "JetBrains Mono", monospace'; cx.fillText(b.label,b.x+7,b.y+4) });
+  requestAnimationFrame(draw) }
+requestAnimationFrame(draw);
+const BBID=byId.has('haroldbradley')?'haroldbradley':'blackbird';
+function grow(labelTxt){ if(born.some(b=>b.label===labelTxt&&b.anchor===(focus||BBID))) return; const a=Math.random()*Math.PI*2, r=85+Math.random()*50; born.push({label:labelTxt,anchor:focus||BBID,t:performance.now(),dx:Math.cos(a)*r,dy:Math.sin(a)*r*.8,x:null}) }
+/* FACES: illustrated portraits for the invented tellers (never photos of real people) */
+const PPL={
+ andy:{n:'Andy Reiss',skin:'#e6b794',hair:'#d8d3cb',brow:'#a29c92',st:'short',gl:1,shirt:'#1f2228',bg:['#6a4630','#2a1a12'],prop:'guitar',real:1},
+ joe:{n:'Joe Glaser',skin:'#efc7a4',hair:'#9a9590',brow:'#6a645e',st:'messy',shirt:'#2b2e35',bg:['#24384f','#111a26'],prop:'frame',real:1},
+ dale:{n:'Dale Lunsford',skin:'#e6b794',hair:'#d1ccc4',brow:'#a29c92',st:'cap',bd:1,shirt:'#2b2e35',bg:['#43342b','#1d1612'],prop:'guitar'},
+ lou:{n:'Lou Daniels',skin:'#c58c66',hair:'#5a514c',brow:'#3a302a',st:'bald',gl:1,mu:1,shirt:'#3b4f7a',bg:['#3a3a46','#16161c'],prop:'records'}};
+const nm=k=>PPL[k].n, first=k=>PPL[k].n.split(' ')[0];
+const listNames=ks=>{ const f=ks.map(first); return f.length<3?f.join(' and '):f.slice(0,-1).join(', ')+' and '+f[f.length-1] };
+let fid=0;
+function face(k){ const p=PPL[k], g='fg'+(fid++), H=p.hair, S=p.skin, o=[];
+ if(p.mono) return `<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient></defs><rect width="200" height="200" fill="url(#${g})"/><circle cx="100" cy="100" r="56" fill="rgba(0,0,0,.25)" stroke="rgba(224,165,74,.55)" stroke-width="2"/><text x="100" y="118" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="52" fill="#fbf8f0">${p.mono}</text><ellipse class="mouth" cx="100" cy="150" rx="0" ry="0"/></svg>`;
+ o.push(`<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient><radialGradient id="${g}l" cx=".85" cy=".1" r=".7"><stop offset="0" stop-color="#ffd28c" stop-opacity=".3"/><stop offset="1" stop-color="#ffd28c" stop-opacity="0"/></radialGradient></defs><rect width="200" height="200" fill="url(#${g})"/>`);
+ if(p.prop==='guitar') o.push(`<g opacity=".5" transform="rotate(-12 166 130)"><rect x="163" y="20" width="7" height="100" fill="#2e1c10"/><ellipse cx="166" cy="128" rx="17" ry="18" fill="#9a6230"/><ellipse cx="166" cy="160" rx="23" ry="25" fill="#9a6230"/><circle cx="166" cy="148" r="6" fill="#24150b"/></g>`);
+ if(p.prop==='records'){ const cols=['#c1512a','#e0a54a','#40c4e8','#ece6d8','#5b4a86','#2e6a45']; let r='<g opacity=".5"><rect x="0" y="62" width="200" height="3" fill="#0a0806"/>'; for(let i=0;i<11;i++){ const h=20+(hash(k+i)%10); r+=`<rect x="${4+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[i%6]}"/><rect x="${143+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[(i+3)%6]}"/>` } o.push(r+'</g>') }
+ if(p.prop==='frame') o.push(`<g opacity=".6"><rect x="16" y="24" width="40" height="48" fill="rgba(0,0,0,.25)" stroke="#c9a46a" stroke-width="3"/><circle cx="36" cy="48" r="12" fill="#151515"/><circle cx="36" cy="48" r="3.5" fill="#c9a46a"/></g>`);
+ if(p.prop==='lamp') o.push(`<g opacity=".65"><circle cx="30" cy="36" r="44" fill="#ffd28c" opacity=".16"/><path d="M16 32h28l-7-18h-14Z" fill="#e8c88a"/><rect x="29" y="32" width="2" height="70" fill="#111"/></g>`);
+ o.push(`<rect width="200" height="200" fill="url(#${g}l)"/><path d="M18 200C22 162 58 148 100 148S178 162 182 200Z" fill="${p.shirt}"/><path d="M88 116h24v34q-12 8-24 0Z" fill="${S}"/><path d="M88 130q12 8 24 0v6q-12 6-24 0Z" fill="rgba(0,0,0,.14)"/><g class="hg">`);
+ if(p.st==='long') o.push(`<path d="M60 92C58 46 142 46 140 92L148 166Q100 180 52 166Z" fill="${H}"/>`);
+ if(p.st==='bob') o.push(`<path d="M61 92C59 48 141 48 139 92L143 130Q100 140 57 130Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M62 100C54 34 146 34 138 100L134 108Q130 92 126 96L122 84Q100 78 78 84L74 96Q70 92 66 108Z" fill="${H}"/>`);
+ if(p.st==='curly'){ let c=''; for(let a=150;a<=390;a+=17){ const r=a*Math.PI/180; c+=`<circle cx="${(100+Math.cos(r)*37).toFixed(1)}" cy="${(88+Math.sin(r)*37).toFixed(1)}" r="12" fill="${H}"/>` } o.push(c) }
+ o.push(`<ellipse cx="67" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="133" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="100" cy="94" rx="33" ry="40" fill="${S}"/><ellipse cx="100" cy="120" rx="24" ry="13" fill="rgba(0,0,0,.05)"/><circle cx="82" cy="108" r="6" fill="#d9776a" opacity=".13"/><circle cx="118" cy="108" r="6" fill="#d9776a" opacity=".13"/>`);
+ if(p.bd) o.push(`<path d="M68 100C68 138 88 150 100 150S132 138 132 100C128 118 118 127 100 127S72 118 68 100Z" fill="${H}"/>`);
+ if(p.st==='short') o.push(`<path d="M67 90C64 54 136 54 133 90C130 74 116 66 100 66S70 74 67 90Z" fill="${H}"/>`);
+ if(p.st==='bob'||p.st==='long') o.push(`<path d="M64 98C58 50 142 50 136 98C132 76 118 64 100 64C90 72 74 78 64 98Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M64 94C56 30 144 30 136 94C134 82 130 76 124 74L128 66L117 70L118 61L108 68L104 58L97 68L90 60L88 70L79 64L80 73C72 76 67 84 64 94Z" fill="${H}"/><g stroke-linecap="round" fill="none" stroke-width="2"><path d="M74 70q8-10 18-8" stroke="#4a4642" opacity=".7"/><path d="M100 52q12 2 18 12" stroke="#4a4642" opacity=".6"/><path d="M84 52q-10 6-14 16" stroke="#e4e1dc" opacity=".7"/><path d="M112 50q12 6 16 18" stroke="#e4e1dc" opacity=".6"/><path d="M92 46q6-2 12 0" stroke="#3a3734" opacity=".6"/><path d="M66 86q2-8 6-12M134 86q-2-8-6-12" stroke="#3a3734" opacity=".5"/></g>`);
+ if(p.st==='bun') o.push(`<circle cx="100" cy="51" r="15" fill="${H}"/><path d="M66 92C64 54 136 54 134 92C128 72 114 64 100 64S72 72 66 92Z" fill="${H}"/>`);
+ if(p.st==='curly') o.push(`<circle cx="80" cy="62" r="11" fill="${H}"/><circle cx="93" cy="56" r="11" fill="${H}"/><circle cx="107" cy="56" r="11" fill="${H}"/><circle cx="120" cy="62" r="11" fill="${H}"/>`);
+ if(p.st==='cap') o.push(`<path d="M67 86v14l4-2V86Z" fill="${H}"/><path d="M133 86v14l-4-2V86Z" fill="${H}"/><path d="M65 84C64 48 136 48 135 84Z" fill="#1d1f24"/><path d="M64 82Q100 70 154 84L154 90Q100 78 64 88Z" fill="#15171b"/>`);
+ if(p.st==='bald') o.push(`<path d="M66 84q-2 10 1 18l5-2q-2-8 0-14Z" fill="${H}"/><path d="M134 84q2 10-1 18l-5-2q2-8 0-14Z" fill="${H}"/>`);
+ o.push(`<path d="M79 81q8-5 16-1M105 80q8-4 16 1" stroke="${p.brow}" stroke-width="3" fill="none" stroke-linecap="round"/><g class="eyes" style="animation-delay:-${(hash(k)%40)/10}s"><ellipse cx="88" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><ellipse cx="112" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><circle cx="89.2" cy="90.8" r="1" fill="#fff" opacity=".7"/><circle cx="113.2" cy="90.8" r="1" fill="#fff" opacity=".7"/></g><path d="M74 90l-4-2M74 94l-4 1M126 90l4-2M126 94l4 1M86 71q14-3 28 0" stroke="rgba(0,0,0,.16)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M84 108q-4 8-1 15M116 108q4 8 1 15" stroke="rgba(0,0,0,.13)" stroke-width="1.4" fill="none"/><path d="M100 92q-3 12-6 17q6 4 12 0" stroke="rgba(0,0,0,.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="100" cy="121" rx="8" ry="2.4" fill="#4e231e"/>`);
+ if(p.mu) o.push(`<path d="M86 116q14-7 28 0q-6 3-14 1q-8 2-14-1Z" fill="${H}"/>`);
+ if(p.gl) o.push(`<g fill="rgba(255,255,255,.06)" stroke="#2b2622" stroke-width="2.2"><circle cx="88" cy="92" r="9.5"/><circle cx="112" cy="92" r="9.5"/><path d="M97.5 91q2.5-2 5 0M78.5 90l-11-3M121.5 90l11-3" fill="none"/></g>`);
+ if(p.ear) o.push(`<circle cx="66" cy="110" r="2.8" fill="#e0a54a"/><circle cx="134" cy="110" r="2.8" fill="#e0a54a"/>`);
+ o.push('</g></svg>'); return o.join('') }
+const avs=ks=>ks.map(k=>`<div class="av">${face(k)}</div>`).join('');
+
+/* phones */
+const ICON={heart:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.2 0 3.6 1.2 5.3 3.1 1.7-1.9 3.1-3.1 5.3-3.1 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>',msg:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>',share:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 4l8 8-8 8v-5c-6 0-9.5 1.8-12 6 1-6 4-11 12-12z"/></svg>'};
+function phoneHTML(P){ return `<div class="notch" id="who${P}"></div>
+ <div class="scr on" id="${P}0"><div class="clockbig">9:41</div><div class="name" id="name${P}"></div><div id="${P}0n"></div></div>
+ <div class="scr" id="${P}1"><div class="tag">Maybelle · an introduction</div><div class="avs" id="${P}1v"></div><p class="h" id="${P}1h"></p><p class="p" id="${P}1p"></p><p class="p" style="color:var(--muted);font-size:12px">30 minutes, recorded. Maybelle is an AI and takes the notes. You get clips of your conversation.</p><button class="go" id="${P}1b" type="button">I'm in</button></div>
+ <div class="scr" id="${P}2"><div class="tag" style="display:flex;justify-content:space-between"><span id="${P}2k">Your conversation</span><span id="${P}2t" style="color:var(--muted)">00:00</span></div><div class="vid" id="${P}2v"></div><div class="mbline" id="${P}2c"></div></div>
+ <div class="scr reel" id="${P}3"><div class="rows" id="${P}3r"></div><div class="rtop"><span>Maybelle made your clip</span><span id="${P}3d">0:00</span></div><div class="cap" id="${P}3c"></div><div class="rside"><div class="ic" id="${P}3l">${ICON.heart}<span>0</span></div><div class="ic" id="${P}3m">${ICON.msg}<span>0</span></div><div class="ic sh" id="${P}3s">${ICON.share}<span>Share</span></div></div><div class="rby" id="${P}3y"></div><div class="rbar"><i id="${P}3p"></i></div></div>
+ ${P==='B'?'<div class="scr" id="B4"><div class="tag" id="B4k"></div><div class="post" id="B4post"></div><div class="feed" id="B4f"></div><button class="go" id="B4b" type="button">Tell yours</button></div>':''}` }
+$('phA').insertAdjacentHTML('afterbegin',phoneHTML('A')); $('phB').innerHTML=phoneHTML('B');
+const phoneXY=id=>{ const r=$(id).getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height*.35} };
+function scr(ph,i){ for(let k=0;k<5;k++){ const el=$(ph+k); if(el) el.classList.toggle('on',k===i) } }
+function press(el){ el.classList.add('press'); setTimeout(()=>el.classList.remove('press'),180) }
+function status(s,n){ $('status').innerHTML=`<div class="s">${s}</div><div class="n">${n||''}</div>` }
+const span=(id)=>$(id).querySelector('span');
+
+/* AUTOPILOT: pair, recorded call, a vertical clip, shares, the clip reaches someone who was there, a Round of four, the next pair */
+const BB=byId.get('haroldbradley')||byId.get('blackbird');
+const CAST=[ // real words from Gearcheck (Oct 8, 2026), replayed as Pairs calls; the fans are invented
+ {ppl:['andy','joe'],session:'the D’Angelico that came from Harold Bradley',
+  call:[[0,'My friend and mentor Harold Bradley called me up one day and said, Andy, it’s your lucky day. I’ve got you a D’Angelico.'],[0,'He gave this guitar to Billy Byrd in 1960. Billy had come upon some hard times and had to sell it.'],['m','Who had it before Harold?'],[0,'Rusty Kershaw bought this guitar in a pawn shop in Texas in the fifties, and brought it to Nashville, where he sold it to Harold.'],[1,'A guitar can be just something hanging on the wall, or it can be a whole museum of its history.']],
+  clip:[[0,'Harold Bradley called me up and said, Andy, it’s your lucky day.'],[1,'A guitar can be just something hanging on the wall, or it can be a whole museum of its history.']],
+  title:'Harold Bradley called: it’s your lucky day.',likes:1720,comments:233,reshares:36,fan:'dale',fanLine:'My uncle worked shows with Billy Byrd. Can I add what he told me?'},
+ {ppl:['andy','joe'],session:'the 1952 Gold Top from George Gruhn',
+  call:[[0,'George Gruhn was hanging out backstage with the Time Jumpers, and I was complaining about all these guitars I didn’t like.'],[0,'He said, what are you looking for? I said, a player gold top. He said, I’ve got just the guitar for you.'],[1,'But not original. Who did the conversion?'],['m','Where did this one come from before George?'],[0,'This was one of the Shaw collection guitars. I play it in the Time Jumpers most of the time. It’s definitely one of my very favorite guitars.']],
+  clip:[[0,'I said, a player gold top. He said, I’ve got just the guitar for you.'],[0,'It’s definitely one of my very favorite guitars.']],
+  title:'A player gold top, by way of George Gruhn.',likes:940,comments:118,reshares:19,fan:'lou',fanLine:'I’ve heard that gold top with the Time Jumpers. Can I add mine?'}];
+/* demo clock: everything in the loop runs on VT, so it can pause and change speed */
+let VT=0, SPEEDX=1, PAUSED=false, lastRT=performance.now(), Q=[], QID=0;
+function vTimeout(f,ms){ const id=++QID; Q.push({id,due:VT+ms,f}); return id }
+function vInterval(f,ms){ const id=++QID; Q.push({id,due:VT+ms,f,every:Math.max(16,ms)}); return id }
+function vClear(id){ Q=Q.filter(q=>q.id!==id) }
+(function vloop(){ const now=performance.now(); if(!PAUSED) VT+=(now-lastRT)*SPEEDX; lastRT=now;
+  for(let guard=0; guard<400; guard++){ let i=-1, best=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<best){best=Q[j].due;i=j}
+    if(i<0||best>VT) break; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{ q.f() }catch(e){} }
+  requestAnimationFrame(vloop) })();
+let timers=[], auto=true, round=0; const SPD=0.5; const at=(ms,f)=>timers.push(vTimeout(()=>{ if(auto) f() },ms*SPD));
+function clearT(){ timers.forEach(vClear); timers=[] }
+const seen=new Set(); function meet(k){ if(!seen.has(k)){ seen.add(k); add('people',1) } }
+function ramp(el,to,ms){ const t0=VT; const iv=vInterval(()=>{ const k=Math.min(1,(VT-t0)/ms); el.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString('en-US'); if(k>=1) vClear(iv) },60); timers.push(iv) }
+function runAuto(){ clearT(); const c=CAST[round%CAST.length]; round++; link=null;
+  const [ka,kb]=c.ppl, grp=c.ppl.length>2, others=k=>c.ppl.filter(x=>x!==k), kind=grp?'Round':'pair';
+  const rowsK=[...new Set(c.clip.map(l=>c.ppl[l[0]]))];
+  const tag=k=>PPL[k].real?'real words · ':'invented teller · '; $('whoA').textContent=tag(ka)+nm(ka); $('whoB').textContent=tag(kb)+nm(kb); $('nameA').textContent=nm(ka); $('nameB').textContent=nm(kb); $('A0n').innerHTML=''; $('B0n').innerHTML='';
+  ['A','B'].forEach(p=>{ scr(p,0); const b=$(p+'1b'); b.classList.remove('done'); b.textContent="I'm in"; ['3l','3s'].forEach(x=>$(p+x).classList.remove('hot')); span(p+'3s').textContent='Share'; span(p+'3l').textContent='0'; span(p+'3m').textContent='0'; $(p+'3p').style.transform='scaleX(0)'; $(p+'3c').innerHTML=''; $(p+'2k').textContent=grp?'Your Round · 4 people':'Your conversation' });
+  $('B4f').innerHTML=''; $('B4b').classList.remove('done'); $('B4b').textContent='Tell yours';
+  let t=300;
+  if(round===1){ at(t,()=>{ status('Maybelle reads the whole Living Memory.',`${LM.nodes.length.toLocaleString()} names · ${LM.edges.length.toLocaleString()} lines · real data`); wave=performance.now() });
+    at(t+=2600,()=>{ wave=null; setFocus(BB.id); status('She finds where the record is thin.','Harold Bradley has no firsthand account on the map yet · real data') }); t+=2600 }
+  at(t+=600,()=>{ status(grp?`${listNames(c.ppl)} all have a piece of it. She puts the four of them in one Round.`:`She finds two people who knew him: <i>${esc(nm(ka))}</i> and <i>${esc(nm(kb))}</i>.`,`${c.session} · ${PPL[ka].real?'their words are real, from Gearcheck, Oct 2026':'the tellers are invented for this demo'}`); link={a:()=>phoneXY('phA'),b:()=>phoneXY('phB'),t:performance.now()} });
+  at(t+=2400,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'0n').innerHTML=`<div class="notif"><b>Maybelle</b><div class="avs">${avs(o)}</div><p>${grp?esc(listNames(o))+' were':esc(nm(o[0]))+' was'} there for ${esc(c.session)} too. ${grp?'Talk together?':'You two should talk.'}</p></div>` }); status('She introduces them, and says why.') });
+  at(t+=2200,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'1v').innerHTML=avs([k,...o]); $(p+'1h').textContent=grp?`A Round: you, ${listNames(o)}, about ${c.session}.`:`You and ${nm(o[0])}, about ${c.session}.`; $(p+'1p').textContent=grp?'Four people, four sides of one night. The others have said yes if you do.':`You remember it from different sides. ${first(o[0])} has said yes if you do.`; scr(p,1) }) });
+  at(t+=2200,()=>{ press($('A1b')); $('A1b').classList.add('done'); $('A1b').textContent=grp?'Yes · 3 of 4 in':'Yes · waiting for '+first(kb) });
+  at(t+=1200,()=>{ press($('B1b')); $('B1b').classList.add('done'); const lab=(grp?'Round':'Paired')+' · Thursday, 4 pm'; $('B1b').textContent=lab; $('A1b').textContent=lab; add('calls',1); c.ppl.forEach(meet); status(grp?'All four say yes. Maybelle schedules the Round.':'Both say yes. Maybelle schedules the call.') });
+  at(t+=2000,()=>{ ['A','B'].forEach(p=>{ const v=$(p+'2v'); v.className='vid '+(grp?'n4':'n2'); v.innerHTML=c.ppl.map((k,i)=>`<div class="vt" data-k="${k}">${i===0?'<span class="rec">Recording</span>':''}${face(k)}<span class="nm">${esc(nm(k))}</span></div>`).join(''); $(p+'2c').innerHTML=''; scr(p,2) }); status(grp?'Four people on one call. She hosts, and keeps every word.':'They talk. She listens, and keeps every word.',(PPL[ka].real?'real conversation, Gearcheck, Oct 2026 · the pairing is shown as a demo':'the conversation is invented for this demo'));
+    let s=0; const tm=vInterval(()=>{ s++; ['A2t','B2t'].forEach(i=>$(i).textContent='00:'+String(s).padStart(2,'0')) },1000); timers.push(tm) });
+  const OFF=[]; let acc=800; c.call.forEach(l=>{ OFF.push(acc); acc+=Math.max(2600,l[1].split(' ').length*260) });
+  c.call.forEach((l,k)=>at(t+OFF[k],()=>{ const who=l[0]==='m'?null:c.ppl[l[0]];
+    ['A','B'].forEach(p=>{ $(p+'2v').querySelectorAll('.vt').forEach(x=>{ const on=x.dataset.k===who; x.classList.toggle('on',on); x.classList.toggle('talk',on) }); const box=$(p+'2c'); box.className='mbline'+(who?' them':''); box.innerHTML=`<b>${who?esc(nm(who)):'Maybelle'}</b>${esc(l[1])}` });
+    if(who){ add('stories',1); grow(first(who)) } }));
+  t+=acc;
+  at(t+=400,()=>{ ['A','B'].forEach(p=>{ $(p+'3r').innerHTML=rowsK.map(k=>`<div data-k="${k}">${face(k)}</div>`).join(''); $(p+'3y').textContent=listNames(rowsK).replace(' and ',' & ')+' · Maybelle × Hall of Fame'; scr(p,3) }); status('From the recording, she cuts a clip they can post.','vertical, captioned, ready to share') });
+  const seq=[]; c.clip.forEach(([i,txt])=>{ const w=txt.split(' '); w.forEach((_,j)=>seq.push({k:c.ppl[i],w,j})) }); const STEP=270;
+  at(t+=500,()=>{ let n=0; const iv=vInterval(()=>{ if(!auto||n>=seq.length){ vClear(iv); ['A','B'].forEach(p=>$(p+'3r').querySelectorAll('.talk').forEach(x=>x.classList.remove('talk'))); return }
+      const s=seq[n], st=s.j-(s.j%4), chunk=s.w.slice(st,st+4).map((w,q)=>st+q===s.j?`<em>${esc(w)}</em>`:esc(w)).join(' ');
+      ['A','B'].forEach(p=>{ $(p+'3c').innerHTML=`<small>${esc(nm(s.k))}</small>${chunk}`; $(p+'3r').querySelectorAll('[data-k]').forEach(x=>x.classList.toggle('talk',x.dataset.k===s.k)); $(p+'3p').style.transform=`scaleX(${(n+1)/seq.length})`; $(p+'3d').textContent='0:'+String(Math.round((n+1)/seq.length*42)).padStart(2,'0') }); n++ },STEP*SPD); timers.push(iv) });
+  t+=seq.length*STEP;
+  at(t+=500,()=>{ const s=$('A3s'); press(s); s.classList.add('hot'); span('A3s').textContent='Shared'; add('shares',1); const p=phoneXY('phA'); ripples.push({x:p.x,y:p.y,R:Math.min(W,H)*.4,n:18,s:Math.random(),t:performance.now()}); status('They post it.') });
+  at(t+=800,()=>{ const s=$('B3s'); press(s); s.classList.add('hot'); span('B3s').textContent='Shared'; add('shares',1); const p=phoneXY('phB'); ripples.push({x:p.x,y:p.y,R:Math.min(W,H)*.4,n:18,s:Math.random(),t:performance.now()});
+    ['A','B'].forEach(q=>{ $(q+'3l').classList.add('hot'); ramp(span(q+'3l'),c.likes,1100); ramp(span(q+'3m'),c.comments,1100) }); add('shares',c.reshares); status('People who love that music share it on.','the counts and replies on the phones are illustrative') });
+  at(t+=2600,()=>{ const f=c.fan; $('whoB').textContent=`invented · ${nm(f)}’s phone`; $('B4k').textContent=`${first(f)}’s feed`;
+    $('B4post').innerHTML=`<div class="ph"><div class="av">${face(rowsK[0])}</div><div><b>${esc(rowsK.map(first).join(' & '))}</b><small>shared a clip from Maybelle × Hall of Fame</small></div></div><p>${esc(c.title)}</p><div class="pv" style="grid-template-columns:repeat(${rowsK.length},1fr)">${rowsK.map(k=>`<div>${face(k)}</div>`).join('')}<span class="play"></span></div><div class="pl">♥ ${c.likes.toLocaleString('en-US')} · ${c.comments} comments</div>`;
+    scr('B',4); link=null; status(`The clip reaches <i>${esc(nm(f))}</i>, who has a story too.`,'invented fan · the counts are illustrative') });
+  at(t+=2000,()=>{ $('B4f').insertAdjacentHTML('beforeend',`<div><b>${esc(first(c.fan))}:</b> “${esc(c.fanLine)}”</div>`) });
+  at(t+=1800,()=>{ $('B4f').insertAdjacentHTML('beforeend',`<div class="mb"><b>Maybelle:</b> ${esc(first(c.fan))}, would you tell yours? I’ll put you with people who carry the same story.</div>`); status(`Maybelle replies, and invites ${esc(first(c.fan))} in.`) });
+  at(t+=2000,()=>{ const b=$('B4b'); press(b); b.classList.add('done'); b.textContent='Yes · I’m in'; meet(c.fan); grow(first(c.fan)); const nx=CAST[round%CAST.length]; status(`${esc(first(c.fan))} says yes. The next ${nx.ppl.length>2?'Round':'pair'} begins.`) });
+  at(t+=2600,runAuto) }
+
+/* TAKE OVER: the left phone is you; ask her about any name from the top */
+const MEMKEY='maybelle-you'; let mem=null; try{ mem=JSON.parse(localStorage.getItem(MEMKEY)||'null') }catch(_){}
+const convo=[];
+function bub(w,t){ const d=document.createElement('div'); d.className='bb '+w; d.textContent=t; $('thread').appendChild(d); $('thread').scrollTop=1e9; if(w==='m'&&t) speak(t); return d }
+function memLine(){ $('memBox').innerHTML=mem&&mem.first?`<div class="mem">She remembers: “${esc(String(mem.first).slice(0,60))}…”<button type="button" id="forget">Forget</button></div>`:''; const f=$('forget'); if(f) f.onclick=()=>{ mem=null; try{localStorage.removeItem(MEMKEY)}catch(_){} $('memBox').innerHTML='<div class="mem">Forgotten.</div>' } }
+function takeOver(){ if(!auto) return; auto=false; clearT(); link=null; $('pilot').dataset.on='0'; $('pilotTxt').textContent='Your turn · Autopilot'; $('phB').classList.add('away'); $('whoA').textContent='your phone';
+  scr('A',4); $('thread').innerHTML=''; convo.length=0;
+  const open=mem&&mem.first?`Welcome back. Last time you told me: “${String(mem.first).slice(0,100)}”. Pick up there, or tell me another moment?`:'Hi, I’m Maybelle, an AI. Pick one moment you were in the room for. Where were you, and what happened?';
+  bub('m',open); convo.push({role:'assistant',content:open}); memLine(); status('Your turn. Tell her a moment, or ask about any name above.','') }
+document.querySelectorAll('.speed [data-x]').forEach(b=>b.addEventListener('click',()=>{ SPEEDX=parseFloat(b.dataset.x); document.querySelectorAll('.speed [data-x]').forEach(x=>x.classList.toggle('on',x===b)) }));
+$('pp').addEventListener('click',()=>{ PAUSED=!PAUSED; $('pp').setAttribute('aria-pressed',String(PAUSED)); $('pp').textContent=PAUSED?'Play':'Pause' });
+$('rs').addEventListener('click',()=>{ PAUSED=false; $('pp').setAttribute('aria-pressed','false'); $('pp').textContent='Pause'; round=0; if(!auto) resume(); else runAuto() });
+window.__demo={ start:x=>{ PAUSED=false; SPEEDX=x; Object.keys(C).forEach(k=>{ C[k]=0; const el=$('c'+k[0].toUpperCase()+k.slice(1)); if(el) el.textContent='0'; }); seen.clear(); round=0; if(!auto) resume(); else runAuto(); }, speed:x=>{ SPEEDX=x; }, pause:p=>{ PAUSED=p; } };
+function resume(){ auto=true; $('pilot').dataset.on='1'; $('pilotTxt').textContent='Autopilot · Take over'; $('phB').classList.remove('away'); $('answerBox').innerHTML=''; runAuto() }
+$('pilot').onclick=()=>auto?takeOver():resume();
+['phA','phB'].forEach(id=>$(id).addEventListener('pointerdown',()=>{ if(auto) takeOver() }));
+$('askIn').addEventListener('focus',()=>{ if(auto) takeOver() });
+
+$('chatForm').addEventListener('submit',async e=>{ e.preventDefault(); const t=$('chatIn').value.trim(); if(!t||auto) return; $('chatIn').value=''; bub('u',t); convo.push({role:'user',content:t}); await capP;
+  const w=bub('m','…'); let out=null; const nU=convo.filter(c=>c.role==='user').length;
+  if(sample){ try{ const memNote=mem&&mem.first?` Earlier they told you: "${String(mem.first).slice(0,300)}".`:''; const r=await sample(`You are Maybelle, an AI oral historian interviewing a person about a moment they were present for.${memNote} Conversation:\n${convo.map(c=>(c.role==='user'?'THEM: ':'YOU: ')+c.content).join('\n')}\n\nReply ONLY with JSON: {"reply": at most two short plain sentences: show you heard one specific thing, then ask ONE plain question${nU>=2?'; ask who else was there':''}, "people": [people they named as there], "moment": a 4-6 word name for the moment}. Never add a fact they did not say.`,{modelTier:'quick',cache:false}); const m=String(r.text||'').match(/\{[\s\S]*\}/); out=JSON.parse(m?m[0]:'{}') }catch(_){ out=null } }
+  if(!out){ const names=[...new Set(t.match(/\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)+/g)||[])]; out={reply:['What did you see that nobody else could have?','Who else was there?','What would they remember that you don’t?'][Math.min(nU-1,2)],people:names} }
+  w.textContent=out.reply||'Who else was there?'; speak(out.reply); convo.push({role:'assistant',content:out.reply||''}); add('stories',1); grow(out.moment?String(out.moment).slice(0,26):'your story');
+  (out.people||[]).slice(0,2).forEach(p=>{ add('people',1); grow(String(p).slice(0,24)); bub('m',`I can pair you with ${p} to talk about it, once I check they’re living and reachable.`) });
+  if(!mem) mem={first:t}; try{localStorage.setItem(MEMKEY,JSON.stringify(mem))}catch(_){} memLine() });
+
+$('askForm').addEventListener('submit',async e=>{ e.preventDefault(); const q=$('askIn').value.trim(); if(!q) return; if(auto) takeOver(); await capP;
+  const hit=find(q)[0]; const box=$('answerBox');
+  if(!hit){ box.innerHTML=`<div class="answer"><div class="k"><span>Maybelle</span><button type="button" onclick="this.closest('.answer').remove()">close</button></div>“${esc(q)}” isn’t in the Living Memory yet. That makes it a lead: I’d look for the people who were there.</div>`; return }
+  setFocus(hit.id); const ls=(adj.get(hit.id)||[]).slice(0,6).map(e=>`${label(e.f)} ${HUMAN_VERB(e.v)} ${label(e.t)}`); const gaps=(hit.g||[]).map(g=>FLAGS[g]).filter(Boolean);
+  let say=`${hit.l} has ${deg(hit.id)} lines in the Living Memory${gaps.length?', and the record '+gaps[0]:''}.`;
+  box.innerHTML=`<div class="answer"><div class="k"><span>Maybelle · ${esc(hit.l)}</span><button type="button" onclick="this.closest('.answer').remove()">close</button></div><span id="say">${esc(say)}</span></div>`;
+  if(sample){ try{ const r=await sample(`You are Maybelle, an AI oral historian. In two or three short plain sentences, using ONLY these facts, say what the Living Memory holds about ${hit.l}, where it is thin, and which two people you would pair to talk about it. Never add a fact; never claim anyone is living. FACTS: lines=${deg(hit.id)}; gaps=${JSON.stringify(gaps)}; sample lines=${JSON.stringify(ls)}`,{modelTier:'default',cache:false}); if(r&&r.text){ say=r.text.trim(); const s=$('say'); if(s) s.textContent=say } }catch(_){} }
+  speak(say) });
+
+runAuto();
+})();
+</script>
+
+</body></html>
