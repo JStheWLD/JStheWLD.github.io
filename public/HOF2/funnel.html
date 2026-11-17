@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Living Memory · how the kiosk fills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Libre+Baskerville:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: two sources on the left feed one kiosk on the right. Top: a conversation recorded and verified with Maybelle.
+   Bottom: an oral history already in the Hall's archive. Each lands on Harold Bradley, then the stream keeps coming. */
+:root{--cream:#ece6d8;--faint:#8d8778;--amber:#e0a54a;--cyan:#5fb7da;--green:#7fcf9a;--mono:"JetBrains Mono",monospace;--serif:"Libre Baskerville",Georgia,serif;--display:"Bodoni Moda",Georgia,serif}
+html,body{height:100%;margin:0;background:#050403;overflow:hidden;color:var(--cream);font-family:var(--serif)}
+.stage{position:absolute;left:50%;top:50%;width:min(100vw,177.78vh);height:min(56.25vw,100vh);transform:translate(-50%,-50%);overflow:hidden}
+svg.room{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ov{position:absolute;opacity:0;transition:opacity .7s}
+.ov.on{opacity:1}
+.card{background:rgba(18,16,23,.96);border:1px solid rgba(224,165,74,.6);border-radius:10px;box-sizing:border-box;padding:1.3% 1.5%;display:flex;gap:4%;align-items:center;transition:opacity .7s,transform .9s,border-color .6s}
+.card.dim{opacity:.32}
+.card .av{flex:0 0 24%;aspect-ratio:1;border-radius:8px;overflow:hidden;position:relative}
+.card .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:.6vw}
+.card .k{font-family:var(--mono);font-size:clamp(6px,.68vw,11px);letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.card .q{font-family:var(--display);font-size:clamp(9px,1.15vw,18px);line-height:1.3;color:#fbf8f0}
+.card .s{font-family:var(--mono);font-size:clamp(6px,.56vw,9px);letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.chip{align-self:flex-start;font-family:var(--mono);font-size:clamp(6px,.6vw,10px);letter-spacing:.12em;text-transform:uppercase;padding:.3vw .6vw;border-radius:999px;border:1px solid currentColor;opacity:0;transform:scale(.8);transition:opacity .4s,transform .4s}
+.chip.on{opacity:1;transform:none}
+.chip.g{color:var(--green)} .chip.c{color:var(--cyan)}
+#cA{left:5%;top:37%;width:33%;height:25%}
+#cB,#lB{display:none!important}
+#cB .k{color:var(--cyan)}
+#cA.ok{border-color:rgba(127,207,154,.8)}
+.lbl{font-family:var(--mono);font-size:clamp(7px,.75vw,12px);letter-spacing:.22em;text-transform:uppercase;color:#b8a888}
+#lA{left:5%;top:32.4%} #lB{left:5%;top:55.4%}
+.cap{left:0;right:0;bottom:4%;text-align:center}
+.cap h1{font-family:var(--display);font-weight:500;font-style:italic;font-size:clamp(20px,3.2vw,50px);margin:0;color:#fbf8f0}
+.cap p{font-family:var(--mono);font-size:clamp(7px,.8vw,12px);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin:.8% 0 0}
+.shade{inset:0;background:linear-gradient(to top,rgba(5,4,3,.94),rgba(5,4,3,0) 42%);transition:opacity 1.2s}
+.face{position:absolute;inset:0;width:100%;height:100%;display:block}
+.face .mouth{transform-box:fill-box;transform-origin:center}.face .eyes{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+.face .hg{transform-box:view-box;transform-origin:100px 150px}
+.talk .face .mouth{animation:talk .55s infinite}.talk .face .hg{animation:bob 1.6s ease-in-out infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes talk{0%{transform:scaleY(1)}20%{transform:scaleY(3)}40%{transform:scaleY(1.5)}60%{transform:scaleY(3.4)}80%{transform:scaleY(1.2)}100%{transform:scaleY(1)}}
+@keyframes bob{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.6deg)}70%{transform:rotate(1.2deg)}}
+
+</style></head><body>
+<div class="stage">
+<svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-label="Two streams of stories, one recorded with Maybelle and one from the Hall's archive, flowing into a single kiosk">
+  <defs id="defs">
+    <radialGradient id="gBg" cx=".7" cy=".45" r=".8"><stop offset="0" stop-color="#1b1820"/><stop offset="1" stop-color="#08070a"/></radialGradient>
+    <radialGradient id="gScreenGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#5fb7da" stop-opacity=".25"/><stop offset="1" stop-color="#5fb7da" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gC" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ece4d2" stop-opacity=".9"/><stop offset="1" stop-color="#ece4d2" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e0a54a" stop-opacity=".95"/><stop offset="1" stop-color="#e0a54a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gBall" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#f3c67a"/><stop offset=".6" stop-color="#c0812e"/><stop offset="1" stop-color="#6a3e10"/></radialGradient>
+    <linearGradient id="gMarq" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8751f"/><stop offset=".5" stop-color="#e0a54a"/><stop offset="1" stop-color="#b8751f"/></linearGradient>
+    <radialGradient id="gCy" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#5fb7da" stop-opacity=".95"/><stop offset="1" stop-color="#5fb7da" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect id="bg" width="1600" height="900" fill="url(#gBg)"/>
+  <g id="paths"></g>
+  <g id="kiosk"></g>
+  <g id="fly"></g>
+</svg>
+<div class="ov lbl" id="lA">Recorded with Maybelle</div>
+<div class="ov lbl" id="lB">Already in the Hall's archive</div>
+<div class="ov card" id="cA"><div class="av" id="avA"></div><div class="tx"><div class="k">Harold Bradley</div><div class="q">Harold played the tic-tac bass on “I Fall to Pieces.”</div><div class="s">Andy Reiss · in conversation with Joe Glaser</div><div class="chip g" id="okA">✓ Verified · both versions kept</div></div></div>
+<div class="ov card" id="cB"><div class="av" id="avB"></div><div class="tx"><div class="k">Harold Bradley</div><div class="q">An oral history interview from the Hall's own collection.</div><div class="s">Country Music Hall of Fame and Museum</div><div class="chip c" id="okB">Added with the Hall's permission</div></div></div>
+<div class="ov shade" id="shade"></div>
+<div class="ov cap" id="cap"><h1>The Living Memory</h1><p>at the Country Music Hall of Fame and Museum</p></div>
+</div>
+<script>
+const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+const mk=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+let sd=7; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+const words=(el,s)=>{ el.innerHTML=s.split(' ').map(w=>`<span>${w}</span>`).join(' '); return [...el.querySelectorAll('span')] };
+
+/* the cabinet: a freestanding arcade-style unit, Golden Tee shape but with a big landscape screen.
+   Marquee on top, the screen, a control deck with a trackball, the body below. Built in its own units, placed at ox,oy, scaled by sc.
+   Screen is 880 x 500; the map inside is drawn at MS times the base size so it reads at that size. */
+function buildKiosk(parent,ox,oy,sc){
+  sc=sc||1;
+  const W=880,H=500,CW=W+120,MS=1.45, HB=100+H+52, DK=HB+86, BOT=DK+300;
+  const K={ox,oy,sc,sx:60,sy:118,W,H,CW,MS};
+  K.g=(x,y)=>[ox+x*sc,oy+y*sc];
+  const root=mk('g',{transform:`translate(${ox} ${oy}) scale(${sc})`},parent); K.root=root;
+  mk('ellipse',{cx:CW/2,cy:H*.6,rx:CW*.85,ry:H*1.1,fill:'url(#gScreenGlow)'},root);
+  mk('ellipse',{cx:CW/2,cy:BOT+4,rx:CW*.55,ry:24,fill:'#000',opacity:.45},root);
+  /* body */
+  const L=CW*.12, R=CW*.88;
+  mk('path',{d:`M${L} ${DK} L${R} ${DK} L${R-10} ${BOT} L${L+10} ${BOT} Z`,fill:'#16131b'},root);
+  mk('path',{d:`M${L} ${DK} L${L+40} ${DK} L${L+32} ${BOT} L${L+10} ${BOT} Z M${R} ${DK} L${R-40} ${DK} L${R-32} ${BOT} L${R-10} ${BOT} Z`,fill:'#1f1b25'},root);
+  const art=mk('g',{opacity:.85},root), m=CW/2;
+  [[-1,'#e0a54a',.55,0],[-1,'#40c4e8',.5,48],[1,'#e0a54a',.55,0],[1,'#40c4e8',.5,48]].forEach(([s,col,op,o])=>{
+    const x0=m+s*(m-L-60-o), x1=m+s*(m-L-200-o); mk('path',{d:`M${x0} ${BOT-10} L${x1} ${DK+30} L${x1+s*-32} ${DK+30} L${x0+s*-32} ${BOT-10} Z`,fill:col,opacity:op},art); });
+  mk('rect',{x:m-40,y:DK+80,width:80,height:90,rx:6,fill:'#0d0b10',stroke:'#3a3442','stroke-width':2},root);
+  mk('rect',{x:m-8,y:DK+102,width:16,height:26,rx:3,fill:'#e0a54a',opacity:.6},root);
+  mk('rect',{x:L+10,y:BOT-4,width:R-L-20,height:14,fill:'#0a090c'},root);
+  /* screen housing */
+  mk('path',{d:`M0 90 L${CW} 90 L${CW-20} ${HB} L20 ${HB} Z`,fill:'#131118'},root);
+  mk('rect',{x:40,y:100,width:CW-80,height:H+36,rx:16,fill:'#08070a',stroke:'#2c2a33','stroke-width':3},root);
+  /* control deck */
+  mk('path',{d:`M14 ${HB} L${CW-14} ${HB} L${CW+24} ${DK} L-24 ${DK} Z`,fill:'#1d1a23',stroke:'#2e2a36','stroke-width':2},root);
+  mk('path',{d:`M14 ${HB} L${CW-14} ${HB}`,stroke:'#e0a54a','stroke-width':3,opacity:.8},root);
+  K.bx=CW*.4; K.by=HB+40;
+  mk('ellipse',{cx:K.bx,cy:K.by+6,rx:44,ry:22,fill:'#0b0a0d'},root);
+  K.ball=mk('circle',{cx:K.bx,cy:K.by,r:30,fill:'url(#gBall)'},root);
+  K.shine=mk('ellipse',{cx:K.bx-10,cy:K.by-10,rx:10,ry:7,fill:'#fff',opacity:.55},root);
+  K.b1=mk('circle',{cx:CW*.6,cy:K.by+2,r:16,fill:'#e0a54a'},root);
+  K.b2=mk('circle',{cx:CW*.67,cy:K.by+2,r:16,fill:'#40c4e8',opacity:.8},root);
+  /* marquee */
+  mk('rect',{x:10,y:0,width:CW-20,height:92,rx:10,fill:'#120f0a',stroke:'#3a3020','stroke-width':2},root);
+  mk('rect',{x:22,y:10,width:CW-44,height:72,rx:6,fill:'url(#gMarq)'},root);
+  const m1=mk('text',{x:m,y:54,'text-anchor':'middle',fill:'#fbf8f0','font-family':'Bodoni Moda, Georgia, serif','font-style':'italic','font-size':44},root); m1.textContent='The Living Memory';
+  const m2=mk('text',{x:m,y:75,'text-anchor':'middle',fill:'#2a1a08','font-family':'JetBrains Mono, monospace','font-size':12,'letter-spacing':'5'},root); m2.textContent='OF AMERICAN MUSIC · PLAY AND EXPLORE';
+  /* the screen */
+  const clip=mk('clipPath',{id:'scr'+ox},$('defs')); mk('rect',{x:K.sx,y:K.sy,width:W,height:H,rx:8},clip);
+  const s=mk('g',{'clip-path':`url(#scr${ox})`},root);
+  mk('rect',{x:K.sx,y:K.sy,width:W,height:H,fill:'#0f0e13'},s);
+  K.screen=s;
+  K.cx=K.sx+W*.3; K.cy=K.sy+H*.56;
+  K.sky=mk('g',{},s); K.edges=mk('g',{},K.sky); K.hotG=mk('g',{},K.sky); K.nodesG=mk('g',{},K.sky); K.labG=mk('g',{},K.sky); K.fx=mk('g',{},s);
+  K.stars=[];
+  for(let i=0;i<300;i++){ const x=K.cx+(rnd()*2-1)*620, y=K.cy+(rnd()*2-1)*420; if(Math.hypot(x-K.cx,y-K.cy)<40) continue;
+    K.stars.push({x,y,el:mk('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:(.9+rnd()*1.8).toFixed(2),fill:rnd()<.18?'#e0a54a':'#7fc6e2',opacity:0},K.nodesG)}); }
+  K.starEdges=[];
+  K.stars.forEach((n,i)=>{ if(i%2) return; let b=-1,bd=1e9; for(let j=0;j<K.stars.length;j++){ if(j===i) continue; const d=Math.hypot(K.stars[j].x-n.x,K.stars[j].y-n.y); if(d<bd){bd=d;b=j} } if(bd<90) K.starEdges.push(mk('line',{x1:n.x,y1:n.y,x2:K.stars[b].x,y2:K.stars[b].y,stroke:'#2f5d72','stroke-width':.8,opacity:0},K.edges)); });
+  K.named=[['Andy Reiss',-100,-74],['Joe Glaser',104,-80],['Patsy Cline',-112,30],['Owen Bradley',112,40],['Chet Atkins',-58,104],['Bob Moore',64,108]].map(([l,dx,dy])=>{
+    const x=K.cx+dx,y=K.cy+dy; const c=mk('circle',{cx:x,cy:y,r:4.5,fill:'#7fc6e2',opacity:0},K.nodesG);
+    const tx=mk('text',{x,y:y-11,'text-anchor':'middle',fill:'#ece6d8','font-family':'JetBrains Mono, monospace','font-size':12,opacity:0},K.labG); tx.textContent=l;
+    const ln=mk('line',{x1:K.cx,y1:K.cy,x2:K.cx,y2:K.cy,stroke:'#e0a54a','stroke-width':1.6,opacity:0},K.hotG);
+    return {l,x,y,c,tx,ln}; });
+  K.hGlow=mk('circle',{cx:K.cx,cy:K.cy,r:30,fill:'url(#gC)',opacity:0},K.nodesG);
+  K.hDot=mk('circle',{cx:K.cx,cy:K.cy,r:8,fill:'#ece4d2',opacity:0},K.nodesG);
+  K.hLab=mk('text',{x:K.cx,y:K.cy-20,'text-anchor':'middle',fill:'#fbf8f0','font-family':'Bodoni Moda, Georgia, serif','font-style':'italic','font-size':22,opacity:0},K.labG); K.hLab.textContent='Harold Bradley';
+  mk('rect',{x:K.sx,y:K.sy,width:W,height:46,fill:'#0f0e13'},s);
+  const hd=mk('text',{x:K.sx+22,y:K.sy+30,fill:'#40c4e8','font-family':'JetBrains Mono, monospace','font-size':15,'letter-spacing':'3'},s); hd.textContent='';
+  K.hd=hd;
+  K.ripple=mk('circle',{cx:K.cx,cy:K.cy,r:10,fill:'none',stroke:'#fff','stroke-width':2.5,opacity:0},K.fx);
+  K.cursor=mk('circle',{cx:K.cx-200,cy:K.cy+140,r:12,fill:'none',stroke:'#fbf8f0','stroke-width':2.5,opacity:0},s);
+  K.zoom=1;
+  /* screen position of a point on the map */
+  K.sk=(x,y)=>[K.cx+(x-K.cx)*K.zoom*MS, K.cy+(y-K.cy)*K.zoom*MS];
+  K.setZoom=z=>{ K.zoom=z; K.sky.setAttribute('transform',`translate(${K.cx} ${K.cy}) scale(${(z*MS).toFixed(4)}) translate(${-K.cx} ${-K.cy})`); };
+  K.settle=()=>{ K.stars.forEach(s=>s.el.setAttribute('opacity',.85)); K.starEdges.forEach(e=>e.setAttribute('opacity',.5)); K.hGlow.setAttribute('opacity',.6); K.hDot.setAttribute('opacity',1); K.hLab.setAttribute('opacity',1);
+    K.named.forEach(n=>{ n.c.setAttribute('opacity',1); n.tx.setAttribute('opacity',1); n.ln.setAttribute('x2',n.x); n.ln.setAttribute('y2',n.y); n.ln.setAttribute('opacity',.8); }); K.setZoom(1); };
+  K.clear=()=>{ K.stars.forEach(s=>s.el.setAttribute('opacity',0)); K.starEdges.forEach(e=>e.setAttribute('opacity',0)); [K.hGlow,K.hDot,K.hLab,K.ripple,K.cursor].forEach(e=>e.setAttribute('opacity',0));
+    K.named.forEach(n=>{ n.c.setAttribute('opacity',0); n.tx.setAttribute('opacity',0); n.ln.setAttribute('opacity',0); n.ln.setAttribute('x2',K.cx); n.ln.setAttribute('y2',K.cy); delete n.t0; }); K.setZoom(1); };
+  return K; }
+
+/* a visitor: a simple silhouette */
+function person(parent,col){ const g=mk('g',{opacity:0},parent);
+  mk('path',{d:'M-22 0 C-24 -60 -18 -96 0 -98 C18 -96 24 -60 22 0 Z',fill:col},g); mk('circle',{cx:0,cy:-114,r:15,fill:col},g);
+  const arm=mk('line',{x1:10,y1:-84,x2:16,y2:-40,stroke:col,'stroke-width':9,'stroke-linecap':'round'},g);
+  mk('path',{d:'M-14 0 L-12 38 M14 0 L12 38',stroke:col,'stroke-width':11,'stroke-linecap':'round'},g); return {g,arm}; }
+function place(p,x,y,s){ p.g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s})`); }
+
+/* the clock the player drives: VT is scene time, SPEEDX its speed, PAUSED holds it, reset() starts over */
+let VT=0,SPEEDX=1,PAUSED=false,last=performance.now(),Q=[],MV=[],TW=[];
+const at=(ms,f)=>Q.push({due:ms,f});
+const walk=(p,t0,t1,x0,y0,x1,y1,s0,s1)=>MV.push({p,t0,t1,x0,y0,x1,y1,s0,s1});
+const tween=(t0,t1,f)=>TW.push({t0,t1,f});
+const ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+function step(n,draw){ if(!PAUSED) VT+=(n-last)*SPEEDX; last=n;
+  for(let g=0;g<300;g++){ let i=-1,b=Infinity; Q.forEach((q,j)=>{ if(q.due<b){b=q.due;i=j} }); if(i<0||b>VT) break; const q=Q.splice(i,1)[0]; try{q.f()}catch(e){console.log(e)} }
+  MV.forEach(m=>{ if(VT<m.t0) return; const e=ease(Math.min(1,(VT-m.t0)/(m.t1-m.t0))); place(m.p,m.x0+(m.x1-m.x0)*e,m.y0+(m.y1-m.y0)*e,m.s0+(m.s1-m.s0)*e); });
+  TW.forEach(w=>{ if(VT<w.t0) return; w.f(ease(Math.min(1,(VT-w.t0)/(w.t1-w.t0)))); });
+  draw(VT/1000); requestAnimationFrame(t=>step(t,draw)); }
+
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619) } return h>>>0 }
+const PPL={andy:{n:'Andy Reiss',skin:'#e6b794',hair:'#d8d3cb',brow:'#a29c92',st:'short',gl:1,shirt:'#1f2228',bg:['#6a4630','#2a1a12'],prop:'guitar',real:1},joe:{n:'Joe Glaser',skin:'#efc7a4',hair:'#9a9590',brow:'#6a645e',st:'messy',shirt:'#2b2e35',bg:['#24384f','#111a26'],prop:'frame',real:1}};
+let fid=0;
+function face(k){ const p=PPL[k], g='fg'+(fid++), H=p.hair, S=p.skin, o=[];
+ if(p.mono) return `<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient></defs><rect width="200" height="200" fill="url(#${g})"/><circle cx="100" cy="100" r="56" fill="rgba(0,0,0,.25)" stroke="rgba(224,165,74,.55)" stroke-width="2"/><text x="100" y="118" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="52" fill="#fbf8f0">${p.mono}</text><ellipse class="mouth" cx="100" cy="150" rx="0" ry="0"/></svg>`;
+ o.push(`<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient><radialGradient id="${g}l" cx=".85" cy=".1" r=".7"><stop offset="0" stop-color="#ffd28c" stop-opacity=".3"/><stop offset="1" stop-color="#ffd28c" stop-opacity="0"/></radialGradient></defs><rect width="200" height="200" fill="url(#${g})"/>`);
+ if(p.prop==='guitar') o.push(`<g opacity=".5" transform="rotate(-12 166 130)"><rect x="163" y="20" width="7" height="100" fill="#2e1c10"/><ellipse cx="166" cy="128" rx="17" ry="18" fill="#9a6230"/><ellipse cx="166" cy="160" rx="23" ry="25" fill="#9a6230"/><circle cx="166" cy="148" r="6" fill="#24150b"/></g>`);
+ if(p.prop==='records'){ const cols=['#c1512a','#e0a54a','#40c4e8','#ece6d8','#5b4a86','#2e6a45']; let r='<g opacity=".5"><rect x="0" y="62" width="200" height="3" fill="#0a0806"/>'; for(let i=0;i<11;i++){ const h=20+(hash(k+i)%10); r+=`<rect x="${4+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[i%6]}"/><rect x="${143+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[(i+3)%6]}"/>` } o.push(r+'</g>') }
+ if(p.prop==='frame') o.push(`<g opacity=".6"><rect x="16" y="24" width="40" height="48" fill="rgba(0,0,0,.25)" stroke="#c9a46a" stroke-width="3"/><circle cx="36" cy="48" r="12" fill="#151515"/><circle cx="36" cy="48" r="3.5" fill="#c9a46a"/></g>`);
+ if(p.prop==='lamp') o.push(`<g opacity=".65"><circle cx="30" cy="36" r="44" fill="#ffd28c" opacity=".16"/><path d="M16 32h28l-7-18h-14Z" fill="#e8c88a"/><rect x="29" y="32" width="2" height="70" fill="#111"/></g>`);
+ o.push(`<rect width="200" height="200" fill="url(#${g}l)"/><path d="M18 200C22 162 58 148 100 148S178 162 182 200Z" fill="${p.shirt}"/><path d="M88 116h24v34q-12 8-24 0Z" fill="${S}"/><path d="M88 130q12 8 24 0v6q-12 6-24 0Z" fill="rgba(0,0,0,.14)"/><g class="hg">`);
+ if(p.st==='long') o.push(`<path d="M60 92C58 46 142 46 140 92L148 166Q100 180 52 166Z" fill="${H}"/>`);
+ if(p.st==='bob') o.push(`<path d="M61 92C59 48 141 48 139 92L143 130Q100 140 57 130Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M62 100C54 34 146 34 138 100L134 108Q130 92 126 96L122 84Q100 78 78 84L74 96Q70 92 66 108Z" fill="${H}"/>`);
+ if(p.st==='curly'){ let c=''; for(let a=150;a<=390;a+=17){ const r=a*Math.PI/180; c+=`<circle cx="${(100+Math.cos(r)*37).toFixed(1)}" cy="${(88+Math.sin(r)*37).toFixed(1)}" r="12" fill="${H}"/>` } o.push(c) }
+ o.push(`<ellipse cx="67" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="133" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="100" cy="94" rx="33" ry="40" fill="${S}"/><ellipse cx="100" cy="120" rx="24" ry="13" fill="rgba(0,0,0,.05)"/><circle cx="82" cy="108" r="6" fill="#d9776a" opacity=".13"/><circle cx="118" cy="108" r="6" fill="#d9776a" opacity=".13"/>`);
+ if(p.bd) o.push(`<path d="M68 100C68 138 88 150 100 150S132 138 132 100C128 118 118 127 100 127S72 118 68 100Z" fill="${H}"/>`);
+ if(p.st==='short') o.push(`<path d="M67 90C64 54 136 54 133 90C130 74 116 66 100 66S70 74 67 90Z" fill="${H}"/>`);
+ if(p.st==='bob'||p.st==='long') o.push(`<path d="M64 98C58 50 142 50 136 98C132 76 118 64 100 64C90 72 74 78 64 98Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M64 94C56 30 144 30 136 94C134 82 130 76 124 74L128 66L117 70L118 61L108 68L104 58L97 68L90 60L88 70L79 64L80 73C72 76 67 84 64 94Z" fill="${H}"/><g stroke-linecap="round" fill="none" stroke-width="2"><path d="M74 70q8-10 18-8" stroke="#4a4642" opacity=".7"/><path d="M100 52q12 2 18 12" stroke="#4a4642" opacity=".6"/><path d="M84 52q-10 6-14 16" stroke="#e4e1dc" opacity=".7"/><path d="M112 50q12 6 16 18" stroke="#e4e1dc" opacity=".6"/><path d="M92 46q6-2 12 0" stroke="#3a3734" opacity=".6"/><path d="M66 86q2-8 6-12M134 86q-2-8-6-12" stroke="#3a3734" opacity=".5"/></g>`);
+ if(p.st==='bun') o.push(`<circle cx="100" cy="51" r="15" fill="${H}"/><path d="M66 92C64 54 136 54 134 92C128 72 114 64 100 64S72 72 66 92Z" fill="${H}"/>`);
+ if(p.st==='curly') o.push(`<circle cx="80" cy="62" r="11" fill="${H}"/><circle cx="93" cy="56" r="11" fill="${H}"/><circle cx="107" cy="56" r="11" fill="${H}"/><circle cx="120" cy="62" r="11" fill="${H}"/>`);
+ if(p.st==='cap') o.push(`<path d="M67 86v14l4-2V86Z" fill="${H}"/><path d="M133 86v14l-4-2V86Z" fill="${H}"/><path d="M65 84C64 48 136 48 135 84Z" fill="#1d1f24"/><path d="M64 82Q100 70 154 84L154 90Q100 78 64 88Z" fill="#15171b"/>`);
+ if(p.st==='bald') o.push(`<path d="M66 84q-2 10 1 18l5-2q-2-8 0-14Z" fill="${H}"/><path d="M134 84q2 10-1 18l-5-2q2-8 0-14Z" fill="${H}"/>`);
+ o.push(`<path d="M79 81q8-5 16-1M105 80q8-4 16 1" stroke="${p.brow}" stroke-width="3" fill="none" stroke-linecap="round"/><g class="eyes" style="animation-delay:-${(hash(k)%40)/10}s"><ellipse cx="88" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><ellipse cx="112" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><circle cx="89.2" cy="90.8" r="1" fill="#fff" opacity=".7"/><circle cx="113.2" cy="90.8" r="1" fill="#fff" opacity=".7"/></g><path d="M74 90l-4-2M74 94l-4 1M126 90l4-2M126 94l4 1M86 71q14-3 28 0" stroke="rgba(0,0,0,.16)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M84 108q-4 8-1 15M116 108q4 8 1 15" stroke="rgba(0,0,0,.13)" stroke-width="1.4" fill="none"/><path d="M100 92q-3 12-6 17q6 4 12 0" stroke="rgba(0,0,0,.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="100" cy="121" rx="8" ry="2.4" fill="#4e231e"/>`);
+ if(p.mu) o.push(`<path d="M86 116q14-7 28 0q-6 3-14 1q-8 2-14-1Z" fill="${H}"/>`);
+ if(p.gl) o.push(`<g fill="rgba(255,255,255,.06)" stroke="#2b2622" stroke-width="2.2"><circle cx="88" cy="92" r="9.5"/><circle cx="112" cy="92" r="9.5"/><path d="M97.5 91q2.5-2 5 0M78.5 90l-11-3M121.5 90l11-3" fill="none"/></g>`);
+ if(p.ear) o.push(`<circle cx="66" cy="110" r="2.8" fill="#e0a54a"/><circle cx="134" cy="110" r="2.8" fill="#e0a54a"/>`);
+ o.push('</g></svg>'); return o.join('') }
+
+$('avA').innerHTML=face('andy');
+/* the archive card shows a tape reel, not a face */
+$('avB').innerHTML=`<svg class="face" viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#172433"/><g fill="none" stroke="#5fb7da" stroke-width="5"><circle cx="64" cy="92" r="34"/><circle cx="136" cy="92" r="34"/><circle cx="64" cy="92" r="9"/><circle cx="136" cy="92" r="9"/></g><path d="M30 92 L30 150 L170 150 L170 92" fill="none" stroke="#5fb7da" stroke-width="3" opacity=".6"/><g id="spokes" stroke="#5fb7da" stroke-width="4"><line x1="64" y1="64" x2="64" y2="76"/><line x1="40" y1="106" x2="50" y2="100"/><line x1="88" y1="106" x2="78" y2="100"/><line x1="136" y1="64" x2="136" y2="76"/><line x1="112" y1="106" x2="122" y2="100"/><line x1="160" y1="106" x2="150" y2="100"/></g><rect x="70" y="160" width="60" height="12" rx="3" fill="#5fb7da" opacity=".5"/></svg>`;
+const K=buildKiosk($('kiosk'),668,40,.9);
+K.settle();
+/* a counter on the screen for Harold's firsthand accounts */
+const cnt=mk('text',{x:K.sx+K.W-14,y:K.sy+30,'text-anchor':'end',fill:'#e0a54a','font-family':'JetBrains Mono, monospace','font-size':15,'letter-spacing':'2'},K.screen);
+const setCount=n=>cnt.textContent=`FIRSTHAND ACCOUNTS  ${n}`;
+const [hx,hy]=K.g(K.cx,K.cy);
+/* the two routes in, from the right edge of each card to Harold on the screen */
+const RA=mk('path',{d:`M620 445 C 760 445, 820 ${hy}, ${hx} ${hy}`,fill:'none',stroke:'#e0a54a','stroke-width':1.4,'stroke-dasharray':'4 8',opacity:0},$('paths'));
+const RB=mk('path',{d:`M620 655 C 820 655, 900 ${hy+120}, ${hx} ${hy}`,fill:'none',stroke:'#5fb7da','stroke-width':1.4,'stroke-dasharray':'4 8',opacity:0},$('paths'));
+const LA=RA.getTotalLength(), LB=RB.getTotalLength();
+let extra=[];
+/* a story travelling in along a route, then landing on a node */
+function send(route,len,t0,ms,col,land,tx,ty,label){
+  const glow=mk('circle',{r:16,fill:col==='a'?'url(#gA)':'url(#gCy)',opacity:0},$('fly'));
+  const dot=mk('circle',{r:5,fill:col==='a'?'#e0a54a':'#5fb7da',opacity:0},$('fly')); extra.push(glow,dot);
+  at(t0,()=>{ glow.setAttribute('opacity',1); dot.setAttribute('opacity',1); });
+  const G=tx!=null?K.g(...K.sk(tx,ty)):null; tween(t0,t0+ms,k=>{ let x,y; const p=route.getPointAtLength(len*k); x=p.x;y=p.y; if(G){ x=p.x+(G[0]-hx)*k*k; y=p.y+(G[1]-hy)*k*k; }
+    if(VT>t0+ms) return; glow.setAttribute('cx',x); glow.setAttribute('cy',y); dot.setAttribute('cx',x); dot.setAttribute('cy',y); });
+  at(t0+ms,()=>{ glow.setAttribute('opacity',0); dot.setAttribute('opacity',0); land&&land();
+    const [X,Y]=tx!=null?K.sk(tx,ty):[K.cx,K.cy]; const r=mk('circle',{cx:X,cy:Y,r:6,fill:'none',stroke:col==='a'?'#e0a54a':'#5fb7da','stroke-width':2},K.fx); extra.push(r);
+    tween(VT,VT+900,k=>{ r.setAttribute('r',(6+k*30).toFixed(1)); r.setAttribute('opacity',(1-k).toFixed(2)); });
+    if(label){ const t=mk('text',{x:X+8,y:Y-8,fill:col==='a'?'#e0a54a':'#5fb7da','font-family':'JetBrains Mono, monospace','font-size':14},K.fx); t.textContent=label; extra.push(t); tween(VT+1400,VT+2400,k=>t.setAttribute('opacity',(1-k).toFixed(2))); } }); }
+
+function reset(){ Q=[];MV=[];TW=[];VT=0; extra.forEach(e=>e.remove()); extra=[]; setCount(2);
+  ['lA','lB','cA','cB','okA','okB','cap','shade'].forEach(i=>$(i).classList.remove('on')); ['cA','cB'].forEach(i=>$(i).classList.remove('dim','ok'));
+  RA.setAttribute('opacity',0); RB.setAttribute('opacity',0); $('kiosk').setAttribute('opacity',0);
+  // 1. the kiosk from the first scene, Harold with two firsthand accounts
+  tween(300,1500,k=>$('kiosk').setAttribute('opacity',k.toFixed(2)));
+  // 2. a conversation recorded with Maybelle, checked, sent to the floor
+  at(1600,()=>{ $('lA').classList.add('on'); $('cA').classList.add('on'); });
+  at(3400,()=>{ $('okA').classList.add('on'); $('cA').classList.add('ok'); });
+  at(4600,()=>RA.setAttribute('opacity',.7));
+  send(RA,LA,5000,1700,'a',()=>setCount(3),null,null,'+1 story');
+  at(6000,()=>$('cA').classList.add('dim'));
+  at(8300,()=>$('cA').classList.remove('dim'));
+  // 3. the stream keeps coming, more conversations, to the people around Harold and beyond
+  for(let i=0;i<14;i++){ const fromA=true, n=K.named[i%K.named.length], s=K.stars[(i*37)%K.stars.length];
+    const tgt=i<6?n:{x:s.x,y:s.y}; const [qx,qy]=K.sk(tgt.x,tgt.y); if(qx<K.sx+20||qx>K.sx+K.W-20||qy<K.sy+60||qy>K.sy+K.H-30) continue;
+    send(fromA?RA:RB,fromA?LA:LB,8800+i*420,1500,fromA?'a':'b',null,tgt.x,tgt.y,'+1 story'); }
+  // 5. the title
+  at(16400,()=>{ $('shade').classList.add('on'); $('cap').classList.add('on'); });
+  at(21000,reset); }
+
+step(performance.now(),T=>{
+  K.hGlow.setAttribute('r',(30+Math.sin(T*2)*3).toFixed(1));
+  RA.setAttribute('stroke-dashoffset',(-T*24).toFixed(1)); RB.setAttribute('stroke-dashoffset',(-T*24).toFixed(1));
+  const sp=document.querySelector('#avB #spokes'); if(sp) sp.setAttribute('transform',`rotate(0)`);
+});
+reset();
+</script></body></html>

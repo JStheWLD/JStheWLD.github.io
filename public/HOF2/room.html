@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Living Memory · in the museum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Libre+Baskerville:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one gallery in the museum. The Living Memory is projected across the back wall, the Hall of Fame plaques run down the left wall,
+   and a guitar sits in a case on the right. Visitors touch a name and hear the people who knew him; the case answers back. */
+:root{--cream:#ece6d8;--faint:#8d8778;--amber:#e0a54a;--cyan:#5fb7da;--mono:"JetBrains Mono",monospace;--serif:"Libre Baskerville",Georgia,serif;--display:"Bodoni Moda",Georgia,serif}
+html,body{height:100%;margin:0;background:#050403;overflow:hidden;color:var(--cream);font-family:var(--serif)}
+.stage{position:absolute;left:50%;top:50%;width:min(100vw,177.78vh);height:min(56.25vw,100vh);transform:translate(-50%,-50%);overflow:hidden}
+svg.room{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ov{position:absolute;opacity:0;transition:opacity .7s}
+.ov.on{opacity:1}
+.wl{left:0;right:0;top:3.2%;text-align:center;font-family:var(--mono);font-size:clamp(8px,.85vw,13px);letter-spacing:.24em;text-transform:uppercase;color:#b8a888}
+.panel{background:rgba(6,9,15,.88);border:1px solid rgba(224,165,74,.55);border-radius:10px;box-shadow:0 0 40px rgba(224,165,74,.18);display:flex;gap:4%;align-items:center;padding:1.1% 1.3%;box-sizing:border-box}
+.panel .av{flex:0 0 32%;aspect-ratio:1;border-radius:8px;overflow:hidden;position:relative}
+.panel .tx{flex:1;min-width:0}
+.panel .k{font-family:var(--mono);font-size:clamp(6px,.6vw,10px);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:6%}
+.panel .q{font-family:var(--display);font-size:clamp(9px,1.02vw,16px);line-height:1.32}
+.panel .q span{opacity:0;transition:opacity .2s}.panel .q span.in{opacity:1}
+.panel .s{font-family:var(--mono);font-size:clamp(6px,.55vw,9px);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-top:6%}
+#p1{left:58.5%;top:17.5%;width:21.5%;height:21%}
+#p2{left:63%;top:37%;width:20%;height:19%;border-color:rgba(95,183,218,.6);box-shadow:0 0 40px rgba(95,183,218,.2)}
+#p2 .k{color:var(--cyan)}
+.end{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(60% 60% at 50% 50%,rgba(5,4,3,.55),rgba(5,4,3,.92));transition:opacity 1.4s}
+.end h1{font-family:var(--display);font-weight:500;font-style:italic;font-size:clamp(28px,5.4vw,84px);margin:0;color:#fbf8f0;letter-spacing:.01em}
+.end p{font-family:var(--mono);font-size:clamp(8px,.95vw,14px);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin:2.2% 0 0}
+.face{position:absolute;inset:0;width:100%;height:100%;display:block}
+.face .mouth{transform-box:fill-box;transform-origin:center}.face .eyes{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+.face .hg{transform-box:view-box;transform-origin:100px 150px}
+.talk .face .mouth{animation:talk .55s infinite}.talk .face .hg{animation:bob 1.6s ease-in-out infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes talk{0%{transform:scaleY(1)}20%{transform:scaleY(3)}40%{transform:scaleY(1.5)}60%{transform:scaleY(3.4)}80%{transform:scaleY(1.2)}100%{transform:scaleY(1)}}
+@keyframes bob{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.6deg)}70%{transform:rotate(1.2deg)}}
+</style></head><body>
+<div class="stage" id="stage">
+<svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-label="A museum gallery with the Living Memory projected on the back wall">
+  <defs>
+    <linearGradient id="gBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16120e"/><stop offset="1" stop-color="#0d0b08"/></linearGradient>
+    <linearGradient id="gL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a0806"/><stop offset="1" stop-color="#1a1510"/></linearGradient>
+    <linearGradient id="gR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#0a0806"/><stop offset="1" stop-color="#1a1510"/></linearGradient>
+    <linearGradient id="gF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1712"/><stop offset="1" stop-color="#2a2219"/></linearGradient>
+    <linearGradient id="gBr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6a35"/><stop offset=".4" stop-color="#c9a35d"/><stop offset="1" stop-color="#6e5226"/></linearGradient>
+    <radialGradient id="gSpot" cx=".5" cy="0" r="1"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".22"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gProj" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#5fb7da" stop-opacity=".10"/><stop offset="1" stop-color="#5fb7da" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gA" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e0a54a" stop-opacity=".9"/><stop offset="1" stop-color="#e0a54a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gC" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ece4d2" stop-opacity=".9"/><stop offset="1" stop-color="#ece4d2" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gFloorGlow" cx=".5" cy="0" r=".8"><stop offset="0" stop-color="#5fb7da" stop-opacity=".12"/><stop offset="1" stop-color="#5fb7da" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g id="room">
+    <polygon points="0,0 1600,0 1300,120 300,120" fill="#070605"/>
+    <polygon points="0,0 300,120 300,620 0,900" fill="url(#gL)"/>
+    <polygon points="1600,0 1300,120 1300,620 1600,900" fill="url(#gR)"/>
+    <polygon points="0,900 300,620 1300,620 1600,900" fill="url(#gF)"/>
+    <rect x="300" y="120" width="1000" height="500" fill="url(#gBack)"/>
+    <polygon points="300,620 1300,620 1600,900 0,900" fill="url(#gFloorGlow)" id="floorGlow" opacity="0"/>
+    <g id="plaques"></g>
+    <g id="spots"></g>
+  </g>
+  <g id="wall">
+    <rect x="300" y="120" width="1000" height="500" fill="url(#gProj)" id="projGlow" opacity="0"/>
+    <g id="edges"></g><g id="hot"></g><g id="nodes"></g><g id="labels"></g>
+  </g>
+  <g id="beam"></g>
+  <g id="case"></g>
+  <g id="people"></g>
+  <g id="fx"></g>
+</svg>
+<div class="ov wl" id="wl">Country Music Hall of Fame and Museum · The Living Memory</div>
+<div class="ov panel" id="p1"><div class="av" id="av1"></div><div class="tx"><div class="k">Harold Bradley</div><div class="q" id="q1"></div><div class="s">Andy Reiss · recorded with Maybelle</div></div></div>
+<div class="ov panel" id="p2"><div class="av" id="av2"></div><div class="tx"><div class="k">The guitar in this case</div><div class="q" id="q2"></div><div class="s">Joe Glaser · recorded with Maybelle</div></div></div>
+<div class="ov end" id="end"><h1>The Living Memory</h1><p>at the Country Music Hall of Fame and Museum</p></div>
+</div>
+<script>
+const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
+const mk=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619) } return h>>>0 }
+const PPL={andy:{n:'Andy Reiss',skin:'#e6b794',hair:'#d8d3cb',brow:'#a29c92',st:'short',gl:1,shirt:'#1f2228',bg:['#6a4630','#2a1a12'],prop:'guitar',real:1},joe:{n:'Joe Glaser',skin:'#efc7a4',hair:'#9a9590',brow:'#6a645e',st:'messy',shirt:'#2b2e35',bg:['#24384f','#111a26'],prop:'frame',real:1}};
+let fid=0;
+function face(k){ const p=PPL[k], g='fg'+(fid++), H=p.hair, S=p.skin, o=[];
+ if(p.mono) return `<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient></defs><rect width="200" height="200" fill="url(#${g})"/><circle cx="100" cy="100" r="56" fill="rgba(0,0,0,.25)" stroke="rgba(224,165,74,.55)" stroke-width="2"/><text x="100" y="118" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="52" fill="#fbf8f0">${p.mono}</text><ellipse class="mouth" cx="100" cy="150" rx="0" ry="0"/></svg>`;
+ o.push(`<svg class="face" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.bg[0]}"/><stop offset="1" stop-color="${p.bg[1]}"/></linearGradient><radialGradient id="${g}l" cx=".85" cy=".1" r=".7"><stop offset="0" stop-color="#ffd28c" stop-opacity=".3"/><stop offset="1" stop-color="#ffd28c" stop-opacity="0"/></radialGradient></defs><rect width="200" height="200" fill="url(#${g})"/>`);
+ if(p.prop==='guitar') o.push(`<g opacity=".5" transform="rotate(-12 166 130)"><rect x="163" y="20" width="7" height="100" fill="#2e1c10"/><ellipse cx="166" cy="128" rx="17" ry="18" fill="#9a6230"/><ellipse cx="166" cy="160" rx="23" ry="25" fill="#9a6230"/><circle cx="166" cy="148" r="6" fill="#24150b"/></g>`);
+ if(p.prop==='records'){ const cols=['#c1512a','#e0a54a','#40c4e8','#ece6d8','#5b4a86','#2e6a45']; let r='<g opacity=".5"><rect x="0" y="62" width="200" height="3" fill="#0a0806"/>'; for(let i=0;i<11;i++){ const h=20+(hash(k+i)%10); r+=`<rect x="${4+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[i%6]}"/><rect x="${143+i*5}" y="${62-h}" width="4" height="${h}" fill="${cols[(i+3)%6]}"/>` } o.push(r+'</g>') }
+ if(p.prop==='frame') o.push(`<g opacity=".6"><rect x="16" y="24" width="40" height="48" fill="rgba(0,0,0,.25)" stroke="#c9a46a" stroke-width="3"/><circle cx="36" cy="48" r="12" fill="#151515"/><circle cx="36" cy="48" r="3.5" fill="#c9a46a"/></g>`);
+ if(p.prop==='lamp') o.push(`<g opacity=".65"><circle cx="30" cy="36" r="44" fill="#ffd28c" opacity=".16"/><path d="M16 32h28l-7-18h-14Z" fill="#e8c88a"/><rect x="29" y="32" width="2" height="70" fill="#111"/></g>`);
+ o.push(`<rect width="200" height="200" fill="url(#${g}l)"/><path d="M18 200C22 162 58 148 100 148S178 162 182 200Z" fill="${p.shirt}"/><path d="M88 116h24v34q-12 8-24 0Z" fill="${S}"/><path d="M88 130q12 8 24 0v6q-12 6-24 0Z" fill="rgba(0,0,0,.14)"/><g class="hg">`);
+ if(p.st==='long') o.push(`<path d="M60 92C58 46 142 46 140 92L148 166Q100 180 52 166Z" fill="${H}"/>`);
+ if(p.st==='bob') o.push(`<path d="M61 92C59 48 141 48 139 92L143 130Q100 140 57 130Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M62 100C54 34 146 34 138 100L134 108Q130 92 126 96L122 84Q100 78 78 84L74 96Q70 92 66 108Z" fill="${H}"/>`);
+ if(p.st==='curly'){ let c=''; for(let a=150;a<=390;a+=17){ const r=a*Math.PI/180; c+=`<circle cx="${(100+Math.cos(r)*37).toFixed(1)}" cy="${(88+Math.sin(r)*37).toFixed(1)}" r="12" fill="${H}"/>` } o.push(c) }
+ o.push(`<ellipse cx="67" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="133" cy="98" rx="6" ry="9" fill="${S}"/><ellipse cx="100" cy="94" rx="33" ry="40" fill="${S}"/><ellipse cx="100" cy="120" rx="24" ry="13" fill="rgba(0,0,0,.05)"/><circle cx="82" cy="108" r="6" fill="#d9776a" opacity=".13"/><circle cx="118" cy="108" r="6" fill="#d9776a" opacity=".13"/>`);
+ if(p.bd) o.push(`<path d="M68 100C68 138 88 150 100 150S132 138 132 100C128 118 118 127 100 127S72 118 68 100Z" fill="${H}"/>`);
+ if(p.st==='short') o.push(`<path d="M67 90C64 54 136 54 133 90C130 74 116 66 100 66S70 74 67 90Z" fill="${H}"/>`);
+ if(p.st==='bob'||p.st==='long') o.push(`<path d="M64 98C58 50 142 50 136 98C132 76 118 64 100 64C90 72 74 78 64 98Z" fill="${H}"/>`);
+ if(p.st==='messy') o.push(`<path d="M64 94C56 30 144 30 136 94C134 82 130 76 124 74L128 66L117 70L118 61L108 68L104 58L97 68L90 60L88 70L79 64L80 73C72 76 67 84 64 94Z" fill="${H}"/><g stroke-linecap="round" fill="none" stroke-width="2"><path d="M74 70q8-10 18-8" stroke="#4a4642" opacity=".7"/><path d="M100 52q12 2 18 12" stroke="#4a4642" opacity=".6"/><path d="M84 52q-10 6-14 16" stroke="#e4e1dc" opacity=".7"/><path d="M112 50q12 6 16 18" stroke="#e4e1dc" opacity=".6"/><path d="M92 46q6-2 12 0" stroke="#3a3734" opacity=".6"/><path d="M66 86q2-8 6-12M134 86q-2-8-6-12" stroke="#3a3734" opacity=".5"/></g>`);
+ if(p.st==='bun') o.push(`<circle cx="100" cy="51" r="15" fill="${H}"/><path d="M66 92C64 54 136 54 134 92C128 72 114 64 100 64S72 72 66 92Z" fill="${H}"/>`);
+ if(p.st==='curly') o.push(`<circle cx="80" cy="62" r="11" fill="${H}"/><circle cx="93" cy="56" r="11" fill="${H}"/><circle cx="107" cy="56" r="11" fill="${H}"/><circle cx="120" cy="62" r="11" fill="${H}"/>`);
+ if(p.st==='cap') o.push(`<path d="M67 86v14l4-2V86Z" fill="${H}"/><path d="M133 86v14l-4-2V86Z" fill="${H}"/><path d="M65 84C64 48 136 48 135 84Z" fill="#1d1f24"/><path d="M64 82Q100 70 154 84L154 90Q100 78 64 88Z" fill="#15171b"/>`);
+ if(p.st==='bald') o.push(`<path d="M66 84q-2 10 1 18l5-2q-2-8 0-14Z" fill="${H}"/><path d="M134 84q2 10-1 18l-5-2q2-8 0-14Z" fill="${H}"/>`);
+ o.push(`<path d="M79 81q8-5 16-1M105 80q8-4 16 1" stroke="${p.brow}" stroke-width="3" fill="none" stroke-linecap="round"/><g class="eyes" style="animation-delay:-${(hash(k)%40)/10}s"><ellipse cx="88" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><ellipse cx="112" cy="92" rx="3.4" ry="3.8" fill="#1d1712"/><circle cx="89.2" cy="90.8" r="1" fill="#fff" opacity=".7"/><circle cx="113.2" cy="90.8" r="1" fill="#fff" opacity=".7"/></g><path d="M74 90l-4-2M74 94l-4 1M126 90l4-2M126 94l4 1M86 71q14-3 28 0" stroke="rgba(0,0,0,.16)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M84 108q-4 8-1 15M116 108q4 8 1 15" stroke="rgba(0,0,0,.13)" stroke-width="1.4" fill="none"/><path d="M100 92q-3 12-6 17q6 4 12 0" stroke="rgba(0,0,0,.22)" stroke-width="1.8" fill="none" stroke-linecap="round"/><ellipse class="mouth" cx="100" cy="121" rx="8" ry="2.4" fill="#4e231e"/>`);
+ if(p.mu) o.push(`<path d="M86 116q14-7 28 0q-6 3-14 1q-8 2-14-1Z" fill="${H}"/>`);
+ if(p.gl) o.push(`<g fill="rgba(255,255,255,.06)" stroke="#2b2622" stroke-width="2.2"><circle cx="88" cy="92" r="9.5"/><circle cx="112" cy="92" r="9.5"/><path d="M97.5 91q2.5-2 5 0M78.5 90l-11-3M121.5 90l11-3" fill="none"/></g>`);
+ if(p.ear) o.push(`<circle cx="66" cy="110" r="2.8" fill="#e0a54a"/><circle cx="134" cy="110" r="2.8" fill="#e0a54a"/>`);
+ o.push('</g></svg>'); return o.join('') }
+$('av1').innerHTML=face('andy'); $('av2').innerHTML=face('joe');
+const words=(el,s)=>{ el.innerHTML=s.split(' ').map(w=>`<span>${w}</span>`).join(' '); return [...el.querySelectorAll('span')] };
+/* real words, from Andy Reiss and Joe Glaser's Gearcheck conversation */
+const W1=words($('q1'),'My friend and mentor Harold Bradley called me up one day and said, Andy, it’s your lucky day. I’ve got you a D’Angelico.');
+const W2=words($('q2'),'A guitar can be just something hanging on the wall, or it can be a whole museum of its history.');
+
+let sd=11; const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+/* plaques down the left wall, in perspective */
+const LW=(u,v)=>{ const x=u*300, yt=u*120, yb=900-u*280; return [x, yt+v*(yb-yt)] };
+const plaques=[];
+[[.18,.30],[.18,.56],[.42,.30],[.42,.56],[.64,.31],[.64,.55],[.84,.32],[.84,.54]].forEach(([u,v])=>{
+  const w=.13, h=.17, pts=[LW(u,v),LW(u+w,v),LW(u+w,v+h),LW(u,v+h)].map(p=>p.join(',')).join(' ');
+  const g=mk('g',{},$('plaques')); mk('polygon',{points:pts,fill:'url(#gBr)',opacity:.55},g);
+  const c=LW(u+w/2,v+h*.36); const dot=mk('circle',{cx:c[0],cy:c[1],r:(3+u*3).toFixed(1),fill:'#5fb7da',opacity:0},g);
+  const glow=mk('circle',{cx:c[0],cy:c[1],r:(16+u*10).toFixed(1),fill:'url(#gFloorGlow)',opacity:0},g);
+  plaques.push({dot,glow}); });
+/* spotlights */
+[[520,120],[800,120],[1080,120]].forEach(([x,y])=>mk('polygon',{points:`${x-14},${y} ${x+14},${y} ${x+120},${y+500} ${x-120},${y+500}`,fill:'url(#gSpot)',opacity:.7},$('spots')));
+
+/* the Living Memory on the back wall */
+const H={x:760,y:350,l:'Harold Bradley'};
+const NAMED=[['Andy Reiss',620,250],['Joe Glaser',900,240],['Patsy Cline',560,430],['Owen Bradley',890,450],['Bob Moore',700,520],['Quonset Hut',990,370],['Chet Atkins',470,320],['Billy Byrd',1060,470]];
+const ND=[]; ND.push({x:H.x,y:H.y,r:9,h:1});
+NAMED.forEach(([l,x,y])=>ND.push({x,y,r:5,l}));
+for(let i=0;i<110;i++){ const x=330+rnd()*940, y=150+rnd()*440; if(Math.hypot(x-H.x,y-H.y)<70) continue; ND.push({x,y,r:1.6+rnd()*2.6}); }
+const ED=[]; ND.forEach((n,i)=>{ if(i===0) return; let best=-1,bd=1e9; for(let j=0;j<i;j++){ const d=Math.hypot(ND[j].x-n.x,ND[j].y-n.y); if(d<bd&&d>10){bd=d;best=j} } if(best>=0&&bd<170) ED.push([best,i]); });
+for(let i=1;i<=NAMED.length;i++) ED.push([0,i]);
+const edgeEls=ED.map(([a,b])=>({a,b,el:mk('line',{x1:ND[a].x,y1:ND[a].y,x2:ND[a].x,y2:ND[a].y,stroke:'#2f5d72','stroke-width':1,opacity:0},$('edges'))}));
+const nodeEls=ND.map((n,i)=>{ const g=mk('g',{opacity:0},$('nodes')); if(n.h||n.l) mk('circle',{cx:n.x,cy:n.y,r:n.r*4,fill:n.h?'url(#gC)':'url(#gA)',opacity:n.h?.5:.0,class:'gl'},g);
+  mk('circle',{cx:n.x,cy:n.y,r:n.r,fill:n.h?'#ece4d2':'#7fc6e2'},g); return g; });
+const lab=NAMED.map(([l,x,y])=>{ const t=mk('text',{x:x,y:y-12,'text-anchor':'middle',fill:'#ece6d8','font-family':'JetBrains Mono, monospace','font-size':12,opacity:0},$('labels')); t.textContent=l; return t; });
+const hLab=mk('text',{x:H.x,y:H.y-26,'text-anchor':'middle',fill:'#fbf8f0','font-family':'Bodoni Moda, Georgia, serif','font-style':'italic','font-size':22,opacity:0},$('labels')); hLab.textContent=H.l;
+const hotEls=NAMED.map((_,i)=>mk('line',{x1:H.x,y1:H.y,x2:H.x,y2:H.y,stroke:'#e0a54a','stroke-width':2,opacity:0},$('hot')));
+const ripple=mk('circle',{cx:H.x,cy:H.y,r:10,fill:'none',stroke:'#fff','stroke-width':2,opacity:0},$('fx'));
+
+/* the display case on the right, with a guitar */
+const C=mk('g',{},$('case'));
+mk('rect',{x:1150,y:600,width:150,height:190,fill:'#1d1813'},C);
+mk('rect',{x:1150,y:600,width:150,height:8,fill:'#2c251d'},C);
+const glass=mk('rect',{x:1140,y:330,width:170,height:270,fill:'rgba(180,210,230,.05)',stroke:'rgba(200,220,235,.25)','stroke-width':1.5},C);
+const gt=mk('g',{transform:'translate(1225 470) rotate(-6)'},C);
+mk('rect',{x:-5,y:-120,width:10,height:110,fill:'#3a2614'},gt); mk('rect',{x:-9,y:-136,width:18,height:20,rx:3,fill:'#2a1a0e'},gt);
+mk('ellipse',{cx:0,cy:12,rx:34,ry:30,fill:'#a8743c'},gt); mk('ellipse',{cx:0,cy:58,rx:44,ry:40,fill:'#a8743c'},gt);
+mk('path',{d:'M-12 32 q-6 8 0 16 M12 32 q6 8 0 16',stroke:'#24150b','stroke-width':3,fill:'none'},gt); mk('rect',{x:-14,y:74,width:28,height:5,fill:'#24150b'},gt);
+const caseGlow=mk('rect',{x:1140,y:330,width:170,height:270,fill:'rgba(95,183,218,.12)',opacity:0},C);
+const beam=mk('path',{d:'M1225 360 Q 1000 250 '+H.x+' '+H.y,stroke:'#5fb7da','stroke-width':1.8,'stroke-dasharray':'5 7',fill:'none',opacity:0},$('beam'));
+
+/* visitors: simple silhouettes, scaled by depth */
+function person(col){ const g=mk('g',{opacity:0},$('people')); const b=mk('g',{},g);
+  mk('path',{d:'M-22 0 C-24 -60 -18 -96 0 -98 C18 -96 24 -60 22 0 Z',fill:col},b); mk('circle',{cx:0,cy:-114,r:15,fill:col},b);
+  const arm=mk('line',{x1:10,y1:-84,x2:16,y2:-40,stroke:col,'stroke-width':9,'stroke-linecap':'round'},b);
+  mk('path',{d:'M-14 0 L-12 38 M14 0 L12 38',stroke:col,'stroke-width':11,'stroke-linecap':'round'},b); return {g,arm,x:0,y:0,s:1}; }
+const P=[person('#0c0a08'),person('#100d0a'),person('#0e0c09'),person('#0b0907')];
+function place(p,x,y,s){ p.x=x;p.y=y; p.g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s})`); }
+
+/* clock */
+let VT=0,SPEEDX=1,PAUSED=false,last=performance.now(),Q=[],MV=[];
+const at=(ms,f)=>Q.push({due:ms,f});
+const walk=(p,t0,t1,x0,y0,x1,y1,s0,s1)=>MV.push({p,t0,t1,x0,y0,x1,y1,s0,s1});
+let roomOn=0, bloom=0, hot=0, beamOn=0, extra=[];
+function reset(){ Q=[];MV=[];VT=0;roomOn=0;bloom=0;hot=0;beamOn=0;
+  ['wl','p1','p2','end'].forEach(i=>$(i).classList.remove('on')); $('av1').classList.remove('talk'); $('av2').classList.remove('talk');
+  W1.concat(W2).forEach(s=>s.classList.remove('in')); P.forEach(p=>{p.g.setAttribute('opacity',0); p.arm.setAttribute('x2',16); p.arm.setAttribute('y2',-40);});
+  plaques.forEach(p=>{p.dot.setAttribute('opacity',0);p.glow.setAttribute('opacity',0)}); caseGlow.setAttribute('opacity',0); beam.setAttribute('opacity',0);
+  lab.forEach(l=>l.setAttribute('opacity',0)); hLab.setAttribute('opacity',0); hotEls.forEach(l=>l.setAttribute('opacity',0)); extra.forEach(e=>e.remove()); extra=[];
+  nodeEls.forEach(g=>g.setAttribute('opacity',0)); edgeEls.forEach(e=>{e.el.setAttribute('opacity',0); e.el.setAttribute('x2',ND[e.a].x); e.el.setAttribute('y2',ND[e.a].y)});
+  // 1. the room comes up, then the memory blooms across the wall
+  at(1400,()=>$('wl').classList.add('on'));
+  ND.forEach((n,i)=>at(2000+i*28+(n.l?600:0),()=>{ nodeEls[i].setAttribute('opacity',1) }));
+  edgeEls.forEach((e,i)=>at(2300+i*26,()=>{ e.t0=VT; e.el.setAttribute('opacity',.55) }));
+  at(4600,()=>{ hLab.setAttribute('opacity',1); lab.forEach(l=>l.setAttribute('opacity',.55)); });
+  // 2. a visitor walks up and touches Harold
+  at(2800,()=>P[0].g.setAttribute('opacity',1)); walk(P[0],2800,7000,180,880,700,700,1.25,.95);
+  at(7300,()=>{ P[0].arm.setAttribute('x2',40); P[0].arm.setAttribute('y2',-190); });
+  at(7700,()=>{ ripple.dataset.t0=VT; hot=1; hotEls.forEach((l,i)=>{ l.dataset.t0=VT+i*90; l.setAttribute('opacity',.85) }); lab.forEach(l=>l.setAttribute('opacity',1)); });
+  at(8300,()=>{ $('p1').classList.add('on'); $('av1').classList.add('talk'); });
+  W1.forEach((s,i)=>at(8500+i*250,()=>s.classList.add('in')));
+  at(8500+W1.length*250+200,()=>$('av1').classList.remove('talk'));
+  at(9600,()=>{ P[0].arm.setAttribute('x2',16); P[0].arm.setAttribute('y2',-40); });
+  // 3. another visitor stops at the case, and the guitar answers back
+  at(9200,()=>P[1].g.setAttribute('opacity',1)); walk(P[1],9200,13200,1560,890,1180,820,1.3,1.12);
+  at(14200,()=>{ $('p1').classList.remove('on'); caseGlow.setAttribute('opacity',1); beamOn=1; beam.dataset.t0=VT; $('p2').classList.add('on'); $('av2').classList.add('talk'); });
+  W2.forEach((s,i)=>at(14400+i*260,()=>s.classList.add('in')));
+  at(14400+W2.length*260+200,()=>$('av2').classList.remove('talk'));
+  // 4. the room fills: more visitors, the plaques pick up voices, new stories land on the wall
+  at(19500,()=>{ $('p2').classList.remove('on'); beamOn=0; });
+  at(19000,()=>P[2].g.setAttribute('opacity',1)); walk(P[2],19000,24000,120,900,470,730,1.3,1);
+  at(20000,()=>P[3].g.setAttribute('opacity',1)); walk(P[3],20000,25000,1500,900,960,720,1.3,.98);
+  plaques.forEach((p,i)=>at(20200+i*420,()=>{ p.dot.setAttribute('opacity',1); p.glow.setAttribute('opacity',.9) }));
+  for(let i=0;i<9;i++) at(20600+i*480,()=>{ const n=ND[10+((i*13)%(ND.length-10))]; const r=mk('circle',{cx:n.x,cy:n.y,r:4,fill:'#e0a54a'},$('fx')); const g=mk('circle',{cx:n.x,cy:n.y,r:22,fill:'url(#gA)',opacity:.8},$('fx'));
+    const t=mk('text',{x:n.x+10,y:n.y-8,fill:'#e0a54a','font-family':'JetBrains Mono, monospace','font-size':11},$('fx')); t.textContent='+1 story'; extra.push(r,g,t); });
+  // 5. the title
+  at(26500,()=>$('end').classList.add('on'));
+  at(31500,reset); }
+function frame(n){ if(!PAUSED) VT+=(n-last)*SPEEDX; last=n;
+  for(let g=0;g<200;g++){ let i=-1,b=Infinity; Q.forEach((q,j)=>{ if(q.due<b){b=q.due;i=j} }); if(i<0||b>VT) break; const q=Q.splice(i,1)[0]; try{q.f()}catch(e){} }
+  const T=VT/1000;
+  roomOn=Math.min(1,Math.max(0,(VT-200)/1500)); $('room').setAttribute('opacity',(.15+.85*roomOn).toFixed(2));
+  $('projGlow').setAttribute('opacity',Math.min(1,Math.max(0,(VT-1800)/1500)).toFixed(2)); $('floorGlow').setAttribute('opacity',Math.min(1,Math.max(0,(VT-2200)/2000)).toFixed(2));
+  edgeEls.forEach(e=>{ if(e.t0==null||+e.el.getAttribute('opacity')===0) return; const k=Math.min(1,(VT-e.t0)/600); e.el.setAttribute('x2',(ND[e.a].x+(ND[e.b].x-ND[e.a].x)*k).toFixed(1)); e.el.setAttribute('y2',(ND[e.a].y+(ND[e.b].y-ND[e.a].y)*k).toFixed(1)); });
+  hotEls.forEach((l,i)=>{ if(!hot) return; const k=Math.max(0,Math.min(1,(VT-(+l.dataset.t0))/500)); const n=NAMED[i]; l.setAttribute('x2',(H.x+(n[1]-H.x)*k).toFixed(1)); l.setAttribute('y2',(H.y+(n[2]-H.y)*k).toFixed(1)); });
+  if(ripple.dataset.t0){ const k=(VT-(+ripple.dataset.t0))/900; if(k>=0&&k<=1){ ripple.setAttribute('r',(10+k*50).toFixed(1)); ripple.setAttribute('opacity',(1-k).toFixed(2)); } else ripple.setAttribute('opacity',0); }
+  const hg=nodeEls[0].querySelector('.gl'); if(hg) hg.setAttribute('r',(36+(hot?14:0)+Math.sin(T*2)*4).toFixed(1));
+  beam.setAttribute('opacity',beamOn?.9:0); beam.setAttribute('stroke-dashoffset',(-T*30).toFixed(1));
+  MV.forEach(m=>{ if(VT<m.t0) return; const k=Math.min(1,(VT-m.t0)/(m.t1-m.t0)), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; place(m.p,m.x0+(m.x1-m.x0)*e,m.y0+(m.y1-m.y0)*e,m.s0+(m.s1-m.s0)*e); });
+  requestAnimationFrame(frame); }
+P.forEach(p=>place(p,-200,900,1));
+reset(); requestAnimationFrame(t=>{ last=t; frame(t); });
+</script></body></html>

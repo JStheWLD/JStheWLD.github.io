@@ -1,7 +1,34 @@
 {
   "redirects": [
-    { "source": "/HoFdemo", "destination": "/HoFdemo/", "permanent": false },
-    { "source": "/hofdemo", "destination": "/HoFdemo/", "permanent": false },
-    { "source": "/hofdemo/:path*", "destination": "/HoFdemo/:path*", "permanent": false }
+    {
+      "source": "/HoFdemo",
+      "destination": "/HoFdemo/",
+      "permanent": false
+    },
+    {
+      "source": "/hofdemo",
+      "destination": "/HoFdemo/",
+      "permanent": false
+    },
+    {
+      "source": "/hofdemo/:path*",
+      "destination": "/HoFdemo/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/HOF2",
+      "destination": "/HOF2/",
+      "permanent": false
+    },
+    {
+      "source": "/hof2",
+      "destination": "/HOF2/",
+      "permanent": false
+    },
+    {
+      "source": "/hof2/:path*",
+      "destination": "/HOF2/:path*",
+      "permanent": false
+    }
   ]
 }
