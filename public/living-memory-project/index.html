@@ -240,6 +240,19 @@ em{font-style:italic;color:var(--accent)}
   opacity:clamp(0, calc(var(--p,0) * 10 - var(--i) - 2.6), 1);translate:0 calc((1 - clamp(0, calc(var(--p,0) * 10 - var(--i) - 2.6), 1)) * 14px)}
 @media(prefers-reduced-motion:reduce){#f-Begat h2{translate:none}#f-Begat .begats span{opacity:1;translate:none}}
 
+/* phones held upright: each screen's picture sits on top, its words come out of the frame into a readable panel below */
+.mob .fstep .frame{left:0;top:0;transform-origin:0 0;transform:translate(var(--mx,0px),var(--my,0px)) scale(var(--ms,.5))}
+.mob .mpanel{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:28px 18px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;zoom:.58}
+.mob .mpanel>*{position:relative!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto!important;max-width:100%!important;inset:auto!important;margin-left:0!important}
+.mob .mpanel h2,.mob .mpanel p{max-width:100%!important}
+.mob .rail,.mob .hud,.mob .keys{display:none!important}
+.mob .brand{font-size:10px}
+.mob #f-Begat h2{translate:none!important}
+.mob #f-Begat .mpanel>.begats{order:2;position:static!important;text-align:left;margin-top:-4px}
+.mob #f-Begat .begats span{margin-right:0!important;font-size:38px}
+.mob #f-Close .mpanel>*{padding-left:0!important;padding-right:0!important}
+.mob #f-Close .mpanel h2{font-size:58px!important}
+
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
 #f-Whata .st.hub{fill:#EAFBFF;filter:drop-shadow(0 0 4px #40C4E8)}
@@ -694,7 +707,7 @@ em{font-style:italic;color:var(--accent)}
 <section id="f-Closeadvisors" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="The board of advisors"><div class="fwrap"><div class="frame" style="color:#191512"><div data-kids="1" style="position: absolute; left: 64px; right: 200px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center;">
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: .16em; color: #8E3A13; margin-bottom: 14px;">WHO STANDS WITH US</div>
     <h2 style="margin: 0 0 40px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 80px; line-height: 1; letter-spacing: -0.015em;">Our board of <em style="font-style: italic; color: #B4501B;">advisors.</em></h2>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 64px; max-width: 1100px;"><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Vince Gill</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Jody Williams</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Cameo Carlson</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">John Lomax III</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">John McBride</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">Marty Stuart</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">Leslie Fram</div><div style="padding: 18px 0; border-top: 1px dashed rgba(180,80,27,0.7); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-style: italic; font-size: 46px; line-height: 1; color: #B4501B; opacity: .75;">Your name here</div></div>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 64px; max-width: 1100px;"><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Vince Gill</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Jody Williams</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">Cameo Carlson</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.25); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1;">John Lomax III</div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">John McBride<div style="margin-top: 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; letter-spacing: .16em; color: #8A7F70;">INVITED</div></div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">Marty Stuart<div style="margin-top: 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; letter-spacing: .16em; color: #8A7F70;">INVITED</div></div><div style="padding: 18px 0; border-top: 1px solid rgba(25,21,18,0.12); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 46px; line-height: 1; color: #9A9083;">Leslie Fram<div style="margin-top: 8px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 12px; letter-spacing: .16em; color: #8A7F70;">INVITED</div></div><div style="padding: 18px 0; border-top: 1px dashed rgba(180,80,27,0.7); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-style: italic; font-size: 46px; line-height: 1; color: #B4501B; opacity: .75;">Your name here</div></div>
   </div></div></div></section>
 <section id="f-Closeask" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="Join the board"><div class="fwrap"><div class="frame" style="color:#191512"><div data-kids="1" style="position: absolute; left: 64px; right: 200px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center;">
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: .16em; color: #8E3A13; margin-bottom: 14px;">WHAT WE ASK OF AN ADVISOR</div>
@@ -1290,6 +1303,28 @@ function motion(){
   }
 })();
 
+/* phones held upright */
+(function(){
+  var portrait=function(){ return innerWidth<760&&innerHeight>innerWidth; }, was=portrait();
+  addEventListener('resize',function(){ if(portrait()!==was) location.reload(); });
+  if(!was) return;
+  document.documentElement.classList.add('mob');
+  var W=innerWidth, H=innerHeight, s=W/800;
+  [].forEach.call(document.querySelectorAll('.fstep'),function(st){
+    var fw=st.querySelector('.fwrap'), fr=st.querySelector('.frame'); if(!fw||!fr) return;
+    fr.style.setProperty('--ms',s); fr.style.setProperty('--mx',(-640*s)+'px'); fr.style.setProperty('--my',(H*0.07)+'px');
+    var pan=document.createElement('div'), bg=(st.dataset.sk||'#0b0908').split(',')[0];
+    pan.className='mpanel'; pan.style.color=fr.style.color; pan.style.background='linear-gradient(to bottom, transparent 0, '+bg+' 70px)';
+    [].slice.call(fr.children).forEach(function(c){
+      if(c.matches('canvas,svg,img,script,.bgel,.wmcv')) return;
+      if(!c.textContent.trim()) return;
+      if(c.offsetLeft>=600) return;
+      pan.appendChild(c);
+    });
+    var bg2=fr.querySelector('.begats'); if(bg2) pan.appendChild(bg2);
+    if(pan.children.length) fw.appendChild(pan);
+  });
+})();
 /* pointer parallax for the opening screens */
 addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5)*2; window.__my=(e.clientY/innerHeight-.5)*2; },{passive:true});
 /* the title: the Living Memory as a slowly turning field of blue light behind the name */
