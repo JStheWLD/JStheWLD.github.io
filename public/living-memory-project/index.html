@@ -233,6 +233,13 @@ em{font-style:italic;color:var(--accent)}
 @keyframes landed{0%{transform:scale(1)}30%{transform:scale(3.2);opacity:1}100%{transform:scale(1)}}
 .card-fly .lead-row.hl{background:rgba(64,196,232,.18)!important;border-color:#40C4E8!important}
 
+/* the seed bank: "who begat whom" repeats down the page, generation after generation, as you scroll */
+#f-Begat h2{translate:0 calc(clamp(0, var(--p,0) * 3.2, 1) * -300px)}
+#f-Begat .begats{position:absolute;right:124px;top:440px;text-align:right;font-family:Didot,'Bodoni 72','Bodoni Moda','Bodoni MT',Georgia,serif;font-style:italic;color:#B4501B;pointer-events:none}
+#f-Begat .begats span{display:block;font-size:calc(44px - var(--i)*2.6px);line-height:1.18;margin-right:calc(var(--i) * 34px);
+  opacity:clamp(0, calc(var(--p,0) * 12.5 - var(--i) - 3.2), calc(1 - var(--i) * .08));translate:0 calc((1 - clamp(0, calc(var(--p,0) * 12.5 - var(--i) - 3.2), 1)) * 14px)}
+@media(prefers-reduced-motion:reduce){#f-Begat h2{translate:none}#f-Begat .begats span{opacity:calc(1 - var(--i) * .08);translate:none}}
+
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
 #f-Whata .st.hub{fill:#EAFBFF;filter:drop-shadow(0 0 4px #40C4E8)}
@@ -312,7 +319,7 @@ em{font-style:italic;color:var(--accent)}
 <div class="ph" data-from="slab" style="position: absolute; left: 64px; top: 0; bottom: 0; width: 620px; display: flex; flex-direction: column; justify-content: center;">
     <h2 style="margin: 0; padding: 28px 32px 30px; background: rgba(11,9,8,0.82); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.06; letter-spacing: -0.015em;">The Living Memory Project exists to <em style="font-style: italic; color: #E58A4E;">collect and preserve</em> the cultural memory of American music.</h2>
   </div></div></div></section>
-<section id="f-Begat" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Opening" data-part="1" data-beat="Who begat whom"><div class="fwrap"><div class="frame" style="color:#191512"><svg class="bgel" data-speed="-.08" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" aria-hidden="true">
+<section id="f-Begat" class="step fstep phr scene" data-scene="begat" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Opening" data-part="1" data-beat="Who begat whom"><div class="fwrap"><div class="frame" style="color:#191512"><svg class="bgel" data-speed="-.08" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" aria-hidden="true">
     <g fill="none" stroke="#191512" stroke-opacity="0.16" stroke-width="1">
       <path d="M0 120 C 300 60, 620 190, 900 130 S 1300 60, 1440 110"/>
       <path d="M0 230 C 260 300, 600 170, 940 250 S 1280 320, 1440 240"/>
@@ -322,7 +329,8 @@ em{font-style:italic;color:var(--accent)}
   </svg>
 <div class="ph" data-from="wipe" style="position: absolute; left: 200px; top: 0; bottom: 0; right: 64px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 84px; line-height: 1.04; letter-spacing: -0.015em; max-width: 940px; text-align: right; margin-right: 60px;">Think of it as a seed bank of <em style="font-style: italic; color: #B4501B;">who and what begat whom.</em></h2>
-  </div></div></div></section>
+  </div>
+<div class="begats" aria-hidden="true"><span style="--i:0">who begat whom</span><span style="--i:1">who begat whom</span><span style="--i:2">who begat whom</span><span style="--i:3">who begat whom</span><span style="--i:4">who begat whom</span><span style="--i:5">who begat whom</span><span style="--i:6">who begat whom</span><span style="--i:7">who begat whom</span><span style="--i:8">who begat whom</span></div></div></div></section>
 
 
   <section data-chap="What we do" data-part="2" class="step mid phr wmk" data-sk="#0b0908,#EFE7D8,#E58A4E" data-beat="What we do">
