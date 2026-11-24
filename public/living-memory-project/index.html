@@ -293,8 +293,8 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 #f-Preview .frame p:nth-of-type(1){transform:translateX(-160px)}
 #f-Preview .frame p:nth-of-type(2){transform:translateX(160px);transition-delay:1.4s}
 #f-Preview .frame p:nth-of-type(3){transform:translateX(-160px);transition-delay:2.8s}
-#f-Preview.go .frame p{opacity:1;transform:none}
-#f-Preview:not(.go) .frame p{transition-delay:0s!important}
+#f-Preview .frame p{transition-delay:0s!important}
+#f-Preview .frame p.on{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){#f-Preview .frame p{opacity:1;transform:none;transition:none}}
 
 /* the one-record box: rides along through the Don't Worry story so the reader knows they're inside one example */
@@ -414,7 +414,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 <div class="ph" data-from="wipe" style="position: absolute; left: 200px; top: 0; bottom: 0; right: 64px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 84px; line-height: 1.04; letter-spacing: -0.015em; max-width: 1080px; text-align: right; margin-right: 60px;">Think of it as a seed bank of <em class="bslot" style="font-style: italic; color: #B4501B;" aria-label="who and what begat whom">who and what begat whom.</em></h2>
   </div></div></div></section>
-<section id="f-Preview" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Opening" data-part="1" data-beat="What this is"><div class="fwrap"><div class="frame" style="color:#191512"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; gap: 34px; align-items: center; justify-content: center; text-align: center;">
+<section id="f-Preview" class="step fstep phr scene" data-scene="preview" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Opening" data-part="1" data-beat="What this is"><div class="fwrap"><div class="frame" style="color:#191512"><div style="position: absolute; inset: 0; display: flex; flex-direction: column; gap: 34px; align-items: center; justify-content: center; text-align: center;">
           <p style="margin: 0; max-width: 1080px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 54px; line-height: 1.12;">The stories behind American music are <em style="font-style: italic; color: #B4501B;">disappearing.</em></p>
       <p style="margin: 0; max-width: 1080px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 54px; line-height: 1.12;">We find the people who were there and connect what they <em style="font-style: italic; color: #2B8DB0;">remember.</em></p>
       <p style="margin: 0; max-width: 1080px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 54px; line-height: 1.12;">And we’re asking a few people to <em style="font-style: italic; color: #B4501B;">help.</em></p>
@@ -1486,7 +1486,8 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
 
 /* the preview starts its lines only when the screen has settled in view */
 (function(){ var st=document.getElementById('f-Preview'); if(!st) return;
-  function u(){ var r=st.getBoundingClientRect(); if(r.top<innerHeight*.15&&r.bottom>innerHeight*.6) st.classList.add('go'); else if(r.top>innerHeight*.7||r.bottom<innerHeight*.2) st.classList.remove('go'); }
+  var ps=[].slice.call(st.querySelectorAll('.frame p'));
+  function u(){ var r=st.getBoundingClientRect(), pp=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-innerHeight))), k=r.top>innerHeight*.3?0:1+Math.floor(pp*4.4); ps.forEach(function(p,i){ p.classList.toggle('on',i<k); }); }
   addEventListener('scroll',u,{passive:true}); u(); })();
 
 /* the one-record box */
