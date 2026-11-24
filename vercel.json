@@ -6,6 +6,11 @@
       "permanent": false
     },
     {
+      "source": "/living-memory-project/short",
+      "destination": "/living-memory-project/short/",
+      "permanent": false
+    },
+    {
       "source": "/HoFdemo",
       "destination": "/HoFdemo/",
       "permanent": false
