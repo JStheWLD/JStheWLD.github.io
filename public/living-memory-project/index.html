@@ -1303,7 +1303,7 @@ function motion(){
 
 /* the hourglass flows: strands draw in from the top, then light keeps pouring down into the Living Memory (and, on step 3, out into rooms, pages and screens) */
 (function(){
-  ['f-How2','f-How3'].forEach(function(id){
+  ['f-How2','f-How3','f-Howall'].forEach(function(id){
     var host=document.getElementById(id); if(!host) return;
     var svg=host.querySelector('.frame svg'); if(!svg) return;
     var NS='http://www.w3.org/2000/svg', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1456,7 +1456,8 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
 (function(){
   var C=[['Opening','The Living Memory Project'],['What we do','What we do'],['The Living Memory','The Living Memory'],['Why it matters','Why this matters'],['How it works','How it works'],['What we believe','What we believe'],['Who we are','Who we are']];
   var all=[].slice.call(document.querySelectorAll('.step')), T=[];
-  C.forEach(function(c){ var s=all.filter(function(x){return x.dataset.beat===c[1];})[0]; if(s) T.push([c[0],s]); });
+  var CHAP={'Opening':'Opening','What we do':'What we do','The Living Memory':'The Living Memory','Why it matters':'Why it matters','How it works':'How it works','What we believe':'What we believe','Who we are':'Close'};
+  C.forEach(function(c){ var s=all.filter(function(x){return x.dataset.beat===c[1];})[0]||all.filter(function(x){return x.dataset.chap===CHAP[c[0]];})[0]; if(s) T.push([c[0],s]); });
   if(T.length<5) return;
   var nav=document.createElement('nav'); nav.className='cnav'; nav.setAttribute('aria-label','Chapters');
   nav.innerHTML='<button class="tog" type="button" aria-expanded="false">Chapters</button>'+T.map(function(t,i){return '<a href="#" data-i="'+i+'">'+t[0]+'</a>';}).join('');
