@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/living-memory-project",
+      "destination": "/living-memory-project/",
+      "permanent": false
+    },
+    {
       "source": "/HoFdemo",
       "destination": "/HoFdemo/",
       "permanent": false
