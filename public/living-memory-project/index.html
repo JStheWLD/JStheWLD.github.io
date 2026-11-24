@@ -281,6 +281,12 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 .nextch:hover,.nextch:focus-visible{opacity:1}
 .nextch[hidden]{display:none}
 .mob .nextch{display:none!important}
+.scue{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;display:flex;flex-direction:column;align-items:center;gap:8px;color:#EFE7D8;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.8;transition:opacity .6s ease;pointer-events:none}
+.scue i{display:block;width:1px;height:38px;background:linear-gradient(to bottom,transparent,currentColor);animation:scue 1.8s ease-in-out infinite}
+@keyframes scue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.scue.gone{opacity:0}
+@media (prefers-reduced-motion: reduce){.scue i{animation:none}}
+.scue{bottom:auto;top:calc(100vh - 128px)}.scue i{display:none}
 
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
@@ -351,7 +357,8 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
   <div class="c"><span class="k">Part</span><span class="v" id="hPart">1 of 7</span></div>
   <div class="c"><span class="k">Beat</span><span class="v" id="hBeat">1</span></div>
 </div>
-<button class="keys nextch" type="button">Next chapter <span aria-hidden="true">↓</span></button>
+<button class="keys nextch" type="button">Skip to next chapter <span aria-hidden="true">»</span></button>
+<div class="scue" aria-hidden="true"><span>Scroll</span><i></i></div>
 <main id="m">
 <section id="f-Main" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="The Living Memory Project"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas id="mncv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" aria-hidden="true"></canvas>
 <div class="ph" data-from="settle" style="position: absolute; left: 64px; right: 160px; top: 250px; display: flex; flex-direction: column; gap: 32px;">
@@ -726,7 +733,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
   </svg>
 <div class="ph" data-from="wipe" style="position: absolute; left: 64px; top: 0; bottom: 0; right: 360px; display: flex; flex-direction: column; justify-content: center; gap: 26px;">
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: 0.16em; color: #E3AE5E;">5 OF 5</div>
-    <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Every version belongs, even the tall tales.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Some stories agree, some don’t, and some get bigger every time they’re told. Even the wrong ones are part of the story.</span></p>
+    <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Every version belongs, even the tall tales.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Some stories agree, some don’t, and some get bigger every time they’re told. We believe even the wrong ones are part of the story.</span></p>
   </div></div></div></section>
 <section id="f-Closeinvite" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="The invitation"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="settle" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;">
     <h2 style="margin: 0; max-width: 1100px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.15; letter-spacing: -0.01em;">If you believe what we believe, we’d love for you to join us in our mission to add <em style="font-style: italic; color: #B4501B;">a million music memories by 2030.</em></h2>
@@ -1426,6 +1433,9 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   function nxu(){ if(!nx) return; var cur=0; T.forEach(function(t,k){ if(t[1].getBoundingClientRect().top<innerHeight*.5) cur=k; }); nx.hidden=cur>=T.length-1; nx.style.color=nav.style.color; }
   addEventListener('scroll',function(){upd();nxu();},{passive:true}); upd(); nxu();
 })();
+
+/* scroll cue on the title screen, gone once the reader starts scrolling */
+(function(){ var c=document.querySelector('.scue'); if(!c) return; function u(){ c.classList.toggle('gone',scrollY>innerHeight*.15); } addEventListener('scroll',u,{passive:true}); u(); })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
 addEventListener('resize',resolve);
