@@ -264,6 +264,19 @@ em{font-style:italic;color:var(--accent)}
 .mob #f-Whyroute .mpanel>figure,.mob #f-Whyroute .mpanel>div:last-child{display:none}
 .mob #f-Whyroute .mpanel{zoom:.5}
 
+/* chapter nav: a line of chapter names at the top; hides while reading down, returns on scroll up */
+.cnav{position:fixed;top:calc(var(--pad,48px)*.55);right:var(--pad,48px);z-index:60;display:flex;gap:18px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;transition:opacity .5s ease,transform .5s ease}
+.cnav.hide{opacity:0;transform:translateY(-10px);pointer-events:none}
+.cnav a{color:inherit;text-decoration:none;opacity:.6;padding:4px 0;border-bottom:1px solid transparent}
+.cnav a:hover,.cnav a:focus-visible{opacity:1;border-bottom-color:currentColor;outline:none}
+.cnav a.on{opacity:1;border-bottom-color:#40C4E8}
+.cnav .tog{display:none}
+.mob .cnav{top:12px;right:12px;flex-direction:column;align-items:flex-end;gap:0}
+.mob .cnav .tog{display:block;all:unset;font:inherit;letter-spacing:inherit;padding:8px 10px;border:1px solid currentColor;cursor:pointer;background:var(--navbg,rgba(0,0,0,.35))}
+.mob .cnav a{display:none;padding:9px 12px;background:var(--navbg,rgba(0,0,0,.85));opacity:1;font-size:12px}
+.mob .cnav.open a{display:block}
+html.mob,html.mob body{overflow-x:clip;max-width:100%}
+
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
 #f-Whata .st.hub{fill:#EAFBFF;filter:drop-shadow(0 0 4px #40C4E8)}
@@ -709,8 +722,9 @@ em{font-style:italic;color:var(--accent)}
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: 0.16em; color: #E3AE5E;">5 OF 5</div>
     <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Every version belongs, especially when they disagree.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Five people remember one night five ways, and every place keeps legends of its own.</span></p>
   </div></div></div></section>
-<section id="f-Close0" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="Who we are"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="settle" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;">
+<section id="f-Close0" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="Who we are"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="settle" style="position: absolute; inset: 0; display: flex; flex-direction: column; gap: 40px; align-items: center; justify-content: center; text-align: center;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 120px; line-height: 1; letter-spacing: -0.02em;">Who <em style="font-style: italic; color: #B4501B;">we are.</em></h2>
+    <p class="ph after" data-from="rise" style="margin: 0; max-width: 940px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 38px; line-height: 1.25;">If you believe what we believe, we’d love for you to join us in our mission to add <em style="font-style: italic; color: #B4501B;">a million music memories by 2030.</em></p>
   </div></div></div></section>
 <section id="f-Closeteam" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="The team"><div class="fwrap"><div class="frame" style="color:#191512"><div data-kids="1" style="position: absolute; left: 64px; right: 200px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center;">
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: .16em; color: #8E3A13; margin-bottom: 14px;">WHO WE ARE</div>
@@ -1375,6 +1389,31 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   function vis(){ var r=host.getBoundingClientRect(), on=r.top<innerHeight*.5&&r.bottom>innerHeight*.5;
     if(on&&!timer){ timer=setInterval(next,2600); } else if(!on&&timer){ clearInterval(timer); timer=null; } }
   addEventListener('scroll',vis,{passive:true}); vis();
+})();
+
+/* chapter nav */
+(function(){
+  var C=[['Opening','The Living Memory Project'],['What we do','What we do'],['The Living Memory','The Living Memory'],['Why it matters','Why this matters'],['How it works','How it works'],['What we believe','What we believe'],['Who we are','Who we are']];
+  var all=[].slice.call(document.querySelectorAll('.step')), T=[];
+  C.forEach(function(c){ var s=all.filter(function(x){return x.dataset.beat===c[1];})[0]; if(s) T.push([c[0],s]); });
+  if(T.length<5) return;
+  var nav=document.createElement('nav'); nav.className='cnav'; nav.setAttribute('aria-label','Chapters');
+  nav.innerHTML='<button class="tog" type="button" aria-expanded="false">Chapters</button>'+T.map(function(t,i){return '<a href="#" data-i="'+i+'">'+t[0]+'</a>';}).join('');
+  document.body.appendChild(nav);
+  var tog=nav.querySelector('.tog'), links=[].slice.call(nav.querySelectorAll('a'));
+  tog.onclick=function(){ var o=nav.classList.toggle('open'); tog.setAttribute('aria-expanded',o); };
+  links.forEach(function(a){ a.onclick=function(e){ e.preventDefault(); var s=T[+a.dataset.i][1]; nav.classList.remove('open'); scrollTo({top:s.getBoundingClientRect().top+scrollY,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); }; });
+  var last=scrollY;
+  function upd(){
+    var y=scrollY, up=y<last-4, down=y>last+4;
+    if(y<innerHeight*.5||up) nav.classList.remove('hide'); else if(down&&!nav.classList.contains('open')) nav.classList.add('hide');
+    last=y; var cur=0; T.forEach(function(t,i){ if(t[1].getBoundingClientRect().top<innerHeight*.5) cur=i; });
+    links.forEach(function(a,i){ a.classList.toggle('on',i===cur); });
+    var st=T[cur][1], sk=(st.dataset.sk||'').split(','); 
+    var act=all.filter(function(x){var r=x.getBoundingClientRect();return r.top<innerHeight*.5&&r.bottom>innerHeight*.5;})[0]||st;
+    var k=(act.dataset.sk||'#0b0908,#EFE7D8').split(','); nav.style.color=k[1]||'#EFE7D8'; nav.style.setProperty('--navbg',k[0]);
+  }
+  addEventListener('scroll',upd,{passive:true}); upd();
 })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
