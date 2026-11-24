@@ -194,7 +194,7 @@ em{font-style:italic;color:var(--accent)}
 .step.seen .ph[data-from="wipe"]{clip-path:inset(-25% -25% -25% -25%)}
 /* the title: Living breathes */
 #f-Main em{display:inline-block;animation:breathe 6.5s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:translateY(0);text-shadow:0 0 0 rgba(64,196,232,0)}50%{transform:translateY(-7px);text-shadow:0 0 34px rgba(64,196,232,.6),0 0 8px rgba(190,236,250,.5)}}
+@keyframes breathe{0%,100%{transform:translateY(0);text-shadow:0 0 0 rgba(229,138,78,0)}50%{transform:translateY(-7px);text-shadow:0 0 34px rgba(229,138,78,.6),0 0 8px rgba(255,211,148,.5)}}
 @media(prefers-reduced-motion:reduce){#f-Main em{animation:none}}
 
 /* beliefs: the copy waits for the headline */
@@ -310,9 +310,9 @@ em{font-style:italic;color:var(--accent)}
 </div>
 <p class="keys" aria-hidden="true">[ and ] jump chapters</p>
 <main id="m">
-<section id="f-Main" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="The Living Memory Project"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><img class="bgel" data-speed=".10" src="img/constellation.jpg" alt="" style="position: absolute; inset: 0; width: 1440px; height: 900px; object-fit: cover; opacity: 0.7;">
+<section id="f-Main" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="The Living Memory Project"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas id="mncv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" aria-hidden="true"></canvas>
 <div class="ph" data-from="settle" style="position: absolute; left: 64px; right: 160px; top: 250px; display: flex; flex-direction: column; gap: 32px;">
-    <h1 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 156px; line-height: 0.92; letter-spacing: -0.02em; max-width: 1100px;">The <em style="font-style: italic; color: #40C4E8;">Living</em> Memory Project</h1>
+    <h1 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 156px; line-height: 0.92; letter-spacing: -0.02em; max-width: 1100px;">The <em style="font-style: italic; color: #E58A4E;">Living</em> Memory Project</h1>
   </div>
 <div style="position: absolute; left: 50%; bottom: 40px; width: 1px; height: 64px; background: #40C4E8;" aria-hidden="true"></div></div></div></section>
 <section id="f-Whata" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="Our mission"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas id="wacv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" role="img" aria-label="The Living Memory lighting up, oldest names first, turning slowly, while one line of influence draws from John A. Lomax in 1908 to Lead Belly, Led Zeppelin and Jack White"></canvas>
@@ -1242,9 +1242,9 @@ function motion(){
     var r=host.getBoundingClientRect();
     if(r.bottom>0&&r.top<innerHeight){
       if(host.classList.contains('seen')){ if(t0===null) t0=now; } else t0=null;
-      var t=still?99:(t0===null?0:(now-t0)/1000), a=0.42+(still?0:Math.sin(now/1000*0.09)*0.22), ca=Math.cos(a), sa=Math.sin(a);
+      var t=still?99:(t0===null?0:(now-t0)/1000), a=0.42+(still?0:now/1000*0.045), ca=Math.cos(a), sa=Math.sin(a), PX=(window.__mx||0)*26, PY=(window.__my||0)*16;
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
-      for(var i=0;i<N.length;i++){ var n=N[i], z=n[2]*4.2, X=n[0]*ca-z*sa, Z=n[0]*sa+z*ca, f=900/(900-Z*2.2); P[i]=[1010+X*2.9*f,470+n[1]*7.4*f,Z]; }
+      for(var i=0;i<N.length;i++){ var n=N[i], z=n[2]*4.2, X=n[0]*ca-z*sa, Z=n[0]*sa+z*ca, f=900/(900-Z*2.2); P[i]=[1010+PX*f+X*2.9*f,470+PY*f+n[1]*7.4*f,Z]; }
       var lit=function(i){ return clamp(t*0.55-(N[i][0]-xmin)/(xmax-xmin)*1.6); };
       g.lineWidth=.6;
       for(var k=0;k<E.length;k++){ var A=E[k][0],B=E[k][1], la=Math.min(lit(A),lit(B)); if(la<=0) continue; var p=P[A],q=P[B];
@@ -1288,6 +1288,27 @@ function motion(){
       c.style.transform='translate('+(tx-cx)+'px,'+(ty-cy)+'px) scale(.035)'; c.style.borderRadius='50%'; c.style.opacity='0.15'; c.style.filter='brightness(1.6)'; }); });
     setTimeout(function(){ c.remove(); var n=dot.closest('.node'); if(n){ n.classList.add('landed'); setTimeout(function(){ n.classList.remove('landed'); },1400); } },1200);
   }
+})();
+
+/* pointer parallax for the opening screens */
+addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5)*2; window.__my=(e.clientY/innerHeight-.5)*2; },{passive:true});
+/* the title: the Living Memory as a slowly turning field of blue light behind the name */
+(function(){
+  var cv=document.getElementById('mncv'), src=document.getElementById('lmdata'); if(!cv||!src) return;
+  var D=JSON.parse(src.textContent), N=D.n, E=D.e, g=cv.getContext('2d'), host=cv.closest('.step'), still=matchMedia('(prefers-reduced-motion: reduce)').matches, P=new Array(N.length);
+  function draw(now){
+    var r=host.getBoundingClientRect();
+    if(r.bottom>0&&r.top<innerHeight){
+      var a=0.9+(still?0:now/1000*0.035), ca=Math.cos(a), sa=Math.sin(a), PX=(window.__mx||0)*30, PY=(window.__my||0)*18, sc=1+Math.max(0,-r.top/innerHeight)*0.25;
+      g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
+      for(var i=0;i<N.length;i++){ var n=N[i], z=n[2]*4.2, X=n[0]*ca-z*sa, Z=n[0]*sa+z*ca, f=900/(900-Z*2.2); P[i]=[760+(PX+X*4.2)*f*sc,450+(PY+n[1]*8.6)*f*sc,Z]; }
+      g.lineWidth=.6;
+      for(var k=0;k<E.length;k++){ var p=P[E[k][0]],q=P[E[k][1]]; g.strokeStyle='rgba(46,143,176,'+(0.12+0.1*((p[2]+q[2])/2+110)/220)+')'; g.beginPath(); g.moveTo(p[0],p[1]); g.lineTo(q[0],q[1]); g.stroke(); }
+      for(i=0;i<N.length;i++){ var p=P[i], c=(p[2]+110)/220, tw=still?1:.75+.25*Math.sin(now/650+i*1.7); g.fillStyle='rgba(205,243,255,'+((.25+.6*c)*tw)+')'; g.beginPath(); g.arc(p[0],p[1],(1.1+N[i][3]*.22)*(0.8+c*.5),0,6.283); g.fill(); }
+    }
+    if(!still) requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
 })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
