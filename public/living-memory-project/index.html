@@ -311,6 +311,13 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 .mob .onerec{width:92px;padding:7px 7px 8px}
 .mob .onerec img{margin:5px 0 7px}
 
+/* the story around the record: pinned, and each line arrives as you scroll */
+.storypin{min-height:0;height:230vh;display:block;padding:0 var(--pad)}
+.storypin .pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center}
+#story .pt{transition-delay:0s!important}
+#story .pt.on{opacity:1!important;transform:none!important}
+#story.go .pt:not(.on){opacity:0!important}
+
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
 #f-Whata .st.hub{fill:#EAFBFF;filter:drop-shadow(0 0 4px #40C4E8)}
@@ -389,7 +396,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
     <h1 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 156px; line-height: 0.92; letter-spacing: -0.02em; max-width: 1100px;">The <em style="font-style: italic; color: #E58A4E;">Living</em> Memory Project</h1>
   </div>
 <div style="position: absolute; left: 50%; bottom: 40px; width: 1px; height: 64px; background: #40C4E8;" aria-hidden="true"></div></div></div></section>
-<section id="f-Whata" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="Our mission"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas id="wacv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" role="img" aria-label="The Living Memory lighting up, oldest names first, turning slowly, while one line of influence draws from John A. Lomax in 1908 to Lead Belly, Led Zeppelin and Jack White"></canvas>
+<section id="f-Whata" class="step fstep phr scene" data-scene="mission" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="Opening" data-part="1" data-beat="Our mission"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas id="wacv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" role="img" aria-label="The Living Memory lighting up, oldest names first, turning slowly, while one line of influence draws from John A. Lomax in 1908 to Lead Belly, Led Zeppelin and Jack White"></canvas>
 <div class="ph" data-from="slab" style="position: absolute; left: 64px; top: 0; bottom: 0; width: 620px; display: flex; flex-direction: column; justify-content: center;">
     <h2 style="margin: 0; padding: 28px 32px 30px; background: rgba(11,9,8,0.82); font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.06; letter-spacing: -0.015em;">The Living Memory Project exists to <em style="font-style: italic; color: #E58A4E;">collect and preserve</em> the cultural memory of American music.</h2>
   </div></div></div></section>
@@ -438,7 +445,8 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
     </div>
   </section>
 
-  <section data-chap="What we do" data-part="2" class="step phr" data-sk="#3A332C,#F1EADC,#E58A4E" data-beat="The story around it">
+  <section data-chap="What we do" data-part="2" class="step phr storypin" data-sk="#3A332C,#F1EADC,#E58A4E" data-beat="The story around it">
+    <div class="pin">
     <h2 class="mid-t story-h" style="text-align:right;max-width:none"><span class="ph" data-from="right"><em style="color:#40C4E8">but the story is everything around it</em></span></h2>
     <div class="story" id="story">
       <div class="card focus" id="storyCard" aria-hidden="true">
@@ -464,6 +472,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
         <div class="pt" style="--pd:4.3s"><div class="who">Engineer Glenn Snoddy is called in to fix it.</div></div>
         <div class="pt" style="--pd:6s"><div class="who">Producer Don Law keeps the sound.</div></div>
       </div>
+    </div>
     </div>
   </section>
 
@@ -664,7 +673,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 <div style="position: absolute; left: 880px; width: 220px; text-align: center; top: 788px;"><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 22px; color: #EEE8D8;">Pages</div><div style="margin-top: 4px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; letter-spacing: .08em; line-height: 1.5; color: #B8AE9E;">BOOKS · ESSAYS · LONG FORM</div></div>
 <div style="position: absolute; left: 1130px; width: 220px; text-align: center; top: 788px;"><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 22px; color: #EEE8D8;">Screens</div><div style="margin-top: 4px; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 11px; letter-spacing: .08em; line-height: 1.5; color: #B8AE9E;">FILM · PODCASTS · SOCIAL</div></div>
 <div style="position: absolute; left: 64px; top: 0; bottom: 0; width: 520px; display: flex; flex-direction: column; justify-content: center; gap: 30px;"><div style="display: flex; gap: 18px; align-items: baseline; opacity: 0.42;"><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 44px; color: #A99F8F; width: 30px;">1</div><div><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 24px; line-height: 1.12;">We find and record the people who were there, wherever they are.</div></div></div><div style="display: flex; gap: 18px; align-items: baseline; opacity: 0.42;"><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 44px; color: #A99F8F; width: 30px;">2</div><div><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 24px; line-height: 1.12;">Every story leads to more new stories.</div></div></div><div style="display: flex; gap: 18px; align-items: baseline; opacity: 1;"><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 44px; color: #E58A4E; width: 30px;">3</div><div><div style="font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 34px; line-height: 1.12;">We turn it into rooms, pages and screens.</div><p style="margin: 10px 0 0; font-size: 19px; line-height: 1.45; color: #D9CFBF;">They update as new stories come in.</p></div></div></div></div></div></section>
-<section id="f-Mapb" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="How it works" data-part="5" data-beat="One story, told as a river"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><svg id="lmriver" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" role="img" aria-label="Johnny Cash drawn as a river: time runs down the page, every line a story of who he passed something on to">
+<section id="f-Mapb" class="step fstep phr scene" data-scene="river2d" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="How it works" data-part="5" data-beat="One story, told as a river"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><svg id="lmriver" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" role="img" aria-label="Johnny Cash drawn as a river: time runs down the page, every line a story of who he passed something on to">
 <g class="rv-dec" data-row="1"><line x1="800" x2="1390" y1="168" y2="168" stroke="#2A2622" stroke-width="1"/><text x="800" y="163" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#A39A8C">1930S</text></g>
 <g class="rv-dec" data-row="3"><line x1="800" x2="1390" y1="234" y2="234" stroke="#2A2622" stroke-width="1"/><text x="800" y="229" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#A39A8C">1950S</text></g>
 <g class="rv-dec" data-row="12"><line x1="800" x2="1390" y1="536" y2="536" stroke="#2A2622" stroke-width="1"/><text x="800" y="531" font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#A39A8C">1960S</text></g>
@@ -765,7 +774,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
     <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Every version belongs, even the tall tales.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Some stories agree, some don’t, and some get bigger every time they’re told. We believe they are all part of the story.</span></p>
   </div></div></div></section>
 <section id="f-Closeinvite" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="The invitation"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="settle" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;">
-    <h2 style="margin: 0; max-width: 1100px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.15; letter-spacing: -0.01em;">If you believe what we believe, we’d love for you to join us in our mission to add <em style="font-style: italic; color: #B4501B;">a million music memories by 2030.</em></h2>
+    <h2 style="margin: 0; max-width: 1100px; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 64px; line-height: 1.15; letter-spacing: -0.01em;">If you believe what we believe, join us in our mission to add <em style="font-style: italic; color: #B4501B;">a million music memories by 2030.</em></h2>
   </div></div></div></section>
 <section id="f-Close0" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Close" data-part="7" data-beat="Who we are"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="settle" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 120px; line-height: 1; letter-spacing: -0.02em;">Who <em style="font-style: italic; color: #B4501B;">we are.</em></h2>
@@ -991,7 +1000,7 @@ function motion(){
 (function(){
   var sv=document.getElementById('lmriver'); if(!sv) return;
   var host=sv.closest('.step'), NS='http://www.w3.org/2000/svg', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var rows=[].slice.call(sv.querySelectorAll('[data-row]')), edges=[].slice.call(sv.querySelectorAll('.rv-e')), nodes=[].slice.call(sv.querySelectorAll('.rv-n'));
+  var rows=[].slice.call(sv.querySelectorAll('[data-row]')), maxRow=Math.max.apply(null,[].map.call(sv.querySelectorAll('[data-row]'),function(e){return +e.dataset.row;})), edges=[].slice.call(sv.querySelectorAll('.rv-e')), nodes=[].slice.call(sv.querySelectorAll('.rv-n'));
   var flow=sv.getElementById ? sv.getElementById('rvflow') : sv.querySelector('#rvflow'), par={}, ek={};
   nodes.forEach(function(n){ if(n.dataset.par) par[n.dataset.id]=n.dataset.par; });
   edges.forEach(function(e){ var L=e.getTotalLength(); e._L=L; e.style.strokeDasharray=L; e.style.strokeDashoffset=still?0:L; ek[e.dataset.kid]=e; });
@@ -1017,13 +1026,13 @@ function motion(){
   var lastSpawn=0;
   function tick(now){
     var r=host.getBoundingClientRect(), vis=r.bottom>0&&r.top<innerHeight;
-    if(vis&&host.classList.contains('seen')){
-      if(t0===null) t0=now; var t=(now-t0)/1000;
+    if(vis){
+      var TT=0.9+maxRow*0.17, pp=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-innerHeight))), t=r.top>innerHeight*.5?0:pp*TT*1.08;
       if(!still){
         rows.forEach(function(el){ var at=0.25+(+el.dataset.row)*0.17;
           if(el.classList.contains('rv-e')){ var u=Math.min(1,Math.max(0,(t-at+0.35)/0.35)); el.style.strokeDashoffset=el._L*(1-u); }
-          else if(t>=at) el.style.opacity=el.style.opacity==='0.28'?el.style.opacity:1; });
-        if(t>4.2 && now-lastSpawn>900 && sparks.length<6){ spawn(); lastSpawn=now; }
+          else if(t>=at){ if(el.style.opacity==='0') el.style.opacity=1; } else el.style.opacity=0; });
+        if(t>=TT && now-lastSpawn>900 && sparks.length<6){ spawn(); lastSpawn=now; }
         sparks=sparks.filter(function(s){ var e=s.path[s.i]; s.d+=1.1; if(s.d>e._L){ s.i++; s.d=0; if(s.i>=s.path.length){ s.c.remove(); return false; } e=s.path[s.i]; }
           var p=e.getPointAtLength(s.d); s.c.setAttribute('cx',p.x); s.c.setAttribute('cy',p.y); return true; });
       }
@@ -1079,8 +1088,7 @@ function motion(){
 
   function frame(now){
     if(R){ var r=R.host.getBoundingClientRect(); if(r.bottom>0&&r.top<innerHeight){
-      if(r.top<=4&&r.bottom>=innerHeight-4){ if(R.t0===null) R.t0=now; } else if(r.top>innerHeight*0.6) R.t0=null;
-      var t=still?99:(R.t0===null?0:(now-R.t0)/1000), p=progress(R.host), g=R.g, z=6.4+inout(p)*1.6;
+      var p=progress(R.host), t=still?99:(r.top>innerHeight*.5?0:0.3+p*(4.6+TOWERS.length*0.22)), g=R.g, z=6.4+inout(p)*1.6;
       var P=proj([-88+p*1.2,37.6-p*1.0,z,880]);
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
       land(g,P,'#F4E7D4',1);
@@ -1333,8 +1341,7 @@ function motion(){
   function draw(now){
     var r=host.getBoundingClientRect();
     if(r.bottom>0&&r.top<innerHeight){
-      if(host.classList.contains('seen')){ if(t0===null) t0=now; } else t0=null;
-      var t=still?99:(t0===null?0:(now-t0)/1000), a=0.42+(still?0:now/1000*0.045), ca=Math.cos(a), sa=Math.sin(a), PX=(window.__mx||0)*26, PY=(window.__my||0)*16;
+      var pp=clamp(-r.top/Math.max(1,r.height-innerHeight)), t=still?99:(r.top>innerHeight*.5?0:0.4+pp*7.8), a=0.42+(still?0:now/1000*0.045), ca=Math.cos(a), sa=Math.sin(a), PX=(window.__mx||0)*26, PY=(window.__my||0)*16;
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
       for(var i=0;i<N.length;i++){ var n=N[i], z=n[2]*4.2, X=n[0]*ca-z*sa, Z=n[0]*sa+z*ca, f=900/(900-Z*2.2); P[i]=[1010+PX*f+X*2.9*f,470+PY*f+n[1]*7.4*f,Z]; }
       var lit=function(i){ return clamp(t*0.55-(N[i][0]-xmin)/(xmax-xmin)*1.6); };
@@ -1497,6 +1504,13 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   }
   addEventListener('scroll',u,{passive:true}); u();
 })();
+
+/* the story lines arrive with the scroll */
+(function(){ var st=document.querySelector('.storypin'), box=document.getElementById('story'); if(!st||!box) return;
+  var pts=[].slice.call(box.querySelectorAll('.pt'));
+  function u(){ var r=st.getBoundingClientRect(), pp=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-innerHeight))), k=r.top>innerHeight*.4?0:1+Math.floor(pp*pts.length*1.15);
+    pts.forEach(function(p,i){ p.classList.toggle('on',i<k); }); }
+  addEventListener('scroll',u,{passive:true}); addEventListener('resize',u); u(); })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
 addEventListener('resize',resolve);
