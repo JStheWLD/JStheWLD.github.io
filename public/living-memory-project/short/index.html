@@ -321,6 +321,12 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 .mob .onerec img,.mob .onerec .ticks{display:none}
 .mob .onerec .end{margin:0}
 
+/* readability: the smallest labels (10 to 11px in the artboards) read at 13px, a little brighter */
+.fwrap [style*="font-size: 10px"], .fwrap [style*="font-size: 10.5px"], .fwrap [style*="font-size: 11px"]{font-size:13px!important}
+.fwrap figcaption, .fwrap .own{filter:brightness(1.15)}
+/* phones: the river's names were drawn at about 8px; draw them bigger */
+.mob #lmriver .rv-dec text{font-size:16px}
+
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
 #f-Whata .st.hub{fill:#EAFBFF;filter:drop-shadow(0 0 4px #40C4E8)}
@@ -426,8 +432,8 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
       <svg class="links" id="links" aria-hidden="true"></svg>
       <div class="points">
         <p class="label pt" style="--pd:.3s">The story · Studio B, 1960</p>
-        <div class="pt" style="--pd:.9s"><div class="who">During the session, an amplifier in the console fails.</div></div>
-        <div class="pt" style="--pd:2.6s"><div class="who">Grady Martin’s bass comes out fuzzy.</div></div>
+        <div class="pt" style="--pd:.9s"><div class="who">During the session, part of the studio’s sound board breaks.</div></div>
+        <div class="pt" style="--pd:2.6s"><div class="who">Grady Martin’s bass comes out fuzzy, a buzzing, broken sound.</div></div>
         <div class="pt" style="--pd:4.3s"><div class="who">Engineer Glenn Snoddy is called in to fix it.</div></div>
         <div class="pt" style="--pd:6s"><div class="who">Producer Don Law keeps the sound.</div></div>
       </div>
@@ -438,7 +444,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 
   <section data-chap="What we do" data-part="2" class="step phr" data-sk="#0b0908,#EFE7D8,#E58A4E" data-stage="3" data-beat="1965 and on">
     <div class="stop">
-      <div class="yearcard ph" data-from="left"><p class="year">1965 and on.</p><p class="hook">Keith Richards plugs one in for “Satisfaction.” Then everyone does.</p></div>
+      <div class="yearcard ph" data-from="left"><p class="year">1965 and on.</p><p class="hook">Keith Richards of the Rolling Stones plugs one in for “Satisfaction.” Then everyone does.</p></div>
     </div>
   </section>
 
@@ -744,6 +750,13 @@ function motion(){
 /* the 2D river: draws downhill row by row, light runs down the threads, a name lights its line back to the headwater */
 (function(){
   var sv=document.getElementById('lmriver'); if(!sv) return;
+  /* phones: names at 22 svg units (about 11px on screen), flipped to the left of the dot when they would run off the right edge */
+  function fitPhone(){ if(!document.documentElement.classList.contains('mob')&&!document.body.classList.contains('mob')) return;
+    [].forEach.call(sv.querySelectorAll('.rv-n:not(.rv-head)'),function(g){ var c=g.querySelector('.rv-dot'), t=g.querySelector('text'); if(!c||!t) return;
+      var cx=+c.getAttribute('cx'); t.setAttribute('font-size', t.getAttribute('font-style')?'21':'22'); t.removeAttribute('text-anchor'); t.setAttribute('x',cx+11);
+      var w=t.getComputedTextLength(); if(cx+11+w>1425){ t.setAttribute('text-anchor','end'); t.setAttribute('x',cx-11); } });
+    [].forEach.call(sv.querySelectorAll('.rv-head text'),function(t,i){ t.setAttribute('font-size', i?'15':'34'); }); }
+  setTimeout(fitPhone,60); addEventListener('load',fitPhone); addEventListener('resize',fitPhone);
   var host=sv.closest('.step'), NS='http://www.w3.org/2000/svg', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var rows=[].slice.call(sv.querySelectorAll('[data-row]')), maxRow=Math.max.apply(null,[].map.call(sv.querySelectorAll('[data-row]'),function(e){return +e.dataset.row;})), edges=[].slice.call(sv.querySelectorAll('.rv-e')), nodes=[].slice.call(sv.querySelectorAll('.rv-n'));
   var flow=sv.getElementById ? sv.getElementById('rvflow') : sv.querySelector('#rvflow'), par={}, ek={};
