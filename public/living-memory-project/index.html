@@ -1493,7 +1493,7 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
 /* the one-record box */
 (function(){
   var all=[].slice.call(document.querySelectorAll('.step')), a=-1, z=-1;
-  all.forEach(function(s,i){ if(s.dataset.beat==='The credit') a=i; if(s.dataset.beat==='None of it in the credits') z=i; });
+  all.forEach(function(s,i){ if(a<0&&(s.dataset.beat==='The credit'||s.dataset.beat==='The story around it')) a=i; if(s.dataset.beat==='None of it in the credits') z=i; });
   if(a<0||z<a) return; var S=all.slice(a,z+1);
   var box=document.createElement('div'); box.className='onerec'; box.setAttribute('aria-hidden','true');
   box.innerHTML='<div class="orhd">One record</div><img src="img/dontworry.jpg" alt=""><div class="ticks">'+S.map(function(){return '<i></i>';}).join('')+'</div><div class="end"></div>';
