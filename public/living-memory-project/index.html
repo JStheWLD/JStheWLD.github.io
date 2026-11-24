@@ -235,10 +235,10 @@ em{font-style:italic;color:var(--accent)}
 
 /* the seed bank: "who begat whom" repeats down the page, generation after generation, as you scroll */
 #f-Begat h2{translate:0 calc(clamp(0, var(--p,0) * 3.2, 1) * -300px)}
-#f-Begat .begats{position:absolute;right:124px;top:440px;text-align:right;font-family:Didot,'Bodoni 72','Bodoni Moda','Bodoni MT',Georgia,serif;font-style:italic;color:#B4501B;pointer-events:none}
-#f-Begat .begats span{display:block;font-size:calc(44px - var(--i)*2.6px);line-height:1.18;margin-right:calc(var(--i) * 34px);
-  opacity:clamp(0, calc(var(--p,0) * 12.5 - var(--i) - 3.2), calc(1 - var(--i) * .08));translate:0 calc((1 - clamp(0, calc(var(--p,0) * 12.5 - var(--i) - 3.2), 1)) * 14px)}
-@media(prefers-reduced-motion:reduce){#f-Begat h2{translate:none}#f-Begat .begats span{opacity:calc(1 - var(--i) * .08);translate:none}}
+#f-Begat .begats{position:absolute;right:124px;top:330px;text-align:right;font-family:Didot,'Bodoni 72','Bodoni Moda','Bodoni MT',Georgia,serif;font-style:italic;pointer-events:none}
+#f-Begat .begats span{display:block;font-size:40px;line-height:1.22;margin-right:calc(var(--i) * 22px);
+  opacity:clamp(0, calc(var(--p,0) * 10 - var(--i) - 2.6), 1);translate:0 calc((1 - clamp(0, calc(var(--p,0) * 10 - var(--i) - 2.6), 1)) * 14px)}
+@media(prefers-reduced-motion:reduce){#f-Begat h2{translate:none}#f-Begat .begats span{opacity:1;translate:none}}
 
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
@@ -330,7 +330,7 @@ em{font-style:italic;color:var(--accent)}
 <div class="ph" data-from="wipe" style="position: absolute; left: 200px; top: 0; bottom: 0; right: 64px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 84px; line-height: 1.04; letter-spacing: -0.015em; max-width: 940px; text-align: right; margin-right: 60px;">Think of it as a seed bank of <em style="font-style: italic; color: #B4501B;">who and what begat whom.</em></h2>
   </div>
-<div class="begats" aria-hidden="true"><span style="--i:0">who begat whom</span><span style="--i:1">what begat what</span><span style="--i:2">a broken amplifier begat a sound</span><span style="--i:3">a sound begat a pedal</span><span style="--i:4">a pedal begat a riff</span><span style="--i:5">a riff begat a hit</span><span style="--i:6">a place begat a sound</span><span style="--i:7">a moment begat a movement</span><span style="--i:8">a song begat a singer</span></div></div></div></section>
+<div class="begats" aria-hidden="true"><span style="--i:0;color:#B4501B">who begat whom,</span><span style="--i:1;color:#A9651A">what begat what:</span><span style="--i:2;color:#8F7A12">a broken amplifier begat a sound,</span><span style="--i:3;color:#4E8A3A">the sound begat a pedal,</span><span style="--i:4;color:#1E8A78">the pedal begat a riff,</span><span style="--i:5;color:#1F7EA6">the riff begat a hit,</span><span style="--i:6;color:#2E62B0">and on it goes.</span></div></div></div></section>
 
 
   <section data-chap="What we do" data-part="2" class="step mid phr wmk" data-sk="#0b0908,#EFE7D8,#E58A4E" data-beat="What we do">
