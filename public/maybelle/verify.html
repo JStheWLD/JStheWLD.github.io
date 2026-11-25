@@ -161,6 +161,11 @@ document.querySelectorAll('.speed [data-x]').forEach(b=>b.addEventListener('clic
 $('pp').addEventListener('click',()=>{ PAUSED=!PAUSED; $('pp').setAttribute('aria-pressed',String(PAUSED)); $('pp').textContent=PAUSED?'Play':'Pause'; });
 $('rs').addEventListener('click',()=>{ PAUSED=false; $('pp').setAttribute('aria-pressed','false'); $('pp').textContent='Pause'; reset(); });
 reset(); requestAnimationFrame(t=>{ last=t; frame(t); });
+
+/* scroll control: the page sets this demo to any moment (ms of its own time); going back starts it over */
+window.__seek=function(t){ PAUSED=true; if(window.__sT===undefined||t<window.__sT){ reset(); PAUSED=true; } window.__sT=t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>t) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=t; };
 </script>
 </body>
 </html>

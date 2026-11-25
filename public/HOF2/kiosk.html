@@ -251,4 +251,9 @@ step(performance.now(),T=>{
   const a=roll!=null?(VT-roll)/140:0; K.shine.setAttribute('cx',(K.bx-10*Math.cos(a)).toFixed(1)); K.shine.setAttribute('cy',(K.by-10*Math.sin(a)*.6-2).toFixed(1));
 });
 reset();
+
+/* scroll control: the page sets this demo to any moment (ms of its own time); going back starts it over */
+window.__seek=function(t){ PAUSED=true; if(window.__sT===undefined||t<window.__sT){ reset(); PAUSED=true; } window.__sT=t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>t) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=t; };
 </script></body></html>

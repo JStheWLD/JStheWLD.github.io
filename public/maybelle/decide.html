@@ -90,7 +90,7 @@ const ME={x:150,y:450};
 const T={
   thin:{x:520,y:210,k:'n',label:'Nashville Sound',sub:'thin'},
   run:{x:560,y:610,k:'r',label:'Buddy Guy',sub:'90'},
-  lp:{x:300,y:760,k:'a',label:'Gibson Les Paul',sub:'75 in 2027'}
+  lp:{x:300,y:760,k:'a',label:'Bristol Sessions',sub:'100 in 2027'}
 };
 const BG=[]; for(let i=0;i<16;i++){ const x=40+rnd()*720, y=60+rnd()*800; if(Math.hypot(x-ME.x,y-ME.y)<110 || Object.values(T).some(t=>Math.hypot(x-t.x,y-t.y)<120)) continue; BG.push({x,y,k:'n'}); }
 const ALL=[...Object.values(T),...BG];
@@ -147,10 +147,10 @@ const MSGS = [
     steps:['Looked for people who knew Harold and his instruments','Found Joe Glaser and Andy Reiss','Suggested they talk'], spawnAt:1, spawn:[['thin',2,'#ece4d2',150]],
     act:'Approve and send 3 invites', done:'Sent · 3 invites out' },
   { k:'run', ids:['run'], tag:'Running out', time:'9:31 am', title:'Buddy Guy is 90.', body:'He turned 90 on July 30. The people who played beside him are older than that.',
-    steps:['Moved Chicago blues to the top of my list','Looking for the players from his early records, and their families','First Pairs proposed for this week'], spawnAt:1, spawn:[['run',2,'#ece4d2',120]],
-    act:'Approve the Pairs', done:'Approved · invites out today' },
-  { k:'worth', ids:['lp'], tag:'About to be worth more', time:'9:48 am', title:'The Les Paul turns 75 next year.', body:'Gibson put the Les Paul on sale in 1952. A story told before the anniversary is worth more after it.',
-    steps:['Found people who built them, sold them and played them','Set up a series of Rounds before the anniversary'], spawnAt:0, spawn:[['lp',3,'#d9a24a',110]],
+    steps:['Moved Chicago blues to the top of my list','Looking for the players from his early records, and their families','First Rounds proposed for this week'], spawnAt:1, spawn:[['run',2,'#ece4d2',120]],
+    act:'Approve the Rounds', done:'Approved · invites out today' },
+  { k:'worth', ids:['lp'], tag:'About to be worth more', time:'9:48 am', title:'The Bristol Sessions turn 100 next summer.', body:'Ralph Peer recorded the Carter Family and Jimmie Rodgers in Bristol in the summer of 1927. A story told before the anniversary is worth more after it.',
+    steps:['Found families and fans who carry those stories','Set up a series of Rounds before the anniversary'], spawnAt:0, spawn:[['lp',3,'#d9a24a',110]],
     act:'Approve the Rounds', done:'Rounds scheduled' }
 ];
 const KC={ thin:'#5fb7da', run:'#c8703f', worth:'#d9a24a' };
@@ -202,6 +202,11 @@ $('pp').addEventListener('click',()=>{ PAUSED=!PAUSED; $('pp').setAttribute('ari
 $('rs').addEventListener('click',()=>{ PAUSED=false; $('pp').setAttribute('aria-pressed','false'); $('pp').textContent='Pause'; reset(); });
 window.addEventListener('resize',trim);
 reset(); requestAnimationFrame(t=>{ last=t; frame(t); });
+
+/* scroll control: the page sets this demo to any moment (ms of its own time); going back starts it over */
+window.__seek=function(t){ PAUSED=true; if(window.__sT===undefined||t<window.__sT){ reset(); PAUSED=true; } window.__sT=t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>t) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=t; };
 </script>
 </body>
 </html>

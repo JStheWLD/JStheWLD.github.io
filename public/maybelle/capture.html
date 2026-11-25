@@ -262,7 +262,7 @@
 
   <section class="panel screen">
     <header>
-      <span class="share-pill micro"><i></i>Maybelle is sharing her screen</span><span class="micro" style="margin-left:auto">Maybelle × Country Music Hall of Fame and Museum</span>
+      <span class="share-pill micro"><i></i>Maybelle is sharing the screen</span><span class="micro" style="margin-left:auto">Maybelle × Country Music Hall of Fame and Museum</span>
     </header>
     <div class="graph-wrap" id="graphWrap">
       <svg class="graph" id="graph" viewBox="-70 -30 1140 760" preserveAspectRatio="xMidYMid meet" aria-label="The Living Memory map, built during the meeting">
@@ -703,6 +703,9 @@ function reset() {
 }
 function tick() {
   const now = performance.now(); vt += (now - last) * speed; last = now;
+  step();
+}
+function step() {
   while (idx < SCRIPT.length && SCRIPT[idx].t <= vt) {
     const ev = SCRIPT[idx++];
     if (ev.speak) addLine(ev.speak, ev.text);
@@ -753,6 +756,10 @@ $("mode").addEventListener("click", () => setMode($("mode").getAttribute("aria-p
 let saved = "c"; try { saved = localStorage.getItem("lm-demo-mode-cmhof") || "c"; } catch (e) {}
 setMode(saved === "p");
 updateStats();
+
+/* scroll control: the page sets the meeting to any moment (ms of meeting time); going back starts it over */
+window.__seek = function (t) { if (!window.__cm) { setMode(false); window.__cm = 1; } clearInterval(timer); playing = false;
+  if (window.__sT === undefined || t < window.__sT) reset(); window.__sT = t; vt = t; last = performance.now(); step(); };
 </script>
 
 </body></html>

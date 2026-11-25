@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: one person alone with Maybelle. A name's constellation on the left, her panel on the right.
-   They ask, she shows what is there and where it leads; they add what they remember, and it waits for a person's yes. */
+/* Layout: one person alone with Maybelle. A name's constellation on the left, Maybelle's panel on the right.
+   They ask, Maybelle shows what is there and where it leads; they add what they remember, and it waits for a person's yes. */
 :root{ --void:#03050b; --cream:#fbf8f0; --body:#ece6d8; --muted:#b3ab9c; --faint:#8f887c; --amber:#e0a54a; --cyan:#40c4e8; --rule:#2a2833; --rule-2:#4a4552;
   --display:"Bodoni Moda",Didot,Georgia,serif; --serif:"Libre Baskerville",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; color-scheme:dark; }
 *{box-sizing:border-box}
@@ -69,7 +69,7 @@ const N=[
 ];
 const E=[['hb','ifp'],['ifp','pc'],['hb','bm'],['hb','ob'],['ob','bs'],['hb','bs'],['hb','ar'],['hb','tt'],['ob','ifp']];
 const NEW=['you','bs'];
-let LIT=new Set(['hb']), SHOWNEW=0, PULSE=null;
+let LIT=new Set(['hb']), SHOWNEW=0, SW0=0, PULSE=null;
 const c=$('map'), g=c.getContext('2d');
 let s=11; const rnd=()=>(s=(s*16807)%2147483647)/2147483647; const STARS=[...Array(240)].map(()=>[rnd(),rnd(),.3+rnd()*.9,.05+rnd()*.15]);
 function P(n){ return [n.x*c.clientWidth, n.y*c.clientHeight]; }
@@ -95,7 +95,7 @@ requestAnimationFrame(draw);
 /* clock, so it can pause and change speed (same as the other demos) */
 let VT=0, SPEEDX=1, PAUSED=false, last=performance.now(), Q=[];
 const at=(ms,f)=>Q.push({due:ms,f});
-(function loop(){ const n=performance.now(); if(!PAUSED){ VT+=(n-last)*SPEEDX; if(SHOWNEW>0&&SHOWNEW<1) SHOWNEW+= (n-last)*SPEEDX/1400; } last=n;
+(function loop(){ const n=performance.now(); if(!PAUSED) VT+=(n-last)*SPEEDX; if(SHOWNEW>0) SHOWNEW=Math.min(1,.001+(VT-SW0)/1400); last=n;
   for(let k=0;k<30;k++){ let i=-1,b=Infinity; Q.forEach((q,j)=>{ if(q.due<b){b=q.due;i=j} }); if(i<0||b>VT) break; const q=Q.splice(i,1)[0]; try{q.f()}catch(e){} }
   requestAnimationFrame(loop); })();
 
@@ -115,11 +115,16 @@ function reset(){ Q=[]; VT=0; $('log').innerHTML=''; $('box').innerHTML=''; LIT=
   at(t+700,()=>{ talk(true); light(['bs'],'bs'); say('her','Here’s Bradley Studios on the map. What do you remember him saying about it?'); });
   at(t+2800,()=>talk(false));
   t=type(t+3900,'He said Owen ran the sessions from the back.',()=>say('me','He said Owen ran the sessions from the back.'));
-  at(t+800,()=>{ talk(true); SHOWNEW=0.001; PULSE='you'; say('her','I’ve kept your words and drawn the line. <span class="chip wait">waiting</span><span class="src">A person approves it before it joins the Living Memory</span>'); });
+  at(t+800,()=>{ talk(true); SHOWNEW=0.001; SW0=VT; PULSE='you'; say('her','I’ve kept your words and drawn the line. <span class="chip wait">waiting</span><span class="src">A person approves it before it joins the Living Memory</span>'); });
   at(t+3800,()=>talk(false));
   at(t+7500,reset);
 }
 reset();
+
+/* scroll control: the page sets this demo to any moment (ms of its own time); going back starts it over */
+window.__seek=function(t){ PAUSED=true; if(window.__sT===undefined||t<window.__sT){ reset(); PAUSED=true; } window.__sT=t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>t) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=t; };
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Pairs invite</title>
+<title>Round invite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -56,7 +56,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 </head>
 <body>
 <canvas id="sky"></canvas>
-<span class="mark">Maybelle<small>Pairs</small></span>
+<span class="mark">Maybelle<small>Rounds</small></span>
 <div class="phone">
   <div class="notch"></div>
   <div class="scr lock on" id="s0"><div class="clk">9:41</div><div class="day">Tuesday · Andy Reiss</div>
@@ -66,7 +66,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
     <h1>The Harold Bradley Oral History</h1>
     <p class="lede">Told by the people who knew him.</p>
     <blockquote>Harold was your friend and mentor. Between you and Joe, you hold the whole story of that bass.</blockquote>
-    <p>We record the people who made American music two at a time, talking to each other, because that’s where the best stories come out. We call these conversations Pairs.</p>
+    <p>We record the people who made American music two at a time, talking to each other, because that’s where the best stories come out. We call these conversations Rounds.</p>
     <p>Start with the tic-tac bass. Two accounts disagree about which instrument he played. About half an hour, and Maybelle takes the notes.</p>
   </div><button class="cta" id="cta" type="button" tabindex="-1">I’m in</button></div>
   <div class="scr booked" id="s2"><div class="tag">Joe said yes too</div><h2>You and Joe Glaser</h2><p>About Harold Bradley’s tic-tac bass.</p>
@@ -102,6 +102,11 @@ function reset(){ Q=[]; VT=0; show(0); $('nf').classList.remove('in'); $('pg').s
   at(20500,reset);
 }
 reset();
+
+/* scroll control: the page sets this demo to any moment (ms of its own time); going back starts it over */
+window.__seek=function(t){ PAUSED=true; if(window.__sT===undefined||t<window.__sT){ reset(); PAUSED=true; } window.__sT=t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>t) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=t; };
 </script>
 </body>
 </html>

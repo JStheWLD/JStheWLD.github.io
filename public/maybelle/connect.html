@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Maybelle × Gearcheck: Andy Reiss and Joe Glaser</title>
+<title>Maybelle: Andy Reiss and Joe Glaser</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Archivo:wght@800&display=swap">
@@ -136,8 +136,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-o
 
 <canvas id="map" aria-label="The Living Memory, live"></canvas>
 <div class="top">
-  <span class="mark">Maybelle<i class="x">×</i><span class="partner">Gearcheck</span></span>
-  <form class="ask" id="askForm" autocomplete="off"><input id="askIn" placeholder="Ask her about any name in American music" aria-label="Ask about a name"><button type="submit">Ask</button></form>
+  <span class="mark">Maybelle<i class="x">·</i><span class="partner">Rounds</span></span>
+  <form class="ask" id="askForm" autocomplete="off"><input id="askIn" placeholder="Ask Maybelle about any name in American music" aria-label="Ask about a name"><button type="submit">Ask</button></form>
   <span class="sp"></span>
   <button class="btn" id="voice" type="button" aria-pressed="false" hidden>Voice</button>
   <div class="speed" role="group" aria-label="Demo speed"><button type="button" id="pp" aria-pressed="false">Pause</button><button type="button" data-x="0.5">½×</button><button type="button" data-x="1" class="on">1×</button><button type="button" data-x="2">2×</button><button type="button" data-x="4">4×</button><button type="button" id="rs">Restart</button></div>
@@ -281,27 +281,27 @@ function clearT(){ timers.forEach(vClear); timers=[] }
 const seen=new Set(); function meet(k){ if(!seen.has(k)){ seen.add(k); add('people',1) } }
 function ramp(el,to,ms){ const t0=VT; const iv=vInterval(()=>{ const k=Math.min(1,(VT-t0)/ms); el.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString('en-US'); if(k>=1) vClear(iv) },60); timers.push(iv) }
 function runAuto(){ clearT(); const c=CAST[round%CAST.length]; round++; link=null;
-  const [ka,kb]=c.ppl, grp=c.ppl.length>2, others=k=>c.ppl.filter(x=>x!==k), kind=grp?'Round':'pair';
+  const [ka,kb]=c.ppl, grp=c.ppl.length>2, others=k=>c.ppl.filter(x=>x!==k), kind='Round';
   const rowsK=[...new Set(c.clip.map(l=>c.ppl[l[0]]))];
   const tag=k=>PPL[k].real?'real words · ':'invented teller · '; $('whoA').textContent=tag(ka)+nm(ka); $('whoB').textContent=tag(kb)+nm(kb); $('nameA').textContent=nm(ka); $('nameB').textContent=nm(kb); $('A0n').innerHTML=''; $('B0n').innerHTML='';
   ['A','B'].forEach(p=>{ scr(p,0); const b=$(p+'1b'); b.classList.remove('done'); b.textContent="I'm in"; ['3l','3s'].forEach(x=>$(p+x).classList.remove('hot')); span(p+'3s').textContent='Share'; span(p+'3l').textContent='0'; span(p+'3m').textContent='0'; $(p+'3p').style.transform='scaleX(0)'; $(p+'3c').innerHTML=''; $(p+'2k').textContent=grp?'Your Round · 4 people':'Your conversation' });
   $('B4f').innerHTML=''; $('B4b').classList.remove('done'); $('B4b').textContent='Tell yours';
   let t=300;
   if(round===1){ at(t,()=>{ status('Maybelle reads the whole Living Memory.',`${LM.nodes.length.toLocaleString()} names · ${LM.edges.length.toLocaleString()} lines · real data`); wave=performance.now() });
-    at(t+=2600,()=>{ wave=null; setFocus(BB.id); status('She finds where the record is thin.','Harold Bradley has no firsthand account on the map yet · real data') }); t+=2600 }
-  at(t+=600,()=>{ status(grp?`${listNames(c.ppl)} all have a piece of it. She puts the four of them in one Round.`:`She finds two people who knew him: <i>${esc(nm(ka))}</i> and <i>${esc(nm(kb))}</i>.`,`${c.session} · ${PPL[ka].real?'their words are real, from Gearcheck, Oct 2026':'the tellers are invented for this demo'}`); link={a:()=>phoneXY('phA'),b:()=>phoneXY('phB'),t:performance.now()} });
-  at(t+=2400,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'0n').innerHTML=`<div class="notif"><b>Maybelle</b><div class="avs">${avs(o)}</div><p>${grp?esc(listNames(o))+' were':esc(nm(o[0]))+' was'} there for ${esc(c.session)} too. ${grp?'Talk together?':'You two should talk.'}</p></div>` }); status('She introduces them, and says why.') });
+    at(t+=2600,()=>{ wave=null; setFocus(BB.id); status('Maybelle finds where the record is thin.','Harold Bradley has no firsthand account on the map yet · real data') }); t+=2600 }
+  at(t+=600,()=>{ status(grp?`${listNames(c.ppl)} all have a piece of it. Maybelle puts the four of them in one Round.`:`Maybelle finds two people who knew him: <i>${esc(nm(ka))}</i> and <i>${esc(nm(kb))}</i>.`,`${c.session} · ${PPL[ka].real?'their words are real, from a recorded conversation, Oct 2026':'the tellers are invented for this demo'}`); link={a:()=>phoneXY('phA'),b:()=>phoneXY('phB'),t:performance.now()} });
+  at(t+=2400,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'0n').innerHTML=`<div class="notif"><b>Maybelle</b><div class="avs">${avs(o)}</div><p>${grp?esc(listNames(o))+' were':esc(nm(o[0]))+' was'} there for ${esc(c.session)} too. ${grp?'Talk together?':'You two should talk.'}</p></div>` }); status('Maybelle introduces them, and says why.') });
   at(t+=2200,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'1v').innerHTML=avs([k,...o]); $(p+'1h').textContent=grp?`A Round: you, ${listNames(o)}, about ${c.session}.`:`You and ${nm(o[0])}, about ${c.session}.`; $(p+'1p').textContent=grp?'Four people, four sides of one night. The others have said yes if you do.':`You remember it from different sides. ${first(o[0])} has said yes if you do.`; scr(p,1) }) });
   at(t+=2200,()=>{ press($('A1b')); $('A1b').classList.add('done'); $('A1b').textContent=grp?'Yes · 3 of 4 in':'Yes · waiting for '+first(kb) });
-  at(t+=1200,()=>{ press($('B1b')); $('B1b').classList.add('done'); const lab=(grp?'Round':'Paired')+' · Thursday, 4 pm'; $('B1b').textContent=lab; $('A1b').textContent=lab; add('calls',1); c.ppl.forEach(meet); status(grp?'All four say yes. Maybelle schedules the Round.':'Both say yes. Maybelle schedules the call.') });
-  at(t+=2000,()=>{ ['A','B'].forEach(p=>{ const v=$(p+'2v'); v.className='vid '+(grp?'n4':'n2'); v.innerHTML=c.ppl.map((k,i)=>`<div class="vt" data-k="${k}">${i===0?'<span class="rec">Recording</span>':''}${face(k)}<span class="nm">${esc(nm(k))}</span></div>`).join(''); $(p+'2c').innerHTML=''; scr(p,2) }); status(grp?'Four people on one call. She hosts, and keeps every word.':'They talk. She listens, and keeps every word.',(PPL[ka].real?'real conversation, Gearcheck, Oct 2026 · the pairing is shown as a demo':'the conversation is invented for this demo'));
+  at(t+=1200,()=>{ press($('B1b')); $('B1b').classList.add('done'); const lab='Round · Thursday, 4 pm'; $('B1b').textContent=lab; $('A1b').textContent=lab; add('calls',1); c.ppl.forEach(meet); status(grp?'All four say yes. Maybelle schedules the Round.':'Both say yes. Maybelle schedules the call.') });
+  at(t+=2000,()=>{ ['A','B'].forEach(p=>{ const v=$(p+'2v'); v.className='vid '+(grp?'n4':'n2'); v.innerHTML=c.ppl.map((k,i)=>`<div class="vt" data-k="${k}">${i===0?'<span class="rec">Recording</span>':''}${face(k)}<span class="nm">${esc(nm(k))}</span></div>`).join(''); $(p+'2c').innerHTML=''; scr(p,2) }); status(grp?'Four people on one call. Maybelle hosts, and keeps every word.':'They talk. Maybelle listens, and keeps every word.',(PPL[ka].real?'real conversation, Oct 2026 · the Round is shown as a demo':'the conversation is invented for this demo'));
     let s=0; const tm=vInterval(()=>{ s++; ['A2t','B2t'].forEach(i=>$(i).textContent='00:'+String(s).padStart(2,'0')) },1000); timers.push(tm) });
   const OFF=[]; let acc=800; c.call.forEach(l=>{ OFF.push(acc); acc+=Math.max(2600,l[1].split(' ').length*260) });
   c.call.forEach((l,k)=>at(t+OFF[k],()=>{ const who=l[0]==='m'?null:c.ppl[l[0]];
     ['A','B'].forEach(p=>{ $(p+'2v').querySelectorAll('.vt').forEach(x=>{ const on=x.dataset.k===who; x.classList.toggle('on',on); x.classList.toggle('talk',on) }); const box=$(p+'2c'); box.className='mbline'+(who?' them':''); box.innerHTML=`<b>${who?esc(nm(who)):'Maybelle'}</b>${esc(l[1])}` });
     if(who){ add('stories',1); grow(first(who)) } }));
   t+=acc;
-  at(t+=400,()=>{ ['A','B'].forEach(p=>{ $(p+'3r').innerHTML=rowsK.map(k=>`<div data-k="${k}">${face(k)}</div>`).join(''); $(p+'3y').textContent=listNames(rowsK).replace(' and ',' & ')+' · Maybelle × Gearcheck'; scr(p,3) }); status('From the recording, she cuts a clip they can post.','vertical, captioned, ready to share') });
+  at(t+=400,()=>{ ['A','B'].forEach(p=>{ $(p+'3r').innerHTML=rowsK.map(k=>`<div data-k="${k}">${face(k)}</div>`).join(''); $(p+'3y').textContent=listNames(rowsK).replace(' and ',' & ')+' · a Round with Maybelle'; scr(p,3) }); status('From the recording, Maybelle cuts a clip they can post.','vertical, captioned, ready to share') });
   const seq=[]; c.clip.forEach(([i,txt])=>{ const w=txt.split(' '); w.forEach((_,j)=>seq.push({k:c.ppl[i],w,j})) }); const STEP=270;
   at(t+=500,()=>{ let n=0; const iv=vInterval(()=>{ if(!auto||n>=seq.length){ vClear(iv); ['A','B'].forEach(p=>$(p+'3r').querySelectorAll('.talk').forEach(x=>x.classList.remove('talk'))); return }
       const s=seq[n], st=s.j-(s.j%4), chunk=s.w.slice(st,st+4).map((w,q)=>st+q===s.j?`<em>${esc(w)}</em>`:esc(w)).join(' ');
@@ -311,26 +311,30 @@ function runAuto(){ clearT(); const c=CAST[round%CAST.length]; round++; link=nul
   at(t+=800,()=>{ const s=$('B3s'); press(s); s.classList.add('hot'); span('B3s').textContent='Shared'; add('shares',1); const p=phoneXY('phB'); ripples.push({x:p.x,y:p.y,R:Math.min(W,H)*.4,n:18,s:Math.random(),t:performance.now()});
     ['A','B'].forEach(q=>{ $(q+'3l').classList.add('hot'); ramp(span(q+'3l'),c.likes,1100); ramp(span(q+'3m'),c.comments,1100) }); add('shares',c.reshares); status('People who love that music share it on.','the counts and replies on the phones are illustrative') });
   at(t+=2600,()=>{ const f=c.fan; $('whoB').textContent=`invented · ${nm(f)}’s phone`; $('B4k').textContent=`${first(f)}’s feed`;
-    $('B4post').innerHTML=`<div class="ph"><div class="av">${face(rowsK[0])}</div><div><b>${esc(rowsK.map(first).join(' & '))}</b><small>shared a clip from Maybelle × Gearcheck</small></div></div><p>${esc(c.title)}</p><div class="pv" style="grid-template-columns:repeat(${rowsK.length},1fr)">${rowsK.map(k=>`<div>${face(k)}</div>`).join('')}<span class="play"></span></div><div class="pl">♥ ${c.likes.toLocaleString('en-US')} · ${c.comments} comments</div>`;
+    $('B4post').innerHTML=`<div class="ph"><div class="av">${face(rowsK[0])}</div><div><b>${esc(rowsK.map(first).join(' & '))}</b><small>shared a clip from a Round with Maybelle</small></div></div><p>${esc(c.title)}</p><div class="pv" style="grid-template-columns:repeat(${rowsK.length},1fr)">${rowsK.map(k=>`<div>${face(k)}</div>`).join('')}<span class="play"></span></div><div class="pl">♥ ${c.likes.toLocaleString('en-US')} · ${c.comments} comments</div>`;
     scr('B',4); link=null; status(`The clip reaches <i>${esc(nm(f))}</i>, who has a story too.`,'invented fan · the counts are illustrative') });
   at(t+=2000,()=>{ $('B4f').insertAdjacentHTML('beforeend',`<div><b>${esc(first(c.fan))}:</b> “${esc(c.fanLine)}”</div>`) });
   at(t+=1800,()=>{ $('B4f').insertAdjacentHTML('beforeend',`<div class="mb"><b>Maybelle:</b> ${esc(first(c.fan))}, would you tell yours? I’ll put you with people who carry the same story.</div>`); status(`Maybelle replies, and invites ${esc(first(c.fan))} in.`) });
-  at(t+=2000,()=>{ const b=$('B4b'); press(b); b.classList.add('done'); b.textContent='Yes · I’m in'; meet(c.fan); grow(first(c.fan)); const nx=CAST[round%CAST.length]; status(`${esc(first(c.fan))} says yes. The next ${nx.ppl.length>2?'Round':'pair'} begins.`) });
+  at(t+=2000,()=>{ const b=$('B4b'); press(b); b.classList.add('done'); b.textContent='Yes · I’m in'; meet(c.fan); grow(first(c.fan)); const nx=CAST[round%CAST.length]; status(`${esc(first(c.fan))} says yes. The next Round begins.`) });
   at(t+=2600,runAuto) }
 
 /* TAKE OVER: the left phone is you; ask her about any name from the top */
 const MEMKEY='maybelle-you'; let mem=null; try{ mem=JSON.parse(localStorage.getItem(MEMKEY)||'null') }catch(_){}
 const convo=[];
 function bub(w,t){ const d=document.createElement('div'); d.className='bb '+w; d.textContent=t; $('thread').appendChild(d); $('thread').scrollTop=1e9; if(w==='m'&&t) speak(t); return d }
-function memLine(){ $('memBox').innerHTML=mem&&mem.first?`<div class="mem">She remembers: “${esc(String(mem.first).slice(0,60))}…”<button type="button" id="forget">Forget</button></div>`:''; const f=$('forget'); if(f) f.onclick=()=>{ mem=null; try{localStorage.removeItem(MEMKEY)}catch(_){} $('memBox').innerHTML='<div class="mem">Forgotten.</div>' } }
+function memLine(){ $('memBox').innerHTML=mem&&mem.first?`<div class="mem">Maybelle remembers: “${esc(String(mem.first).slice(0,60))}…”<button type="button" id="forget">Forget</button></div>`:''; const f=$('forget'); if(f) f.onclick=()=>{ mem=null; try{localStorage.removeItem(MEMKEY)}catch(_){} $('memBox').innerHTML='<div class="mem">Forgotten.</div>' } }
 function takeOver(){ if(!auto) return; auto=false; clearT(); link=null; $('pilot').dataset.on='0'; $('pilotTxt').textContent='Your turn · Autopilot'; $('phB').classList.add('away'); $('whoA').textContent='your phone';
   scr('A',4); $('thread').innerHTML=''; convo.length=0;
   const open=mem&&mem.first?`Welcome back. Last time you told me: “${String(mem.first).slice(0,100)}”. Pick up there, or tell me another moment?`:'Hi, I’m Maybelle, an AI. Pick one moment you were in the room for. Where were you, and what happened?';
-  bub('m',open); convo.push({role:'assistant',content:open}); memLine(); status('Your turn. Tell her a moment, or ask about any name above.','') }
+  bub('m',open); convo.push({role:'assistant',content:open}); memLine(); status('Your turn. Tell Maybelle a moment, or ask about any name above.','') }
 document.querySelectorAll('.speed [data-x]').forEach(b=>b.addEventListener('click',()=>{ SPEEDX=parseFloat(b.dataset.x); document.querySelectorAll('.speed [data-x]').forEach(x=>x.classList.toggle('on',x===b)) }));
 $('pp').addEventListener('click',()=>{ PAUSED=!PAUSED; $('pp').setAttribute('aria-pressed',String(PAUSED)); $('pp').textContent=PAUSED?'Play':'Pause' });
 $('rs').addEventListener('click',()=>{ PAUSED=false; $('pp').setAttribute('aria-pressed','false'); $('pp').textContent='Pause'; round=0; if(!auto) resume(); else runAuto() });
 window.__demo={ start:x=>{ PAUSED=false; SPEEDX=x; Object.keys(C).forEach(k=>{ C[k]=0; const el=$('c'+k[0].toUpperCase()+k.slice(1)); if(el) el.textContent='0'; }); seen.clear(); round=0; if(!auto) resume(); else runAuto(); }, speed:x=>{ SPEEDX=x; }, pause:p=>{ PAUSED=p; } };
+/* scroll control: the page sets this demo to any moment of its first round (ms); going back starts it over */
+window.__seek=function(t){ if(window.__s0===undefined||t<window.__sT){ window.__demo.start(1); window.__s0=VT; } PAUSED=true; window.__sT=t; const tgt=window.__s0+t;
+  for(let g=0;g<20000;g++){ let i=-1,b=Infinity; for(let j=0;j<Q.length;j++) if(Q[j].due<b){b=Q[j].due;i=j} if(i<0||b>tgt) break; VT=b; const q=Q[i]; if(q.every) q.due+=q.every; else Q.splice(i,1); try{q.f()}catch(e){} }
+  VT=tgt; };
 function resume(){ auto=true; $('pilot').dataset.on='1'; $('pilotTxt').textContent='Autopilot · Take over'; $('phB').classList.remove('away'); $('answerBox').innerHTML=''; runAuto() }
 $('pilot').onclick=()=>auto?takeOver():resume();
 ['phA','phB'].forEach(id=>$(id).addEventListener('pointerdown',()=>{ if(auto) takeOver() }));
@@ -341,7 +345,7 @@ $('chatForm').addEventListener('submit',async e=>{ e.preventDefault(); const t=$
   if(sample){ try{ const memNote=mem&&mem.first?` Earlier they told you: "${String(mem.first).slice(0,300)}".`:''; const r=await sample(`You are Maybelle, an AI oral historian interviewing a person about a moment they were present for.${memNote} Conversation:\n${convo.map(c=>(c.role==='user'?'THEM: ':'YOU: ')+c.content).join('\n')}\n\nReply ONLY with JSON: {"reply": at most two short plain sentences: show you heard one specific thing, then ask ONE plain question${nU>=2?'; ask who else was there':''}, "people": [people they named as there], "moment": a 4-6 word name for the moment}. Never add a fact they did not say.`,{modelTier:'quick',cache:false}); const m=String(r.text||'').match(/\{[\s\S]*\}/); out=JSON.parse(m?m[0]:'{}') }catch(_){ out=null } }
   if(!out){ const names=[...new Set(t.match(/\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)+/g)||[])]; out={reply:['What did you see that nobody else could have?','Who else was there?','What would they remember that you don’t?'][Math.min(nU-1,2)],people:names} }
   w.textContent=out.reply||'Who else was there?'; speak(out.reply); convo.push({role:'assistant',content:out.reply||''}); add('stories',1); grow(out.moment?String(out.moment).slice(0,26):'your story');
-  (out.people||[]).slice(0,2).forEach(p=>{ add('people',1); grow(String(p).slice(0,24)); bub('m',`I can pair you with ${p} to talk about it, once I check they’re living and reachable.`) });
+  (out.people||[]).slice(0,2).forEach(p=>{ add('people',1); grow(String(p).slice(0,24)); bub('m',`I can set up a Round with you and ${p}, once I check they’re living and reachable.`) });
   if(!mem) mem={first:t}; try{localStorage.setItem(MEMKEY,JSON.stringify(mem))}catch(_){} memLine() });
 
 $('askForm').addEventListener('submit',async e=>{ e.preventDefault(); const q=$('askIn').value.trim(); if(!q) return; if(auto) takeOver(); await capP;
@@ -355,6 +359,7 @@ $('askForm').addEventListener('submit',async e=>{ e.preventDefault(); const q=$(
 
 runAuto();
 })();
+
 </script>
 
 </body></html>
