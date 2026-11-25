@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>One on one</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one person alone with Maybelle. A name's constellation on the left, her panel on the right.
+   They ask, she shows what is there and where it leads; they add what they remember, and it waits for a person's yes. */
+:root{ --void:#03050b; --cream:#fbf8f0; --body:#ece6d8; --muted:#b3ab9c; --faint:#8f887c; --amber:#e0a54a; --cyan:#40c4e8; --rule:#2a2833; --rule-2:#4a4552;
+  --display:"Bodoni Moda",Didot,Georgia,serif; --serif:"Libre Baskerville",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; color-scheme:dark; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:radial-gradient(90% 80% at 35% 45%,#11131c,var(--void) 70%);color:var(--body);overflow:hidden;font-family:var(--serif)}
+.mark{position:fixed;top:14px;left:22px;font-family:var(--display);font-style:italic;font-size:24px;color:var(--amber);z-index:3}
+.mark small{font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-left:12px}
+#map{position:fixed;left:0;top:0;width:calc(100% - 430px);height:100%}
+.ttl{position:fixed;left:40px;bottom:30px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);z-index:2}
+.panel{position:fixed;right:26px;top:26px;bottom:26px;width:390px;border:1px solid var(--rule-2);border-radius:20px;background:rgba(12,12,18,.92);display:flex;flex-direction:column;overflow:hidden;z-index:2}
+.ph{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--rule)}
+.seal{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 38% 32%,#2a2733,#020409 78%);border:1px solid var(--rule-2);transition:box-shadow .5s}
+.seal img{width:56%}
+.ph.talk .seal{box-shadow:0 0 0 2px rgba(224,165,74,.85),0 0 26px rgba(224,165,74,.45)}
+.ph b{font-family:var(--display);font-style:italic;font-weight:400;font-size:20px;color:var(--amber);display:block}
+.ph span{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.log{flex:1;overflow:hidden;padding:18px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px}
+.m{max-width:92%;font-size:14px;line-height:1.55;padding:11px 14px;border-radius:14px;opacity:0;transform:translateY(8px);transition:all .45s cubic-bezier(.2,.8,.2,1)}
+.m.in{opacity:1;transform:none}
+.m.her{background:#1a1922;border:1px solid var(--rule);color:var(--cream);border-top-left-radius:4px}
+.m.me{align-self:flex-end;background:rgba(64,196,232,.14);border:1px solid rgba(64,196,232,.35);color:var(--cream);border-top-right-radius:4px}
+.m .src{display:block;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.chip{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:9px;margin-left:4px;vertical-align:1px}
+.chip.ok{background:rgba(64,196,232,.16);color:var(--cyan)} .chip.wait{background:rgba(224,165,74,.16);color:var(--amber)}
+.inp{display:flex;gap:8px;align-items:center;padding:12px 14px;border-top:1px solid var(--rule)}
+.box{flex:1;min-height:38px;border:1px solid var(--rule-2);border-radius:12px;padding:9px 12px;font-size:13.5px;color:var(--cream)}
+.box:empty::before{content:"Ask about any name";color:var(--faint)}
+.box .cur{display:inline-block;width:1px;height:15px;background:var(--cream);vertical-align:-2px;margin-left:1px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.tt{display:flex;border:1px solid var(--rule-2);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.tt i{font-style:normal;padding:11px 10px;color:var(--faint)} .tt i.on{background:rgba(224,165,74,.16);color:var(--amber)}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:0 18px 12px}
+</style>
+</head>
+<body>
+<span class="mark">Maybelle<small>One on one</small></span>
+<canvas id="map" role="img" aria-label="Harold Bradley's constellation. Names light up as Maybelle talks about them; a new line waits for a person's approval."></canvas>
+<div class="ttl" id="ttl">Harold Bradley’s constellation</div>
+<div class="panel">
+  <div class="ph" id="ph"><div class="seal"><img src="data:image/png;base64,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" alt=""></div><div><b>Maybelle</b><span>An AI · your guide to the Living Memory</span></div></div>
+  <div class="log" id="log"></div>
+  <div class="inp"><div class="box" id="box"></div><div class="tt"><i>Talk</i><i class="on">Type</i></div></div>
+  <div class="foot">Example conversation · names and lines from the Living Memory</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+/* the constellation: Harold Bradley in the middle, the names his lines reach around him */
+const N=[
+ {id:'hb', l:'Harold Bradley', x:.48, y:.50, r:9},
+ {id:'ifp', l:'“I Fall to Pieces”', x:.74, y:.36},
+ {id:'pc', l:'Patsy Cline', x:.82, y:.58},
+ {id:'bm', l:'Bob Moore', x:.66, y:.72},
+ {id:'ob', l:'Owen Bradley', x:.24, y:.34},
+ {id:'bs', l:'Bradley Studios', x:.22, y:.66},
+ {id:'ar', l:'Andy Reiss', x:.40, y:.82},
+ {id:'tt', l:'Tic-tac bass', x:.56, y:.22},
+ {id:'you', l:'You', x:.12, y:.86, hidden:true}
+];
+const E=[['hb','ifp'],['ifp','pc'],['hb','bm'],['hb','ob'],['ob','bs'],['hb','bs'],['hb','ar'],['hb','tt'],['ob','ifp']];
+const NEW=['you','bs'];
+let LIT=new Set(['hb']), SHOWNEW=0, PULSE=null;
+const c=$('map'), g=c.getContext('2d');
+let s=11; const rnd=()=>(s=(s*16807)%2147483647)/2147483647; const STARS=[...Array(240)].map(()=>[rnd(),rnd(),.3+rnd()*.9,.05+rnd()*.15]);
+function P(n){ return [n.x*c.clientWidth, n.y*c.clientHeight]; }
+function draw(t){
+  const d=Math.min(2,devicePixelRatio||1); if(c.width!==c.clientWidth*d){ c.width=c.clientWidth*d; c.height=c.clientHeight*d; }
+  g.setTransform(d,0,0,d,0,0); g.clearRect(0,0,c.clientWidth,c.clientHeight);
+  STARS.forEach(([x,y,r,a])=>{ g.fillStyle=`rgba(201,214,230,${a})`; g.beginPath(); g.arc(x*c.clientWidth,y*c.clientHeight,r,0,7); g.fill(); });
+  const byId=Object.fromEntries(N.map(n=>[n.id,n]));
+  E.forEach(([a,b])=>{ const A=byId[a],B=byId[b], on=LIT.has(a)&&LIT.has(b); const [x1,y1]=P(A),[x2,y2]=P(B);
+    g.strokeStyle=on?'rgba(224,165,74,.75)':'rgba(95,183,218,.22)'; g.lineWidth=on?1.8:1; g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke(); });
+  if(SHOWNEW>0){ const [x1,y1]=P(byId.you),[x2,y2]=P(byId.bs); const k=Math.min(1,SHOWNEW);
+    g.setLineDash([6,6]); g.strokeStyle='rgba(224,165,74,.9)'; g.lineWidth=1.8; g.beginPath(); g.moveTo(x1,y1); g.lineTo(x1+(x2-x1)*k,y1+(y2-y1)*k); g.stroke(); g.setLineDash([]); }
+  N.forEach(n=>{ if(n.hidden&&SHOWNEW<=0) return; const [x,y]=P(n), on=LIT.has(n.id)||(n.id==='you');
+    const R=(n.r||6)*(PULSE===n.id?1+.25*Math.sin(t/180):1);
+    const gr=g.createRadialGradient(x,y,0,x,y,R*4); gr.addColorStop(0,on?'rgba(224,165,74,.45)':'rgba(95,183,218,.25)'); gr.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle=gr; g.beginPath(); g.arc(x,y,R*4,0,7); g.fill();
+    g.fillStyle=on?'#e0a54a':'#5fb7da'; g.beginPath(); g.arc(x,y,R,0,7); g.fill();
+    g.font=(n.id==='hb'?'italic 22px ':'15px ')+'"Bodoni Moda",Georgia,serif'; g.fillStyle=on?'#fbf8f0':'rgba(236,230,216,.55)'; g.textAlign='center'; g.fillText(n.l,x,y-R-12); });
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+/* clock, so it can pause and change speed (same as the other demos) */
+let VT=0, SPEEDX=1, PAUSED=false, last=performance.now(), Q=[];
+const at=(ms,f)=>Q.push({due:ms,f});
+(function loop(){ const n=performance.now(); if(!PAUSED){ VT+=(n-last)*SPEEDX; if(SHOWNEW>0&&SHOWNEW<1) SHOWNEW+= (n-last)*SPEEDX/1400; } last=n;
+  for(let k=0;k<30;k++){ let i=-1,b=Infinity; Q.forEach((q,j)=>{ if(q.due<b){b=q.due;i=j} }); if(i<0||b>VT) break; const q=Q.splice(i,1)[0]; try{q.f()}catch(e){} }
+  requestAnimationFrame(loop); })();
+
+function say(cls,html){ const m=document.createElement('div'); m.className='m '+cls; m.innerHTML=html; $('log').appendChild(m); requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('in'))); while($('log').children.length>5) $('log').firstChild.remove(); }
+function type(t0,text,cb){ const per=42; for(let i=0;i<=text.length;i++) at(t0+i*per,()=>{ $('box').innerHTML=text.slice(0,i)+'<span class="cur"></span>'; }); at(t0+text.length*per+500,()=>{ $('box').innerHTML=''; cb(); }); return t0+text.length*per+500; }
+const talk=on=>$('ph').classList.toggle('talk',on);
+const light=(ids,p)=>{ ids.forEach(i=>LIT.add(i)); PULSE=p||null; };
+
+function reset(){ Q=[]; VT=0; $('log').innerHTML=''; $('box').innerHTML=''; LIT=new Set(['hb']); SHOWNEW=0; PULSE='hb'; talk(false);
+  at(600,()=>{ talk(true); say('her','This is Harold Bradley’s constellation. Ask me about any name on it.'); });
+  at(2200,()=>talk(false));
+  let t=type(3200,'What did he play on?',()=>say('me','What did he play on?'));
+  at(t+700,()=>{ talk(true); light(['ifp','pc','bm','tt'],'ifp'); say('her','He played the tic-tac bass on Patsy Cline’s “I Fall to Pieces,” doubling Bob Moore’s upright. <span class="chip ok">checked</span><span class="src">Several accounts agree</span>'); });
+  at(t+3600,()=>{ light(['ob'],'ob'); say('her','It leads to his brother, Owen Bradley, who produced the record.'); });
+  at(t+5600,()=>talk(false));
+  t=type(t+6800,'My dad recorded at Bradley Studios.',()=>say('me','My dad recorded at Bradley Studios.'));
+  at(t+700,()=>{ talk(true); light(['bs'],'bs'); say('her','Here’s Bradley Studios on the map. What do you remember him saying about it?'); });
+  at(t+2800,()=>talk(false));
+  t=type(t+3900,'He said Owen ran the sessions from the back.',()=>say('me','He said Owen ran the sessions from the back.'));
+  at(t+800,()=>{ talk(true); SHOWNEW=0.001; PULSE='you'; say('her','I’ve kept your words and drawn the line. <span class="chip wait">waiting</span><span class="src">A person approves it before it joins the Living Memory</span>'); });
+  at(t+3800,()=>talk(false));
+  at(t+7500,reset);
+}
+reset();
+</script>
+</body>
+</html>
