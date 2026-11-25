@@ -328,7 +328,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 .mob #lmriver .rv-dec text{font-size:16px}
 
 /* what grew gets more room to be taken in; every version pins long enough to watch every line arrive */
-#f-Whyc.scene{height:320vh}
+#f-Whyc.scene{height:420vh}
 #f-Vers.scene{height:280vh}
 .mob #f-Vers .mpanel h2{font-size:56px!important}
 /* belief 2: the example opens on a tap */
@@ -362,6 +362,9 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 .firstnote em{color:#40C4E8}
 @keyframes fnote{from{opacity:0;transform:translateY(-6px)}}
 .yearcard{pointer-events:auto}
+/* what grew: the line gets the screen to itself, centered and larger, then rises to the top as the tree comes in */
+#f-Whyc .grewh{transform:translateY(calc((1 - clamp(0,(var(--p,0) - .1)*8,1)) * 300px));text-align:center}
+.mob #f-Whyc .grewh{transform:none;text-align:left}
 
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
@@ -638,7 +641,7 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 
 
 
-<div class="ph" data-from="tilt" style="position: absolute; left: 64px; right: 64px; top: 96px;">
+<div class="grewh ph" data-from="tilt" style="position: absolute; left: 64px; right: 64px; top: 96px;">
     <h2 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-style: italic; font-weight: 400; font-size: 46px; line-height: 1.08; white-space: nowrap;">No one could have predicted what <span style="color: #E3AE5E;">grew</span> from those field recordings.</h2>
   </div></div></div></section>
 <section id="f-Repeata" class="step fstep phr" data-scene="" data-sk="#1F2A2C,#ECE6DA,#E58A4E" data-chap="Why it matters" data-part="4" data-beat="History is repeating itself"><div class="fwrap"><div class="frame" style="color:#ECE6DA"><svg class="bgel" data-speed="-.12" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" aria-hidden="true">
@@ -699,7 +702,7 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
   </svg>
 <div class="ph" data-from="tilt" style="position: absolute; left: 64px; top: 0; bottom: 0; right: 360px; display: flex; flex-direction: column; justify-content: center; gap: 26px;">
     <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: 0.16em; color: #E3AE5E;">3 OF 5</div>
-    <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 60px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Influence is music’s real family tree.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Every musician learned from someone. Every sound came from somewhere, even a broken amplifier. We trace it all, every version.</span></p>
+    <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 60px; line-height: 1.14; letter-spacing: -0.012em; max-width: 960px;"><em style="font-style: italic; color: #E3AE5E;">Influence is music’s real family tree.</em><span class="ph after" data-from="rise" style="margin-top:.35em">Every musician learned from someone. Every sound came from somewhere, even a broken amplifier. We trace the inheritance, every version.</span></p>
   </div></div></div></section>
 <section id="f-Belief4" class="step fstep phr" data-scene="" data-sk="#1D1C20,#EDE7DA,#E58A4E" data-chap="What we believe" data-part="5" data-beat="Every voice counts"><div class="fwrap"><div class="frame" style="color:#EDE7DA"><svg width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" aria-hidden="true">
     <path pathLength="1" class="drawpath" d="M1170 -10 C 1250 220, 1100 380, 1200 540 S 1290 800, 1180 910" fill="none" stroke="#D99A42" stroke-opacity="0.4" stroke-width="1.5"/>
@@ -901,7 +904,7 @@ function motion(){
   var D=JSON.parse(document.getElementById('lmdata').textContent), N=D.n, L=D.l, E=D.e, F=D.f, g=cv.getContext('2d');
   var host=cv.closest('.step'), t0=performance.now(), still=matchMedia('(prefers-reduced-motion: reduce)').matches, P=new Array(N.length);
   /* light up in place in the 3D, linger, rise into the river, hold, settle back into the 3D, linger, fade */
-  var CYC=10.2, LIT=1.6, GATHER=3.0, HOLD=6.0, BACK=7.4, LINGER=8.4, FADE=9.2;
+  var CYC=5.6, LIT=.8, GATHER=1.6, HOLD=3.3, BACK=4.1, LINGER=4.7, FADE=5.2;
   function ease(x){ x=Math.max(0,Math.min(1,x)); return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; }
   function draw(now){
     var r=host.getBoundingClientRect();
@@ -1075,11 +1078,11 @@ function motion(){
       /* 1909: the appeal goes out, the songs come back by mail */
       g2.beginPath(); g2.arc(home[0],home[1],6,0,6.283); g2.fillStyle='#FFF3DE'; g2.fill();
       if(pm>0&&pm<1){ var ra=pm*520; g2.beginPath(); g2.arc(home[0],home[1],ra,0,6.283); g2.strokeStyle=rgba('#E3AE5E',.35*(1-pm)); g2.lineWidth=1.4; g2.stroke(); }
-      [0,1,2].forEach(function(wave){ MAIL.forEach(function(m,i){ var q=P2(m[0],m[1]), k=clamp(pm*1.9-0.15-i*0.045-wave*0.32), fade=1-pj*0.75;
+      [0,1,2].forEach(function(wave){ MAIL.forEach(function(m,i){ var q=P2(m[0],m[1]), k=clamp(pm*1.9-0.15-i*0.045-wave*0.32), fade=1;
         if(k<=0) return; g2.globalAlpha=fade; g2.beginPath(); g2.arc(q[0],q[1],m[2]?3.4:2.2,0,6.283); g2.fillStyle='#F4E7D4'; g2.fill();
         var e=inout(k), x=q[0]+(home[0]-q[0])*e, y=q[1]+(home[1]-q[1])*e-Math.sin(e*Math.PI)*40;
         if(k<1){ g2.fillStyle='#FFF3DE'; g2.fillRect(x-3.5,y-2.5,7,5); }
-        else { g2.strokeStyle=rgba('#F4E7D4',.22); g2.lineWidth=.8; g2.beginPath(); g2.moveTo(q[0],q[1]); g2.quadraticCurveTo((q[0]+home[0])/2,(q[1]+home[1])/2-40,home[0],home[1]); g2.stroke(); }
+        else { g2.strokeStyle=rgba('#F4C57E',.55); g2.lineWidth=1; g2.beginPath(); g2.moveTo(q[0],q[1]); g2.quadraticCurveTo((q[0]+home[0])/2,(q[1]+home[1])/2-40,home[0],home[1]); g2.stroke(); }
         if(m[2]&&wave===0) lab(g2,m[2].toUpperCase(),q[0]+8,q[1]-6,'rgba(244,231,212,.85)',10);
         g2.globalAlpha=1; }); });
       g2.textAlign='right'; lab(g2,'COLLEGE STATION · 1909',home[0]-10,home[1]+4,'#FFF3DE',11); g2.textAlign='left';
@@ -1124,7 +1127,7 @@ function motion(){
     if(r.bottom>0&&r.top<innerHeight){
       if(r.top<innerHeight*.12&&r.bottom>innerHeight*.5&&t0===null) t0=now;
       if(r.top>innerHeight*.6||r.bottom<0) t0=null;
-      var pp=clamp(-r.top/Math.max(1,r.height-innerHeight)), t=still?99:(r.top>innerHeight*.5?0:0.5+pp*11.5), star=clamp(t/1.6), yr=1906+clamp((t-1.8)/9)*121, cut=mapY(150+(yr-1908)/118*660);
+      var pp=clamp(-r.top/Math.max(1,r.height-innerHeight)), q2=clamp((pp-.22)/.78), t=still?99:(pp<.22?0:0.5+q2*11.5), star=clamp(t/1.6), yr=1906+clamp((t-1.8)/9)*121, cut=mapY(150+(yr-1908)/118*660);
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
       g.lineCap='round';
       for(var i=1;i<Nn.length;i++){ var n=Nn[i], p=Nn[n[2]], f=clamp((cut-p[1])/Math.max(8,n[1]-p[1])); if(f<=0) continue;
@@ -1143,7 +1146,7 @@ function motion(){
         else if(moment){ g.font='11px ui-monospace, Menlo, monospace'; var tx=n[4].toUpperCase(); g.textAlign='right'; g.strokeText(tx,q[0]-10,q[1]); g.fillStyle='#E58A4E'; g.fillText(tx,q[0]-10,q[1]); }
         else { g.font='italic 17px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.textAlign='left'; g.strokeText(n[4],q[0]+9,q[1]); g.fillStyle='#EEE8D8'; g.fillText(n[4],q[0]+9,q[1]); }
         g.globalAlpha=1; }
-      g.textAlign='right'; g.font='italic 40px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='rgba(227,174,94,.85)'; g.fillText(String(Math.min(2026,Math.max(1908,Math.round(yr)))),1376,wide?205:790); g.textAlign='left';
+      g.textAlign='right'; g.font='italic 40px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='rgba(227,174,94,'+(.85*clamp(t*2))+')'; g.fillText(String(Math.min(2026,Math.max(1908,Math.round(yr)))),1376,wide?205:790); g.textAlign='left';
     }
     if(!still) requestAnimationFrame(draw);
   }
