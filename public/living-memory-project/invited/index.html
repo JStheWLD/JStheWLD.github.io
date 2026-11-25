@@ -328,7 +328,7 @@ html.mob,html.mob body{overflow-x:clip;max-width:100%}
 .mob #lmriver .rv-dec text{font-size:16px}
 
 /* what grew gets more room to be taken in; every version pins long enough to watch every line arrive */
-#f-Whyc.scene{height:320vh}
+#f-Whyc.scene{height:420vh}
 #f-Vers.scene{height:280vh}
 .mob #f-Vers .mpanel h2{font-size:56px!important}
 /* belief 2: the example opens on a tap */
@@ -344,11 +344,29 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 @keyframes caretblink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){#f-Whata .caret{display:none}}
 #f-Whata .tywrap{display:inline-block;position:relative}#f-Whata .tyghost{visibility:hidden}#f-Whata .tyline{position:absolute;left:0;top:0;white-space:nowrap}
-#f-Vers .fwrap{background:radial-gradient(ellipse 70% 80% at 68% 52%,#0b2230 0%,#061019 45%,#03060a 100%)}
+#f-Vers .fwrap{background:radial-gradient(ellipse 65% 75% at 68% 52%,#13161a 0%,#0b0c0d 50%,#080706 100%)}
+/* the story lines hang on one thread: a dot for each beat, and the thread draws down to the next beat as it arrives */
+#story .points{--gap:clamp(18px,3.4vh,34px)}
+#story .pt:not(.label) .who{position:relative;padding-left:34px}
+#story .pt:not(.label) .who::before{content:'';position:absolute;left:4px;top:.5em;width:9px;height:9px;border-radius:50%;background:#40C4E8;box-shadow:0 0 10px rgba(64,196,232,.8)}
+#story .pt:not(.label) .who::after{content:'';position:absolute;left:8px;top:calc(.5em + 12px);width:1px;height:calc(100% + var(--gap) - 12px);background:linear-gradient(#40C4E8,rgba(64,196,232,.35));transform:scaleY(0);transform-origin:top;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+#story .pt:last-child .who::after{display:none}
+#story .pt:has(+ .pt.on) .who::after{transform:scaleY(1)}
+@media(prefers-reduced-motion:reduce){#story .pt .who::after{transform:none}}
+#story .points{max-width:500px}
+/* 1961: "first" opens the argument about firsts */
+.firstq{all:unset;cursor:pointer;color:inherit;font:inherit;border-bottom:2px dotted #E3AE5E;padding-bottom:1px;transition:color .25s}
+.firstq:hover,.firstq[aria-expanded="true"]{color:#E3AE5E}
+.firstq:focus-visible{outline:2px solid #40C4E8;outline-offset:4px}
+.firstnote{margin:18px 0 0;padding-top:14px;border-top:1px solid rgba(227,174,94,.35);font-family:var(--display);font-style:italic;font-size:clamp(19px,1.7vw,24px);line-height:1.3;color:#D9D0BF;animation:fnote .5s cubic-bezier(.16,1,.3,1)}
+.firstnote em{color:#40C4E8}
+@keyframes fnote{from{opacity:0;transform:translateY(-6px)}}
+.yearcard{pointer-events:auto}
+/* what grew: the line gets the screen to itself, centered and larger, then rises to the top as the tree comes in */
+#f-Whyc .grewh{transform:translateY(calc((1 - clamp(0,(var(--p,0) - .1)*8,1)) * 300px));text-align:center}
+.mob #f-Whyc .grewh{transform:none;text-align:left}
 
-#f-Inv0 .ateam path{stroke-dasharray:1;stroke-dashoffset:clamp(0,calc(1 - (var(--p,0)*2.2 - var(--i)*.05)),1)}
-#f-Inv0 .ateam .nm{opacity:clamp(.18,calc(.18 + var(--p,0)*3 - var(--i)*.13),1)}
-@media (prefers-reduced-motion: reduce){#f-Inv0 .ateam path{stroke-dashoffset:0}#f-Inv0 .ateam .nm{opacity:1}}
+
 
 #f-Invseries .prs .pr{display:inline-flex;gap:4px;align-items:center;opacity:clamp(.16,calc(.16 + var(--p,0)*1.6*21 - var(--i)),1);transition:opacity .2s}
 #f-Invseries .prs .pr i{width:12px;height:12px;border-radius:50%;background:#E3AE5E;box-shadow:0 0 12px rgba(227,174,94,.6)}
@@ -392,15 +410,11 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 <button class="keys nextch" type="button">Skip to next chapter <span aria-hidden="true">»</span></button>
 <div class="scue" aria-hidden="true"><span>Scroll</span><i></i></div>
 <main id="m">
-<section id="f-Inv0" class="step fstep phr scene" data-scene="names" data-sk="#171310,#EFE7D8,#E58A4E" data-chap="You’re invited" data-part="1" data-beat="The Nashville A-Team"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><svg class="ateam" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; inset: 0;" role="img" aria-label="The names of the Nashville A-Team, joined by lines: Harold Bradley, Grady Martin, Hank Garland, Ray Edenton, Bob Moore, Floyd Cramer, Buddy Harman, Pig Robbins, Charlie McCoy, Boots Randolph, Pete Drake, Jerry Kennedy and Tommy Jackson">
-  <g fill="none" stroke="#E3AE5E" stroke-width="1.3" stroke-opacity=".55"><path pathLength="1" style="--i:0" d="M905 170 L1185 150"/><path pathLength="1" style="--i:1" d="M905 170 L820 320"/><path pathLength="1" style="--i:2" d="M905 170 L1060 300"/><path pathLength="1" style="--i:3" d="M1185 150 L1290 300"/><path pathLength="1" style="--i:4" d="M1185 150 L1060 300"/><path pathLength="1" style="--i:5" d="M1290 300 L1230 455"/><path pathLength="1" style="--i:6" d="M820 320 L935 470"/><path pathLength="1" style="--i:7" d="M1060 300 L935 470"/><path pathLength="1" style="--i:8" d="M1060 300 L1230 455"/><path pathLength="1" style="--i:9" d="M935 470 L790 600"/><path pathLength="1" style="--i:10" d="M935 470 L1100 600"/><path pathLength="1" style="--i:11" d="M1230 455 L1300 610"/><path pathLength="1" style="--i:12" d="M1100 600 L1300 610"/><path pathLength="1" style="--i:13" d="M790 600 L900 735"/><path pathLength="1" style="--i:14" d="M1100 600 L1130 760"/><path pathLength="1" style="--i:15" d="M900 735 L1130 760"/><path pathLength="1" style="--i:16" d="M1130 760 L1320 760"/><path pathLength="1" style="--i:17" d="M1300 610 L1320 760"/><path pathLength="1" style="--i:18" d="M935 470 L900 735"/></g>
-  <g font-family="Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif" font-size="21" fill="#EFE7D8"><g class="nm" style="--i:0"><circle cx="905" cy="170" r="5" fill="#E3AE5E"/><text x="905" y="156" text-anchor="middle">Harold Bradley</text></g><g class="nm" style="--i:1"><circle cx="1185" cy="150" r="5" fill="#E3AE5E"/><text x="1185" y="136" text-anchor="middle">Grady Martin</text></g><g class="nm" style="--i:2"><circle cx="1290" cy="300" r="5" fill="#E3AE5E"/><text x="1290" y="286" text-anchor="middle">Hank Garland</text></g><g class="nm" style="--i:3"><circle cx="820" cy="320" r="5" fill="#E3AE5E"/><text x="820" y="306" text-anchor="middle">Ray Edenton</text></g><g class="nm" style="--i:4"><circle cx="1060" cy="300" r="5" fill="#E3AE5E"/><text x="1060" y="286" text-anchor="middle">Bob Moore</text></g><g class="nm" style="--i:5"><circle cx="935" cy="470" r="5" fill="#E3AE5E"/><text x="935" y="456" text-anchor="middle">Floyd Cramer</text></g><g class="nm" style="--i:6"><circle cx="1230" cy="455" r="5" fill="#E3AE5E"/><text x="1230" y="441" text-anchor="middle">Buddy Harman</text></g><g class="nm" style="--i:7"><circle cx="790" cy="600" r="5" fill="#E3AE5E"/><text x="790" y="586" text-anchor="middle">Pig Robbins</text></g><g class="nm" style="--i:8"><circle cx="1100" cy="600" r="5" fill="#E3AE5E"/><text x="1100" y="586" text-anchor="middle">Charlie McCoy</text></g><g class="nm" style="--i:9"><circle cx="1300" cy="610" r="5" fill="#E3AE5E"/><text x="1300" y="596" text-anchor="middle">Boots Randolph</text></g><g class="nm" style="--i:10"><circle cx="900" cy="735" r="5" fill="#E3AE5E"/><text x="900" y="721" text-anchor="middle">Pete Drake</text></g><g class="nm" style="--i:11"><circle cx="1130" cy="760" r="5" fill="#E3AE5E"/><text x="1130" y="746" text-anchor="middle">Jerry Kennedy</text></g><g class="nm" style="--i:12"><circle cx="1320" cy="760" r="5" fill="#E3AE5E"/><text x="1320" y="746" text-anchor="middle">Tommy Jackson</text></g></g>
-</svg>
-<div class="ph" data-from="rise" style="position: absolute; left: 64px; top: 0; bottom: 0; width: 600px; display: flex; flex-direction: column; justify-content: center; gap: 26px;">
-  <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: 0.16em; color: #E3AE5E;">AN ORAL HISTORY</div>
-  <h1 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 124px; line-height: 0.96; letter-spacing: -0.02em;">You’re <em style="font-style: italic; color: #E3AE5E;">invited.</em></h1>
-  <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 36px; line-height: 1.2; color: #EFE7D8;">21 Conversations about the Nashville A-Team</p>
-  <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #B5B0A6;">The stories behind the records, told by the people who were there.</p>
+<section id="f-Inv0" class="step fstep phr" data-scene="" data-sk="#0b0908,#EFE7D8,#E58A4E" data-chap="You’re invited" data-part="1" data-beat="The Nashville A-Team"><div class="fwrap"><div class="frame" style="color:#EFE7D8"><canvas class="bgel" data-speed=".10" id="mncv" width="2160" height="1350" style="position: absolute; inset: 0; width: 1440px; height: 900px;" aria-hidden="true"></canvas>
+<div class="ph" data-from="settle" style="position: absolute; left: 64px; right: 160px; top: 200px; display: flex; flex-direction: column; gap: 30px;">
+  <h1 style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-weight: 400; font-size: 156px; line-height: 0.92; letter-spacing: -0.02em;">You’re <em style="font-style: italic; color: #E58A4E;">invited.</em></h1>
+  <p style="margin: 0; font-family: Didot, 'Bodoni 72', 'Bodoni Moda', 'Bodoni MT', Georgia, serif; font-size: 40px; line-height: 1.2; color: #EFE7D8;">to 21 Conversations about the Nashville A-Team</p>
+  <p style="margin: 0; max-width: 720px; font-size: 21px; line-height: 1.5; color: #CFC5B4;">An oral history by the Living Memory Project. The stories behind the records, told by the people who know best.</p>
 </div></div></div></section>
 <section id="f-Invwho" class="step fstep phr" data-scene="" data-sk="#E9E2D0,#191512,#B4501B" data-chap="Who is asking" data-part="2" data-beat="The Living Memory Project"><div class="fwrap"><div class="frame" style="color:#191512"><div class="ph" data-from="rise" style="position: absolute; left: 64px; top: 0; bottom: 0; width: 600px; display: flex; flex-direction: column; justify-content: center; gap: 26px;">
   <div style="font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; letter-spacing: 0.16em; color: #B4501B;">WHO IS ASKING</div>
@@ -618,7 +632,7 @@ function motion(){
   var D=JSON.parse(document.getElementById('lmdata').textContent), N=D.n, L=D.l, E=D.e, F=D.f, g=cv.getContext('2d');
   var host=cv.closest('.step'), t0=performance.now(), still=matchMedia('(prefers-reduced-motion: reduce)').matches, P=new Array(N.length);
   /* light up in place in the 3D, linger, rise into the river, hold, settle back into the 3D, linger, fade */
-  var CYC=10.2, LIT=1.6, GATHER=3.0, HOLD=6.0, BACK=7.4, LINGER=8.4, FADE=9.2;
+  var CYC=5.6, LIT=.8, GATHER=1.6, HOLD=3.3, BACK=4.1, LINGER=4.7, FADE=5.2;
   function ease(x){ x=Math.max(0,Math.min(1,x)); return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2; }
   function draw(now){
     var r=host.getBoundingClientRect();
@@ -792,11 +806,11 @@ function motion(){
       /* 1909: the appeal goes out, the songs come back by mail */
       g2.beginPath(); g2.arc(home[0],home[1],6,0,6.283); g2.fillStyle='#FFF3DE'; g2.fill();
       if(pm>0&&pm<1){ var ra=pm*520; g2.beginPath(); g2.arc(home[0],home[1],ra,0,6.283); g2.strokeStyle=rgba('#E3AE5E',.35*(1-pm)); g2.lineWidth=1.4; g2.stroke(); }
-      [0,1,2].forEach(function(wave){ MAIL.forEach(function(m,i){ var q=P2(m[0],m[1]), k=clamp(pm*1.9-0.15-i*0.045-wave*0.32), fade=1-pj*0.75;
+      [0,1,2].forEach(function(wave){ MAIL.forEach(function(m,i){ var q=P2(m[0],m[1]), k=clamp(pm*1.9-0.15-i*0.045-wave*0.32), fade=1;
         if(k<=0) return; g2.globalAlpha=fade; g2.beginPath(); g2.arc(q[0],q[1],m[2]?3.4:2.2,0,6.283); g2.fillStyle='#F4E7D4'; g2.fill();
         var e=inout(k), x=q[0]+(home[0]-q[0])*e, y=q[1]+(home[1]-q[1])*e-Math.sin(e*Math.PI)*40;
         if(k<1){ g2.fillStyle='#FFF3DE'; g2.fillRect(x-3.5,y-2.5,7,5); }
-        else { g2.strokeStyle=rgba('#F4E7D4',.22); g2.lineWidth=.8; g2.beginPath(); g2.moveTo(q[0],q[1]); g2.quadraticCurveTo((q[0]+home[0])/2,(q[1]+home[1])/2-40,home[0],home[1]); g2.stroke(); }
+        else { g2.strokeStyle=rgba('#F4C57E',.55); g2.lineWidth=1; g2.beginPath(); g2.moveTo(q[0],q[1]); g2.quadraticCurveTo((q[0]+home[0])/2,(q[1]+home[1])/2-40,home[0],home[1]); g2.stroke(); }
         if(m[2]&&wave===0) lab(g2,m[2].toUpperCase(),q[0]+8,q[1]-6,'rgba(244,231,212,.85)',10);
         g2.globalAlpha=1; }); });
       g2.textAlign='right'; lab(g2,'COLLEGE STATION · 1909',home[0]-10,home[1]+4,'#FFF3DE',11); g2.textAlign='left';
@@ -841,7 +855,7 @@ function motion(){
     if(r.bottom>0&&r.top<innerHeight){
       if(r.top<innerHeight*.12&&r.bottom>innerHeight*.5&&t0===null) t0=now;
       if(r.top>innerHeight*.6||r.bottom<0) t0=null;
-      var pp=clamp(-r.top/Math.max(1,r.height-innerHeight)), t=still?99:(r.top>innerHeight*.5?0:0.5+pp*11.5), star=clamp(t/1.6), yr=1906+clamp((t-1.8)/9)*121, cut=mapY(150+(yr-1908)/118*660);
+      var pp=clamp(-r.top/Math.max(1,r.height-innerHeight)), q2=clamp((pp-.22)/.78), t=still?99:(pp<.22?0:0.5+q2*11.5), star=clamp(t/1.6), yr=1906+clamp((t-1.8)/9)*121, cut=mapY(150+(yr-1908)/118*660);
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
       g.lineCap='round';
       for(var i=1;i<Nn.length;i++){ var n=Nn[i], p=Nn[n[2]], f=clamp((cut-p[1])/Math.max(8,n[1]-p[1])); if(f<=0) continue;
@@ -860,7 +874,7 @@ function motion(){
         else if(moment){ g.font='11px ui-monospace, Menlo, monospace'; var tx=n[4].toUpperCase(); g.textAlign='right'; g.strokeText(tx,q[0]-10,q[1]); g.fillStyle='#E58A4E'; g.fillText(tx,q[0]-10,q[1]); }
         else { g.font='italic 17px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.textAlign='left'; g.strokeText(n[4],q[0]+9,q[1]); g.fillStyle='#EEE8D8'; g.fillText(n[4],q[0]+9,q[1]); }
         g.globalAlpha=1; }
-      g.textAlign='right'; g.font='italic 40px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='rgba(227,174,94,.85)'; g.fillText(String(Math.min(2026,Math.max(1908,Math.round(yr)))),1376,wide?205:790); g.textAlign='left';
+      g.textAlign='right'; g.font='italic 40px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='rgba(227,174,94,'+(.85*clamp(t*2))+')'; g.fillText(String(Math.min(2026,Math.max(1908,Math.round(yr)))),1376,wide?205:790); g.textAlign='left';
     }
     if(!still) requestAnimationFrame(draw);
   }
@@ -1216,9 +1230,9 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
 (function(){
   var cv=document.getElementById('verscv'); if(!cv) return;
   var g=cv.getContext('2d'), host=cv.closest('.step'), still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var C=[980,470], R=[['THE SINGER',-110,'127,227,255',3,1.0],['THE GUITARIST',-50,'64,196,232',5,1.6],['THE ENGINEER',12,'168,240,230',2,2.4],['THE PRODUCER',70,'157,184,255',4,1.2],['THE LABEL',130,'95,208,192',6,2.0],['THE FANS',190,'207,239,255',3,3.0]];
+  var C=[980,470], R=[['THE SINGER',-110,'244,197,126',3,1.0],['THE GUITARIST',-50,'64,196,232',5,1.6],['THE ENGINEER',12,'229,138,78',2,2.4],['THE PRODUCER',70,'239,231,216',4,1.2],['THE LABEL',130,'127,227,255',6,2.0],['THE FANS',190,'227,174,94',3,3.0]];
   var seed=7; function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
-  var MOTES=[]; for(var m=0;m<90;m++) MOTES.push([560+rnd()*880, rnd()*900, .4+rnd()*1.4, rnd()*6.28, .15+rnd()*.35]);
+  var STARS=[], LAY=[[.10,.7,.35],[.28,1.0,.5],[.55,1.5,.75]]; for(var m=0;m<420;m++){ var L0=LAY[m%3]; STARS.push([rnd()*1440, rnd()*900, L0, rnd()*6.28, rnd()<.12]); }
   function clamp(x){return Math.max(0,Math.min(1,x));}
   function path(k,f,now){ var v=R[k], a=v[1]*Math.PI/180, L=290, pts=[];
     for(var s=0;s<=60;s++){ var u=s/60*f, d=L*(1-u), wob=Math.sin(u*Math.PI*v[3]+(still?0:now/900)+k)*34*(1-u)*Math.sin(u*Math.PI)*v[4]/2;
@@ -1230,8 +1244,8 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
       var pp=still?1:clamp(-r.top/Math.max(1,r.height-innerHeight)), arrived=0, t=now/1000;
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900); g.lineCap='round';
       g.globalCompositeOperation='lighter';
-      MOTES.forEach(function(o){ var x=o[0]+Math.sin(t*.2+o[3])*8, y=((o[1]-t*6*o[2])%900+900)%900, a=o[4]*(.6+.4*Math.sin(t*1.3+o[3]));
-        g.fillStyle='rgba(150,225,255,'+a*.5+')'; g.beginPath(); g.arc(x,y,o[2],0,6.283); g.fill(); });
+      STARS.forEach(function(o){ var L=o[2], y=((o[1]+r.top*L[0])%900+900)%900, x=o[0]+(window.__mx||0)*10*L[0], a=L[2]*(still?1:.7+.3*Math.sin(t*1.1+o[3]));
+        g.fillStyle=o[4]?'rgba(244,210,150,'+a*.8+')':'rgba(205,243,255,'+a*.7+')'; g.beginPath(); g.arc(x,y,L[1],0,6.283); g.fill(); });
       R.forEach(function(v,k){ var st=.04+k*.12, f=clamp((pp-st)/.16); if(f<=0) return; if(f>=1) arrived++;
         var pts=path(k,f,now), a=v[1]*Math.PI/180, sx=C[0]+Math.cos(a)*290, sy=C[1]+Math.sin(a)*290, al=clamp(f*3), c=v[2];
         g.strokeStyle='rgba('+c+','+.10*al+')'; g.lineWidth=10; stroke(pts);
@@ -1240,7 +1254,7 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
         var gl=g.createRadialGradient(sx,sy,0,sx,sy,16); gl.addColorStop(0,'rgba('+c+','+.9*al+')'); gl.addColorStop(1,'rgba('+c+',0)');
         g.fillStyle=gl; g.beginPath(); g.arc(sx,sy,16,0,6.283); g.fill();
         g.globalCompositeOperation='source-over';
-        g.font='12px ui-monospace, Menlo, monospace'; g.textAlign='center'; g.fillStyle='rgba('+c+','+.85*al+')';
+        g.font='15px ui-monospace, Menlo, monospace'; g.textAlign='center'; g.fillStyle='rgba('+c+','+.92*al+')';
         g.fillText(v[0], sx+Math.cos(a)*40, sy+Math.sin(a)*40+4);
         g.globalCompositeOperation='lighter';
         if(f<1){ var e=pts[pts.length-1], h=g.createRadialGradient(e[0],e[1],0,e[0],e[1],12); h.addColorStop(0,'rgba(235,252,255,.95)'); h.addColorStop(1,'rgba('+c+',0)'); g.fillStyle=h; g.beginPath(); g.arc(e[0],e[1],12,0,6.283); g.fill(); }
@@ -1248,13 +1262,13 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
           b.addColorStop(0,'rgba(240,253,255,.9)'); b.addColorStop(1,'rgba('+c+',0)'); g.fillStyle=b; g.beginPath(); g.arc(p[0],p[1],7,0,6.283); g.fill(); } }
       });
       var glow=arrived/R.length, br=still?1:.85+.15*Math.sin(t*1.6), hr=46+glow*46;
-      var halo=g.createRadialGradient(C[0],C[1],10,C[0],C[1],hr); halo.addColorStop(0,'rgba(120,220,255,'+(.25+.4*glow)*br+')'); halo.addColorStop(1,'rgba(40,120,200,0)');
+      var halo=g.createRadialGradient(C[0],C[1],10,C[0],C[1],hr); halo.addColorStop(0,'rgba(240,170,100,'+(.22+.38*glow)*br+')'); halo.addColorStop(.55,'rgba(64,196,232,'+(.08+.14*glow)*br+')'); halo.addColorStop(1,'rgba(40,120,200,0)');
       g.fillStyle=halo; g.beginPath(); g.arc(C[0],C[1],hr,0,6.283); g.fill();
       g.globalCompositeOperation='source-over';
-      g.beginPath(); g.arc(C[0],C[1],24,0,6.283); g.fillStyle='#04101a'; g.fill(); g.strokeStyle='rgba(150,230,255,.75)'; g.lineWidth=1.2; g.stroke();
-      [17,11].forEach(function(rr){ g.beginPath(); g.arc(C[0],C[1],rr,0,6.283); g.strokeStyle='rgba(150,230,255,.3)'; g.stroke(); });
-      var core=g.createRadialGradient(C[0],C[1],0,C[0],C[1],7); core.addColorStop(0,'#F2FDFF'); core.addColorStop(1,'rgba(64,196,232,.2)'); g.fillStyle=core; g.beginPath(); g.arc(C[0],C[1],6,0,6.283); g.fill();
-      g.textAlign='center'; g.font='italic 20px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='#E6F6FA'; g.shadowColor='rgba(64,196,232,.6)'; g.shadowBlur=10; g.fillText('Don’t Worry · 1961',C[0],C[1]+66); g.shadowBlur=0;
+      g.beginPath(); g.arc(C[0],C[1],24,0,6.283); g.fillStyle='#0d0a08'; g.fill(); g.strokeStyle='rgba(244,210,150,.8)'; g.lineWidth=1.2; g.stroke();
+      [17,11].forEach(function(rr){ g.beginPath(); g.arc(C[0],C[1],rr,0,6.283); g.strokeStyle='rgba(244,210,150,.3)'; g.stroke(); });
+      var core=g.createRadialGradient(C[0],C[1],0,C[0],C[1],7); core.addColorStop(0,'#FFE9C8'); core.addColorStop(1,'rgba(229,138,78,.3)'); g.fillStyle=core; g.beginPath(); g.arc(C[0],C[1],6,0,6.283); g.fill();
+      g.textAlign='center'; g.font='italic 25px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='#F3EAD8'; g.shadowColor='rgba(229,138,78,.55)'; g.shadowBlur=10; g.fillText('Don’t Worry · 1961',C[0],C[1]+72); g.shadowBlur=0;
       g.textAlign='left';
     }
     if(!still) requestAnimationFrame(draw);
@@ -1273,6 +1287,10 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
     requestAnimationFrame(watch); }
   requestAnimationFrame(watch);
 })();
+
+/* 1961: tap "first" to see the other firsts */
+(function(){ var b=document.querySelector('.firstq'), n=document.getElementById('firstnote'); if(!b||!n) return;
+  b.addEventListener('click',function(){ var o=b.getAttribute('aria-expanded')==='true'; b.setAttribute('aria-expanded',String(!o)); n.hidden=o; }); })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
 addEventListener('resize',resolve);
