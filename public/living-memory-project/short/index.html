@@ -1369,7 +1369,7 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   function draw(now){
     var r=host.getBoundingClientRect();
     if(r.bottom>0&&r.top<innerHeight){
-      var d=still?0:clamp((innerHeight*.15-r.top)/(Math.max(1,r.height-innerHeight)*.8+innerHeight*.15)), e=d*d*(3-2*d), sc=1+.3*e;
+      var d=still?0:clamp((innerHeight*.95-r.top)/(innerHeight*1.05)), e=d*d*(3-2*d), sc=1+.3*e;
       function P(i){ var n=Nn[i], j=J[i]; return [1040+(n[0]-1018)*sc+j[0]*320*e, 110+(n[1]-150)*sc+j[1]*260*e*e]; }
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900);
       var la=.4*(1-clamp(e*1.6));
