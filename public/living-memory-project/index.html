@@ -344,7 +344,7 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 @keyframes caretblink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){#f-Whata .caret{display:none}}
 #f-Whata .tywrap{display:inline-block;position:relative}#f-Whata .tyghost{visibility:hidden}#f-Whata .tyline{position:absolute;left:0;top:0;white-space:nowrap}
-#f-Vers .fwrap{background:radial-gradient(ellipse 70% 80% at 68% 52%,#0b2230 0%,#061019 45%,#03060a 100%)}
+#f-Vers .fwrap{background:radial-gradient(ellipse 65% 75% at 68% 52%,#13161a 0%,#0b0c0d 50%,#080706 100%)}
 /* the story lines hang on one thread: a dot for each beat, and the thread draws down to the next beat as it arrives */
 #story .points{--gap:clamp(18px,3.4vh,34px)}
 #story .pt:not(.label) .who{position:relative;padding-left:34px}
@@ -354,6 +354,14 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 #story .pt:has(+ .pt.on) .who::after{transform:scaleY(1)}
 @media(prefers-reduced-motion:reduce){#story .pt .who::after{transform:none}}
 #story .points{max-width:500px}
+/* 1961: "first" opens the argument about firsts */
+.firstq{all:unset;cursor:pointer;color:inherit;font:inherit;border-bottom:2px dotted #E3AE5E;padding-bottom:1px;transition:color .25s}
+.firstq:hover,.firstq[aria-expanded="true"]{color:#E3AE5E}
+.firstq:focus-visible{outline:2px solid #40C4E8;outline-offset:4px}
+.firstnote{margin:18px 0 0;padding-top:14px;border-top:1px solid rgba(227,174,94,.35);font-family:var(--display);font-style:italic;font-size:clamp(19px,1.7vw,24px);line-height:1.3;color:#D9D0BF;animation:fnote .5s cubic-bezier(.16,1,.3,1)}
+.firstnote em{color:#40C4E8}
+@keyframes fnote{from{opacity:0;transform:translateY(-6px)}}
+.yearcard{pointer-events:auto}
 
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
@@ -511,7 +519,7 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 
   <section data-chap="What we do" data-part="2" class="step phr" data-sk="#0b0908,#EFE7D8,#E58A4E" data-stage="1" data-beat="1961">
     <div class="stop">
-      <div class="yearcard ph" data-from="left"><p class="year">1961.</p><p class="hook">“Don’t Worry,” the first hit with <em style="color:#40C4E8">fuzz guitar.</em></p></div>
+      <div class="yearcard ph" data-from="left"><p class="year">1961.</p><p class="hook">“Don’t Worry,” the <button class="firstq" type="button" aria-expanded="false" aria-controls="firstnote">first</button> hit with <em style="color:#40C4E8">fuzz guitar.</em></p><p class="firstnote" id="firstnote" hidden>Depends who you ask. Some say “Rocket 88,” 1951. Some say Link Wray’s “Rumble,” 1958. <em>Every story is part of the history.</em></p></div>
       <figure class="quote ph" data-from="right" style="--d:1.6s"><p class="own">In his own words</p><blockquote>“It had a real distorted fuzzy sound to it.”</blockquote><figcaption>GLENN SNODDY · ORAL HISTORY, 1983</figcaption></figure>
     </div>
   </section>
@@ -550,7 +558,7 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
     </div>
   </section>
 
-  <section data-chap="What we do" data-part="2" class="step fstep phr scene" id="f-Vers" data-sk="#04080d,#EFE7D8,#40C4E8" data-beat="Every version">
+  <section data-chap="What we do" data-part="2" class="step fstep phr scene" id="f-Vers" data-sk="#0b0908,#EFE7D8,#E58A4E" data-beat="Every version">
     <div class="fwrap"><div class="frame" style="color:#EFE7D8">
       <canvas id="verscv" class="bgel" width="2160" height="1350" style="position:absolute;inset:0;width:1440px;height:900px" role="img" aria-label="One record in the middle. Lines come in from the singer, the guitarist, the engineer, the producer, the label and the fans, each one a different shape, and all of them reach the record."></canvas>
       <div style="position:absolute;left:64px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center;gap:28px">
@@ -1491,9 +1499,9 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
 (function(){
   var cv=document.getElementById('verscv'); if(!cv) return;
   var g=cv.getContext('2d'), host=cv.closest('.step'), still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var C=[980,470], R=[['THE SINGER',-110,'127,227,255',3,1.0],['THE GUITARIST',-50,'64,196,232',5,1.6],['THE ENGINEER',12,'168,240,230',2,2.4],['THE PRODUCER',70,'157,184,255',4,1.2],['THE LABEL',130,'95,208,192',6,2.0],['THE FANS',190,'207,239,255',3,3.0]];
+  var C=[980,470], R=[['THE SINGER',-110,'244,197,126',3,1.0],['THE GUITARIST',-50,'64,196,232',5,1.6],['THE ENGINEER',12,'229,138,78',2,2.4],['THE PRODUCER',70,'239,231,216',4,1.2],['THE LABEL',130,'127,227,255',6,2.0],['THE FANS',190,'227,174,94',3,3.0]];
   var seed=7; function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
-  var MOTES=[]; for(var m=0;m<90;m++) MOTES.push([560+rnd()*880, rnd()*900, .4+rnd()*1.4, rnd()*6.28, .15+rnd()*.35]);
+  var STARS=[], LAY=[[.10,.7,.35],[.28,1.0,.5],[.55,1.5,.75]]; for(var m=0;m<420;m++){ var L0=LAY[m%3]; STARS.push([rnd()*1440, rnd()*900, L0, rnd()*6.28, rnd()<.12]); }
   function clamp(x){return Math.max(0,Math.min(1,x));}
   function path(k,f,now){ var v=R[k], a=v[1]*Math.PI/180, L=290, pts=[];
     for(var s=0;s<=60;s++){ var u=s/60*f, d=L*(1-u), wob=Math.sin(u*Math.PI*v[3]+(still?0:now/900)+k)*34*(1-u)*Math.sin(u*Math.PI)*v[4]/2;
@@ -1505,8 +1513,8 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
       var pp=still?1:clamp(-r.top/Math.max(1,r.height-innerHeight)), arrived=0, t=now/1000;
       g.setTransform(1.5,0,0,1.5,0,0); g.clearRect(0,0,1440,900); g.lineCap='round';
       g.globalCompositeOperation='lighter';
-      MOTES.forEach(function(o){ var x=o[0]+Math.sin(t*.2+o[3])*8, y=((o[1]-t*6*o[2])%900+900)%900, a=o[4]*(.6+.4*Math.sin(t*1.3+o[3]));
-        g.fillStyle='rgba(150,225,255,'+a*.5+')'; g.beginPath(); g.arc(x,y,o[2],0,6.283); g.fill(); });
+      STARS.forEach(function(o){ var L=o[2], y=((o[1]+r.top*L[0])%900+900)%900, x=o[0]+(window.__mx||0)*10*L[0], a=L[2]*(still?1:.7+.3*Math.sin(t*1.1+o[3]));
+        g.fillStyle=o[4]?'rgba(244,210,150,'+a*.8+')':'rgba(205,243,255,'+a*.7+')'; g.beginPath(); g.arc(x,y,L[1],0,6.283); g.fill(); });
       R.forEach(function(v,k){ var st=.04+k*.12, f=clamp((pp-st)/.16); if(f<=0) return; if(f>=1) arrived++;
         var pts=path(k,f,now), a=v[1]*Math.PI/180, sx=C[0]+Math.cos(a)*290, sy=C[1]+Math.sin(a)*290, al=clamp(f*3), c=v[2];
         g.strokeStyle='rgba('+c+','+.10*al+')'; g.lineWidth=10; stroke(pts);
@@ -1515,7 +1523,7 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
         var gl=g.createRadialGradient(sx,sy,0,sx,sy,16); gl.addColorStop(0,'rgba('+c+','+.9*al+')'); gl.addColorStop(1,'rgba('+c+',0)');
         g.fillStyle=gl; g.beginPath(); g.arc(sx,sy,16,0,6.283); g.fill();
         g.globalCompositeOperation='source-over';
-        g.font='12px ui-monospace, Menlo, monospace'; g.textAlign='center'; g.fillStyle='rgba('+c+','+.85*al+')';
+        g.font='15px ui-monospace, Menlo, monospace'; g.textAlign='center'; g.fillStyle='rgba('+c+','+.92*al+')';
         g.fillText(v[0], sx+Math.cos(a)*40, sy+Math.sin(a)*40+4);
         g.globalCompositeOperation='lighter';
         if(f<1){ var e=pts[pts.length-1], h=g.createRadialGradient(e[0],e[1],0,e[0],e[1],12); h.addColorStop(0,'rgba(235,252,255,.95)'); h.addColorStop(1,'rgba('+c+',0)'); g.fillStyle=h; g.beginPath(); g.arc(e[0],e[1],12,0,6.283); g.fill(); }
@@ -1523,13 +1531,13 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
           b.addColorStop(0,'rgba(240,253,255,.9)'); b.addColorStop(1,'rgba('+c+',0)'); g.fillStyle=b; g.beginPath(); g.arc(p[0],p[1],7,0,6.283); g.fill(); } }
       });
       var glow=arrived/R.length, br=still?1:.85+.15*Math.sin(t*1.6), hr=46+glow*46;
-      var halo=g.createRadialGradient(C[0],C[1],10,C[0],C[1],hr); halo.addColorStop(0,'rgba(120,220,255,'+(.25+.4*glow)*br+')'); halo.addColorStop(1,'rgba(40,120,200,0)');
+      var halo=g.createRadialGradient(C[0],C[1],10,C[0],C[1],hr); halo.addColorStop(0,'rgba(240,170,100,'+(.22+.38*glow)*br+')'); halo.addColorStop(.55,'rgba(64,196,232,'+(.08+.14*glow)*br+')'); halo.addColorStop(1,'rgba(40,120,200,0)');
       g.fillStyle=halo; g.beginPath(); g.arc(C[0],C[1],hr,0,6.283); g.fill();
       g.globalCompositeOperation='source-over';
-      g.beginPath(); g.arc(C[0],C[1],24,0,6.283); g.fillStyle='#04101a'; g.fill(); g.strokeStyle='rgba(150,230,255,.75)'; g.lineWidth=1.2; g.stroke();
-      [17,11].forEach(function(rr){ g.beginPath(); g.arc(C[0],C[1],rr,0,6.283); g.strokeStyle='rgba(150,230,255,.3)'; g.stroke(); });
-      var core=g.createRadialGradient(C[0],C[1],0,C[0],C[1],7); core.addColorStop(0,'#F2FDFF'); core.addColorStop(1,'rgba(64,196,232,.2)'); g.fillStyle=core; g.beginPath(); g.arc(C[0],C[1],6,0,6.283); g.fill();
-      g.textAlign='center'; g.font='italic 20px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='#E6F6FA'; g.shadowColor='rgba(64,196,232,.6)'; g.shadowBlur=10; g.fillText('Don’t Worry · 1961',C[0],C[1]+66); g.shadowBlur=0;
+      g.beginPath(); g.arc(C[0],C[1],24,0,6.283); g.fillStyle='#0d0a08'; g.fill(); g.strokeStyle='rgba(244,210,150,.8)'; g.lineWidth=1.2; g.stroke();
+      [17,11].forEach(function(rr){ g.beginPath(); g.arc(C[0],C[1],rr,0,6.283); g.strokeStyle='rgba(244,210,150,.3)'; g.stroke(); });
+      var core=g.createRadialGradient(C[0],C[1],0,C[0],C[1],7); core.addColorStop(0,'#FFE9C8'); core.addColorStop(1,'rgba(229,138,78,.3)'); g.fillStyle=core; g.beginPath(); g.arc(C[0],C[1],6,0,6.283); g.fill();
+      g.textAlign='center'; g.font='italic 25px Didot, "Bodoni 72", "Bodoni Moda", Georgia, serif'; g.fillStyle='#F3EAD8'; g.shadowColor='rgba(229,138,78,.55)'; g.shadowBlur=10; g.fillText('Don’t Worry · 1961',C[0],C[1]+72); g.shadowBlur=0;
       g.textAlign='left';
     }
     if(!still) requestAnimationFrame(draw);
@@ -1548,6 +1556,10 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
     requestAnimationFrame(watch); }
   requestAnimationFrame(watch);
 })();
+
+/* 1961: tap "first" to see the other firsts */
+(function(){ var b=document.querySelector('.firstq'), n=document.getElementById('firstnote'); if(!b||!n) return;
+  b.addEventListener('click',function(){ var o=b.getAttribute('aria-expanded')==='true'; b.setAttribute('aria-expanded',String(!o)); n.hidden=o; }); })();
 
 addEventListener('scroll',function(){if(!pend){pend=true;requestAnimationFrame(function(){resolve();motion();});}},{passive:true});
 addEventListener('resize',resolve);
