@@ -345,6 +345,15 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
 @media(prefers-reduced-motion:reduce){#f-Whata .caret{display:none}}
 #f-Whata .tywrap{display:inline-block;position:relative}#f-Whata .tyghost{visibility:hidden}#f-Whata .tyline{position:absolute;left:0;top:0;white-space:nowrap}
 #f-Vers .fwrap{background:radial-gradient(ellipse 70% 80% at 68% 52%,#0b2230 0%,#061019 45%,#03060a 100%)}
+/* the story lines hang on one thread: a dot for each beat, and the thread draws down to the next beat as it arrives */
+#story .points{--gap:clamp(18px,3.4vh,34px)}
+#story .pt:not(.label) .who{position:relative;padding-left:34px}
+#story .pt:not(.label) .who::before{content:'';position:absolute;left:4px;top:.5em;width:9px;height:9px;border-radius:50%;background:#40C4E8;box-shadow:0 0 10px rgba(64,196,232,.8)}
+#story .pt:not(.label) .who::after{content:'';position:absolute;left:8px;top:calc(.5em + 12px);width:1px;height:calc(100% + var(--gap) - 12px);background:linear-gradient(#40C4E8,rgba(64,196,232,.35));transform:scaleY(0);transform-origin:top;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+#story .pt:last-child .who::after{display:none}
+#story .pt:has(+ .pt.on) .who::after{transform:scaleY(1)}
+@media(prefers-reduced-motion:reduce){#story .pt .who::after{transform:none}}
+#story .points{max-width:500px}
 
 
 #f-Whata .st{fill:#CDF3FF;opacity:.18;animation:Whata_lightup 1.2s ease-out both}
@@ -491,9 +500,9 @@ details.ex p{margin:16px 0 0;max-width:760px;font-family:Didot,'Bodoni 72','Bodo
       <div class="points">
         <p class="label pt" style="--pd:.3s">The story · Studio B, 1960</p>
         <div class="pt" style="--pd:.9s"><div class="who">During the session, part of the studio’s sound board breaks.</div></div>
-        <div class="pt" style="--pd:2.6s"><div class="who">Grady Martin’s bass guitar comes out fuzzy, a buzzing, broken sound.</div></div>
+        <div class="pt" style="--pd:2.6s"><div class="who">So Grady Martin’s bass guitar comes out fuzzy, a buzzing, broken sound.</div></div>
         <div class="pt" style="--pd:4.3s"><div class="who">Engineer Glenn Snoddy is called in to fix it.</div></div>
-        <div class="pt" style="--pd:6s"><div class="who">Producer Don Law keeps the sound.</div></div>
+        <div class="pt" style="--pd:6s"><div class="who">But producer Don Law keeps the sound.</div></div>
       </div>
     </div>
     </div>
