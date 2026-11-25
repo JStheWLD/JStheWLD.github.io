@@ -1298,14 +1298,18 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   var k=0, timer=null, busy=false;
   function render(t,cls){ var n=0; el.innerHTML=t.split(' ').map(function(w){ return '<span class="w">'+w.split('').map(function(c){ return '<span class="l'+(cls?' '+cls:'')+'" style="animation-delay:'+(n++*28)+'ms">'+c+'</span>'; }).join('')+'</span>'; }).join(' '); return n; }
   render(W[0][0]);
-  function next(){
-    if(busy) return; busy=true; k=(k+1)%W.length; var w=W[k];
+  /* the first three phrases follow the scroll; once the third is reached the rest keep turning on their own */
+  var want=0;
+  function go(i){ want=i; if(busy||i===k) return; busy=true; k=i; var w=W[k];
     if(still){ el.textContent=w[0]; el.style.color=w[1]; busy=false; return; }
-    var ls=el.querySelectorAll('.l'); [].forEach.call(ls,function(l,i){ l.style.animationDelay=(i*22)+'ms'; l.classList.add('out'); });
-    setTimeout(function(){ el.style.color=w[1]; render(w[0],'in'); busy=false; }, 320+ls.length*22);
-  }
-  function vis(){ var r=host.getBoundingClientRect(), on=r.top<innerHeight*.5&&r.bottom>innerHeight*.5;
-    if(on&&!timer){ timer=setInterval(next,2600); } else if(!on&&timer){ clearInterval(timer); timer=null; } }
+    var ls=el.querySelectorAll('.l'); [].forEach.call(ls,function(l,j){ l.style.animationDelay=(j*22)+'ms'; l.classList.add('out'); });
+    setTimeout(function(){ el.style.color=w[1]; render(w[0],'in'); busy=false; if(want!==k) go(want); }, 320+ls.length*22); }
+  function next(){ go((k+1)%W.length); }
+  function vis(){ var r=host.getBoundingClientRect(), on=r.top<innerHeight*.5&&r.bottom>innerHeight*.5,
+      pp=Math.max(0,Math.min(1,-r.top/Math.max(1,r.height-innerHeight))), step=pp<.22?0:pp<.48?1:2;
+    if(!on){ if(timer){ clearInterval(timer); timer=null; } return; }
+    if(step<2){ if(timer){ clearInterval(timer); timer=null; } go(step); }
+    else if(!timer){ go(2); timer=setInterval(next,2200); } }
   addEventListener('scroll',vis,{passive:true}); vis();
 })();
 
