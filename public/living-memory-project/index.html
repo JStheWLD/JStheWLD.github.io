@@ -1528,15 +1528,14 @@ addEventListener('pointermove',function(e){ window.__mx=(e.clientX/innerWidth-.5
   requestAnimationFrame(draw);
 })();
 
-/* the mission: "American music." types in once the screen is in full view; it clears again when you scroll back up past it */
+/* the mission: "American music." types in on the same scroll that takes the tree away; the last letter lands as the tree's last line goes */
 (function(){
   var el=document.querySelector('#f-Whata .typed'); if(!el||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var host=el.closest('.step'), full=el.textContent, n=-1, timer=null;
-  el.textContent='';
-  function tick(){ n++; el.textContent=full.slice(0,n); if(n<full.length) timer=setTimeout(tick, full[n-1]===' '?140:85+Math.random()*60); }
+  var host=el.closest('.step'), full=el.textContent, shown=-1;
+  function clamp(x){return Math.max(0,Math.min(1,x));}
   function watch(){ var r=host.getBoundingClientRect();
-    if(n<0&&r.top<innerHeight*.08&&r.bottom>innerHeight*.5){ n=0; timer=setTimeout(tick,350); }
-    else if(n>=0&&r.top>innerHeight*.55){ clearTimeout(timer); n=-1; el.textContent=''; }
+    var d=clamp((innerHeight*.85-r.top)/(innerHeight*1.95)), n=Math.round(full.length*clamp((d-.4)/.6));
+    if(n!==shown){ shown=n; el.textContent=full.slice(0,n); }
     requestAnimationFrame(watch); }
   requestAnimationFrame(watch);
 })();
