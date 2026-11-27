@@ -37,7 +37,7 @@ iframe.on{opacity:1;pointer-events:auto}
 </style>
 </head>
 <body>
-<iframe id="f0" title="Kiosk" src="kiosk.html"></iframe>
+<iframe id="f0" title="Porch" src="kiosk.html"></iframe>
 <iframe id="f1" title="Capture" src="capture.html"></iframe>
 <iframe id="f2" title="Verify" src="verify.html"></iframe>
 <iframe id="f3" title="Display" src="room.html"></iframe>
@@ -59,7 +59,7 @@ const $=id=>document.getElementById(id);
 /* each scene: how fast it runs, how long one pass takes (in its own time), and how to drive it */
 const HIDE_SPEED='.speed{display:none!important}';
 const SCENES=[
-  { name:'Kiosk', base:1, dur:27000, css:'',
+  { name:'Porch', base:1, dur:27000, css:'',
     start:x=>`PAUSED=false; SPEEDX=${x}; reset();`, speed:x=>`SPEEDX=${x}`, pause:p=>`PAUSED=${p}` },
   { name:'Capture', base:2.5, dur:66000, css:'.controls{display:none!important}',
     start:x=>`setMode(false); speed=${x}; start();`, speed:x=>`speed=${x}`, pause:(p,x)=>p?'speed=0':`speed=${x}` },

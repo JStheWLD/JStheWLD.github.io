@@ -134,7 +134,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-o
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
-<canvas id="map" aria-label="The Living Memory, live"></canvas>
+<canvas id="map" aria-label="The Sky, live"></canvas>
 <div class="top">
   <span class="mark">Maybelle<i class="x">·</i><span class="partner">Rounds</span></span>
   <form class="ask" id="askForm" autocomplete="off"><input id="askIn" placeholder="Ask Maybelle about any name in American music" aria-label="Ask about a name"><button type="submit">Ask</button></form>
@@ -287,7 +287,7 @@ function runAuto(){ clearT(); const c=CAST[round%CAST.length]; round++; link=nul
   ['A','B'].forEach(p=>{ scr(p,0); const b=$(p+'1b'); b.classList.remove('done'); b.textContent="I'm in"; ['3l','3s'].forEach(x=>$(p+x).classList.remove('hot')); span(p+'3s').textContent='Share'; span(p+'3l').textContent='0'; span(p+'3m').textContent='0'; $(p+'3p').style.transform='scaleX(0)'; $(p+'3c').innerHTML=''; $(p+'2k').textContent=grp?'Your Round · 4 people':'Your conversation' });
   $('B4f').innerHTML=''; $('B4b').classList.remove('done'); $('B4b').textContent='Tell yours';
   let t=300;
-  if(round===1){ at(t,()=>{ status('Maybelle reads the whole Living Memory.',`${LM.nodes.length.toLocaleString()} names · ${LM.edges.length.toLocaleString()} lines · real data`); wave=performance.now() });
+  if(round===1){ at(t,()=>{ status('Maybelle reads the whole Sky.',`${LM.nodes.length.toLocaleString()} names · ${LM.edges.length.toLocaleString()} lines · real data`); wave=performance.now() });
     at(t+=2600,()=>{ wave=null; setFocus(BB.id); status('Maybelle finds where the record is thin.','Harold Bradley has no firsthand account on the map yet · real data') }); t+=2600 }
   at(t+=600,()=>{ status(grp?`${listNames(c.ppl)} all have a piece of it. Maybelle puts the four of them in one Round.`:`Maybelle finds two people who knew him: <i>${esc(nm(ka))}</i> and <i>${esc(nm(kb))}</i>.`,`${c.session} · ${PPL[ka].real?'their words are real, from a recorded conversation, Oct 2026':'the tellers are invented for this demo'}`); link={a:()=>phoneXY('phA'),b:()=>phoneXY('phB'),t:performance.now()} });
   at(t+=2400,()=>{ [['A',ka],['B',kb]].forEach(([p,k])=>{ const o=others(k); $(p+'0n').innerHTML=`<div class="notif"><b>Maybelle</b><div class="avs">${avs(o)}</div><p>${grp?esc(listNames(o))+' were':esc(nm(o[0]))+' was'} there for ${esc(c.session)} too. ${grp?'Talk together?':'You two should talk.'}</p></div>` }); status('Maybelle introduces them, and says why.') });
@@ -350,11 +350,11 @@ $('chatForm').addEventListener('submit',async e=>{ e.preventDefault(); const t=$
 
 $('askForm').addEventListener('submit',async e=>{ e.preventDefault(); const q=$('askIn').value.trim(); if(!q) return; if(auto) takeOver(); await capP;
   const hit=find(q)[0]; const box=$('answerBox');
-  if(!hit){ box.innerHTML=`<div class="answer"><div class="k"><span>Maybelle</span><button type="button" onclick="this.closest('.answer').remove()">close</button></div>“${esc(q)}” isn’t in the Living Memory yet. That makes it a lead: I’d look for the people who were there.</div>`; return }
+  if(!hit){ box.innerHTML=`<div class="answer"><div class="k"><span>Maybelle</span><button type="button" onclick="this.closest('.answer').remove()">close</button></div>“${esc(q)}” isn’t in the Sky yet. That makes it a lead: I’d look for people in and around the rooms.</div>`; return }
   setFocus(hit.id); const ls=(adj.get(hit.id)||[]).slice(0,6).map(e=>`${label(e.f)} ${HUMAN_VERB(e.v)} ${label(e.t)}`); const gaps=(hit.g||[]).map(g=>FLAGS[g]).filter(Boolean);
-  let say=`${hit.l} has ${deg(hit.id)} lines in the Living Memory${gaps.length?', and the record '+gaps[0]:''}.`;
+  let say=`${hit.l} has ${deg(hit.id)} lines in the Sky${gaps.length?', and the record '+gaps[0]:''}.`;
   box.innerHTML=`<div class="answer"><div class="k"><span>Maybelle · ${esc(hit.l)}</span><button type="button" onclick="this.closest('.answer').remove()">close</button></div><span id="say">${esc(say)}</span></div>`;
-  if(sample){ try{ const r=await sample(`You are Maybelle, an AI oral historian. In two or three short plain sentences, using ONLY these facts, say what the Living Memory holds about ${hit.l}, where it is thin, and which two people you would pair to talk about it. Never add a fact; never claim anyone is living. FACTS: lines=${deg(hit.id)}; gaps=${JSON.stringify(gaps)}; sample lines=${JSON.stringify(ls)}`,{modelTier:'default',cache:false}); if(r&&r.text){ say=r.text.trim(); const s=$('say'); if(s) s.textContent=say } }catch(_){} }
+  if(sample){ try{ const r=await sample(`You are Maybelle, an AI oral historian. In two or three short plain sentences, using ONLY these facts, say what the Sky holds about ${hit.l}, where it is thin, and which two people you would pair to talk about it. Never add a fact; never claim anyone is living. FACTS: lines=${deg(hit.id)}; gaps=${JSON.stringify(gaps)}; sample lines=${JSON.stringify(ls)}`,{modelTier:'default',cache:false}); if(r&&r.text){ say=r.text.trim(); const s=$('say'); if(s) s.textContent=say } }catch(_){} }
   speak(say) });
 
 runAuto();

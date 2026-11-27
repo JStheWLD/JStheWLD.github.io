@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Living Memory · in a corner of the Hall</title>
+<title>Maybelle · in a corner of the Hall</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&family=Libre+Baskerville:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -35,7 +35,7 @@ svg.room{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 </style></head><body>
 <div class="stage" id="stage">
-<svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-label="A corner of the Hall with one arcade-style cabinet running the Living Memory">
+<svg class="room" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-label="A corner of the Hall with one arcade-style cabinet, a porch, running Maybelle">
   <defs id="defs">
     <linearGradient id="gWL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#17130f"/><stop offset="1" stop-color="#2b2420"/></linearGradient>
     <linearGradient id="gWR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#17130f"/><stop offset="1" stop-color="#2b2420"/></linearGradient>
@@ -59,7 +59,7 @@ svg.room{position:absolute;inset:0;width:100%;height:100%;display:block}
 </svg>
 <div id="camHtml" style="position:absolute;inset:0;transform-origin:0 0"><div class="ov panel" id="p1"><div class="top"><div class="av" id="av1"></div><div class="k"><b>Andy Reiss</b>a session guitarist he mentored</div></div><div class="q" id="q1"></div><div class="s">Recorded with Maybelle · verified</div></div></div>
 <div class="ov shade" id="shade"></div>
-<div class="ov cap" id="cap"><h1>The Living Memory</h1><p>at the Country Music Hall of Fame and Museum</p></div>
+<div class="ov cap" id="cap"><h1>Maybelle</h1><p>at the Country Music Hall of Fame and Museum</p></div>
 </div>
 <script>
 const $=id=>document.getElementById(id), NS='http://www.w3.org/2000/svg';
@@ -103,8 +103,8 @@ function buildKiosk(parent,ox,oy,sc){
   /* marquee */
   mk('rect',{x:10,y:0,width:CW-20,height:92,rx:10,fill:'#120f0a',stroke:'#3a3020','stroke-width':2},root);
   mk('rect',{x:22,y:10,width:CW-44,height:72,rx:6,fill:'url(#gMarq)'},root);
-  const m1=mk('text',{x:m,y:54,'text-anchor':'middle',fill:'#fbf8f0','font-family':'Bodoni Moda, Georgia, serif','font-style':'italic','font-size':44},root); m1.textContent='The Living Memory';
-  const m2=mk('text',{x:m,y:75,'text-anchor':'middle',fill:'#2a1a08','font-family':'JetBrains Mono, monospace','font-size':12,'letter-spacing':'5'},root); m2.textContent='OF AMERICAN MUSIC · PLAY AND EXPLORE';
+  const m1=mk('text',{x:m,y:54,'text-anchor':'middle',fill:'#fbf8f0','font-family':'Bodoni Moda, Georgia, serif','font-style':'italic','font-size':44},root); m1.textContent='Maybelle';
+  const m2=mk('text',{x:m,y:75,'text-anchor':'middle',fill:'#2a1a08','font-family':'JetBrains Mono, monospace','font-size':12,'letter-spacing':'5'},root); m2.textContent='THE LIVING MEMORY OF MUSIC · PLAY AND EXPLORE';
   /* the screen */
   const clip=mk('clipPath',{id:'scr'+ox},$('defs')); mk('rect',{x:K.sx,y:K.sy,width:W,height:H,rx:8},clip);
   const s=mk('g',{'clip-path':`url(#scr${ox})`},root);
